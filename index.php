@@ -9,7 +9,7 @@ if('/lesson'===$_SERVER['PATH_INFO'])      //Поиск занятия по id �
     $result=[];
     foreach($Lessons as $lesson)// //Цикл по все занятиям. [начало]
     {
-        if(array_key_exists('item_id',$_GET)&&$_GET['item_id']=$lesson['item_id']) //Поиск по присутвию item_id в GET запросе и совпадению id предмета в запросе и массиве занятий. [начало]
+        if(array_key_exists('item_id',$_GET)&&(int)$_GET['item_id']===$lesson['item_id']) //Поиск по присутвию item_id в GET запросе и совпадению id предмета в запросе и массиве занятий. [начало]
         {
             $result[]=$lesson;
             break;
@@ -17,6 +17,6 @@ if('/lesson'===$_SERVER['PATH_INFO'])      //Поиск занятия по id �
     }  // //Цикл по все занятиям. [конец]
 } //Поиск занятия по id предмета. [конец]
 
-header('Content-Type: application/json');
+header('Content-type: application/json');
 http_response_code($httpCode);
 echo json_encode($result);

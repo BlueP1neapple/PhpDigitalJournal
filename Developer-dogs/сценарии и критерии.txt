@@ -1,6 +1,6 @@
 Сценарий 1:
 Как «Пользователь (Учитель)», я хочу «иметь возможность смотреть свое расписание», чтобы «не пропускать занятия»
-GET http:/localhost:8080/lesson?Item_Name=Математика
+GET http://localhost:8080/lesson?Item_Name=Математика
 Критерии
 1) ФИО учителя
 2) Дата рождения учителя
@@ -15,7 +15,7 @@ GET http:/localhost:8080/lesson?Item_Name=Математика
 
 Сценарий 2:
 Как «Пользователь (Родитель)», я хочу «просматривать оценки своего ребенка», чтобы «знать о его успеваемости»
-GET http:/localhost:8080/assessmentReport?Student_name=Алексей&Student_surname=Кузнецов&Patronymic=Евгеньевич
+GET http://localhost:8080/assessmentReport?Student_name=Алексей&Student_surname=Кузнецов&Patronymic=Евгеньевич
 Критерии
 1) ФИО ученика
 2) Дата Рождения
@@ -24,7 +24,7 @@ GET http:/localhost:8080/assessmentReport?Student_name=Алексей&Student_su
 
 Сценарий 4:
 Как «Пользователь (Ученик)», я хочу «просматривать свои оценки», чтобы «знать о своей успеваемости»
-GET http:/localhost:8080/assessmentReport?Student_name=Алексей&Student_surname=Кузнецов&Patronymic=Евгеньевич
+GET http://localhost:8080/assessmentReport?Student_name=Алексей&Student_surname=Кузнецов&Patronymic=Евгеньевич
 Критерии
 1) ФИО ученика
 2) Дата Рождения

@@ -1,0 +1,66 @@
+[
+  {
+    "id": 1,
+    "item_id": 1,
+    "date": "2011.11.10 8:30",
+    "lessonDuration": 40,
+    "teacher_id": 1,
+    "class_id": 3
+  },
+  {
+    "id": 2,
+    "item_id": 1,
+    "date": "2011.11.10 10:30",
+    "lessonDuration": 40,
+    "teacher_id": 1,
+    "class_id": 1
+  },
+  {
+    "id": 3,
+    "item_id": 1,
+    "date": "2011.11.10 11:30",
+    "lessonDuration": 40,
+    "teacher_id": 1,
+    "class_id": 2
+  },
+  {
+    "id": 4,
+    "item_id": 2,
+    "date": "2011.11.11 12:30",
+    "lessonDuration": 40,
+    "teacher_id": 2,
+    "class_id": 1
+  },
+  {
+    "id": 5,
+    "item_id": 2,
+    "date": "2011.11.11 8:30",
+    "lessonDuration": 40,
+    "teacher_id": 2,
+    "class_id": 2
+  },
+  {
+    "id": 6,
+    "item_id": 3,
+    "date": "2011.11.11 10:30",
+    "lessonDuration": 40,
+    "teacher_id": 3,
+    "class_id": 1
+  },
+  {
+    "id": 7,
+    "item_id": 3,
+    "date": "2011.11.12 11:30",
+    "lessonDuration": 40,
+    "teacher_id": 3,
+    "class_id": 1
+  },
+  {
+    "id": 8,
+    "item_id": 2,
+    "date": "2011.11.12 12:30",
+    "lessonDuration": 40,
+    "teacher_id": 2,
+    "class_id": 1
+  }
+]

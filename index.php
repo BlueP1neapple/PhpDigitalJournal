@@ -7,6 +7,10 @@ $pathToTeacher=__DIR__ . '\JSON/teacher.json';
 $TeacherTxt=file_get_contents($pathToTeacher);
 $Teachers=json_decode($TeacherTxt, true); // Перевод teacher.json в php массив
 $TeachersIdToInfo = [];
+$pathToClass=__DIR__ . '\JSON/class.json';
+$ClassTxt=file_get_contents($pathToClass);
+$Classes=json_decode($ClassTxt, true); // Перевод class.json в php массив
+$ClassesIdToInfo = [];
 $PathToLesson = __DIR__ .'\JSON/lesson.json';
 $LessonTXT=file_get_contents($PathToLesson);
 $Lessons=json_decode($LessonTXT,true);  // Перевод lesson.json в php массив
@@ -21,6 +25,10 @@ if('/lesson'===$_SERVER['PATH_INFO'])      // Поиск занятия. [нач
     {
         $TeachersIdToInfo[$Teacher['id']]=$Teacher;
     } // Сделали ключ id по преподавателю
+    foreach ($Classes as $Class)// Делаем ключ id по классам
+    {
+        $ClassesIdToInfo[$Class['id']]=$Class;
+    } // Сделали ключ id по классам
     $httpCode=200;
     $result=[];
     foreach($Lessons as $lesson) // Цикл по все занятиям. [начало]
@@ -85,16 +93,19 @@ if('/lesson'===$_SERVER['PATH_INFO'])      // Поиск занятия. [нач
             $LessonMeetSearchCriteria=($_GET['teacher_email']===$TeachersIdToInfo[$lesson['teacher_id']]['email']);
         }// Поиск по присутвию teacher_email в GET запросе и совпадению teacher_email в запросе и массиве занятий. [конец]
 
-        if(array_key_exists('class_id',$_GET)&&(int)$_GET['class_id']===$lesson['class_id'])// Поиск по присутвию class_id в GET запросе и совпадению class_id занятия в запросе и массиве занятий. [начало]
+        if(array_key_exists('class_id',$_GET)) // Поиск по присутвию class_id в GET запросе и совпадению class_id в запросе и массиве занятий. [начало]
         {
-            $result[]=$lesson;
-        }// Поиск по присутвию class_id в GET запросе и совпадению class_id занятия в запросе и массиве занятий. [начало]
+            $LessonMeetSearchCriteria=((int)$_GET['class_id']===$ClassesIdToInfo[$lesson['class_id']]['id']);
+        }// Поиск по присутвию class_id в GET запросе и совпадению class_id в запросе и массиве занятий. [конец]
+
         if ($LessonMeetSearchCriteria)
         {
             $lesson['item']=$ItemsIdToInfo[$lesson['item_id']];
             $lesson['teacher']=$TeachersIdToInfo[$lesson['teacher_id']];
+            $lesson['class']=$ClassesIdToInfo[$lesson['class_id']];
             unset($lesson['item_id']);
             unset($lesson['teacher_id']);
+            unset($lesson['class_id']);
             $result[]=$lesson;
         }
     }  //Цикл по все занятиям. [конец]

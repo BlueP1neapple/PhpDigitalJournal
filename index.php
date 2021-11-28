@@ -80,6 +80,11 @@ if('/lesson'===$_SERVER['PATH_INFO'])      // Поиск занятия. [нач
             $LessonMeetSearchCriteria=((int)$_GET['teacher_cabinet']===$TeachersIdToInfo[$lesson['teacher_id']]['cabinet']);
         }// Поиск по присутвию teacher_cabinet в GET запросе и совпадению teacher_cabinet в запросе и массиве занятий. [конец]
 
+        if(array_key_exists('teacher_email',$_GET)) // Поиск по присутвию teacher_email в GET запросе и совпадению teacher_email в запросе и массиве занятий. [начало]
+        {
+            $LessonMeetSearchCriteria=($_GET['teacher_email']===$TeachersIdToInfo[$lesson['teacher_id']]['email']);
+        }// Поиск по присутвию teacher_email в GET запросе и совпадению teacher_email в запросе и массиве занятий. [конец]
+
         if(array_key_exists('class_id',$_GET)&&(int)$_GET['class_id']===$lesson['class_id'])// Поиск по присутвию class_id в GET запросе и совпадению class_id занятия в запросе и массиве занятий. [начало]
         {
             $result[]=$lesson;

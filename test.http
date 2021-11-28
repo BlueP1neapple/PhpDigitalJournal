@@ -277,7 +277,7 @@ client.test("Тестирование возможности смотреть р
 GET http://localhost:80/lesson?teacher_email=kruglova@gmail.com
 
 > {%
-client.test("Тестирование возможности смотреть расписание по teacher_cabinet",function (){
+client.test("Тестирование возможности смотреть расписание по teacher_email",function (){
     client.assert(response.status===200, "Проверяю код ответа. Ожидаю код 200. Фактический код: "+response.status);
     client.assert(response.contentType.mimeType==="application/json", "Ожидаю application/json. Фактически: "+response.contentType.mimeType);
     client.assert(response.body[0]["id"]===1,"id урока не корректен");

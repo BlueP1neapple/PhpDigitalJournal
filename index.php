@@ -12,8 +12,11 @@ $ClassTxt=file_get_contents($pathToClass);
 $Classes=json_decode($ClassTxt, true); // Перевод class.json в php массив
 $ClassesIdToInfo = [];
 $PathToLesson = __DIR__ .'\JSON/lesson.json';
-$LessonTXT=file_get_contents($PathToLesson);
-$Lessons=json_decode($LessonTXT,true);  // Перевод lesson.json в php массив
+$LessonTxt=file_get_contents($PathToLesson);
+$Lessons=json_decode($LessonTxt,true);  // Перевод lesson.json в php массив
+$pathToReport=__DIR__ . '\JSON/assessmentReport.json';
+$ReportTxt=file_get_contents($pathToReport);
+$Report=json_decode($ReportTxt, true); // Перевод assessmentReport.json в php массив
 
 foreach ($Items as $Item)// Делаем ключ id по предмету
 {
@@ -30,18 +33,6 @@ foreach ($Classes as $Class)// Делаем ключ id по классам
 
 if('/lesson'===$_SERVER['PATH_INFO'])      // Поиск занятия. [начало]
 {
-    foreach ($Items as $Item)// Делаем ключ id по предмету
-    {
-        $ItemsIdToInfo[$Item['id']]=$Item;
-    } // Сделали ключ id по предмету
-    foreach ($Teachers as $Teacher)// Делаем ключ id по преподавателю
-    {
-        $TeachersIdToInfo[$Teacher['id']]=$Teacher;
-    } // Сделали ключ id по преподавателю
-    foreach ($Classes as $Class)// Делаем ключ id по классам
-    {
-        $ClassesIdToInfo[$Class['id']]=$Class;
-    } // Сделали ключ id по классам
     $httpCode=200;
     $result=[];
     foreach($Lessons as $lesson) // Цикл по все занятиям. [начало]
@@ -94,8 +85,25 @@ if('/lesson'===$_SERVER['PATH_INFO'])      // Поиск занятия. [нач
     }  //Цикл по все занятиям. [конец]
 } // Поиск занятия. [конец]
 if('/assessmentReport'===$_SERVER['PATH_INFO']){      // Поиск оценок. [начало]
+    $httpCode=200;
+    $result=[];
 
-
+    /*foreach ($Report as $report){
+        if(array_key_exists('item_name',$_GET)) // Поиск по присутвию item_name в GET запросе и совпадению item_name в запросе и массиве оценок. [начало]
+        {
+            $ReportMeetSearchCriteria=($_GET['item_name']===$ItemsIdToInfo[$report['item_id']]['name']);
+        }// Поиск по присутвию item_name в GET запросе и совпадению item_name в запросе и массиве оценок. [конец]
+        if ($ReportMeetSearchCriteria)
+        {
+            $report['item']=$ItemsIdToInfo[$report['item_id']];
+            $report['teacher']=$TeachersIdToInfo[$report['teacher_id']];
+            $report['class']=$ClassesIdToInfo[$report['class_id']];
+            unset($report['item_id']);
+            unset($report['teacher_id']);
+            unset($report['class_id']);
+            $result[]=$report;
+        }
+    }//Цикл по оценкам [конец] */
 } // Поиск оценок. [конец]
 
 header('Content-type: application/json');

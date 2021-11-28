@@ -15,6 +15,19 @@ $PathToLesson = __DIR__ .'\JSON/lesson.json';
 $LessonTXT=file_get_contents($PathToLesson);
 $Lessons=json_decode($LessonTXT,true);  // Перевод lesson.json в php массив
 
+foreach ($Items as $Item)// Делаем ключ id по предмету
+{
+    $ItemsIdToInfo[$Item['id']]=$Item;
+} // Сделали ключ id по предмету
+foreach ($Teachers as $Teacher)// Делаем ключ id по преподавателю
+{
+    $TeachersIdToInfo[$Teacher['id']]=$Teacher;
+} // Сделали ключ id по преподавателю
+foreach ($Classes as $Class)// Делаем ключ id по классам
+{
+    $ClassesIdToInfo[$Class['id']]=$Class;
+} // Сделали ключ id по классам
+
 if('/lesson'===$_SERVER['PATH_INFO'])      // Поиск занятия. [начало]
 {
     foreach ($Items as $Item)// Делаем ключ id по предмету
@@ -80,7 +93,10 @@ if('/lesson'===$_SERVER['PATH_INFO'])      // Поиск занятия. [нач
         }
     }  //Цикл по все занятиям. [конец]
 } // Поиск занятия. [конец]
+if('/assessmentReport'===$_SERVER['PATH_INFO']){      // Поиск оценок. [начало]
 
+
+} // Поиск оценок. [конец]
 
 header('Content-type: application/json');
 http_response_code($httpCode);

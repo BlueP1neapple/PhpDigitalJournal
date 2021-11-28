@@ -16,7 +16,7 @@ client.test("Тестирование возможности смотреть р
     client.assert(response.body[0]["teacher"]["id"]===1,"id преподавателя не корректно");
     client.assert(response.body[0]["teacher"]["fio"]==="Круглова Наталия Сергеевна","ФИО преподавателя не корректно");
     client.assert(response.body[0]["teacher"]["dateOfBirth"]==="1965.01.11","Дата рождения преподавателя не корректно");
-    client.assert(response.body[0]["teacher"]["phone"]==="+79222444411","Номер телефона преподавателя не корректен");
+    client.assert(response.body[0]["teacher"]["phone"]==="89222444411","Номер телефона преподавателя не корректен");
     client.assert(response.body[0]["teacher"]["cabinet"]===56,"Номер кабинета преподавателя не корректен");
     client.assert(response.body[0]["teacher"]["email"]==="kruglova@gmail.com","email преподавателя не корректен");
     client.assert(response.body[0]["class"]!==undefined,"Нет данных о классе");
@@ -44,7 +44,7 @@ client.test("Тестирование возможности смотреть р
     client.assert(response.body[0]["teacher"]["id"]===1,"id преподавателя не корректно");
     client.assert(response.body[0]["teacher"]["fio"]==="Круглова Наталия Сергеевна","ФИО преподавателя не корректно");
     client.assert(response.body[0]["teacher"]["dateOfBirth"]==="1965.01.11","Дата рождения преподавателя не корректно");
-    client.assert(response.body[0]["teacher"]["phone"]==="+79222444411","Номер телефона преподавателя не корректен");
+    client.assert(response.body[0]["teacher"]["phone"]==="89222444411","Номер телефона преподавателя не корректен");
     client.assert(response.body[0]["teacher"]["cabinet"]===56,"Номер кабинета преподавателя не корректен");
     client.assert(response.body[0]["teacher"]["email"]==="kruglova@gmail.com","email преподавателя не корректен");
     client.assert(response.body[0]["class"]!==undefined,"Нет данных о классе");
@@ -72,7 +72,7 @@ client.test("Тестирование возможности смотреть р
     client.assert(response.body[0]["teacher"]["id"]===1,"id преподавателя не корректно");
     client.assert(response.body[0]["teacher"]["fio"]==="Круглова Наталия Сергеевна","ФИО преподавателя не корректно");
     client.assert(response.body[0]["teacher"]["dateOfBirth"]==="1965.01.11","Дата рождения преподавателя не корректно");
-    client.assert(response.body[0]["teacher"]["phone"]==="+79222444411","Номер телефона преподавателя не корректен");
+    client.assert(response.body[0]["teacher"]["phone"]==="89222444411","Номер телефона преподавателя не корректен");
     client.assert(response.body[0]["teacher"]["cabinet"]===56,"Номер кабинета преподавателя не корректен");
     client.assert(response.body[0]["teacher"]["email"]==="kruglova@gmail.com","email преподавателя не корректен");
     client.assert(response.body[0]["class"]!==undefined,"Нет данных о классе");
@@ -100,7 +100,7 @@ client.test("Тестирование возможности смотреть р
     client.assert(response.body[0]["teacher"]["id"]===1,"id преподавателя не корректно");
     client.assert(response.body[0]["teacher"]["fio"]==="Круглова Наталия Сергеевна","ФИО преподавателя не корректно");
     client.assert(response.body[0]["teacher"]["dateOfBirth"]==="1965.01.11","Дата рождения преподавателя не корректно");
-    client.assert(response.body[0]["teacher"]["phone"]==="+79222444411","Номер телефона преподавателя не корректен");
+    client.assert(response.body[0]["teacher"]["phone"]==="89222444411","Номер телефона преподавателя не корректен");
     client.assert(response.body[0]["teacher"]["cabinet"]===56,"Номер кабинета преподавателя не корректен");
     client.assert(response.body[0]["teacher"]["email"]==="kruglova@gmail.com","email преподавателя не корректен");
     client.assert(response.body[0]["class"]!==undefined,"Нет данных о классе");
@@ -128,7 +128,7 @@ client.test("Тестирование возможности смотреть р
     client.assert(response.body[0]["teacher"]["id"]===1,"id преподавателя не корректно");
     client.assert(response.body[0]["teacher"]["fio"]==="Круглова Наталия Сергеевна","ФИО преподавателя не корректно");
     client.assert(response.body[0]["teacher"]["dateOfBirth"]==="1965.01.11","Дата рождения преподавателя не корректно");
-    client.assert(response.body[0]["teacher"]["phone"]==="+79222444411","Номер телефона преподавателя не корректен");
+    client.assert(response.body[0]["teacher"]["phone"]==="89222444411","Номер телефона преподавателя не корректен");
     client.assert(response.body[0]["teacher"]["cabinet"]===56,"Номер кабинета преподавателя не корректен");
     client.assert(response.body[0]["teacher"]["email"]==="kruglova@gmail.com","email преподавателя не корректен");
     client.assert(response.body[0]["class"]!==undefined,"Нет данных о классе");
@@ -156,7 +156,7 @@ client.test("Тестирование возможности смотреть р
     client.assert(response.body[0]["teacher"]["id"]===1,"id преподавателя не корректно");
     client.assert(response.body[0]["teacher"]["fio"]==="Круглова Наталия Сергеевна","ФИО преподавателя не корректно");
     client.assert(response.body[0]["teacher"]["dateOfBirth"]==="1965.01.11","Дата рождения преподавателя не корректно");
-    client.assert(response.body[0]["teacher"]["phone"]==="+79222444411","Номер телефона преподавателя не корректен");
+    client.assert(response.body[0]["teacher"]["phone"]==="89222444411","Номер телефона преподавателя не корректен");
     client.assert(response.body[0]["teacher"]["cabinet"]===56,"Номер кабинета преподавателя не корректен");
     client.assert(response.body[0]["teacher"]["email"]==="kruglova@gmail.com","email преподавателя не корректен");
     client.assert(response.body[0]["class"]!==undefined,"Нет данных о классе");
@@ -184,7 +184,7 @@ client.test("Тестирование возможности смотреть р
     client.assert(response.body[0]["teacher"]["id"]===1,"id преподавателя не корректно");
     client.assert(response.body[0]["teacher"]["fio"]==="Круглова Наталия Сергеевна","ФИО преподавателя не корректно");
     client.assert(response.body[0]["teacher"]["dateOfBirth"]==="1965.01.11","Дата рождения преподавателя не корректно");
-    client.assert(response.body[0]["teacher"]["phone"]==="+79222444411","Номер телефона преподавателя не корректен");
+    client.assert(response.body[0]["teacher"]["phone"]==="89222444411","Номер телефона преподавателя не корректен");
     client.assert(response.body[0]["teacher"]["cabinet"]===56,"Номер кабинета преподавателя не корректен");
     client.assert(response.body[0]["teacher"]["email"]==="kruglova@gmail.com","email преподавателя не корректен");
     client.assert(response.body[0]["class"]!==undefined,"Нет данных о классе");
@@ -212,7 +212,7 @@ client.test("Тестирование возможности смотреть р
     client.assert(response.body[0]["teacher"]["id"]===1,"id преподавателя не корректно");
     client.assert(response.body[0]["teacher"]["fio"]==="Круглова Наталия Сергеевна","ФИО преподавателя не корректно");
     client.assert(response.body[0]["teacher"]["dateOfBirth"]==="1965.01.11","Дата рождения преподавателя не корректно");
-    client.assert(response.body[0]["teacher"]["phone"]==="+79222444411","Номер телефона преподавателя не корректен");
+    client.assert(response.body[0]["teacher"]["phone"]==="89222444411","Номер телефона преподавателя не корректен");
     client.assert(response.body[0]["teacher"]["cabinet"]===56,"Номер кабинета преподавателя не корректен");
     client.assert(response.body[0]["teacher"]["email"]==="kruglova@gmail.com","email преподавателя не корректен");
     client.assert(response.body[0]["class"]!==undefined,"Нет данных о классе");

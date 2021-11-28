@@ -390,5 +390,33 @@ client.test("Тестирование возможности смотреть р
 });
  %}
 
+### Тестирование возможности смотреть расписание по букве класса
+GET http://localhost:80/lesson?class_letter=А
+
+> {%
+client.test("Тестирование возможности смотреть расписание по class_letter",function (){
+    client.assert(response.status===200, "Проверяю код ответа. Ожидаю код 200. Фактический код: "+response.status);
+    client.assert(response.contentType.mimeType==="application/json", "Ожидаю application/json. Фактически: "+response.contentType.mimeType);
+    client.assert(response.body[0]["id"]===1,"id урока не корректен");
+    client.assert(response.body[0]["item"]!==undefined,"Нет данных об предмете");
+    client.assert(response.body[0]["item"]["id"]===1,"id предмета не корректно");
+    client.assert(response.body[0]["item"]["name"]==="Математика","Название предмета не корректно");
+    client.assert(response.body[0]["item"]["description"]==="Математика","Полное название предмета не корректно");
+    client.assert(response.body[0]["date"]==="2011.11.10 8:30","дата проведения урока не корректена");
+    client.assert(response.body[0]["lessonDuration"]===40,"время проведения урока не корректено");
+    client.assert(response.body[0]["teacher"]!==undefined,"Нет данных об преподавателе");
+    client.assert(response.body[0]["teacher"]["id"]===1,"id преподавателя не корректно");
+    client.assert(response.body[0]["teacher"]["fio"]==="Круглова Наталия Сергеевна","ФИО преподавателя не корректно");
+    client.assert(response.body[0]["teacher"]["dateOfBirth"]==="1965.01.11","Дата рождения преподавателя не корректно");
+    client.assert(response.body[0]["teacher"]["phone"]==="89222444411","Номер телефона преподавателя не корректен");
+    client.assert(response.body[0]["teacher"]["cabinet"]===56,"Номер кабинета преподавателя не корректен");
+    client.assert(response.body[0]["teacher"]["email"]==="kruglova@gmail.com","email преподавателя не корректен");
+    client.assert(response.body[0]["class"]!==undefined,"Нет данных о классе");
+    client.assert(response.body[0]["class"]['id']===3,"id класса не корректен");
+    client.assert(response.body[0]["class"]['number']===6,"Номер класса не корректен");
+    client.assert(response.body[0]["class"]['letter']==="А","Буква класса не корректена");
+});
+ %}
+
 
 

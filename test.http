@@ -29,3 +29,36 @@ client.test("Тестирование поимка занятия по назв�
     client.assert(response.body[0]["class_id"]===3,"id класса не корректен");
 });
  %}
+
+### Тестирование возможности смотреть расписание по дате
+GET http://localhost:80/lesson?date=2011.11.10 8:30
+
+> {%
+client.test("Тестирование поимка занятия по названию предмета",function (){
+    client.assert(response.status===200, "Проверяю код ответа. Ожидаю код 200. Фактический код: "+response.status);
+    client.assert(response.contentType.mimeType==="application/json", "Ожидаю application/json. Фактически: "+response.contentType.mimeType);
+    client.assert(response.body[0]["id"]===1,"id урока не корректен");
+    client.assert(response.body[0]["item_id"]===1,"id предмета не корректен");
+    client.assert(response.body[0]["date"]==="2011.11.10 8:30","дата проведения урока не корректена");
+    client.assert(response.body[0]["lessonDuration"]===40,"время проведения урока не корректено");
+    client.assert(response.body[0]["teacher_id"]===1,"id учителя не корректен");
+    client.assert(response.body[0]["class_id"]===3,"id класса не корректен");
+});
+ %}
+
+### Тестирование возможности смотреть расписание по teacher_id
+GET http://localhost:80/lesson?teacher_id=1
+
+> {%
+client.test("Тестирование поимка занятия по названию предмета",function (){
+    client.assert(response.status===200, "Проверяю код ответа. Ожидаю код 200. Фактический код: "+response.status);
+    client.assert(response.contentType.mimeType==="application/json", "Ожидаю application/json. Фактически: "+response.contentType.mimeType);
+    client.assert(response.body[0]["id"]===1,"id урока не корректен");
+    client.assert(response.body[0]["item_id"]===1,"id предмета не корректен");
+    client.assert(response.body[0]["date"]==="2011.11.10 8:30","дата проведения урока не корректена");
+    client.assert(response.body[0]["lessonDuration"]===40,"время проведения урока не корректено");
+    client.assert(response.body[0]["teacher_id"]===1,"id учителя не корректен");
+    client.assert(response.body[0]["class_id"]===3,"id класса не корректен");
+});
+ %}
+

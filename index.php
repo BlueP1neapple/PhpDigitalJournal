@@ -25,15 +25,25 @@ if('/lesson'===$_SERVER['PATH_INFO'])      // Поиск занятия. [нач
     $result=[];
     foreach($Lessons as $lesson) // Цикл по все занятиям. [начало]
     {
+        if(array_key_exists('lesson_id',$_GET)) // Поиск по присутвию lesson_id в GET запросе и совпадению lesson_id в запросе и массиве занятий. [начало]
+        {
+            $LessonMeetSearchCriteria=((int)$_GET['lesson_id']===$lesson['id']);
+        }// Поиск по присутвию lesson_id в GET запросе и совпадению lesson_id в запросе и массиве занятий. [конец]
+
+        if(array_key_exists('item_id',$_GET)) // Поиск по присутвию item_id в GET запросе и совпадению item_id в запросе и массиве занятий. [начало]
+        {
+            $LessonMeetSearchCriteria=((int)$_GET['item_id']===$ItemsIdToInfo[$lesson['item_id']]['id']);
+        }// Поиск по присутвию item_id в GET запросе и совпадению item_id в запросе и массиве занятий. [конец]
+
         if(array_key_exists('item_name',$_GET)) // Поиск по присутвию item_name в GET запросе и совпадению item_name в запросе и массиве занятий. [начало]
         {
             $LessonMeetSearchCriteria=($_GET['item_name']===$ItemsIdToInfo[$lesson['item_id']]['name']);
         }// Поиск по присутвию item_name в GET запросе и совпадению item_name в запросе и массиве занятий. [конец]
 
-        if(array_key_exists('lesson_id',$_GET)) // Поиск по присутвию lesson_id в GET запросе и совпадению lesson_id в запросе и массиве занятий. [начало]
+        if(array_key_exists('item_description',$_GET)) // Поиск по присутвию item_description в GET запросе и совпадению item_description в запросе и массиве занятий. [начало]
         {
-            $LessonMeetSearchCriteria=((int)$_GET['lesson_id']===$lesson['id']);
-        }// Поиск по присутвию lesson_id в GET запросе и совпадению lesson_id в запросе и массиве занятий. [конец]
+            $LessonMeetSearchCriteria=($_GET['item_description']===$ItemsIdToInfo[$lesson['item_id']]['description']);
+        }// Поиск по присутвию item_description в GET запросе и совпадению item_description в запросе и массиве занятий. [конец]
 
         if(array_key_exists('date',$_GET)) // Поиск по присутвию date в GET запросе и совпадению date в запросе и массиве занятий. [начало]
         {

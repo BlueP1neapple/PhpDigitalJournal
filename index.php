@@ -121,6 +121,7 @@ if('/lesson'===$_SERVER['PATH_INFO'])      // Поиск занятия. [нач
     }  //Цикл по все занятиям. [конец]
 } // Поиск занятия. [конец]
 
+
 header('Content-type: application/json');
 http_response_code($httpCode);
 echo json_encode($result);

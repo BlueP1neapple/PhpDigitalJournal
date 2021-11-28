@@ -1,5 +1,5 @@
 ### Тестирование поиска оценок в дневнике по id
-GET http://localhost:80/assessmentReport?id=1
+GET http://localhost:8000/assessmentReport?id=1
 
 > {%
 client.test("Тестирование возможности смотреть оценки по id",function (){
@@ -46,7 +46,7 @@ client.test("Тестирование возможности смотреть о
  %}
 
 ### Тестирование поиска оценок в дневнике по id занятия
-GET http://localhost:80/assessmentReport?lesson_id=1
+GET http://localhost:8000/assessmentReport?lesson_id=1
 
 > {%
 client.test("Тестирование возможности смотреть оценки по lesson_id",function (){
@@ -93,7 +93,7 @@ client.test("Тестирование возможности смотреть о
  %}
 
 ### Тестирование поиска оценок в дневнике по id предмета
-GET http://localhost:80/assessmentReport?item_id=1
+GET http://localhost:8000/assessmentReport?item_id=1
 
 > {%
 client.test("Тестирование возможности смотреть оценки по item_id",function (){
@@ -140,7 +140,7 @@ client.test("Тестирование возможности смотреть о
  %}
 
 ### Тестирование поиска оценок в дневнике по Названию предмета
-GET http://localhost:80/assessmentReport?item_name=Математика
+GET http://localhost:8000/assessmentReport?item_name=Математика
 
 > {%
 client.test("Тестирование возможности смотреть оценки по item_name",function (){
@@ -187,7 +187,7 @@ client.test("Тестирование возможности смотреть о
  %}
 
 ### Тестирование поиска оценок в дневнике по расшифровке названия предмета
-GET http://localhost:80/assessmentReport?item_description=Математика
+GET http://localhost:8000/assessmentReport?item_description=Математика
 
 > {%
 client.test("Тестирование возможности смотреть оценки по item_description",function (){
@@ -234,7 +234,7 @@ client.test("Тестирование возможности смотреть о
  %}
 
 ### Тестирование поиска оценок в дневнике по дате проведения занятия
-GET http://localhost:80/assessmentReport?lesson_date=2011.11.10 8:30
+GET http://localhost:8000/assessmentReport?lesson_date=2011.11.10 8:30
 
 > {%
 client.test("Тестирование возможности смотреть оценки по lesson_date",function (){
@@ -281,7 +281,7 @@ client.test("Тестирование возможности смотреть о
  %}
 
 ### Тестирование поиска оценок в дневнике по id преподавателя
-GET http://localhost:80/assessmentReport?teacher_id=1
+GET http://localhost:8000/assessmentReport?teacher_id=1
 
 > {%
 client.test("Тестирование возможности смотреть оценки по teacher_id",function (){
@@ -328,7 +328,7 @@ client.test("Тестирование возможности смотреть о
  %}
 
 ### Тестирование поиска оценок в дневнике по ФИО преподавателя
-GET http://localhost:80/assessmentReport?teacher_fio=Круглова Наталия Сергеевна
+GET http://localhost:8000/assessmentReport?teacher_fio=Круглова Наталия Сергеевна
 
 > {%
 client.test("Тестирование возможности смотреть оценки по teacher_fio",function (){
@@ -375,7 +375,7 @@ client.test("Тестирование возможности смотреть о
  %}
 
 ### Тестирование поиска оценок в дневнике по кабинету преподавателя
-GET http://localhost:80/assessmentReport?teacher_cabinet=56
+GET http://localhost:8000/assessmentReport?teacher_cabinet=56
 
 > {%
 client.test("Тестирование возможности смотреть оценки по teacher_cabinet",function (){
@@ -422,7 +422,7 @@ client.test("Тестирование возможности смотреть о
  %}
 
 ### Тестирование поиска оценок в дневнике по номеру и букве класса
-GET http://localhost:80/assessmentReport?class_number=6&class_letter=A
+GET http://localhost:8000/assessmentReport?class_number=6&class_letter=A
 
 > {%
 client.test("Тестирование возможности смотреть оценки по class_number&class_letter",function (){
@@ -469,7 +469,7 @@ client.test("Тестирование возможности смотреть о
  %}
 
 ### Тестирование поиска оценок в дневнике по id cтудента
-GET http://localhost:80/assessmentReport?student_id=1
+GET http://localhost:8000/assessmentReport?student_id=1
 
 > {%
 client.test("Тестирование возможности смотреть оценки по student_id",function (){
@@ -516,7 +516,7 @@ client.test("Тестирование возможности смотреть о
  %}
 
 ### Тестирование поиска оценок в дневнике по ФИО cтудента
-GET http://localhost:80/assessmentReport?student_fio=Кузнецов Алексей Евгеньевич
+GET http://localhost:8000/assessmentReport?student_fio=Кузнецов Алексей Евгеньевич
 
 > {%
 client.test("Тестирование возможности смотреть оценки по student_fio",function (){
@@ -563,7 +563,7 @@ client.test("Тестирование возможности смотреть о
  %}
 
 ### Тестирование поиска оценок в дневнике по id родителей
-GET http://localhost:80/assessmentReport?parent_id=1
+GET http://localhost:8000/assessmentReport?parent_id=1
 
 > {%
 client.test("Тестирование возможности смотреть оценки по parent_id",function (){
@@ -610,7 +610,7 @@ client.test("Тестирование возможности смотреть о
  %}
 
 ### Тестирование поиска оценок в дневнике по ФИО родителей
-GET http://localhost:80/assessmentReport?parent_fio=Кузнецов Евгений Сергеевич
+GET http://localhost:8000/assessmentReport?parent_fio=Кузнецов Евгений Сергеевич
 
 > {%
 client.test("Тестирование возможности смотреть оценки по parent_fio",function (){

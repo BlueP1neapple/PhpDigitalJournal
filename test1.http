@@ -1,5 +1,5 @@
 ### Тестирование возможности смотреть расписание по id
-GET http://localhost:80/lesson?lesson_id=1
+GET http://localhost:8000/lesson?lesson_id=1
 
 > {%
 client.test("Тестирование возможности смотреть расписание по id",function (){
@@ -27,7 +27,7 @@ client.test("Тестирование возможности смотреть р
  %}
 
 ### Тестирование возможности смотреть расписание по id предмета
-GET http://localhost:80/lesson?item_id=1
+GET http://localhost:8000/lesson?item_id=1
 
 > {%
 client.test("Тестирование возможности смотреть расписание по id предмета",function (){
@@ -55,7 +55,7 @@ client.test("Тестирование возможности смотреть р
  %}
 
 ### Тестирование возможности смотреть расписание по названию предмета
-GET http://localhost:80/lesson?item_name=Математика
+GET http://localhost:8000/lesson?item_name=Математика
 
 > {%
 client.test("Тестирование возможности смотреть расписание по названию предмета",function (){
@@ -83,7 +83,7 @@ client.test("Тестирование возможности смотреть р
  %}
 
 ### Тестирование возможности смотреть расписание по рассшифровке предмета
-GET http://localhost:80/lesson?item_description=Математика
+GET http://localhost:8000/lesson?item_description=Математика
 
 > {%
 client.test("Тестирование возможности смотреть расписание по рассшифровке предмета",function (){
@@ -111,7 +111,7 @@ client.test("Тестирование возможности смотреть р
  %}
 
 ### Тестирование возможности смотреть расписание по дате
-GET http://localhost:80/lesson?date=2011.11.10 8:30
+GET http://localhost:8000/lesson?date=2011.11.10 8:30
 
 > {%
 client.test("Тестирование возможности смотреть расписание по дате",function (){
@@ -139,7 +139,7 @@ client.test("Тестирование возможности смотреть р
  %}
 
 ### Тестирование возможности смотреть расписание по id преподавателя
-GET http://localhost:80/lesson?teacher_id=1
+GET http://localhost:8000/lesson?teacher_id=1
 
 > {%
 client.test("Тестирование возможности смотреть расписание по teacher_id",function (){
@@ -167,7 +167,7 @@ client.test("Тестирование возможности смотреть р
  %}
 
 ### Тестирование возможности смотреть расписание по fio преподавателя
-GET http://localhost:80/lesson?teacher_fio=Круглова Наталия Сергеевна
+GET http://localhost:8000/lesson?teacher_fio=Круглова Наталия Сергеевна
 
 > {%
 client.test("Тестирование возможности смотреть расписание по teacher_fio",function (){
@@ -195,7 +195,7 @@ client.test("Тестирование возможности смотреть р
  %}
 
 ### Тестирование возможности смотреть расписание по дате рождения преподавателя
-GET http://localhost:80/lesson?teacher_dateOfBirth=1965.01.11
+GET http://localhost:8000/lesson?teacher_dateOfBirth=1965.01.11
 
 > {%
 client.test("Тестирование возможности смотреть расписание по teacher_dateOfBirth",function (){
@@ -223,7 +223,7 @@ client.test("Тестирование возможности смотреть р
  %}
 
 ### Тестирование возможности смотреть расписание по номеру телефона преподавателя
-GET http://localhost:80/lesson?teacher_phone=89222444411
+GET http://localhost:8000/lesson?teacher_phone=89222444411
 
 > {%
 client.test("Тестирование возможности смотреть расписание по teacher_phone",function (){
@@ -251,7 +251,7 @@ client.test("Тестирование возможности смотреть р
  %}
 
 ### Тестирование возможности смотреть расписание по адрессу преподавателя
-GET http://localhost:80/lesson?teacher_address=ул. Ясная, д. 54, кв. 19
+GET http://localhost:8000/lesson?teacher_address=ул. Ясная, д. 54, кв. 19
 
 > {%
 client.test("Тестирование возможности смотреть расписание по teacher_address",function (){
@@ -279,7 +279,7 @@ client.test("Тестирование возможности смотреть р
  %}
 
 ### Тестирование возможности смотреть расписание по кабинету преподавателя
-GET http://localhost:80/lesson?teacher_cabinet=56
+GET http://localhost:8000/lesson?teacher_cabinet=56
 
 > {%
 client.test("Тестирование возможности смотреть расписание по teacher_cabinet",function (){
@@ -307,7 +307,7 @@ client.test("Тестирование возможности смотреть р
  %}
 
 ### Тестирование возможности смотреть распиание по email  преподавателя
-GET http://localhost:80/lesson?teacher_email=kruglova@gmail.com
+GET http://localhost:8000/lesson?teacher_email=kruglova@gmail.com
 
 > {%
 client.test("Тестирование возможности смотреть расписание по teacher_email",function (){
@@ -335,7 +335,7 @@ client.test("Тестирование возможности смотреть р
  %}
 
 ### Тестирование возможности смотреть расписание по class_id
-GET http://localhost:80/lesson?class_id=3
+GET http://localhost:8000/lesson?class_id=3
 
 > {%
 client.test("Тестирование возможности смотреть расписание по class_id",function (){
@@ -363,7 +363,7 @@ client.test("Тестирование возможности смотреть р
  %}
 
 ### Тестирование возможности смотреть расписание по номеру класса
-GET http://localhost:80/lesson?class_number=6
+GET http://localhost:8000/lesson?class_number=6
 
 > {%
 client.test("Тестирование возможности смотреть расписание по class_number",function (){
@@ -391,7 +391,7 @@ client.test("Тестирование возможности смотреть р
  %}
 
 ### Тестирование возможности смотреть расписание по букве класса
-GET http://localhost:80/lesson?class_letter=А
+GET http://localhost:8000/lesson?class_letter=А
 
 > {%
 client.test("Тестирование возможности смотреть расписание по class_letter",function (){
@@ -419,7 +419,7 @@ client.test("Тестирование возможности смотреть р
  %}
 
 ### Тестирование возможности смотреть расписание по номеру и букве класса
-GET http://localhost:80/lesson?class_number=6&class_letter=А
+GET http://localhost:8000/lesson?class_number=6&class_letter=А
 
 > {%
 client.test("Тестирование возможности смотреть расписание по class_letter",function (){

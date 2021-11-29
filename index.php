@@ -34,7 +34,7 @@ $ParentTxt = file_get_contents($pathToParent);
 $Parents = json_decode($ParentTxt, true);
 $ParentIdToInfo = [];
 
-//$pathToLogFile = __DIR__ . '/app.log';
+$pathToLogFile = __DIR__ . '/app.log';
 
 foreach ($Items as $Item)// Делаем ключ id по предмету
 {
@@ -68,6 +68,7 @@ foreach ($Parents as $parent)
 
 if ('/lesson' === $_SERVER['PATH_INFO'])      // Поиск занятия. [начало]
 {
+    file_put_contents($pathToLogFile, 'select search by lesson' . "\n", FILE_APPEND);
     $httpCode = 200;
     $result = [];
     foreach ($Lessons as $lesson) // Цикл по все занятиям. [начало]
@@ -115,10 +116,12 @@ if ('/lesson' === $_SERVER['PATH_INFO'])      // Поиск занятия. [н�
             unset($lesson['teacher_id']);
             unset($lesson['class_id']);
             $result[] = $lesson;
+            file_put_contents($pathToLogFile, 'result search = '. $result  . "\n", FILE_APPEND);
         }
     }  //Цикл по все занятиям. [конец]
 } // Поиск занятия. [конец]
 elseif ('/assessmentReport' === $_SERVER['PATH_INFO']) {      // Поиск оценок. [начало]
+    file_put_contents($pathToLogFile, 'select search by Report' . "\n", FILE_APPEND);
     $httpCode = 200;
     $result = [];
 
@@ -126,6 +129,7 @@ elseif ('/assessmentReport' === $_SERVER['PATH_INFO']) {      // Поиск оц
         if (array_key_exists('item_name', $_GET)) // Поиск по присутвию item_name в GET запросе и совпадению item_name в запросе и массиве оценок. [начало]
         {
             $ReportMeetSearchCriteria = ($_GET['item_name'] === $ItemsIdToInfo[$LessonIdToInfo[$report['lesson_id']]['item_id']]['name']);
+
         }// Поиск по присутвию item_name в GET запросе и совпадению item_name в запросе и массиве оценок. [конец]
         if (array_key_exists('item_description', $_GET))
         {
@@ -152,6 +156,7 @@ elseif ('/assessmentReport' === $_SERVER['PATH_INFO']) {      // Поиск оц
             unset($report['lesson_id']);
             unset($report['student_id']);
             $result[] = $report;
+            file_put_contents($pathToLogFile, 'result search = '. $result  . "\n", FILE_APPEND);
         }
     }//Цикл по оценкам [конец]
 } // Поиск оценок. [конец]

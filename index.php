@@ -28,6 +28,12 @@ $pathToStudent = __DIR__ . '/JSON/student.json';
 $StudentTxt = file_get_contents($pathToStudent);
 $Students = json_decode($StudentTxt, true);
 $StudentIdToInfo = [];
+
+$pathToParent = __DIR__ . '/JSON/parent.json';
+$ParentTxt = file_get_contents($pathToParent);
+$Parents = json_decode($ParentTxt, true);
+$ParentIdToInfo = [];
+
 foreach ($Items as $Item)// Делаем ключ id по предмету
 {
     $ItemsIdToInfo[$Item['id']] = $Item;
@@ -52,7 +58,10 @@ foreach ($Students as $student)
 {
     $StudentIdToInfo[$student['id']] = $student;
 }
-
+foreach ($Parents as $parent)
+{
+    $ParentIdToInfo[$parent['id']] = $parent;
+}
 
 
 if ('/lesson' === $_SERVER['PATH_INFO'])      // Поиск занятия. [начало]
@@ -118,11 +127,13 @@ elseif ('/assessmentReport' === $_SERVER['PATH_INFO']) {      // Поиск оц
             $ReportMeetSearchCriteria = ($_GET['item_name'] === $ItemsIdToInfo[$LessonIdToInfo[$report['lesson_id']]['item_id']]['name']);
         }// Поиск по присутвию item_name в GET запросе и совпадению item_name в запросе и массиве оценок. [конец]
         if ($ReportMeetSearchCriteria) {
-            $report['lesson'] = $LessonIdToInfo[$report['lesson_id']];
             $report['student'] = $StudentIdToInfo[$report['student_id']];
-            $report['item'] = $ItemsIdToInfo[$report['lesson']['item_id']];
-            $report['teacher'] = $TeachersIdToInfo[$report['lesson']['teacher_id']];
-            $report['class'] = $ClassesIdToInfo[$report['student']['class_id']];
+            $report['lesson'] = $LessonIdToInfo[$report['lesson_id']];
+            $report['lesson']['item'] = $ItemsIdToInfo[$report['lesson']['item_id']];
+            $report['lesson']['teacher'] = $TeachersIdToInfo[$report['lesson']['teacher_id']];
+            $report['lesson']['class'] = $ClassesIdToInfo[$report['student']['class_id']];
+
+            $report['student']['parent'] = $ParentIdToInfo[$report['student']['parent_id']];
             unset($report['id']);
             unset($report['lesson_id']);
             unset($report['student_id']);

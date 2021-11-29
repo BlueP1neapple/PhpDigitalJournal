@@ -34,6 +34,8 @@ $ParentTxt = file_get_contents($pathToParent);
 $Parents = json_decode($ParentTxt, true);
 $ParentIdToInfo = [];
 
+//$pathToLogFile = __DIR__ . '/app.log';
+
 foreach ($Items as $Item)// Делаем ключ id по предмету
 {
     $ItemsIdToInfo[$Item['id']] = $Item;
@@ -123,9 +125,21 @@ elseif ('/assessmentReport' === $_SERVER['PATH_INFO']) {      // Поиск оц
     foreach ($Reports as $report) {
         if (array_key_exists('item_name', $_GET)) // Поиск по присутвию item_name в GET запросе и совпадению item_name в запросе и массиве оценок. [начало]
         {
-
             $ReportMeetSearchCriteria = ($_GET['item_name'] === $ItemsIdToInfo[$LessonIdToInfo[$report['lesson_id']]['item_id']]['name']);
         }// Поиск по присутвию item_name в GET запросе и совпадению item_name в запросе и массиве оценок. [конец]
+        if (array_key_exists('item_description', $_GET))
+        {
+            $ReportMeetSearchCriteria = ($_GET['item_description'] === $ItemsIdToInfo[$LessonIdToInfo[$report['lesson_id']]['item_id']]['description']);
+        }
+        if (array_key_exists('lesson_date', $_GET))
+        {
+            $ReportMeetSearchCriteria = ($_GET['lesson_date'] === $LessonIdToInfo[$report['lesson_id']]['date']);
+        }
+        if (array_key_exists('student_fio', $_GET))
+        {
+            $ReportMeetSearchCriteria = ($_GET['student_fio'] === $StudentIdToInfo[$report['student_id']]['fio']);
+        }
+
         if ($ReportMeetSearchCriteria) {
             $report['student'] = $StudentIdToInfo[$report['student_id']];
             $report['lesson'] = $LessonIdToInfo[$report['lesson_id']];

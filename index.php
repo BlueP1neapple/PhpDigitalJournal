@@ -84,11 +84,11 @@ if('/lesson'===$_SERVER['PATH_INFO'])      // Поиск занятия. [нач
         }
     }  //Цикл по все занятиям. [конец]
 } // Поиск занятия. [конец]
-if('/assessmentReport'===$_SERVER['PATH_INFO']){      // Поиск оценок. [начало]
+elseif('/assessmentReport'===$_SERVER['PATH_INFO']){      // Поиск оценок. [начало]
     $httpCode=200;
     $result=[];
 
-    /*foreach ($Report as $report){
+    foreach ($Report as $report){
         if(array_key_exists('item_name',$_GET)) // Поиск по присутвию item_name в GET запросе и совпадению item_name в запросе и массиве оценок. [начало]
         {
             $ReportMeetSearchCriteria=($_GET['item_name']===$ItemsIdToInfo[$report['item_id']]['name']);
@@ -103,7 +103,7 @@ if('/assessmentReport'===$_SERVER['PATH_INFO']){      // Поиск оценок
             unset($report['class_id']);
             $result[]=$report;
         }
-    }//Цикл по оценкам [конец] */
+    }//Цикл по оценкам [конец]
 } // Поиск оценок. [конец]
 
 header('Content-type: application/json');

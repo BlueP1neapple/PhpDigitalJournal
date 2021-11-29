@@ -1,20 +1,20 @@
 <?php
-$pathToItem=__DIR__ . '\JSON/item.json';
+$pathToItem=__DIR__ . '/JSON/item.json';
 $ItemTxt=file_get_contents($pathToItem);
 $Items=json_decode($ItemTxt, true); // Перевод item.json в php массив
 $ItemsIdToInfo = [];
-$pathToTeacher=__DIR__ . '\JSON/teacher.json';
+$pathToTeacher=__DIR__ . '/JSON/teacher.json';
 $TeacherTxt=file_get_contents($pathToTeacher);
 $Teachers=json_decode($TeacherTxt, true); // Перевод teacher.json в php массив
 $TeachersIdToInfo = [];
-$pathToClass=__DIR__ . '\JSON/class.json';
+$pathToClass=__DIR__ . '/JSON/class.json';
 $ClassTxt=file_get_contents($pathToClass);
 $Classes=json_decode($ClassTxt, true); // Перевод class.json в php массив
 $ClassesIdToInfo = [];
-$PathToLesson = __DIR__ .'\JSON/lesson.json';
+$PathToLesson = __DIR__ .'/JSON/lesson.json';
 $LessonTxt=file_get_contents($PathToLesson);
 $Lessons=json_decode($LessonTxt,true);  // Перевод lesson.json в php массив
-$pathToReport=__DIR__ . '\JSON/assessmentReport.json';
+$pathToReport=__DIR__ . '/JSON/assessmentReport.json';
 $ReportTxt=file_get_contents($pathToReport);
 $Report=json_decode($ReportTxt, true); // Перевод assessmentReport.json в php массив
 

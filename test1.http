@@ -16,7 +16,7 @@ client.test("Тестирование возможности смотреть р
     client.assert(response.body[0]["teacher"]["id"]===1,"id преподавателя не корректно");
     client.assert(response.body[0]["teacher"]["fio"]==="Круглова Наталия Сергеевна","ФИО преподавателя не корректно");
     client.assert(response.body[0]["teacher"]["dateOfBirth"]==="1965.01.11","Дата рождения преподавателя не корректно");
-    client.assert(response.body[0]["teacher"]["phone"]==="89222444411","Номер телефона преподавателя не корректен");
+    client.assert(response.body[0]["teacher"]["phone"]==="+79222444411","Номер телефона преподавателя не корректен");
     client.assert(response.body[0]["teacher"]["cabinet"]===56,"Номер кабинета преподавателя не корректен");
     client.assert(response.body[0]["teacher"]["email"]==="kruglova@gmail.com","email преподавателя не корректен");
     client.assert(response.body[0]["class"]!==undefined,"Нет данных о классе");
@@ -44,7 +44,7 @@ client.test("Тестирование возможности смотреть р
     client.assert(response.body[0]["teacher"]["id"]===1,"id преподавателя не корректно");
     client.assert(response.body[0]["teacher"]["fio"]==="Круглова Наталия Сергеевна","ФИО преподавателя не корректно");
     client.assert(response.body[0]["teacher"]["dateOfBirth"]==="1965.01.11","Дата рождения преподавателя не корректно");
-    client.assert(response.body[0]["teacher"]["phone"]==="89222444411","Номер телефона преподавателя не корректен");
+    client.assert(response.body[0]["teacher"]["phone"]==="+79222444411","Номер телефона преподавателя не корректен");
     client.assert(response.body[0]["teacher"]["cabinet"]===56,"Номер кабинета преподавателя не корректен");
     client.assert(response.body[0]["teacher"]["email"]==="kruglova@gmail.com","email преподавателя не корректен");
     client.assert(response.body[0]["class"]!==undefined,"Нет данных о классе");
@@ -72,7 +72,7 @@ client.test("Тестирование возможности смотреть р
     client.assert(response.body[0]["teacher"]["id"]===1,"id преподавателя не корректно");
     client.assert(response.body[0]["teacher"]["fio"]==="Круглова Наталия Сергеевна","ФИО преподавателя не корректно");
     client.assert(response.body[0]["teacher"]["dateOfBirth"]==="1965.01.11","Дата рождения преподавателя не корректно");
-    client.assert(response.body[0]["teacher"]["phone"]==="89222444411","Номер телефона преподавателя не корректен");
+    client.assert(response.body[0]["teacher"]["phone"]==="+79222444411","Номер телефона преподавателя не корректен");
     client.assert(response.body[0]["teacher"]["cabinet"]===56,"Номер кабинета преподавателя не корректен");
     client.assert(response.body[0]["teacher"]["email"]==="kruglova@gmail.com","email преподавателя не корректен");
     client.assert(response.body[0]["class"]!==undefined,"Нет данных о классе");
@@ -100,7 +100,7 @@ client.test("Тестирование возможности смотреть р
     client.assert(response.body[0]["teacher"]["id"]===1,"id преподавателя не корректно");
     client.assert(response.body[0]["teacher"]["fio"]==="Круглова Наталия Сергеевна","ФИО преподавателя не корректно");
     client.assert(response.body[0]["teacher"]["dateOfBirth"]==="1965.01.11","Дата рождения преподавателя не корректно");
-    client.assert(response.body[0]["teacher"]["phone"]==="89222444411","Номер телефона преподавателя не корректен");
+    client.assert(response.body[0]["teacher"]["phone"]==="+79222444411","Номер телефона преподавателя не корректен");
     client.assert(response.body[0]["teacher"]["cabinet"]===56,"Номер кабинета преподавателя не корректен");
     client.assert(response.body[0]["teacher"]["email"]==="kruglova@gmail.com","email преподавателя не корректен");
     client.assert(response.body[0]["class"]!==undefined,"Нет данных о классе");
@@ -128,7 +128,7 @@ client.test("Тестирование возможности смотреть р
     client.assert(response.body[0]["teacher"]["id"]===1,"id преподавателя не корректно");
     client.assert(response.body[0]["teacher"]["fio"]==="Круглова Наталия Сергеевна","ФИО преподавателя не корректно");
     client.assert(response.body[0]["teacher"]["dateOfBirth"]==="1965.01.11","Дата рождения преподавателя не корректно");
-    client.assert(response.body[0]["teacher"]["phone"]==="89222444411","Номер телефона преподавателя не корректен");
+    client.assert(response.body[0]["teacher"]["phone"]==="+79222444411","Номер телефона преподавателя не корректен");
     client.assert(response.body[0]["teacher"]["cabinet"]===56,"Номер кабинета преподавателя не корректен");
     client.assert(response.body[0]["teacher"]["email"]==="kruglova@gmail.com","email преподавателя не корректен");
     client.assert(response.body[0]["class"]!==undefined,"Нет данных о классе");
@@ -156,7 +156,7 @@ client.test("Тестирование возможности смотреть р
     client.assert(response.body[0]["teacher"]["id"]===1,"id преподавателя не корректно");
     client.assert(response.body[0]["teacher"]["fio"]==="Круглова Наталия Сергеевна","ФИО преподавателя не корректно");
     client.assert(response.body[0]["teacher"]["dateOfBirth"]==="1965.01.11","Дата рождения преподавателя не корректно");
-    client.assert(response.body[0]["teacher"]["phone"]==="89222444411","Номер телефона преподавателя не корректен");
+    client.assert(response.body[0]["teacher"]["phone"]==="+79222444411","Номер телефона преподавателя не корректен");
     client.assert(response.body[0]["teacher"]["cabinet"]===56,"Номер кабинета преподавателя не корректен");
     client.assert(response.body[0]["teacher"]["email"]==="kruglova@gmail.com","email преподавателя не корректен");
     client.assert(response.body[0]["class"]!==undefined,"Нет данных о классе");
@@ -184,7 +184,7 @@ client.test("Тестирование возможности смотреть р
     client.assert(response.body[0]["teacher"]["id"]===1,"id преподавателя не корректно");
     client.assert(response.body[0]["teacher"]["fio"]==="Круглова Наталия Сергеевна","ФИО преподавателя не корректно");
     client.assert(response.body[0]["teacher"]["dateOfBirth"]==="1965.01.11","Дата рождения преподавателя не корректно");
-    client.assert(response.body[0]["teacher"]["phone"]==="89222444411","Номер телефона преподавателя не корректен");
+    client.assert(response.body[0]["teacher"]["phone"]==="+79222444411","Номер телефона преподавателя не корректен");
     client.assert(response.body[0]["teacher"]["cabinet"]===56,"Номер кабинета преподавателя не корректен");
     client.assert(response.body[0]["teacher"]["email"]==="kruglova@gmail.com","email преподавателя не корректен");
     client.assert(response.body[0]["class"]!==undefined,"Нет данных о классе");
@@ -212,12 +212,129 @@ client.test("Тестирование возможности смотреть р
     client.assert(response.body[0]["teacher"]["id"]===1,"id преподавателя не корректно");
     client.assert(response.body[0]["teacher"]["fio"]==="Круглова Наталия Сергеевна","ФИО преподавателя не корректно");
     client.assert(response.body[0]["teacher"]["dateOfBirth"]==="1965.01.11","Дата рождения преподавателя не корректно");
-    client.assert(response.body[0]["teacher"]["phone"]==="89222444411","Номер телефона преподавателя не корректен");
+    client.assert(response.body[0]["teacher"]["phone"]==="+79222444411","Номер телефона преподавателя не корректен");
     client.assert(response.body[0]["teacher"]["cabinet"]===56,"Номер кабинета преподавателя не корректен");
     client.assert(response.body[0]["teacher"]["email"]==="kruglova@gmail.com","email преподавателя не корректен");
     client.assert(response.body[0]["class"]!==undefined,"Нет данных о классе");
     client.assert(response.body[0]["class"]['id']===3,"id класса не корректен");
     client.assert(response.body[0]["class"]['number']===6,"Номер класса не корректен");
     client.assert(response.body[0]["class"]['letter']==="А","Буква класса не корректена");
+});
+ %}
+
+### Тестирование неподдерживаемого приложением URL
+GET http://localhost:8000/hhh?param=ru
+
+> {%
+client.test("Тестирование неподдерживаемого запроса",function ()
+{
+    client.assert(response.status=== 404, "Проверяю код ответа. Ожидаю код 404. Фактическое значение: " + response.status);
+    client.assert(response.contentType.mimeType==="application/json", "Ожидаю application/type фактически " + response.contentType.mimeType);
+    client.assert(response.body["message"]==="unsupported request","Некоректное сообщение");
+    client.assert(response.body["status"]==="fail","Некоректный статус");
+});
+ %}
+
+### Тестирование некорреткного ввода названия предмета
+GET http://localhost:8000/lesson?item_name[]=Математика
+
+> {%
+client.test("Тестирование некорреткного ввода названия предмета",function ()
+{
+    client.assert(response.status=== 500, "Проверяю код ответа. Ожидаю код 404. Фактическое значение: " + response.status);
+    client.assert(response.contentType.mimeType==="application/json", "Ожидаю application/type фактически " + response.contentType.mimeType);
+    client.assert(response.body["message"]==="Incorrect item name","Некоректное сообщение");
+    client.assert(response.body["status"]==="fail","Некоректный статус");
+});
+ %}
+
+### Тестирование некорреткного ввода рассшифровки предмета
+GET http://localhost:8000/lesson?item_description[]=Математика
+
+> {%
+client.test("Тестирование некорреткного ввода рассшифровки предмета",function ()
+{
+    client.assert(response.status=== 500, "Проверяю код ответа. Ожидаю код 404. Фактическое значение: " + response.status);
+    client.assert(response.contentType.mimeType==="application/json", "Ожидаю application/type фактически " + response.contentType.mimeType);
+    client.assert(response.body["message"]==="Incorrect item description","Некоректное сообщение");
+    client.assert(response.body["status"]==="fail","Некоректный статус");
+});
+ %}
+
+### Тестирование некорреткного ввода даты занятия
+GET http://localhost:8000/lesson?date[]=2011.11.10 8:30
+
+> {%
+client.test("Тестирование некорреткного ввода даты занятия",function ()
+{
+    client.assert(response.status=== 500, "Проверяю код ответа. Ожидаю код 404. Фактическое значение: " + response.status);
+    client.assert(response.contentType.mimeType==="application/json", "Ожидаю application/type фактически " + response.contentType.mimeType);
+    client.assert(response.body["message"]==="Incorrect date","Некоректное сообщение");
+    client.assert(response.body["status"]==="fail","Некоректный статус");
+});
+ %}
+
+### Тестирование некорреткного ввода fio преподавателя
+GET http://localhost:8000/lesson?teacher_fio[]=Круглова Наталия Сергеевна
+
+> {%
+client.test("Тестирование некорреткного ввода fio преподавателя",function ()
+{
+    client.assert(response.status=== 500, "Проверяю код ответа. Ожидаю код 404. Фактическое значение: " + response.status);
+    client.assert(response.contentType.mimeType==="application/json", "Ожидаю application/type фактически " + response.contentType.mimeType);
+    client.assert(response.body["message"]==="Incorrect teacher fio","Некоректное сообщение");
+    client.assert(response.body["status"]==="fail","Некоректный статус");
+});
+ %}
+
+### Тестирование некорреткного ввода кабинета преподавателя
+GET http://localhost:8000/lesson?teacher_cabinet[]=56
+
+> {%
+client.test("Тестирование некорреткного ввода кабинета преподавателя",function ()
+{
+    client.assert(response.status=== 500, "Проверяю код ответа. Ожидаю код 404. Фактическое значение: " + response.status);
+    client.assert(response.contentType.mimeType==="application/json", "Ожидаю application/type фактически " + response.contentType.mimeType);
+    client.assert(response.body["message"]==="Incorrect teacher cabinet","Некоректное сообщение");
+    client.assert(response.body["status"]==="fail","Некоректный статус");
+});
+ %}
+
+### Тестирование некорреткного ввода номера класса
+GET http://localhost:8000/lesson?class_number[]=6
+
+> {%
+client.test("Тестирование некорреткного ввода номера класса",function ()
+{
+    client.assert(response.status=== 500, "Проверяю код ответа. Ожидаю код 404. Фактическое значение: " + response.status);
+    client.assert(response.contentType.mimeType==="application/json", "Ожидаю application/type фактически " + response.contentType.mimeType);
+    client.assert(response.body["message"]==="Incorrect class number","Некоректное сообщение");
+    client.assert(response.body["status"]==="fail","Некоректный статус");
+});
+ %}
+
+### Тестирование некорреткного ввода буквы класса
+GET http://localhost:8000/lesson?class_letter[]=А
+
+> {%
+client.test("Тестирование некорреткного ввода буквы класса",function ()
+{
+    client.assert(response.status=== 500, "Проверяю код ответа. Ожидаю код 404. Фактическое значение: " + response.status);
+    client.assert(response.contentType.mimeType==="application/json", "Ожидаю application/type фактически " + response.contentType.mimeType);
+    client.assert(response.body["message"]==="Incorrect class letter","Некоректное сообщение");
+    client.assert(response.body["status"]==="fail","Некоректный статус");
+});
+ %}
+
+### Тестирование запроса без path
+GET http://localhost:8000/?param=ru
+
+> {%
+client.test("Тестирование неподдерживаемого запроса",function ()
+{
+    client.assert(response.status=== 404, "Проверяю код ответа. Ожидаю код 404. Фактическое значение: " + response.status);
+    client.assert(response.contentType.mimeType==="application/json", "Ожидаю application/type фактически " + response.contentType.mimeType);
+    client.assert(response.body["message"]==="unsupported request","Некоректное сообщение");
+    client.assert(response.body["status"]==="fail","Некоректный статус");
 });
  %}

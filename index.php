@@ -115,8 +115,7 @@ elseif ('/assessmentReport' === $_SERVER['PATH_INFO']) {      // Поиск оц
         if (array_key_exists('item_name', $_GET)) // Поиск по присутвию item_name в GET запросе и совпадению item_name в запросе и массиве оценок. [начало]
         {
 
-            $currentLesson = $ItemsIdToInfo[$report['lesson_id']];
-            $ReportMeetSearchCriteria = ($_GET['item_name'] === $currentLesson['name']);
+            $ReportMeetSearchCriteria = ($_GET['item_name'] === $ItemsIdToInfo[$LessonIdToInfo[$report['lesson_id']]['item_id']]['name']);
         }// Поиск по присутвию item_name в GET запросе и совпадению item_name в запросе и массиве оценок. [конец]
         if ($ReportMeetSearchCriteria) {
             $report['lesson'] = $LessonIdToInfo[$report['lesson_id']];

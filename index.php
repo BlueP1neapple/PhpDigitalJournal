@@ -1,4 +1,5 @@
 <?php
+
 $pathToItem = __DIR__ . '/JSON/item.json';
 $ItemTxt = file_get_contents($pathToItem);
 $Items = json_decode($ItemTxt, true); // Перевод item.json в php массив
@@ -48,20 +49,16 @@ foreach ($Classes as $Class)// Делаем ключ id по классам
 {
     $ClassesIdToInfo[$Class['id']] = $Class;
 } // Сделали ключ id по классам
-foreach ($Lessons as $lesson)
-{
+foreach ($Lessons as $lesson) {
     $LessonIdToInfo[$lesson['id']] = $lesson;
 } // Ключи id по урокам
-foreach ($Reports as $report)
-{
+foreach ($Reports as $report) {
     $ReportIdToInfo[$report['id']] = $report;
 }
-foreach ($Students as $student)
-{
+foreach ($Students as $student) {
     $StudentIdToInfo[$student['id']] = $student;
 }
-foreach ($Parents as $parent)
-{
+foreach ($Parents as $parent) {
     $ParentIdToInfo[$parent['id']] = $parent;
 }
 
@@ -73,37 +70,58 @@ if ('/lesson' === $_SERVER['PATH_INFO'])      // Поиск занятия. [н�
     $result = [];
     foreach ($Lessons as $lesson) // Цикл по все занятиям. [начало]
     {
-        if (array_key_exists('item_name', $_GET)) // Поиск по присутвию item_name в GET запросе и совпадению item_name в запросе и массиве занятий. [начало]
+        if (array_key_exists(
+            'item_name',
+            $_GET
+        )) // Поиск по присутвию item_name в GET запросе и совпадению item_name в запросе и массиве занятий. [начало]
         {
             $LessonMeetSearchCriteria = ($_GET['item_name'] === $ItemsIdToInfo[$lesson['item_id']]['name']);
         }// Поиск по присутвию item_name в GET запросе и совпадению item_name в запросе и массиве занятий. [конец]
 
-        if (array_key_exists('item_description', $_GET)) // Поиск по присутвию item_description в GET запросе и совпадению item_description в запросе и массиве занятий. [начало]
+        if (array_key_exists(
+            'item_description',
+            $_GET
+        )) // Поиск по присутвию item_description в GET запросе и совпадению item_description в запросе и массиве занятий. [начало]
         {
             $LessonMeetSearchCriteria = ($_GET['item_description'] === $ItemsIdToInfo[$lesson['item_id']]['description']);
         }// Поиск по присутвию item_description в GET запросе и совпадению item_description в запросе и массиве занятий. [конец]
 
-        if (array_key_exists('date', $_GET)) // Поиск по присутвию date в GET запросе и совпадению date в запросе и массиве занятий. [начало]
+        if (array_key_exists(
+            'date',
+            $_GET
+        )) // Поиск по присутвию date в GET запросе и совпадению date в запросе и массиве занятий. [начало]
         {
             $LessonMeetSearchCriteria = ($_GET['date'] === $lesson['date']);
         }// Поиск по присутвию date в GET запросе и совпадению date в запросе и массиве занятий. [конец]
 
-        if (array_key_exists('teacher_fio', $_GET)) // Поиск по присутвию teacher_fio в GET запросе и совпадению teacher_fio в запросе и массиве занятий. [начало]
+        if (array_key_exists(
+            'teacher_fio',
+            $_GET
+        )) // Поиск по присутвию teacher_fio в GET запросе и совпадению teacher_fio в запросе и массиве занятий. [начало]
         {
             $LessonMeetSearchCriteria = ($_GET['teacher_fio'] === $TeachersIdToInfo[$lesson['teacher_id']]['fio']);
         }// Поиск по присутвию teacher_fio в GET запросе и совпадению teacher_fio в запросе и массиве занятий. [конец]
 
-        if (array_key_exists('teacher_cabinet', $_GET)) // Поиск по присутвию teacher_cabinet в GET запросе и совпадению teacher_cabinet в запросе и массиве занятий. [начало]
+        if (array_key_exists(
+            'teacher_cabinet',
+            $_GET
+        )) // Поиск по присутвию teacher_cabinet в GET запросе и совпадению teacher_cabinet в запросе и массиве занятий. [начало]
         {
             $LessonMeetSearchCriteria = ((int)$_GET['teacher_cabinet'] === $TeachersIdToInfo[$lesson['teacher_id']]['cabinet']);
         }// Поиск по присутвию teacher_cabinet в GET запросе и совпадению teacher_cabinet в запросе и массиве занятий. [конец]
 
-        if (array_key_exists('class_number', $_GET)) // Поиск по присутвию class_number в GET запросе и совпадению class_number в запросе и массиве занятий. [начало]
+        if (array_key_exists(
+            'class_number',
+            $_GET
+        )) // Поиск по присутвию class_number в GET запросе и совпадению class_number в запросе и массиве занятий. [начало]
         {
             $LessonMeetSearchCriteria = ((int)$_GET['class_number'] === $ClassesIdToInfo[$lesson['class_id']]['number']);
         }// Поиск по присутвию class_number в GET запросе и совпадению class_number в запросе и массиве занятий. [конец]
 
-        if (array_key_exists('class_letter', $_GET)) // Поиск по присутвию class_letter в GET запросе и совпадению class_letter в запросе и массиве занятий. [начало]
+        if (array_key_exists(
+            'class_letter',
+            $_GET
+        )) // Поиск по присутвию class_letter в GET запросе и совпадению class_letter в запросе и массиве занятий. [начало]
         {
             $LessonMeetSearchCriteria = ($_GET['class_letter'] === $ClassesIdToInfo[$lesson['class_id']]['letter']);
         }// Поиск по присутвию class_letter в GET запросе и совпадению class_letter в запросе и массиве занятий. [конец]
@@ -116,31 +134,30 @@ if ('/lesson' === $_SERVER['PATH_INFO'])      // Поиск занятия. [н�
             unset($lesson['teacher_id']);
             unset($lesson['class_id']);
             $result[] = $lesson;
-            file_put_contents($pathToLogFile, 'result search = '. $result  . "\n", FILE_APPEND);
+            //file_put_contents($pathToLogFile, 'result search = ' . $result . "\n", FILE_APPEND);
         }
     }  //Цикл по все занятиям. [конец]
 } // Поиск занятия. [конец]
 elseif ('/assessmentReport' === $_SERVER['PATH_INFO']) {      // Поиск оценок. [начало]
-    file_put_contents($pathToLogFile, 'select search by Report' . "\n", FILE_APPEND);
+    //file_put_contents($pathToLogFile, 'select search by Report' . "\n", FILE_APPEND);
     $httpCode = 200;
     $result = [];
 
     foreach ($Reports as $report) {
-        if (array_key_exists('item_name', $_GET)) // Поиск по присутвию item_name в GET запросе и совпадению item_name в запросе и массиве оценок. [начало]
+        if (array_key_exists(
+            'item_name',
+            $_GET
+        )) // Поиск по присутвию item_name в GET запросе и совпадению item_name в запросе и массиве оценок. [начало]
         {
             $ReportMeetSearchCriteria = ($_GET['item_name'] === $ItemsIdToInfo[$LessonIdToInfo[$report['lesson_id']]['item_id']]['name']);
-
         }// Поиск по присутвию item_name в GET запросе и совпадению item_name в запросе и массиве оценок. [конец]
-        if (array_key_exists('item_description', $_GET))
-        {
+        if (array_key_exists('item_description', $_GET)) {
             $ReportMeetSearchCriteria = ($_GET['item_description'] === $ItemsIdToInfo[$LessonIdToInfo[$report['lesson_id']]['item_id']]['description']);
         }
-        if (array_key_exists('lesson_date', $_GET))
-        {
+        if (array_key_exists('lesson_date', $_GET)) {
             $ReportMeetSearchCriteria = ($_GET['lesson_date'] === $LessonIdToInfo[$report['lesson_id']]['date']);
         }
-        if (array_key_exists('student_fio', $_GET))
-        {
+        if (array_key_exists('student_fio', $_GET)) {
             $ReportMeetSearchCriteria = ($_GET['student_fio'] === $StudentIdToInfo[$report['student_id']]['fio']);
         }
 
@@ -156,7 +173,7 @@ elseif ('/assessmentReport' === $_SERVER['PATH_INFO']) {      // Поиск оц
             unset($report['lesson_id']);
             unset($report['student_id']);
             $result[] = $report;
-            file_put_contents($pathToLogFile, 'result search = '. $result  . "\n", FILE_APPEND);
+            //file_put_contents($pathToLogFile, 'result search = ' . $result . "\n", FILE_APPEND);
         }
     }//Цикл по оценкам [конец]
 } // Поиск оценок. [конец]

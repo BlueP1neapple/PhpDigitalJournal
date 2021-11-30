@@ -1,4 +1,45 @@
 <?php
+    // Функции
+    /**
+     * Функция рэдеренга
+     * @param int $httpCode - код ответа
+     * @param array $data - ответ
+     */
+    function render(int $httpCode, array $data):void
+    {
+        header('Content-Type: application/json');
+        http_response_code($httpCode);
+        echo json_encode($data);
+        exit();
+    }
+    /**
+     * Обработка ошибок
+     * @param string $status - статус ответа
+     * @param string $message - сообщение об ошибке
+     * @param int $httpCode - код ошибки
+     */
+    function errorHandLing(string $status, string $message, int $httpCode):void
+    {
+        //logger($message);
+        $result = [
+            'status' => $status,
+            'message' => $message
+        ];
+        render($httpCode,$result);
+        exit();
+    }
+    /**
+     * Функция валидации
+     * @param string $paramName - Имя параметра
+     * @param array $params - все параметры
+     * @param string $errorMsg - сообщение об ошибке
+     */
+    function paramTypeValidation (string $paramName, array $params, string $errorMsg):void
+    {
+        if(array_key_exists($paramName,$params)&&false===is_string($params[$paramName])) {
+            errorHandLing('fail',$errorMsg,  500);
+        }
+    }
 // Перевод json в массив
 $pathToItem=__DIR__ . '/JSON/item.json';
 $ItemTxt=file_get_contents($pathToItem);
@@ -44,110 +85,33 @@ file_put_contents($pathToLogFile,'Url request received: ' . $_SERVER['REQUEST_UR
 
 $pathInfo =array_key_exists('PATH_INFO',$_SERVER)&&$_SERVER['PATH_INFO']?$_SERVER['PATH_INFO']:''; // Создаётся переменная, пафИнфо для того, что запросы без PATH_INFO обрабатывались корректно
 
-// Ветви
 if('/lesson'===$pathInfo)      // Поиск занятия. [начало]
 {
+    foreach ($Items as $Item)// Делаем ключ id по предмету
+    {
+        $ItemsIdToInfo[$Item['id']] = $Item;
+    } // Сделали ключ id по предмету
+    foreach ($Teachers as $Teacher)// Делаем ключ id по преподавателю
+    {
+        $TeachersIdToInfo[$Teacher['id']] = $Teacher;
+    } // Сделали ключ id по преподавателю
+    foreach ($Classes as $Class)// Делаем ключ id по классам
+    {
+        $ClassesIdToInfo[$Class['id']] = $Class;
+    } // Сделали ключ id по классам
+    foreach ($Lessons as $lesson) {
+        $LessonIdToInfo[$lesson['id']] = $lesson;
+    } // Ключи id по урокам
     $httpCode=200;
     $result=[];
-    $searchParamCorrect =true;
     file_put_contents($pathToLogFile,'dispatch "lesson" url' . "\n", FILE_APPEND);
-
-    if (array_key_exists('item_name',$_GET)&& false=== is_string($_GET['item_name']))// Ввод в result сообщения об неккоретном названии предмета, присваение кода 500, и статуса fail [начало]
-    {
-        file_put_contents($pathToLogFile,'Incorrect item name' . "\n", FILE_APPEND);
-        $result=[
-            'status'=>'fail',
-            'message'=>'Incorrect item name'
-        ];
-        $httpCode=500;
-        $searchParamCorrect=false;
-    }// Ввод в result сообщения об неккоретном названии предмета, присваение кода 500, и статуса fail [конец]
-    if (array_key_exists('item_description',$_GET)&& false=== is_string($_GET['item_description']))// Ввод в result сообщения об неккоретном расшифровке предмета, присваение кода 500, и статуса fail [начало]
-    {
-        file_put_contents($pathToLogFile,'Incorrect item description' . "\n", FILE_APPEND);
-        $result=[
-            'status'=>'fail',
-            'message'=>'Incorrect item description'
-        ];
-        $httpCode=500;
-        $searchParamCorrect=false;
-    }// Ввод в result сообщения об неккоретном расшифровке предмета, присваение кода 500, и статуса fail [конец]
-    if (array_key_exists('date',$_GET)&& false=== is_string($_GET['date']))// Ввод в result сообщения об неккоретной дате занятия, присваение кода 500, и статуса fail [начало]
-    {
-        file_put_contents($pathToLogFile,'Incorrect date' . "\n", FILE_APPEND);
-        $result=[
-            'status'=>'fail',
-            'message'=>'Incorrect date'
-        ];
-        $httpCode=500;
-        $searchParamCorrect=false;
-    }// Ввод в result сообщения об неккоретной дате занятия, присваение кода 500, и статуса fail [конец]
-    if (array_key_exists('teacher_fio',$_GET)&& false=== is_string($_GET['teacher_fio']))// Ввод в result сообщения об неккоретной fio преподавателя, присваение кода 500, и статуса fail [начало]
-    {
-        file_put_contents($pathToLogFile,'Incorrect teacher fio' . "\n", FILE_APPEND);
-        $result=[
-            'status'=>'fail',
-            'message'=>'Incorrect teacher fio'
-        ];
-        $httpCode=500;
-        $searchParamCorrect=false;
-    }// Ввод в result сообщения об неккоретной fio преподавателя, присваение кода 500, и статуса fail [конец]
-    if (array_key_exists('teacher_cabinet',$_GET)&& false=== is_string($_GET['teacher_cabinet']))// Ввод в result сообщения об неккоретной кабинета преподавателя, присваение кода 500, и статуса fail [начало]
-    {
-        file_put_contents($pathToLogFile,'Incorrect teacher cabinet' . "\n", FILE_APPEND);
-        $result=[
-            'status'=>'fail',
-            'message'=>'Incorrect teacher cabinet'
-        ];
-        $httpCode=500;
-        $searchParamCorrect=false;
-    }// Ввод в result сообщения об неккоретной кабинета преподавателя, присваение кода 500, и статуса fail [конец]
-    if (array_key_exists('class_number',$_GET)&& false=== is_string($_GET['class_number']))// Ввод в result сообщения об неккоретной номера класса, присваение кода 500, и статуса fail [начало]
-    {
-        file_put_contents($pathToLogFile,'Incorrect class number' . "\n", FILE_APPEND);
-        $result=[
-            'status'=>'fail',
-            'message'=>'Incorrect class number'
-        ];
-        $httpCode=500;
-        $searchParamCorrect=false;
-    }// Ввод в result сообщения об неккоретной номера класса, присваение кода 500, и статуса fail [конец]
-    if (array_key_exists('class_letter',$_GET)&& false=== is_string($_GET['class_letter']))// Ввод в result сообщения об неккоретной буквы класса, присваение кода 500, и статуса fail [начало]
-    {
-        file_put_contents($pathToLogFile,'Incorrect class letter' . "\n", FILE_APPEND);
-        $result=[
-            'status'=>'fail',
-            'message'=>'Incorrect class letter'
-        ];
-        $httpCode=500;
-        $searchParamCorrect=false;
-    }// Ввод в result сообщения об неккоретной буквы класса, присваение кода 500, и статуса fail [конец]
-
-foreach ($Items as $Item)// Делаем ключ id по предмету
-{
-    $ItemsIdToInfo[$Item['id']] = $Item;
-} // Сделали ключ id по предмету
-foreach ($Teachers as $Teacher)// Делаем ключ id по преподавателю
-{
-    $TeachersIdToInfo[$Teacher['id']] = $Teacher;
-} // Сделали ключ id по преподавателю
-foreach ($Classes as $Class)// Делаем ключ id по классам
-{
-    $ClassesIdToInfo[$Class['id']] = $Class;
-} // Сделали ключ id по классам
-foreach ($Lessons as $lesson) {
-    $LessonIdToInfo[$lesson['id']] = $lesson;
-} // Ключи id по урокам
-foreach ($Reports as $report) {
-    $ReportIdToInfo[$report['id']] = $report;
-}
-foreach ($Students as $student) {
-    $StudentIdToInfo[$student['id']] = $student;
-}
-foreach ($Parents as $parent) {
-    $ParentIdToInfo[$parent['id']] = $parent;
-}
-
+    paramTypeValidation('item_name',$_GET,'Incorrect item name');
+    paramTypeValidation('item_description',$_GET,'Incorrect item description');
+    paramTypeValidation('date',$_GET,'Incorrect date');
+    paramTypeValidation('teacher_fio',$_GET,'Incorrect teacher fio');
+    paramTypeValidation('teacher_cabinet',$_GET,'Incorrect teacher cabinet');
+    paramTypeValidation('class_number',$_GET,'Incorrect class number');
+    paramTypeValidation('class_letter',$_GET,'Incorrect class letter');
 
         foreach($Lessons as $lesson) // Цикл по все занятиям. [начало]
         {
@@ -179,22 +143,41 @@ foreach ($Parents as $parent) {
             {
                 $LessonMeetSearchCriteria=($_GET['class_letter']===$ClassesIdToInfo[$lesson['class_id']]['letter']);
             }// Поиск по присутвию class_letter в GET запросе и совпадению class_letter в запросе и массиве занятий. [конец]
-
-            if ($LessonMeetSearchCriteria)
-            {
-                $lesson['item']=$ItemsIdToInfo[$lesson['item_id']];
-                $lesson['teacher']=$TeachersIdToInfo[$lesson['teacher_id']];
-                $lesson['class']=$ClassesIdToInfo[$lesson['class_id']];
-                unset($lesson['item_id']);
-                unset($lesson['teacher_id']);
-                unset($lesson['class_id']);
-                $result[]=$lesson;
-            }
+            $lesson['item']=$ItemsIdToInfo[$lesson['item_id']];
+            $lesson['teacher']=$TeachersIdToInfo[$lesson['teacher_id']];
+            $lesson['class']=$ClassesIdToInfo[$lesson['class_id']];
+            unset($lesson['item_id']);
+            unset($lesson['teacher_id']);
+            unset($lesson['class_id']);
+            $result[]=$lesson;
         }  //Цикл по все занятиям. [конец]
-    }
     file_put_contents($pathToLogFile,'found lesson"' . "\n", FILE_APPEND);
 } // Поиск занятия. [конец]
 elseif ('/assessmentReport' === $_SERVER['PATH_INFO']) {      // Поиск оценок. [начало]
+    foreach ($Items as $Item)// Делаем ключ id по предмету
+    {
+        $ItemsIdToInfo[$Item['id']] = $Item;
+    } // Сделали ключ id по предмету
+    foreach ($Teachers as $Teacher)// Делаем ключ id по преподавателю
+    {
+        $TeachersIdToInfo[$Teacher['id']] = $Teacher;
+    } // Сделали ключ id по преподавателю
+    foreach ($Classes as $Class)// Делаем ключ id по классам
+    {
+        $ClassesIdToInfo[$Class['id']] = $Class;
+    } // Сделали ключ id по классам
+    foreach ($Lessons as $lesson) {
+        $LessonIdToInfo[$lesson['id']] = $lesson;
+    } // Ключи id по урокам
+    foreach ($Reports as $report) {
+        $ReportIdToInfo[$report['id']] = $report;
+    }
+    foreach ($Students as $student) {
+        $StudentIdToInfo[$student['id']] = $student;
+    }
+    foreach ($Parents as $parent) {
+        $ParentIdToInfo[$parent['id']] = $parent;
+    }
     file_put_contents($pathToLogFile, 'select search by Report' . "\n", FILE_APPEND);
     $httpCode = 200;
     $result = [];
@@ -232,7 +215,6 @@ elseif ('/assessmentReport' === $_SERVER['PATH_INFO']) {      // Поиск оц
         }
     }//Цикл по оценкам [конец]
 } // Поиск оценок. [конец]
-
 else
 {
     file_put_contents($pathToLogFile,'Incorrect url"' . "\n", FILE_APPEND);
@@ -242,8 +224,4 @@ else
         'message'=>'unsupported request',
     ];
 }
-
-
-header('Content-type: application/json');
-http_response_code($httpCode);
-echo json_encode($result);
+    render($httpCode,$result);

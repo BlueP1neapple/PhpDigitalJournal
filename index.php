@@ -15,13 +15,29 @@ $ClassTxt=file_get_contents($pathToClass);
 $Classes=json_decode($ClassTxt, true); // Перевод class.json в php массив
 $ClassesIdToInfo = [];
 
-$PathToLesson = __DIR__ .'/JSON/lesson.json';
-$LessonTxt=file_get_contents($PathToLesson);
-$Lessons=json_decode($LessonTxt,true);  // Перевод lesson.json в php массив
-
 $pathToReport=__DIR__ . '/JSON/assessmentReport.json';
 $ReportTxt=file_get_contents($pathToReport);
 $Report=json_decode($ReportTxt, true); // Перевод assessmentReport.json в php массив
+
+$PathToLesson = __DIR__ . '/JSON/lesson.json';
+$LessonTxt = file_get_contents($PathToLesson);
+$Lessons = json_decode($LessonTxt, true);  // Перевод lesson.json в php массив
+$LessonIdToInfo = [];
+
+$pathToReport = __DIR__ . '/JSON/assessmentReport.json';
+$ReportTxt = file_get_contents($pathToReport);
+$Reports = json_decode($ReportTxt, true); // Перевод assessmentReport.json в php массив
+$ReportIdToInfo = [];
+
+$pathToStudent = __DIR__ . '/JSON/student.json';
+$StudentTxt = file_get_contents($pathToStudent);
+$Students = json_decode($StudentTxt, true);
+$StudentIdToInfo = [];
+
+$pathToParent = __DIR__ . '/JSON/parent.json';
+$ParentTxt = file_get_contents($pathToParent);
+$Parents = json_decode($ParentTxt, true);
+$ParentIdToInfo = [];
 
 $pathToLogFile = __DIR__ . '/app.log';
 file_put_contents($pathToLogFile,'Url request received: ' . $_SERVER['REQUEST_URI'] . "\n", FILE_APPEND); // Логирование
@@ -107,22 +123,31 @@ if('/lesson'===$pathInfo)      // Поиск занятия. [начало]
         $searchParamCorrect=false;
     }// Ввод в result сообщения об неккоретной буквы класса, присваение кода 500, и статуса fail [конец]
 
-    if ($searchParamCorrect)
-    {
-        file_put_contents($pathToLogFile,'dispatch "searchParamCorrect"' . "\n", FILE_APPEND);
-        // создаем ключи
-        foreach ($Items as $Item)// Делаем ключ id по предмету
-        {
-            $ItemsIdToInfo[$Item['id']]=$Item;
-        } // Сделали ключ id по предмету
-        foreach ($Teachers as $Teacher)// Делаем ключ id по преподавателю
-        {
-            $TeachersIdToInfo[$Teacher['id']]=$Teacher;
-        } // Сделали ключ id по преподавателю
-        foreach ($Classes as $Class)// Делаем ключ id по классам
-        {
-            $ClassesIdToInfo[$Class['id']]=$Class;
-        } // Сделали ключ id по классам
+foreach ($Items as $Item)// Делаем ключ id по предмету
+{
+    $ItemsIdToInfo[$Item['id']] = $Item;
+} // Сделали ключ id по предмету
+foreach ($Teachers as $Teacher)// Делаем ключ id по преподавателю
+{
+    $TeachersIdToInfo[$Teacher['id']] = $Teacher;
+} // Сделали ключ id по преподавателю
+foreach ($Classes as $Class)// Делаем ключ id по классам
+{
+    $ClassesIdToInfo[$Class['id']] = $Class;
+} // Сделали ключ id по классам
+foreach ($Lessons as $lesson) {
+    $LessonIdToInfo[$lesson['id']] = $lesson;
+} // Ключи id по урокам
+foreach ($Reports as $report) {
+    $ReportIdToInfo[$report['id']] = $report;
+}
+foreach ($Students as $student) {
+    $StudentIdToInfo[$student['id']] = $student;
+}
+foreach ($Parents as $parent) {
+    $ParentIdToInfo[$parent['id']] = $parent;
+}
+
 
         foreach($Lessons as $lesson) // Цикл по все занятиям. [начало]
         {
@@ -169,25 +194,41 @@ if('/lesson'===$pathInfo)      // Поиск занятия. [начало]
     }
     file_put_contents($pathToLogFile,'found lesson"' . "\n", FILE_APPEND);
 } // Поиск занятия. [конец]
-
-elseif('/assessmentReport'===$_SERVER['PATH_INFO']){      // Поиск оценок. [начало]
-    $httpCode=200;
-    $result=[];
-
-    foreach ($Report as $report){
-        if(array_key_exists('item_name',$_GET)) // Поиск по присутвию item_name в GET запросе и совпадению item_name в запросе и массиве оценок. [начало]
+elseif ('/assessmentReport' === $_SERVER['PATH_INFO']) {      // Поиск оценок. [начало]
+    file_put_contents($pathToLogFile, 'select search by Report' . "\n", FILE_APPEND);
+    $httpCode = 200;
+    $result = [];
+    foreach ($Reports as $report) {
+        if (array_key_exists(
+            'item_name',
+            $_GET
+        )) // Поиск по присутвию item_name в GET запросе и совпадению item_name в запросе и массиве оценок. [начало]
         {
-            $ReportMeetSearchCriteria=($_GET['item_name']===$ItemsIdToInfo[$report['item_id']]['name']);
+            $ReportMeetSearchCriteria = ($_GET['item_name'] === $ItemsIdToInfo[$LessonIdToInfo[$report['lesson_id']]['item_id']]['name']);
         }// Поиск по присутвию item_name в GET запросе и совпадению item_name в запросе и массиве оценок. [конец]
-        if ($ReportMeetSearchCriteria)
-        {
-            $report['item']=$ItemsIdToInfo[$report['item_id']];
-            $report['teacher']=$TeachersIdToInfo[$report['teacher_id']];
-            $report['class']=$ClassesIdToInfo[$report['class_id']];
-            unset($report['item_id']);
-            unset($report['teacher_id']);
-            unset($report['class_id']);
-            $result[]=$report;
+        if (array_key_exists('item_description', $_GET)) {
+            $ReportMeetSearchCriteria = ($_GET['item_description'] === $ItemsIdToInfo[$LessonIdToInfo[$report['lesson_id']]['item_id']]['description']);
+        }
+        if (array_key_exists('lesson_date', $_GET)) {
+            $ReportMeetSearchCriteria = ($_GET['lesson_date'] === $LessonIdToInfo[$report['lesson_id']]['date']);
+        }
+        if (array_key_exists('student_fio', $_GET)) {
+            $ReportMeetSearchCriteria = ($_GET['student_fio'] === $StudentIdToInfo[$report['student_id']]['fio']);
+        }
+
+        if ($ReportMeetSearchCriteria) {
+            $report['student'] = $StudentIdToInfo[$report['student_id']];
+            $report['lesson'] = $LessonIdToInfo[$report['lesson_id']];
+            $report['lesson']['item'] = $ItemsIdToInfo[$report['lesson']['item_id']];
+            $report['lesson']['teacher'] = $TeachersIdToInfo[$report['lesson']['teacher_id']];
+            $report['lesson']['class'] = $ClassesIdToInfo[$report['student']['class_id']];
+
+            $report['student']['parent'] = $ParentIdToInfo[$report['student']['parent_id']];
+            unset($report['id']);
+            unset($report['lesson_id']);
+            unset($report['student_id']);
+            $result[] = $report;
+            file_put_contents($pathToLogFile, 'result search = ' . $result . "\n", FILE_APPEND);
         }
     }//Цикл по оценкам [конец]
 } // Поиск оценок. [конец]

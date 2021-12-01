@@ -5,6 +5,9 @@ include "functions/application.php";
 
 
 
-$resultApplication = app();
+$resultApplication = app(
+    $_SERVER['REQUEST_URI'], //Полный путь запроса
+    $_GET, //Глобальная перменная с параметрами поиска
+    'loggerInFile'); //Название функции логирования
 
 render($resultApplication['httpCode'], $resultApplication['result']);

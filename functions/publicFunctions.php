@@ -26,40 +26,36 @@ function render(int $httpCode, array $data): void
 }
 
 /**
- * Обработка ошибок
- * @param string $status - статус ответа
- * @param string $message - сообщение об ошибке
- * @param int $httpCode - код ошибки
- */
-function errorHandLing(string $status, string $message, int $httpCode): void
-{
-    //logger($message);
-    $result = [
-        'status' => $status,
-        'message' => $message
-    ];
-    render($httpCode, $result);
-    exit();
-}
-
-/**
  * Функция валидации
- * @param string $paramName - Имя параметра
+ * @param array $validateParameters - валидируемые параметры, ключ имя параметра, значение - текст ошибки
  * @param array $params - все параметры
- * @param string $errorMsg - сообщение об ошибке
+ * @return array - сообщение о ошибках,
  */
-function paramTypeValidation(string $paramName, array $params, string $errorMsg): void
+function paramTypeValidation(array $validateParameters, array $params):?array
 {
-    if (array_key_exists($paramName, $params) && false === is_string($params[$paramName])) {
-        errorHandLing('fail', $errorMsg, 500);
+    $result=null;
+    foreach($validateParameters as $paramName => $errorMsg)
+    {
+        if(array_key_exists($paramName,$params)&&false===is_string($params[$paramName]))
+        {
+            $result=[
+                'httpCode'=>500,
+                'result'=>[
+                    'status'=>'fail',
+                    'message'=>$errorMsg,
+                ]
+            ];
+            break;
+        }
     }
+    return $result;
 }
 
 /**
  * Логгирование текстовым сообщением
- * @param string $errMsg
+ * @param string $errorString - сообщение ошибки
  */
-function logger(string $errorString): void
+function loggerInFile(string $errorString): void
 {
     file_put_contents(__DIR__ . "/../app.log", $errorString . "\n", FILE_APPEND);
 }

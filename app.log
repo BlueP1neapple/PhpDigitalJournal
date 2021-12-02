@@ -631,3 +631,153 @@ Url request received: /lesson?class_letter%5B%5D=%D0%90
 dispatch "lesson" url
 Url request received: /?param=ru
 
+Url request received: /lesson?item_name=%D0%9C%D0%B0%D1%82%D0%B5%D0%BC%D0%B0%D1%82%D0%B8%D0%BA%D0%B0
+
+dispatch "lesson" url
+found lessons3
+Url request received: /lesson?item_name=%D0%9C%D0%B0%D1%82%D0%B5%D0%BC%D0%B0%D1%82%D0%B8%D0%BA%D0%B0
+
+dispatch "lesson" url
+found lessons3
+Url request received: /lesson?item_description=%D0%9C%D0%B0%D1%82%D0%B5%D0%BC%D0%B0%D1%82%D0%B8%D0%BA%D0%B0
+
+dispatch "lesson" url
+found lessons3
+Url request received: /lesson?date=2011.11.10+8%3A30
+
+dispatch "lesson" url
+found lessons1
+Url request received: /lesson?teacher_fio=%D0%9A%D1%80%D1%83%D0%B3%D0%BB%D0%BE%D0%B2%D0%B0+%D0%9D%D0%B0%D1%82%D0%B0%D0%BB%D0%B8%D1%8F+%D0%A1%D0%B5%D1%80%D0%B3%D0%B5%D0%B5%D0%B2%D0%BD%D0%B0
+
+dispatch "lesson" url
+found lessons3
+Url request received: /lesson?teacher_cabinet=56
+
+dispatch "lesson" url
+found lessons3
+Url request received: /lesson?class_number=6
+
+dispatch "lesson" url
+found lessons1
+Url request received: /lesson?class_letter=%D0%90
+
+dispatch "lesson" url
+found lessons3
+Url request received: /lesson?class_number=6&class_letter=%D0%90
+
+dispatch "lesson" url
+found lessons3
+Url request received: /hhh?param=ru
+
+Url request received: /lesson?item_name%5B%5D=%D0%9C%D0%B0%D1%82%D0%B5%D0%BC%D0%B0%D1%82%D0%B8%D0%BA%D0%B0
+
+dispatch "lesson" url
+Url request received: /lesson?item_description%5B%5D=%D0%9C%D0%B0%D1%82%D0%B5%D0%BC%D0%B0%D1%82%D0%B8%D0%BA%D0%B0
+
+dispatch "lesson" url
+Url request received: /lesson?date%5B%5D=2011.11.10+8%3A30
+
+dispatch "lesson" url
+Url request received: /lesson?teacher_fio%5B%5D=%D0%9A%D1%80%D1%83%D0%B3%D0%BB%D0%BE%D0%B2%D0%B0+%D0%9D%D0%B0%D1%82%D0%B0%D0%BB%D0%B8%D1%8F+%D0%A1%D0%B5%D1%80%D0%B3%D0%B5%D0%B5%D0%B2%D0%BD%D0%B0
+
+dispatch "lesson" url
+Url request received: /lesson?teacher_cabinet%5B%5D=56
+
+dispatch "lesson" url
+Url request received: /lesson?class_number%5B%5D=6
+
+dispatch "lesson" url
+Url request received: /lesson?class_letter%5B%5D=%D0%90
+
+dispatch "lesson" url
+Url request received: /?param=ru
+
+Url request received: /assessmentReport?item_name=%D0%9C%D0%B0%D1%82%D0%B5%D0%BC%D0%B0%D1%82%D0%B8%D0%BA%D0%B0
+
+dispatch "assessmentReport" url
+found Report4
+Url request received: /assessmentReport?item_description=%D0%9C%D0%B0%D1%82%D0%B5%D0%BC%D0%B0%D1%82%D0%B8%D0%BA%D0%B0
+
+dispatch "assessmentReport" url
+found Report4
+Url request received: /assessmentReport?lesson_date=2011.11.10+8%3A30
+
+dispatch "assessmentReport" url
+found Report3
+Url request received: /assessmentReport?student_fio=%D0%9A%D1%83%D0%B7%D0%BD%D0%B5%D1%86%D0%BE%D0%B2+%D0%90%D0%BB%D0%B5%D0%BA%D1%81%D0%B5%D0%B9+%D0%95%D0%B2%D0%B3%D0%B5%D0%BD%D1%8C%D0%B5%D0%B2%D0%B8%D1%87
+
+dispatch "assessmentReport" url
+found Report2
+Url request received: /lesson?item_name=%D0%9C%D0%B0%D1%82%D0%B5%D0%BC%D0%B0%D1%82%D0%B8%D0%BA%D0%B0
+
+dispatch "lesson" url
+found lessons3
+Url request received: /lesson?item_description=%D0%9C%D0%B0%D1%82%D0%B5%D0%BC%D0%B0%D1%82%D0%B8%D0%BA%D0%B0
+
+dispatch "lesson" url
+found lessons3
+Url request received: /lesson?date=2011.11.10+8%3A30
+
+dispatch "lesson" url
+found lessons1
+Url request received: /lesson?teacher_fio=%D0%9A%D1%80%D1%83%D0%B3%D0%BB%D0%BE%D0%B2%D0%B0+%D0%9D%D0%B0%D1%82%D0%B0%D0%BB%D0%B8%D1%8F+%D0%A1%D0%B5%D1%80%D0%B3%D0%B5%D0%B5%D0%B2%D0%BD%D0%B0
+
+dispatch "lesson" url
+found lessons3
+Url request received: /lesson?teacher_cabinet=56
+
+dispatch "lesson" url
+found lessons3
+Url request received: /lesson?class_number=6
+
+dispatch "lesson" url
+found lessons1
+Url request received: /lesson?class_letter=%D0%90
+
+dispatch "lesson" url
+found lessons3
+Url request received: /lesson?class_number=6&class_letter=%D0%90
+
+dispatch "lesson" url
+found lessons3
+Url request received: /hhh?param=ru
+
+Url request received: /lesson?item_name%5B%5D=%D0%9C%D0%B0%D1%82%D0%B5%D0%BC%D0%B0%D1%82%D0%B8%D0%BA%D0%B0
+
+dispatch "lesson" url
+Url request received: /lesson?item_description%5B%5D=%D0%9C%D0%B0%D1%82%D0%B5%D0%BC%D0%B0%D1%82%D0%B8%D0%BA%D0%B0
+
+dispatch "lesson" url
+Url request received: /lesson?date%5B%5D=2011.11.10+8%3A30
+
+dispatch "lesson" url
+Url request received: /lesson?teacher_fio%5B%5D=%D0%9A%D1%80%D1%83%D0%B3%D0%BB%D0%BE%D0%B2%D0%B0+%D0%9D%D0%B0%D1%82%D0%B0%D0%BB%D0%B8%D1%8F+%D0%A1%D0%B5%D1%80%D0%B3%D0%B5%D0%B5%D0%B2%D0%BD%D0%B0
+
+dispatch "lesson" url
+Url request received: /lesson?teacher_cabinet%5B%5D=56
+
+dispatch "lesson" url
+Url request received: /lesson?class_number%5B%5D=6
+
+dispatch "lesson" url
+Url request received: /lesson?class_letter%5B%5D=%D0%90
+
+dispatch "lesson" url
+Url request received: /?param=ru
+
+Url request received: /assessmentReport?item_name=%D0%9C%D0%B0%D1%82%D0%B5%D0%BC%D0%B0%D1%82%D0%B8%D0%BA%D0%B0
+
+dispatch "assessmentReport" url
+found Report4
+Url request received: /assessmentReport?item_description=%D0%9C%D0%B0%D1%82%D0%B5%D0%BC%D0%B0%D1%82%D0%B8%D0%BA%D0%B0
+
+dispatch "assessmentReport" url
+found Report4
+Url request received: /assessmentReport?lesson_date=2011.11.10+8%3A30
+
+dispatch "assessmentReport" url
+found Report3
+Url request received: /assessmentReport?student_fio=%D0%9A%D1%83%D0%B7%D0%BD%D0%B5%D1%86%D0%BE%D0%B2+%D0%90%D0%BB%D0%B5%D0%BA%D1%81%D0%B5%D0%B9+%D0%95%D0%B2%D0%B3%D0%B5%D0%BD%D1%8C%D0%B5%D0%B2%D0%B8%D1%87
+
+dispatch "assessmentReport" url
+found Report2

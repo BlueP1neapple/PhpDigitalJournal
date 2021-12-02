@@ -24,35 +24,13 @@
         ];
         if(null===($result=paramTypeValidation($paramValidations,$request)))
         {
-            $itemsIdToInfo=[];
-            $teachersIdToInfo=[];
-            $classesIdToInfo=[];
-            $lessonIdToInfo=[];
-            $studentIdToInfo=[];
-            $parentIdToInfo=[];
             $foundReport=[];
-            foreach ($items as $Item)// Делаем ключ id по предмету
-            {
-                $itemsIdToInfo[$Item['id']] = $Item;
-            } // Сделали ключ id по предмету
-            foreach ($teachers as $Teacher)// Делаем ключ id по преподавателю
-            {
-                $teachersIdToInfo[$Teacher['id']] = $Teacher;
-            } // Сделали ключ id по преподавателю
-            foreach ($classes as $Class)// Делаем ключ id по классам
-            {
-                $classesIdToInfo[$Class['id']] = $Class;
-            } // Сделали ключ id по классам
-            foreach ($lessons as $lesson) {
-                $lessonIdToInfo[$lesson['id']] = $lesson;
-            } // Ключи id по урокам
-            foreach ($students as $student) {
-                $studentIdToInfo[$student['id']] = $student;
-            }
-            foreach ($parents as $parent) {
-                $parentIdToInfo[$parent['id']] = $parent;
-            }
-
+            $itemsIdToInfo = HashMap($items);
+            $teachersIdToInfo = HashMap($teachers);
+            $classesIdToInfo = HashMap($classes);
+            $lessonIdToInfo=HashMap($lessons);
+            $studentIdToInfo=HashMap($students);
+            $parentIdToInfo=HashMap($parents);
             foreach ($reports as $report) {
                 $ReportMeetSearchCriteria=null;
                 if (array_key_exists(

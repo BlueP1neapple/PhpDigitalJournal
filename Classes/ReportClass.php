@@ -1,104 +1,107 @@
 <?php
 
-class ReportClass implements JsonSerializable
-{
     /**
-     * @var int id оценки
+     * Класс оценок
      */
-    private int $id;
-
-    /**
-     * @var LessonClass Урок на котором получена оценка
-     */
-    private LessonClass $lesson;
-
-    /**
-     * @var StudentUserClass Ученик
-     */
-    private StudentUserClass $student;
-
-    /**
-     * @var int Оценка
-     */
-    private int $mark;
-
-    /**
-     * @return int получить id оценки
-     */
-    public function getId(): int
+    final class ReportClass implements JsonSerializable
     {
-        return $this->id;
+        /**
+         * @var int id оценки
+         */
+        private int $id;
+
+        /**
+         * @var LessonClass Урок на котором получена оценка
+         */
+        private LessonClass $lesson;
+
+        /**
+         * @var StudentUserClass Ученик
+         */
+        private StudentUserClass $student;
+
+        /**
+         * @var int Оценка
+         */
+        private int $mark;
+
+        /**
+         * Конструкор класса оценок
+         * @param int $id - id оценок
+         * @param LessonClass $lesson - Занятие в котором поставили оценку
+         * @param StudentUserClass $student - студент которому поставили оценку
+         * @param int $mark - значение оценки
+         */
+        public function __construct(int $id, LessonClass $lesson, StudentUserClass $student, int $mark)
+        {
+            $this->id = $id;
+            $this->lesson = $lesson;
+            $this->student = $student;
+            $this->mark = $mark;
+        }
+
+        /**
+         * Метод получения массива для кодирование в json
+         * @return array - массив для кодирования
+         */
+        public function jsonSerialize(): array
+        {
+            return [
+                'id' => $this->id,
+                'lesson' => $this->lesson,
+                'student' => $this->student,
+                'mark' => $this->mark
+            ];
+        }
+
+        /**
+         * Метод создания объекта класса Оценок из массива данных об оценках
+         * @param array $data - массив данных об оценках
+         * @return ReportClass - объект класса оценок
+         */
+        public static function createFromArray(array $data): ReportClass
+        {
+            return new ReportClass(
+                $data['id'],
+                $data['lesson_id'],
+                $data['student_id'],
+                $data['mark']
+            );
+        }
+
+        // Неиспользуемые методы
+        //    /**
+//     * @return int получить id оценки
+//     */
+//    public function getId(): int
+//    {
+//        return $this->id;
+//    }
+
+
+//    /**
+//     * @return LessonClass получить урок
+//     */
+//    public function getLesson(): LessonClass
+//    {
+//        return $this->lesson;
+//    }
+
+
+//    /**
+//     * @return StudentUserClass получить студента
+//     */
+//    public function getStudent(): StudentUserClass
+//    {
+//        return $this->student;
+//    }
+
+
+//    /**
+//     * @return int получить оценку
+//     */
+//    public function getMark(): int
+//    {
+//        return $this->mark;
+//    }
     }
-
-    /**
-     * @param int $id установить id оценки
-     */
-    public function setId(int $id): ReportClass
-    {
-        $this->id = $id;
-        return $this;
-    }
-
-    /**
-     * @return LessonClass получить урок
-     */
-    public function getLesson(): LessonClass
-    {
-        return $this->lesson;
-    }
-
-    /**
-     * @param LessonClass $lesson установить урок
-     */
-    public function setLesson(LessonClass $lesson): ReportClass
-    {
-        $this->lesson = $lesson;
-        return $this;
-    }
-
-    /**
-     * @return StudentUserClass получить студента
-     */
-    public function getStudent(): StudentUserClass
-    {
-        return $this->student;
-    }
-
-    /**
-     * @param StudentUserClass $student установить студента
-     */
-    public function setStudent(StudentUserClass $student): ReportClass
-    {
-        $this->student = $student;
-        return $this;
-    }
-
-    /**
-     * @return int получить оценку
-     */
-    public function getMark(): int
-    {
-        return $this->mark;
-    }
-
-    /**
-     * @param int $mark установить оценку
-     */
-    public function setMark(int $mark): ReportClass
-    {
-        $this->mark = $mark;
-        return $this;
-    }
-
-
-
-    public function jsonSerialize():array
-    {
-        return [
-            'id' => $this->id,
-            'lesson' => $this->lesson,
-            'student' => $this->student,
-            'mark' => $this->mark
-        ];
-    }
-}

@@ -1,56 +1,89 @@
 <?php
 
-class ParentUserClass extends AbstractUserClass
-{
-    /**
-     * @string Место работы родителя
-     */
-    private string $placeOfWork;
+
+    require_once __DIR__ . "/AbstractUserClass.php";
 
     /**
-     * @var string email родителя
+     * Класс Родителей
      */
-    private string $email;
-
-    /**
-     * @return string Получить Место работы родителя
-     */
-    public function getPlaceOfWork(): string
+    final class ParentUserClass extends AbstractUserClass
     {
-        return $this->placeOfWork;
-    }
+        /**
+         * @string Место работы родителя
+         */
+        private string $placeOfWork;
 
-    /**
-     * @param string $placeOfWork установить Место работы родителя
-     */
-    public function setPlaceOfWork(string $placeOfWork): ParentUserClass
-    {
-        $this->placeOfWork = $placeOfWork;
-        return $this;
-    }
+        /**
+         * @var string email родителя
+         */
+        private string $email;
 
-    /**
-     * @return string получить email родителя
-     */
-    public function getEmail(): string
-    {
-        return $this->email;
-    }
+        /**
+         * Конструктор класса Родетелей
+         * @inheritdoc
+         * @param string $placeOfWork - место работы родителей
+         * @param string $email - email родителей
+         */
+        public function __construct(
+            int $id,
+            string $fio,
+            string $dateOfBirth,
+            string $phone,
+            string $address,
+            string $placeOfWork,
+            string $email
+        ) {
+            parent::__construct($id, $fio, $dateOfBirth, $phone, $address);
+            $this->placeOfWork = $placeOfWork;
+            $this->email = $email;
+        }
 
-    /**
-     * @param string $email установить email родителя
-     */
-    public function setEmail(string $email): ParentUserClass
-    {
-        $this->email = $email;
-        return $this;
-    }
 
-    public function jsonSerialize():array
-    {
-        $jsonData = parent::jsonSerialize();
-        $jsonData['placeOfWork'] = $this->placeOfWork;
-        $jsonData['email'] = $this->email;
-        return $jsonData;
+        /**
+         * Метод получения массива для кодирование в json
+         * @return array - массив для кодирования
+         */
+        public function jsonSerialize(): array
+        {
+            $jsonData = parent::jsonSerialize();
+            $jsonData['placeOfWork'] = $this->placeOfWork;
+            $jsonData['email'] = $this->email;
+            return $jsonData;
+        }
+
+        /**
+         * Метод создания объекта класса Родителей из массива данных об Родетелях
+         * @inheritdoc
+         * @param array $data - Массив данных данных об родителях
+         * @return ParentUserClass - Объект класса Родителей
+         */
+        public static function createFromArray(array $data): ParentUserClass
+        {
+            return new ParentUserClass(
+                $data['id'],
+                $data['fio'],
+                $data['dateOfBirth'],
+                $data['phone'],
+                $data['address'],
+                $data['placeOfWork'],
+                $data['email']
+            );
+        }
+
+        //    /**
+//     * @return string Получить Место работы родителя
+//     */
+//    public function getPlaceOfWork(): string
+//    {
+//        return $this->placeOfWork;
+//    }
+
+
+//    /**
+//     * @return string получить email родителя
+//     */
+//    public function getEmail(): string
+//    {
+//        return $this->email;
+//    }
     }
-}

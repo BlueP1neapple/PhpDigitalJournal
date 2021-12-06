@@ -1,81 +1,90 @@
 <?php
 
-class ClassClass implements JsonSerializable
-{
-
     /**
-     * @var int id класса
+     * Класс классов
      */
-    private int $id;
-
-    /**
-     * @var int Номер класса
-     */
-    private int $number;
-
-    /**
-     * @var string Буква класса
-     */
-    private string $letter;
-
-    /**
-     * @return int получить id класса
-     */
-    public function getId(): int
+    final class ClassClass implements JsonSerializable
     {
-        return $this->id;
-    }
 
-    /**
-     * @param int $id установить id класса
-     */
-    public function setId(int $id): ClassClass
-    {
-        $this->id = $id;
-        return $this;
-    }
+        /**
+         * @var int id класса
+         */
+        private int $id;
 
-    /**
-     * @return int получить Номер класса
-     */
-    public function getNumber(): int
-    {
-        return $this->number;
-    }
+        /**
+         * @var int Номер класса
+         */
+        private int $number;
 
-    /**
-     * @param int $number установить Номер класса
-     */
-    public function setNumber(int $number): ClassClass
-    {
-        $this->number = $number;
-        return $this;
-    }
+        /**
+         * @var string Буква класса
+         */
+        private string $letter;
 
-    /**
-     * @return string получить Букву класса
-     */
-    public function getLetter(): string
-    {
-        return $this->letter;
-    }
-
-    /**
-     * @param string $letter установить Букву класса
-     */
-    public function setLetter(string $letter): ClassClass
-    {
-        $this->letter = $letter;
-        return $this;
-    }
+        /**
+         * Конструтор классов
+         * @param int $id
+         * @param int $number
+         * @param string $letter
+         */
+        public function __construct(int $id, int $number, string $letter)
+        {
+            $this->id = $id;
+            $this->number = $number;
+            $this->letter = $letter;
+        }
 
 
-    public function jsonSerialize():array
-    {
-        return[
-            'id' => $this->id,
-            'number' => $this->number,
-            'letter' => $this->letter
-        ];
+        /**
+         * @return int получить id класса
+         */
+        public function getId(): int
+        {
+            return $this->id;
+        }
+
+
+        /**
+         * @return int получить Номер класса
+         */
+        public function getNumber(): int
+        {
+            return $this->number;
+        }
+
+
+        /**
+         * @return string получить Букву класса
+         */
+        public function getLetter(): string
+        {
+            return $this->letter;
+        }
+
+
+        /**
+         * @return array - массив для кодирования в json
+         */
+        public function jsonSerialize(): array
+        {
+            return [
+                'id' => $this->id,
+                'number' => $this->number,
+                'letter' => $this->letter
+            ];
+        }
+
+        /**
+         * Метод создания объекта класса классов из масиива данных о классах
+         * @param array $data - массив данных о классах
+         * @return ClassClass - Объект класса классов
+         */
+        public static function createFromArray(array $data): ClassClass
+        {
+            return new ClassClass(
+                $data['id'],
+                $data['number'],
+                $data['letter'],
+            );
+        }
     }
-}

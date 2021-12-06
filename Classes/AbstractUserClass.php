@@ -1,130 +1,118 @@
 <?php
 
-abstract class AbstractUserClass implements JsonSerializable
-{
     /**
-     * Id пользователя
+     * Класс пользователя
      */
-    private int $id;
-
-    /**
-     * ФИО пользователя
-     */
-    private string $fio;
-
-    /**
-     * День Рождения пользователя
-     */
-    private string $dateOfBirth;
-
-    /**
-     * @var string Номер телефона пользователя
-     */
-    private string $phone;
-
-    /**
-     * @var string Адресс пользователя
-     */
-    private string $address;
-
-
-
-
-
-    /**
-     * @return int Получение id
-     */
-    public function getId(): int
+    abstract class AbstractUserClass implements JsonSerializable
     {
-        return $this->id;
-    }
+        /**
+         * Id пользователя
+         */
+        private int $id;
 
-    /**
-     * @param int $id Установить id
-     */
-    public function setId(int $id): AbstractUserClass
-    {
-        $this->id = $id;
-        return $this;
-    }
+        /**
+         * ФИО пользователя
+         */
+        private string $fio;
 
-    /**
-     * @return string Получение ФИО
-     */
-    public function getFio(): string
-    {
-        return $this->fio;
-    }
+        /**
+         * День Рождения пользователя
+         */
+        private string $dateOfBirth;
 
-    /**
-     * @param string $fio Установить ФИО
-     */
-    public function setFio(string $fio): AbstractUserClass
-    {
-        $this->fio = $fio;
-        return $this;
-    }
+        /**
+         * @var string Номер телефона пользователя
+         */
+        private string $phone;
 
-    /**
-     * @return string Получение  Даты Дня рождения
-     */
-    public function getDateOfBirth(): string
-    {
-        return $this->dateOfBirth;
-    }
+        /**
+         * @var string Адресс пользователя
+         */
+        private string $address;
 
-    /**
-     * @param string $dateOfBirth Установить Дату рождения
-     */
-    public function setDateOfBirth(string $dateOfBirth): AbstractUserClass
-    {
-        $this->dateOfBirth = $dateOfBirth;
-        return $this;
-    }
+        /**
+         * Конструктор Пользователя
+         * @param int $id - Id пользователя
+         * @param string $fio - ФИО пользователя
+         * @param string $dateOfBirth - Дата рождения Пользователя
+         * @param string $phone - Номер телефона Пользователя
+         * @param string $address - Домашний адресс пользователя
+         */
+        public function __construct(int $id, string $fio, string $dateOfBirth, string $phone, string $address)
+        {
+            $this->id = $id;
+            $this->fio = $fio;
+            $this->dateOfBirth = $dateOfBirth;
+            $this->phone = $phone;
+            $this->address = $address;
+        }
 
-    /**
-     * @return string Получение Номера телефона
-     */
-    public function getPhone(): string
-    {
-        return $this->phone;
-    }
 
-    /**
-     * @param string $phone Установить Номер телефона
-     */
-    public function setPhone(string $phone): AbstractUserClass
-    {
-        $this->phone = $phone;
-        return $this;
-    }
+        /**
+         * @return int Получение id
+         */
+        final public function getId(): int
+        {
+            return $this->id;
+        }
 
-    /**
-     * @return string Получение Адресса
-     */
-    public function getAddress(): string
-    {
-        return $this->address;
-    }
 
-    /**
-     * @param string $address Установить Адресс
-     */
-    public function setAddress(string $address): AbstractUserClass
-    {
-        $this->address = $address;
-        return $this;
-    }
+        /**
+         * @return string Получение ФИО
+         */
+        final public function getFio(): string
+        {
+            return $this->fio;
+        }
 
-    public function jsonSerialize():array
-    {
-        return [
-            'id' => $this->id,
-            'fio' => $this->fio,
-            'phone' => $this->phone,
-            'dateOfBirth' =>$this->dateOfBirth,
-            'address' =>$this->address
-        ];
-    }
+        /**
+         * @return array - Массив для кодирования в json
+         */
+        public function jsonSerialize(): array
+        {
+            return [
+                'id' => $this->id,
+                'fio' => $this->fio,
+                'phone' => $this->phone,
+                'dateOfBirth' => $this->dateOfBirth,
+                'address' => $this->address
+            ];
+        }
 
-}
+        /**
+         * Создание объекта класса пользователя из массива данных об Пользователе
+         * @param array $data - массив данных об Пользователе
+         * @return AbstractUserClass - объект класса пользователь
+         */
+        abstract public static function createFromArray(array $data): AbstractUserClass;
+
+        // Неиспользуемые методы
+
+//    /**
+//     * @return string Получение  Даты Дня рождения
+//     */
+//final public function getDateOfBirth(): string
+//    {
+//        return $this->dateOfBirth;
+//    }
+
+
+
+//    /**
+//     * @return string Получение Номера телефона
+//     */
+//    final public function getPhone(): string
+//    {
+//        return $this->phone;
+//    }
+
+
+//    /**
+//     * @return string Получение Адресса
+//     */
+//    final public function getAddress(): string
+//    {
+//        return $this->address;
+//    }
+
+    }

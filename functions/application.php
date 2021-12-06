@@ -59,21 +59,6 @@
     }
 
     /**
-     * Функция делающая Хэшмаппинг
-     * @param array $toMap - Массив в котором будет произведенн Хэшмаппинг
-     * @return array
-     */
-    function HashMap(array $toMap): array
-    {
-        $mapIdToInfo = [];
-        foreach ($toMap as $map)// Делаем ключ id по предмету
-        {
-            $mapIdToInfo[$map['id']] = $map;
-        } // Сделали ключ id по предмету
-        return $mapIdToInfo;
-    }
-
-    /**
      * Логика основного приложения
      *
      * @param array $handlers - массив сопоставляющий в url path с функциями реализующий логику обработки запроса

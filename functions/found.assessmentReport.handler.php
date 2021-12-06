@@ -32,6 +32,7 @@
             'student_fio' => 'Incorrect student fio',
         ];
         if (null === ($result = paramTypeValidation($paramValidations, $request))) {
+            //Хэшмапирование
             $foundReport = [];
             $itemsIdToInfo = [];
             $teachersIdToInfo = [];
@@ -40,71 +41,43 @@
             $studentIdToInfo = [];
             $parentIdToInfo = [];
 
-
             foreach ($items as $item) {
-                $itemsObj = new ItemClass();
-                $itemsObj->setId($item['id']);
-                $itemsObj->setName($item['name']);
-                $itemsObj->setDescription($item['description']);
-                $itemsIdToInfo[$item['id']] = $itemsObj;
+                $itemsObj = ItemClass::createFromArray($item);
+                $itemsIdToInfo[$itemsObj->getId()] = $itemsObj;
             }
 
             foreach ($teachers as $teacher) {
-                $teachersObj = new TeacherUserClass();
-                $teachersObj->setId($teacher['id'])
-                    ->setFio($teacher['fio'])
-                    ->setPhone($teacher['phone'])
-                    ->setAddress($teacher['address'])
-                    ->setCabinet($teacher['cabinet'])
-                    ->setEmail($teacher['email'])
-                    ->setItem($itemsIdToInfo[$teacher['idItem']])
-                    ->setDateOfBirth($teacher['dateOfBirth']);
-                $teachersIdToInfo[$teacher['id']] = $teachersObj;
+                $teacher['idItem'] = $itemsIdToInfo[$teacher['idItem']];
+                $teachersObj = TeacherUserClass::createFromArray($teacher);
+                $teachersIdToInfo[$teachersObj->getId()] = $teachersObj;
             }
 
             foreach ($classes as $class) {
-                $classesObj = new ClassClass();
-                $classesObj->setId($class['id']);
-                $classesObj->setNumber($class['number']);
-                $classesObj->setLetter($class['letter']);
-                $classesIdToInfo[$class['id']] = $classesObj;
+                $classesObj = ClassClass::createFromArray($class);
+                $classesIdToInfo[$classesObj->getId()] = $classesObj;
             }
 
             foreach ($lessons as $lesson) {
-                $lessonsObj = new LessonClass();
-                $lessonsObj->setId($lesson['id']);
-                $lessonsObj->setTeacher($teachersIdToInfo[$lesson['teacher_id']]);
-                $lessonsObj->setLessonDuration($lesson['lessonDuration']);
-                $lessonsObj->setDate($lesson['date']);
-                $lessonsObj->setItem($itemsIdToInfo[$lesson['item_id']]);
-                $lessonsObj->setClass($classesIdToInfo[$lesson['class_id']]);
-                $lessonIdToInfo[$lesson['id']] = $lessonsObj;
+                $lesson['item_id'] = $itemsIdToInfo[$lesson['item_id']];
+                $lesson['teacher_id'] = $teachersIdToInfo[$lesson['teacher_id']];
+                $lesson['class_id'] = $classesIdToInfo[$lesson['class_id']];
+                $lessonsObj = LessonClass::createFromArray($lesson);
+                $lessonIdToInfo[$lessonsObj->getId()] = $lessonsObj;
             }
+
             foreach ($parents as $parent) {
-                $parentsObj = new ParentUserClass();
-                $parentsObj->setId($parent['id']);
-                $parentsObj->setFio($parent['fio']);
-                $parentsObj->setDateOfBirth($parent['dateOfBirth']);
-                $parentsObj->setPhone($parent['phone']);
-                $parentsObj->setAddress($parent['address']);
-                $parentsObj->setPlaceOfWork($parent['placeOfWork']);
-                $parentsObj->setEmail($parent['email']);
-                $parentsObj->setEmail($parent['email']);
-                $parentIdToInfo[$parent['id']] = $parentsObj;
+                $parentsObj = ParentUserClass::createFromArray($parent);
+                $parentIdToInfo[$parentsObj->getId()] = $parentsObj;
             }
+
             foreach ($students as $student) {
-                $studentsObj = new StudentUserClass();
-                $studentsObj->setId($student['id']);
-                $studentsObj->setFio($student['fio']);
-                $studentsObj->setDateOfBirth($student['dateOfBirth']);
-                $studentsObj->setPhone($student['phone']);
-                $studentsObj->setAddress($student['address']);
-                $studentsObj->setClass($classesIdToInfo[$student['class_id']]);
-                $studentsObj->setParent($parentIdToInfo[$student['parent_id']]);
-                $studentIdToInfo[$student['id']] = $studentsObj;
+                $student['class_id'] = $classesIdToInfo[$student['class_id']];
+                $student['parent_id'] = $parentIdToInfo[$student['parent_id']];
+                $studentsObj = StudentUserClass::createFromArray($student);
+                $studentIdToInfo[$studentsObj->getId()] = $studentsObj;
             }
 
-
+            // Поиск оценок
             foreach ($reports as $report) {
                 $ReportMeetSearchCriteria = null;
                 if (array_key_exists(
@@ -112,32 +85,26 @@
                     $request
                 )) // Поиск по присутвию item_name в GET запросе и совпадению item_name в запросе и массиве оценок. [начало]
                 {
-                    $ReportMeetSearchCriteria = ($request['item_name'] === $itemsIdToInfo[$lessonIdToInfo[$report['lesson_id']]->getItem()->getId()]->getName());
+                    $ReportMeetSearchCriteria = ($request['item_name'] === $itemsIdToInfo[$lessonIdToInfo[$report['lesson_id']]->getItem(
+                        )->getId()]->getName());
                 }// Поиск по присутвию item_name в GET запросе и совпадению item_name в запросе и массиве оценок. [конец]
                 if (array_key_exists('item_description', $request)) {
-                    $ReportMeetSearchCriteria = ($request['item_description'] === $itemsIdToInfo[$lessonIdToInfo[$report['lesson_id']]->getItem()->getId()]->getDescription());
+                    $ReportMeetSearchCriteria = ($request['item_description'] === $itemsIdToInfo[$lessonIdToInfo[$report['lesson_id']]->getItem(
+                        )->getId()]->getDescription());
                 }
                 if (array_key_exists('lesson_date', $request)) {
-                    $ReportMeetSearchCriteria = ($request['lesson_date'] === $lessonIdToInfo[$report['lesson_id']]->getDate());
+                    $ReportMeetSearchCriteria = ($request['lesson_date'] === $lessonIdToInfo[$report['lesson_id']]->getDate(
+                        ));
                 }
                 if (array_key_exists('student_fio', $request)) {
-                    $ReportMeetSearchCriteria = ($request['student_fio'] === $studentIdToInfo[$report['student_id']]->getFio());
+                    $ReportMeetSearchCriteria = ($request['student_fio'] === $studentIdToInfo[$report['student_id']]->getFio(
+                        ));
                 }
 
-                if ($ReportMeetSearchCriteria) {
-                    $reportObj=new ReportClass();
-                    $reportObj->setId($report['id'])
-                    ->setLesson($lessonIdToInfo[$report['lesson_id']])
-                    ->setStudent($studentIdToInfo[$report['student_id']])
-                    ->setMark($report['mark']);
-                    /*$report['student'] = $studentIdToInfo[$report['student_id']];
-                    $report['lesson'] = $lessonIdToInfo[$report['lesson_id']];
-                    $report['lesson']['item'] = $itemsIdToInfo[$report['lesson']['item_id']];
-                    $report['lesson']['teacher'] = $teachersIdToInfo[$report['lesson']['teacher_id']];
-                    $report['lesson']['class'] = $classesIdToInfo[$report['student']['class_id']];
-                    $report['student']['parent'] = $parentIdToInfo[$report['student']['parent_id']];
-                    unset($report['id'], $report['lesson_id'], $report['student_id']);*/
-                    $foundReport[] = $reportObj;
+                if ($ReportMeetSearchCriteria) { // Отбор наёденных оценок
+                    $report['lesson_id'] = $lessonIdToInfo[$report['lesson_id']];
+                    $report['student_id'] = $studentIdToInfo[$report['student_id']];
+                    $foundReport[] = ReportClass::createFromArray($report);
                 }
             }//Цикл по оценкам [конец]
             $logger('found Report' . count($foundReport));

@@ -1,80 +1,91 @@
 <?php
 
-class ItemClass implements JsonSerializable
-{
     /**
-     * @int id предмета
+     * Класс Предметов
      */
-    private int $id;
-
-    /**
-     * @string имя предмета
-     */
-    private string $name;
-
-    /**
-     * @var string Полное название предмета
-     */
-    private string $description;
-
-    /**
-     * @return int получить id
-     */
-    public function getId(): int
+    final class ItemClass implements JsonSerializable
     {
-        return $this->id;
-    }
+        /**
+         * @int id предмета
+         */
+        private int $id;
 
-    /**
-     * @param int $id установить id
-     */
-    public function setId(int $id): ItemClass
-    {
-        $this->id = $id;
-        return $this;
-    }
+        /**
+         * @string имя предмета
+         */
+        private string $name;
 
-    /**
-     * @return string получить имя предмета
-     */
-    public function getName(): string
-    {
-        return $this->name;
-    }
+        /**
+         * @var string Полное название предмета
+         */
+        private string $description;
 
-    /**
-     * @param string $name установить имя предмета
-     */
-    public function setName(string $name): ItemClass
-    {
-        $this->name = $name;
-        return $this;
-    }
-
-    /**
-     * @return string получить Полное название предмета
-     */
-    public function getDescription(): string
-    {
-        return $this->description;
-    }
-
-    /**
-     * @param string $description установить Полное название предмета
-     */
-    public function setDescription(string $description): ItemClass
-    {
-        $this->description = $description;
-        return $this;
-    }
+        /**
+         * Конструктор класса предметов
+         * @param int $id - id Предмета
+         * @param string $name - Название Предмета
+         * @param string $description - Расщифровка названия предмета
+         */
+        public function __construct(int $id, string $name, string $description)
+        {
+            $this->id = $id;
+            $this->name = $name;
+            $this->description = $description;
+        }
 
 
-    public function jsonSerialize():array
-    {
-        return [
-            'id'=>$this->id,
-            'name'=>$this->name,
-            'description'=>$this->description
-        ];
+        /**
+         * @return int получить id
+         */
+        public function getId(): int
+        {
+            return $this->id;
+        }
+
+
+        /**
+         * @return string получить имя предмета
+         */
+        public function getName(): string
+        {
+            return $this->name;
+        }
+
+
+        /**
+         * @return string получить Полное название предмета
+         */
+        public function getDescription(): string
+        {
+            return $this->description;
+        }
+
+
+        /**
+         * Метод получения массива для кодирования в json
+         * @return array - массив данных для кодирования в json
+         */
+        public function jsonSerialize(): array
+        {
+            return [
+                'id' => $this->id,
+                'name' => $this->name,
+                'description' => $this->description
+            ];
+        }
+
+        /**
+         * Метод создания объекта класса Предмет из массива данных об предмете
+         * @param array $data - массив данных о предмете
+         * @return ItemClass - Объект класса предмет
+         */
+        public static function createFromArray(array $data): ItemClass
+        {
+            return new ItemClass(
+                $data['id'],
+                $data['name'],
+                $data['description']
+            );
+        }
+
     }
-}

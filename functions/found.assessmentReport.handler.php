@@ -1,5 +1,13 @@
 <?php
     require_once "functions/application.php";
+
+    require_once __DIR__ . "/../Classes/ItemClass.php";
+    require_once __DIR__ . "/../Classes/LessonClass.php";
+    require_once __DIR__ . "/../Classes/ClassClass.php";
+    require_once __DIR__ . "/../Classes/ReportClass.php";
+    require_once __DIR__ . "/../Classes/StudentUserClass.php";
+    require_once __DIR__ . "/../Classes/TeacherUserClass.php";
+    require_once __DIR__ . "/../Classes/ParentUserClass.php";
     /**
      * Поиск по оценке
      * @return array
@@ -25,12 +33,79 @@
         if(null===($result=paramTypeValidation($paramValidations,$request)))
         {
             $foundReport=[];
-            $itemsIdToInfo = HashMap($items);
-            $teachersIdToInfo = HashMap($teachers);
-            $classesIdToInfo = HashMap($classes);
-            $lessonIdToInfo=HashMap($lessons);
-            $studentIdToInfo=HashMap($students);
-            $parentIdToInfo=HashMap($parents);
+            $lessonIdToInfo = [];
+            $itemsIdToInfo = [];
+            $teachersIdToInfo = [];
+            $classesIdToInfo = [];
+            $parentIdToInfo = [];
+            $studentIdToInfo = [];
+
+
+            foreach ($items as $item){
+                $itemsObj = new ItemClass();
+                $itemsObj->setId($item['id']);
+                $itemsObj->setName($item['name']);
+                $itemsObj->setDescription($item['description']);
+                $itemsIdToInfo[$item['id']] = $itemsObj;
+            }
+
+            foreach ($teachers as $teacher){
+                $teachersObj = new TeacherUserClass();
+                $teachersObj->setId($teacher['id']);
+                $teachersObj->setFio($teacher['fio']);
+                $teachersObj->setPhone($teacher['phone']);
+                $teachersObj->setAddress($teacher['address']);
+                $teachersObj->setCabinet($teacher['cabinet']);
+                $teachersObj->setEmail($teacher['email']);
+                $teachersObj->setItem($itemsIdToInfo[$teacher['idItem']]);
+                $teachersIdToInfo[$teacher['id']] = $teachersObj;
+
+            }
+
+            foreach ($classes as $class){
+                $classesObj = new ClassClass();
+                $classesObj->setId($class['id']);
+                $classesObj->setNumber($class['number']);
+                $classesObj->setLetter($class['letter']);
+                $classesIdToInfo[$class['id']] = $classesObj;
+            }
+
+            foreach ($lessons as $lesson){
+                $lessonsObj = new LessonClass();
+                $lessonsObj->setId($lesson['id']);
+                $lessonsObj->setTeacher($teachersIdToInfo[$lesson['teacher_id']]);
+                $lessonsObj->setLessonDuration($lesson['lessonDuration']);
+                $lessonsObj->setDate($lesson['date']);
+                $lessonsObj->setItem($itemsIdToInfo[$lesson['item_id']]);
+                $lessonsObj->setClass($classesIdToInfo[$lesson['class_id']]);
+                $lessonIdToInfo[$lesson['id']] = $lessonsObj;
+
+            }
+            foreach ($parents as $parent){
+                $parentsObj = new ParentUserClass();
+                $parentsObj->setId($parent['id']);
+                $parentsObj->setFio($parent['fio']);
+                $parentsObj->setDateOfBirth($parent['dateOfBirth']);
+                $parentsObj->setPhone($parent['phone']);
+                $parentsObj->setAddress($parent['address']);
+                $parentsObj->setPlaceOfWork($parent['placeOfWork']);
+                $parentsObj->setEmail($parent['email']);
+                $parentIdToInfo[$parent['id']] = $parentsObj;
+            }
+            foreach ($students as $student){
+                $studentsObj = new StudentUserClass();
+                $studentsObj->setId($student['id']);
+                $studentsObj->setFio($student['fio']);
+                $studentsObj->setDateOfBirth($student['dateOfBirth']);
+                $studentsObj->setPhone($student['phone']);
+                $studentsObj->setAddress($student['address']);
+                $studentsObj->setClass($classesIdToInfo[$student['class_id']]);
+                $studentsObj->setParent($parentIdToInfo[$student['parent_id']]);
+                $studentIdToInfo[$student['id']] = $studentsObj;
+            }
+
+
+
             foreach ($reports as $report) {
                 $ReportMeetSearchCriteria=null;
                 if (array_key_exists(
@@ -38,7 +113,7 @@
                     $request
                 )) // Поиск по присутвию item_name в GET запросе и совпадению item_name в запросе и массиве оценок. [начало]
                 {
-                    $ReportMeetSearchCriteria = ($request['item_name'] === $itemsIdToInfo [$lessonIdToInfo [$report['lesson_id']]['item_id']]['name']);
+                    $ReportMeetSearchCriteria = ($request['item_name'] === $itemsIdToInfo[$lessonIdToInfo[$report['lesson_id']]->getItem()->getId()]);
                 }// Поиск по присутвию item_name в GET запросе и совпадению item_name в запросе и массиве оценок. [конец]
                 if (array_key_exists('item_description', $request)) {
                     $ReportMeetSearchCriteria = ($request['item_description'] === $itemsIdToInfo[$lessonIdToInfo[$report['lesson_id']]['item_id']]['description']);

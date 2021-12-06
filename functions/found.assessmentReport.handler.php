@@ -1,4 +1,5 @@
 <?php
+
     require_once "functions/application.php";
 
     require_once __DIR__ . "/../Classes/ItemClass.php";
@@ -30,18 +31,18 @@
             'lesson_date'=>'Incorrect lesson date',
             'student_fio'=>'Incorrect student fio',
         ];
-        if(null===($result=paramTypeValidation($paramValidations,$request)))
-        {
-            $foundReport=[];
-            $lessonIdToInfo = [];
+        if (null === ($result = paramTypeValidation($paramValidations, $request))) {
+            $foundReport = [];
             $itemsIdToInfo = [];
             $teachersIdToInfo = [];
             $classesIdToInfo = [];
-            $parentIdToInfo = [];
+            $lessonIdToInfo = [];
             $studentIdToInfo = [];
+            $parentIdToInfo = [];
 
 
-            foreach ($items as $item){
+            foreach ($items as $item)
+            {
                 $itemsObj = new ItemClass();
                 $itemsObj->setId($item['id']);
                 $itemsObj->setName($item['name']);
@@ -113,7 +114,7 @@
                     $request
                 )) // Поиск по присутвию item_name в GET запросе и совпадению item_name в запросе и массиве оценок. [начало]
                 {
-                    $ReportMeetSearchCriteria = ($request['item_name'] === $itemsIdToInfo[$lessonIdToInfo[$report['lesson_id']]->getItem()->getId()]);
+                    $ReportMeetSearchCriteria = ($request['item_name'] === $itemsIdToInfo [$lessonIdToInfo [$report['lesson_id']]['item_id']]['name']);
                 }// Поиск по присутвию item_name в GET запросе и совпадению item_name в запросе и массиве оценок. [конец]
                 if (array_key_exists('item_description', $request)) {
                     $ReportMeetSearchCriteria = ($request['item_description'] === $itemsIdToInfo[$lessonIdToInfo[$report['lesson_id']]['item_id']]['description']);

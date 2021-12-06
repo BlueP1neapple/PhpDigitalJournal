@@ -52,7 +52,8 @@
                     ->setAddress($teacher['address'])
                     ->setCabinet($teacher['cabinet'])
                     ->setEmail($teacher['email'])
-                    ->setItem($itemsIdToInfo[$teacher['idItem']]);
+                    ->setItem($itemsIdToInfo[$teacher['idItem']])
+                    ->setDateOfBirth($teacher['dateOfBirth']);
                 $teachersIdToInfo[$teacher['id']] = $teachersObj;
 
             }

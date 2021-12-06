@@ -69,7 +69,7 @@ class TeacherUserClass extends AbstractUserClass
         return $this;
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize():array
     {
         $jsonData = parent::jsonSerialize();
         $jsonData['item'] = $this->item;

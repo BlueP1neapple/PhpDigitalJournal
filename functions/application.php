@@ -63,9 +63,9 @@
      * @param array $toMap - Массив в котором будет произведенн Хэшмаппинг
      * @return array
      */
-    function HashMap(array $toMap):array
+    function HashMap(array $toMap): array
     {
-        $mapIdToInfo=[];
+        $mapIdToInfo = [];
         foreach ($toMap as $map)// Делаем ключ id по предмету
         {
             $mapIdToInfo[$map['id']] = $map;

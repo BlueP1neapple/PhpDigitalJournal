@@ -1,6 +1,11 @@
 <?php
+
 // Функции
     require_once "functions/application.php";
+
+
+    $requestUri = $_SERVER['REQUEST_URI'];
+    $urlPath = parse_url($requestUri, PHP_URL_PASS);
 
     $resultApplication = app
     (

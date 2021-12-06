@@ -46,7 +46,7 @@ class ParentUserClass extends AbstractUserClass
         return $this;
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize():array
     {
         $jsonData = parent::jsonSerialize();
         $jsonData['placeOfWork'] = $this->placeOfWork;

@@ -23,9 +23,10 @@ class ParentUserClass extends AbstractUserClass
     /**
      * @param string $placeOfWork установить Место работы родителя
      */
-    public function setPlaceOfWork(string $placeOfWork): void
+    public function setPlaceOfWork(string $placeOfWork): ParentUserClass
     {
         $this->placeOfWork = $placeOfWork;
+        return $this;
     }
 
     /**
@@ -39,9 +40,10 @@ class ParentUserClass extends AbstractUserClass
     /**
      * @param string $email установить email родителя
      */
-    public function setEmail(string $email): void
+    public function setEmail(string $email): ParentUserClass
     {
         $this->email = $email;
+        return $this;
     }
 
     public function jsonSerialize()

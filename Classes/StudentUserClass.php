@@ -26,9 +26,10 @@ class StudentUserClass extends AbstractUserClass
     /**
      * @param ClassClass $class установить класс ученика
      */
-    public function setClass(ClassClass $class): void
+    public function setClass(ClassClass $class): StudentUserClass
     {
         $this->class = $class;
+        return $this;
     }
 
     /**
@@ -42,9 +43,10 @@ class StudentUserClass extends AbstractUserClass
     /**
      * @param ParentUserClass $parent установить родителя ученика
      */
-    public function setParent(ParentUserClass $parent): void
+    public function setParent(ParentUserClass $parent): StudentUserClass
     {
         $this->parent = $parent;
+        return $this;
     }
 
 

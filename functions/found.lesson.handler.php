@@ -38,30 +38,30 @@
 
             foreach ($items as $item){
                 $itemsObj = new ItemClass();
-                $itemsObj->setId($item['id']);
-                $itemsObj->setName($item['name']);
-                $itemsObj->setDescription($item['description']);
+                $itemsObj->setId($item['id'])
+                    ->setName($item['name'])
+                    ->setDescription($item['description']);
                 $itemsIdToInfo[$item['id']] = $itemsObj;
             }
 
             foreach ($teachers as $teacher){
                 $teachersObj = new TeacherUserClass();
-                $teachersObj->setId($teacher['id']);
-                $teachersObj->setFio($teacher['fio']);
-                $teachersObj->setPhone($teacher['phone']);
-                $teachersObj->setAddress($teacher['address']);
-                $teachersObj->setCabinet($teacher['cabinet']);
-                $teachersObj->setEmail($teacher['email']);
-                $teachersObj->setItem($itemsIdToInfo[$teacher['idItem']]);
+                $teachersObj->setId($teacher['id'])
+                    ->setFio($teacher['fio'])
+                    ->setPhone($teacher['phone'])
+                    ->setAddress($teacher['address'])
+                    ->setCabinet($teacher['cabinet'])
+                    ->setEmail($teacher['email'])
+                    ->setItem($itemsIdToInfo[$teacher['idItem']]);
                 $teachersIdToInfo[$teacher['id']] = $teachersObj;
 
             }
 
             foreach ($classes as $class){
                 $classesObj = new ClassClass();
-                $classesObj->setId($class['id']);
-                $classesObj->setNumber($class['number']);
-                $classesObj->setLetter($class['letter']);
+                $classesObj->setId($class['id'])
+                    ->setNumber($class['number'])
+                    ->setLetter($class['letter']);
                 $classesIdToInfo[$class['id']] = $classesObj;
             }
 
@@ -126,12 +126,12 @@
                 }// Поиск по присутвию class_letter в GET запросе и совпадению class_letter в запросе и массиве занятий. [конец]
                 if ($LessonMeetSearchCriteria) {
                     $lessonObj = new LessonClass();
-                    $lessonObj->setId($lesson['id']);
-                    $lessonObj->setItem($itemsIdToInfo[$lesson['item_id']]);
-                    $lessonObj->setClass($classesIdToInfo[$lesson['class_id']]);
-                    $lessonObj->setDate($lesson['date']);
-                    $lessonObj->setLessonDuration($lesson['lessonDuration']);
-                    $lessonObj->setTeacher($teachersIdToInfo[$lesson['teacher_id']]);
+                    $lessonObj->setId($lesson['id'])
+                        ->setItem($itemsIdToInfo[$lesson['item_id']])
+                        ->setClass($classesIdToInfo[$lesson['class_id']])
+                        ->setDate($lesson['date'])
+                        ->setLessonDuration($lesson['lessonDuration'])
+                        ->setTeacher($teachersIdToInfo[$lesson['teacher_id']]);
 
                     $foundLessons[] = $lessonObj;
                 }

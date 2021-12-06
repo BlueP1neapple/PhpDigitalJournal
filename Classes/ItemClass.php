@@ -28,9 +28,10 @@ class ItemClass implements JsonSerializable
     /**
      * @param int $id установить id
      */
-    public function setId(int $id): void
+    public function setId(int $id): ItemClass
     {
         $this->id = $id;
+        return $this;
     }
 
     /**
@@ -44,9 +45,10 @@ class ItemClass implements JsonSerializable
     /**
      * @param string $name установить имя предмета
      */
-    public function setName(string $name): void
+    public function setName(string $name): ItemClass
     {
         $this->name = $name;
+        return $this;
     }
 
     /**
@@ -60,9 +62,10 @@ class ItemClass implements JsonSerializable
     /**
      * @param string $description установить Полное название предмета
      */
-    public function setDescription(string $description): void
+    public function setDescription(string $description): ItemClass
     {
         $this->description = $description;
+        return $this;
     }
 
 

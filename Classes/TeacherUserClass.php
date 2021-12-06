@@ -29,9 +29,10 @@ class TeacherUserClass extends AbstractUserClass
     /**
      * Установить предмета учителя
      */
-    public function setItem(ItemClass $item): void
+    public function setItem(ItemClass $item): TeacherUserClass
     {
         $this->item = $item;
+        return $this;
     }
 
     /**
@@ -45,9 +46,10 @@ class TeacherUserClass extends AbstractUserClass
     /**
      * @param int $cabinet Установить номер кабинета учителя
      */
-    public function setCabinet(int $cabinet): void
+    public function setCabinet(int $cabinet): TeacherUserClass
     {
         $this->cabinet = $cabinet;
+        return $this;
     }
 
     /**
@@ -61,9 +63,10 @@ class TeacherUserClass extends AbstractUserClass
     /**
      * @param string $email Установить Email учителя
      */
-    public function setEmail(string $email): void
+    public function setEmail(string $email): TeacherUserClass
     {
         $this->email = $email;
+        return $this;
     }
 
     public function jsonSerialize()

@@ -29,9 +29,10 @@ class ClassClass implements JsonSerializable
     /**
      * @param int $id установить id класса
      */
-    public function setId(int $id): void
+    public function setId(int $id): ClassClass
     {
         $this->id = $id;
+        return $this;
     }
 
     /**
@@ -45,9 +46,10 @@ class ClassClass implements JsonSerializable
     /**
      * @param int $number установить Номер класса
      */
-    public function setNumber(int $number): void
+    public function setNumber(int $number): ClassClass
     {
         $this->number = $number;
+        return $this;
     }
 
     /**
@@ -61,9 +63,10 @@ class ClassClass implements JsonSerializable
     /**
      * @param string $letter установить Букву класса
      */
-    public function setLetter(string $letter): void
+    public function setLetter(string $letter): ClassClass
     {
         $this->letter = $letter;
+        return $this;
     }
 
 

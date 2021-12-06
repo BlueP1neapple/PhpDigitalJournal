@@ -33,9 +33,10 @@ class ReportClass implements JsonSerializable
     /**
      * @param int $id установить id оценки
      */
-    public function setId(int $id): void
+    public function setId(int $id): ReportClass
     {
         $this->id = $id;
+        return $this;
     }
 
     /**
@@ -49,9 +50,10 @@ class ReportClass implements JsonSerializable
     /**
      * @param LessonClass $lesson установить урок
      */
-    public function setLesson(LessonClass $lesson): void
+    public function setLesson(LessonClass $lesson): ReportClass
     {
         $this->lesson = $lesson;
+        return $this;
     }
 
     /**
@@ -65,9 +67,10 @@ class ReportClass implements JsonSerializable
     /**
      * @param StudentUserClass $student установить студента
      */
-    public function setStudent(StudentUserClass $student): void
+    public function setStudent(StudentUserClass $student): ReportClass
     {
         $this->student = $student;
+        return $this;
     }
 
     /**
@@ -81,9 +84,10 @@ class ReportClass implements JsonSerializable
     /**
      * @param int $mark установить оценку
      */
-    public function setMark(int $mark): void
+    public function setMark(int $mark): ReportClass
     {
         $this->mark = $mark;
+        return $this;
     }
 
 

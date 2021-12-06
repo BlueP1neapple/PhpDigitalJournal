@@ -43,9 +43,10 @@ class LessonClass implements JsonSerializable
     /**
      * @param int $id установить id урока
      */
-    public function setId(int $id): void
+    public function setId(int $id): LessonClass
     {
         $this->id = $id;
+        return $this;
     }
 
     /**
@@ -59,9 +60,10 @@ class LessonClass implements JsonSerializable
     /**
      * @param ItemClass $item установить предмет
      */
-    public function setItem(ItemClass $item): void
+    public function setItem(ItemClass $item): LessonClass
     {
         $this->item = $item;
+        return $this;
     }
 
     /**
@@ -75,9 +77,10 @@ class LessonClass implements JsonSerializable
     /**
      * @param string $date установить дату проведения урока
      */
-    public function setDate(string $date): void
+    public function setDate(string $date): LessonClass
     {
         $this->date = $date;
+        return $this;
     }
 
     /**
@@ -91,9 +94,10 @@ class LessonClass implements JsonSerializable
     /**
      * @param int $lessonDuration установить длительность урока
      */
-    public function setLessonDuration(int $lessonDuration): void
+    public function setLessonDuration(int $lessonDuration): LessonClass
     {
         $this->lessonDuration = $lessonDuration;
+        return $this;
     }
 
     /**
@@ -107,9 +111,10 @@ class LessonClass implements JsonSerializable
     /**
      * @param TeacherUserClass $teacher установить преподавателя
      */
-    public function setTeacher(TeacherUserClass $teacher): void
+    public function setTeacher(TeacherUserClass $teacher): LessonClass
     {
         $this->teacher = $teacher;
+        return $this;
     }
 
     /**
@@ -123,9 +128,10 @@ class LessonClass implements JsonSerializable
     /**
      * @param ClassClass $class установить класс
      */
-    public function setClass(ClassClass $class): void
+    public function setClass(ClassClass $class): LessonClass
     {
         $this->class = $class;
+        return $this;
     }
 
 

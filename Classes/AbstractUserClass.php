@@ -42,9 +42,10 @@ abstract class AbstractUserClass implements JsonSerializable
     /**
      * @param int $id Установить id
      */
-    public function setId(int $id): void
+    public function setId(int $id): AbstractUserClass
     {
         $this->id = $id;
+        return $this;
     }
 
     /**
@@ -58,9 +59,10 @@ abstract class AbstractUserClass implements JsonSerializable
     /**
      * @param string $fio Установить ФИО
      */
-    public function setFio(string $fio): void
+    public function setFio(string $fio): AbstractUserClass
     {
         $this->fio = $fio;
+        return $this;
     }
 
     /**
@@ -74,9 +76,10 @@ abstract class AbstractUserClass implements JsonSerializable
     /**
      * @param string $dateOfBirth Установить Дату рождения
      */
-    public function setDateOfBirth(string $dateOfBirth): void
+    public function setDateOfBirth(string $dateOfBirth): AbstractUserClass
     {
         $this->dateOfBirth = $dateOfBirth;
+        return $this;
     }
 
     /**
@@ -90,9 +93,10 @@ abstract class AbstractUserClass implements JsonSerializable
     /**
      * @param string $phone Установить Номер телефона
      */
-    public function setPhone(string $phone): void
+    public function setPhone(string $phone): AbstractUserClass
     {
         $this->phone = $phone;
+        return $this;
     }
 
     /**
@@ -106,9 +110,10 @@ abstract class AbstractUserClass implements JsonSerializable
     /**
      * @param string $address Установить Адресс
      */
-    public function setAddress(string $address): void
+    public function setAddress(string $address): AbstractUserClass
     {
         $this->address = $address;
+        return $this;
     }
 
     public function jsonSerialize()

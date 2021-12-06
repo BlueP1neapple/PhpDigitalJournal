@@ -97,8 +97,8 @@ class ReportClass implements JsonSerializable
         return [
             'id' => $this->id,
             'lesson' => $this->lesson,
-            'student' => $this->lesson,
-            'mark' => $this->lesson
+            'student' => $this->student,
+            'mark' => $this->mark
         ];
     }
 }

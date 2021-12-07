@@ -1,7 +1,7 @@
 <?php
 
     // Подключаемы функции
-    require_once "functions/application.php";
+    require_once __DIR__ . '/../functions/application.php';
     // Подключаемые классы
     require_once __DIR__ . "/../Classes/ItemClass.php";
     require_once __DIR__ . "/../Classes/LessonClass.php";
@@ -14,14 +14,15 @@
      * Поиск по уроку
      * @param array $request - массив содержащий параметры поиска
      * @param callable $logger - название функции логирования
+     * @param AppConfig $appConfig - Конфигурация приложения
      * @return array - результат поиска уроков
      */
-    return static function (array $request, callable $logger): array {
+    return static function (array $request, callable $logger, AppConfig $appConfig): array {
         // Загрузка данных из json
-        $items = loadData(__DIR__ . '/../JSON/item.json');
-        $teachers = loadData(__DIR__ . '/../JSON/teacher.json');
-        $classes = loadData(__DIR__ . '/../JSON/class.json');
-        $lessons = loadData(__DIR__ . '/../JSON/lesson.json');
+        $items = loadData($appConfig->getPathToItems());
+        $teachers = loadData($appConfig->getPathToTeachers());
+        $classes = loadData($appConfig->getPathToClasses());
+        $lessons = loadData($appConfig->getPathToLesson());
         $logger('dispatch "lesson" url');
         $paramValidations = [
             'item_name' => 'Incorrect item name',

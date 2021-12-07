@@ -1,6 +1,6 @@
 <?php
 
-    require_once "functions/application.php";
+    require_once __DIR__ . '/../functions/application.php';;
 
     require_once __DIR__ . "/../Classes/ItemClass.php";
     require_once __DIR__ . "/../Classes/LessonClass.php";
@@ -13,17 +13,17 @@
      * Поиск по оценке
      * @param array $request - массив содержащий параметры поиска
      * @param callable $logger - название функции логирования
-     * @return array
+     * @param AppConfig $appConfig - конфигурация приложения
      * @return array - результат поиска оценок
      */
-    return static function (array $request, callable $logger): array {
-        $items = loadData(__DIR__ . '/../JSON/item.json');
-        $teachers = loadData(__DIR__ . '/../JSON/teacher.json');
-        $classes = loadData(__DIR__ . '/../JSON/class.json');
-        $lessons = loadData(__DIR__ . '/../JSON/lesson.json');
-        $reports = loadData(__DIR__ . '/../JSON/assessmentReport.json');
-        $students = loadData(__DIR__ . '/../JSON/student.json');
-        $parents = loadData(__DIR__ . '/../JSON/parent.json');
+    return static function (array $request, callable $logger, AppConfig $appConfig): array {
+        $items = loadData($appConfig->getPathToItems());
+        $teachers = loadData($appConfig->getPathToTeachers());
+        $classes = loadData($appConfig->getPathToClasses());
+        $lessons = loadData($appConfig->getPathToLesson());
+        $reports = loadData($appConfig->getPathToAssessmentReport());
+        $students = loadData($appConfig->getPathToStudents());
+        $parents = loadData($appConfig->getPathToParents());
         $logger('dispatch "assessmentReport" url');
         $paramValidations = [
             'item_name' => 'Incorrect item name',

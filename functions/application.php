@@ -1,5 +1,8 @@
 <?php
 
+    require_once __DIR__ . '/../Classes/AppConfig.php';
+
+
     /**
      * Логгирование текстовым сообщением
      * @param string $errorString - сообщение ошибки
@@ -53,8 +56,7 @@
      */
     function loadData(string $sourcePath): array
     {
-        $pathToFile = $sourcePath;
-        $content = file_get_contents($pathToFile);
+        $content = file_get_contents($sourcePath);
         return json_decode($content, true);
     }
 
@@ -65,23 +67,34 @@
      * @param string $requestUri - Переменная содержащая полный путь запроса
      * @param array $request - массив содержащий параметры поиска
      * @param callable $logger - название функции логирования
+     * @param AppConfig $appConfig - конфиг приложения
      * @return array - массив результатов
      */
-    function app(array $handlers, string $requestUri, array $request, callable $logger): array
+    function app(array $handlers, string $requestUri, array $request, callable $logger, AppConfig $appConfig): array
     {
-        $urlPath = parse_url(
-            $requestUri,
-            PHP_URL_PATH
-        ); // Создаётся переменная, урлПаф для того, что запросы без PATH_INFO обрабатывались корректно
-        $logger('Url request received: ' . $requestUri . "\n");
-        if (array_key_exists($urlPath, $handlers)) {
-            $result = $handlers[$urlPath]($request, $logger);
-        } else {
+        try{
+            $urlPath = parse_url(
+                $requestUri,
+                PHP_URL_PATH
+            ); // Создаётся переменная, урлПаф для того, что запросы без PATH_INFO обрабатывались корректно
+            $logger('Url request received: ' . $requestUri . "\n");
+            if (array_key_exists($urlPath, $handlers)) {
+                $result = $handlers[$urlPath]($request, $logger, $appConfig);
+            } else {
+                $result = [
+                    'httpCode' => 404,
+                    'result' => [
+                        'status' => 'fail',
+                        'message' => 'unsupported request'
+                    ]
+                ];
+            }
+        }catch (Throwable $e) {
             $result = [
-                'httpCode' => 404,
+                'httpCode' => 500,
                 'result' => [
                     'status' => 'fail',
-                    'message' => 'unsupported request'
+                    'message' => $e->getMessage(),
                 ]
             ];
         }

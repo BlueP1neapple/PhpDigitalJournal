@@ -111,6 +111,19 @@
          */
         public static function createFromArray(array $data): LessonClass
         {
+            $requiredFields=[
+              'id',
+              'item_id',
+              'date',
+              'lessonDuration',
+              'teacher_id',
+              'class_id',
+            ];
+            $missingFields=array_diff($requiredFields,array_keys($data));
+            if(count($missingFields)>0){
+                $errMsg=sprintf('Отсутвуют обязательные элементы: %s',implode(',',$missingFields));
+                throw new Exception($errMsg);
+            }
             return new LessonClass(
                 $data['id'],
                 $data['item_id'],

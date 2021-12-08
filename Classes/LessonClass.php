@@ -1,5 +1,5 @@
 <?php
-
+    require_once __DIR__.'/../Classes/InvalidDataStructureException.php';
     /**
      *Класс занятий
      */
@@ -122,7 +122,7 @@
             $missingFields=array_diff($requiredFields,array_keys($data));
             if(count($missingFields)>0){
                 $errMsg=sprintf('Отсутвуют обязательные элементы: %s',implode(',',$missingFields));
-                throw new Exception($errMsg);
+                throw new InvalidDataStructureException($errMsg);
             }
             return new LessonClass(
                 $data['id'],

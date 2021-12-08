@@ -1,5 +1,5 @@
 <?php
-
+    require_once __DIR__.'/../Classes/InvalidDataStructureException.php';
     /**
      * Класс оценок
      */
@@ -61,6 +61,17 @@
          */
         public static function createFromArray(array $data): ReportClass
         {
+            $requiredFields=[
+                'id',
+                'lesson_id',
+                'student_id',
+                'mark'
+            ];
+            $missingFields=array_diff($requiredFields,array_keys($data));
+            if(count($missingFields)>0){
+                $errMsg=sprintf('Отсутвуют обязательные элементы: %s',implode(',',$missingFields));
+                throw new InvalidDataStructureException($errMsg);
+            }
             return new ReportClass(
                 $data['id'],
                 $data['lesson_id'],

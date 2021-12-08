@@ -1,5 +1,6 @@
 <?php
 
+    require_once __DIR__.'/../Classes/InvalidDataStructureException.php';
     /**
      * Класс классов
      */
@@ -78,9 +79,20 @@
          * Метод создания объекта класса классов из масиива данных о классах
          * @param array $data - массив данных о классах
          * @return ClassClass - Объект класса классов
+         * @throws InvalidDataStructureException
          */
         public static function createFromArray(array $data): ClassClass
         {
+            $requiredFields=[
+                'id',
+                'number',
+                'letter'
+            ];
+            $missingFields=array_diff($requiredFields,array_keys($data));
+            if(count($missingFields)>0){
+                $errMsg=sprintf('Отсутвуют обязательные элементы: %s',implode(',',$missingFields));
+                throw new InvalidDataStructureException($errMsg);
+            }
             return new ClassClass(
                 $data['id'],
                 $data['number'],

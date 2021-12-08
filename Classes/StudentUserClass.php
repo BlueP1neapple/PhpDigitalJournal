@@ -1,5 +1,5 @@
 <?php
-
+    require_once __DIR__.'/../Classes/InvalidDataStructureException.php';
     require_once __DIR__ . "/AbstractUserClass.php";
 
     /**
@@ -57,6 +57,20 @@
          */
         public static function createFromArray(array $data): StudentUserClass
         {
+            $requiredFields=[
+                'id',
+                'fio',
+                'dateOfBirth',
+                'phone',
+                'address',
+                'class_id',
+                'parent_id'
+            ];
+            $missingFields=array_diff($requiredFields,array_keys($data));
+            if(count($missingFields)>0){
+                $errMsg=sprintf('Отсутвуют обязательные элементы: %s',implode(',',$missingFields));
+                throw new InvalidDataStructureException($errMsg);
+            }
             return new StudentUserClass(
                 $data['id'],
                 $data['fio'],

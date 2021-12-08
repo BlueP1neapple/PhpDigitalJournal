@@ -74,8 +74,9 @@
          * @param string $pathToLesson - путь до файла с данными об Занятиях
          * @return AppConfig - объект с путём до файла с данными об Занятиях
          */
-        public function setPathToLesson(string $pathToLesson): AppConfig
+        private function setPathToLesson(string $pathToLesson): AppConfig
         {
+            $this->validateFilePath($pathToLesson);
             $this->pathToLesson = $pathToLesson;
             return $this;
         }
@@ -96,8 +97,9 @@
          * @param string $pathToAssessmentReport - путь до файла с данными об Оценках
          * @return AppConfig - объект с путём до файла с данными об Оценках
          */
-        public function setPathToAssessmentReport(string $pathToAssessmentReport): AppConfig
+        private function setPathToAssessmentReport(string $pathToAssessmentReport): AppConfig
         {
+            $this->validateFilePath($pathToAssessmentReport);
             $this->pathToAssessmentReport = $pathToAssessmentReport;
             return $this;
         }
@@ -118,8 +120,9 @@
          * @param string $pathToItems - путь до файла с данными об Предмете
          * @return AppConfig - объект с путём до файла с данными об Предмете
          */
-        public function setPathToItems(string $pathToItems): AppConfig
+        private function setPathToItems(string $pathToItems): AppConfig
         {
+            $this->validateFilePath($pathToItems);
             $this->pathToItems = $pathToItems;
             return $this;
         }
@@ -140,8 +143,9 @@
          * @param string $pathToTeachers - путь до файла с данными об Учителе
          * @return AppConfig - объект с путём до файла с данными об Учителе
          */
-        public function setPathToTeachers(string $pathToTeachers): AppConfig
+        private function setPathToTeachers(string $pathToTeachers): AppConfig
         {
+            $this->validateFilePath($pathToTeachers);
             $this->pathToTeachers = $pathToTeachers;
             return $this;
         }
@@ -162,8 +166,9 @@
          * @param string $pathToClasses - путь до файла с данными об Классах
          * @return AppConfig - объект с путём до файла с данными об Классах
          */
-        public function setPathToClasses(string $pathToClasses): AppConfig
+        private function setPathToClasses(string $pathToClasses): AppConfig
         {
+            $this->validateFilePath($pathToClasses);
             $this->pathToClasses = $pathToClasses;
             return $this;
         }
@@ -184,8 +189,9 @@
          * @param string $pathToStudents - путь до файла с данными об Студентах
          * @return AppConfig - объект с путём до файла с данными об Студентах
          */
-        public function setPathToStudents(string $pathToStudents): AppConfig
+        private function setPathToStudents(string $pathToStudents): AppConfig
         {
+            $this->validateFilePath($pathToStudents);
             $this->pathToStudents = $pathToStudents;
             return $this;
         }
@@ -206,10 +212,52 @@
          * @param string $pathToParents - путь до файла с данными об Родителях
          * @return AppConfig - объект с путём до файла с данными об Родителях
          */
-        public function setPathToParents(string $pathToParents): AppConfig
+        private function setPathToParents(string $pathToParents): AppConfig
         {
+            $this->validateFilePath($pathToParents);
             $this->pathToParents = $pathToParents;
             return $this;
+        }
+
+
+        /**
+         * Валидация пути до файла
+         *
+         * @param string $path
+         *
+         * @return void
+         * @throws Exception
+         */
+        private function validateFilePath(string $path):void
+        {
+            if(false===file_exists($path)){
+                throw new Exception('Неккоректный путь до файла с данными');
+            }
+        }
+
+        /**
+         * Создаёт конфиг приложения из массива
+         *
+         * @param array $config
+         * @return static
+         * @uses \AppConfig::setPathToParents()
+         * @uses \AppConfig::setPathToStudents()
+         * @uses \AppConfig::setPathToClasses()
+         * @uses \AppConfig::setPathToTeachers()
+         * @uses \AppConfig::setPathToItems()
+         * @uses \AppConfig::setPathToAssessmentReport()
+         * @uses \AppConfig::setPathToLesson()
+         */
+        public static function createFromArray(array $config): self
+        {
+            $appConfig=new self();
+            foreach ($config as $key=>$value){
+                if(property_exists($appConfig,$key)){
+                    $setter='set'.ucfirst($key);
+                    $appConfig->{$setter}($value);
+                }
+            }
+            return $appConfig;
         }
 
     }

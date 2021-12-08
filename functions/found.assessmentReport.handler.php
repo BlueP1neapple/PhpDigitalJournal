@@ -1,7 +1,7 @@
 <?php
 
-    require_once __DIR__ . '/../functions/application.php';;
-
+    require_once __DIR__ . '/../functions/application.php';
+    require_once __DIR__ . '/antiIf.php';
     require_once __DIR__ . "/../Classes/ItemClass.php";
     require_once __DIR__ . "/../Classes/LessonClass.php";
     require_once __DIR__ . "/../Classes/ClassClass.php";
@@ -76,30 +76,29 @@
                 $studentsObj = StudentUserClass::createFromArray($student);
                 $studentIdToInfo[$studentsObj->getId()] = $studentsObj;
             }
-
             // Поиск оценок
             foreach ($reports as $report) {
-                $ReportMeetSearchCriteria = null;
-                if (array_key_exists(
-                    'item_name',
-                    $request
-                )) // Поиск по присутвию item_name в GET запросе и совпадению item_name в запросе и массиве оценок. [начало]
-                {
-                    $ReportMeetSearchCriteria = ($request['item_name'] === $itemsIdToInfo[$lessonIdToInfo[$report['lesson_id']]->getItem(
-                        )->getId()]->getName());
-                }// Поиск по присутвию item_name в GET запросе и совпадению item_name в запросе и массиве оценок. [конец]
-                if (array_key_exists('item_description', $request)) {
-                    $ReportMeetSearchCriteria = ($request['item_description'] === $itemsIdToInfo[$lessonIdToInfo[$report['lesson_id']]->getItem(
-                        )->getId()]->getDescription());
-                }
-                if (array_key_exists('lesson_date', $request)) {
-                    $ReportMeetSearchCriteria = ($request['lesson_date'] === $lessonIdToInfo[$report['lesson_id']]->getDate(
-                        ));
-                }
-                if (array_key_exists('student_fio', $request)) {
-                    $ReportMeetSearchCriteria = ($request['student_fio'] === $studentIdToInfo[$report['student_id']]->getFio(
-                        ));
-                }
+                $ReportMeetSearchCriteria = getSearch($request, $report, $appConfig);
+//                if (array_key_exists(
+//                    'item_name',
+//                    $request
+//                )) // Поиск по присутвию item_name в GET запросе и совпадению item_name в запросе и массиве оценок. [начало]
+//                {
+//                    $ReportMeetSearchCriteria = ($request['item_name']
+//                        === $itemsIdToInfo[$lessonIdToInfo[$report['lesson_id']]->getItem()->getId()]->getName());
+//                }// Поиск по присутвию item_name в GET запросе и совпадению item_name в запросе и массиве оценок. [конец]
+//                if (array_key_exists('item_description', $request)) {
+//                    $ReportMeetSearchCriteria = ($request['item_description'] === $itemsIdToInfo[$lessonIdToInfo[$report['lesson_id']]->getItem(
+//                        )->getId()]->getDescription());
+//                }
+//                if (array_key_exists('lesson_date', $request)) {
+//                    $ReportMeetSearchCriteria = ($request['lesson_date'] === $lessonIdToInfo[$report['lesson_id']]->getDate(
+//                        ));
+//                }
+//                if (array_key_exists('student_fio', $request)) {
+//                    $ReportMeetSearchCriteria = ($request['student_fio'] === $studentIdToInfo[$report['student_id']]->getFio(
+//                        ));
+//                }
 
                 if ($ReportMeetSearchCriteria) { // Отбор наёденных оценок
                     $report['lesson_id'] = $lessonIdToInfo[$report['lesson_id']];

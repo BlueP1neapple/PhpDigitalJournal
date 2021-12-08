@@ -59,62 +59,62 @@
             // Поиск нужного занятия
             foreach ($lessons as $lesson) // Цикл по все занятиям. [начало]
             {
-                $LessonMeetSearchCriteria = null;
-                if (array_key_exists(
-                    'item_name',
-                    $request
-                )) // Поиск по присутвию item_name в GET запросе и совпадению item_name в запросе и массиве занятий. [начало]
-                {
-                    $LessonMeetSearchCriteria = ($request['item_name'] === $itemsIdToInfo[$lesson['item_id']]->getName(
-                        ));
-                }// Поиск по присутвию item_name в GET запросе и совпадению item_name в запросе и массиве занятий. [конец]
-                if (array_key_exists(
-                    'item_description',
-                    $request
-                )) // Поиск по присутвию item_description в GET запросе и совпадению item_description в запросе и массиве занятий. [начало]
-                {
-                    $LessonMeetSearchCriteria = ($request['item_description'] === $itemsIdToInfo[$lesson['item_id']]->getDescription(
-                        ));
-                }// Поиск по присутвию item_description в GET запросе и совпадению item_description в запросе и массиве занятий. [конец]
-                if (array_key_exists(
-                    'date',
-                    $request
-                )) // Поиск по присутвию date в GET запросе и совпадению date в запросе и массиве занятий. [начало]
-                {
-                    $LessonMeetSearchCriteria = ($request['date'] === $lesson['date']);
-                }// Поиск по присутвию date в GET запросе и совпадению date в запросе и массиве занятий. [конец]
-                if (array_key_exists(
-                    'teacher_fio',
-                    $request
-                )) // Поиск по присутвию teacher_fio в GET запросе и совпадению teacher_fio в запросе и массиве занятий. [начало]
-                {
-                    $LessonMeetSearchCriteria = ($request['teacher_fio'] === $teachersIdToInfo[$lesson['teacher_id']]->getFio(
-                        ));
-                }// Поиск по присутвию teacher_fio в GET запросе и совпадению teacher_fio в запросе и массиве занятий. [конец]
-                if (array_key_exists(
-                    'teacher_cabinet',
-                    $request
-                )) // Поиск по присутвию teacher_cabinet в GET запросе и совпадению teacher_cabinet в запросе и массиве занятий. [начало]
-                {
-                    $LessonMeetSearchCriteria = ((int)$request['teacher_cabinet'] === $teachersIdToInfo[$lesson['teacher_id']]->getCabinet(
-                        ));
-                }// Поиск по присутвию teacher_cabinet в GET запросе и совпадению teacher_cabinet в запросе и массиве занятий. [конец]
-                if (array_key_exists(
-                    'class_number',
-                    $request
-                )) // Поиск по присутвию class_number в GET запросе и совпадению class_number в запросе и массиве занятий. [начало]
-                {
-                    $LessonMeetSearchCriteria = ((int)$request['class_number'] === $classesIdToInfo[$lesson['class_id']]->getNumber(
-                        ));
-                }// Поиск по присутвию class_number в GET запросе и совпадению class_number в запросе и массиве занятий. [конец]
-                if (array_key_exists(
-                    'class_letter',
-                    $request
-                )) // Поиск по присутвию class_letter в GET запросе и совпадению class_letter в запросе и массиве занятий. [начало]
-                {
-                    $LessonMeetSearchCriteria = ($request['class_letter'] === $classesIdToInfo[$lesson['class_id']]->getLetter(
-                        ));
-                }// Поиск по присутвию class_letter в GET запросе и совпадению class_letter в запросе и массиве занятий. [конец]
+                $LessonMeetSearchCriteria = getSearch($request, $lesson, $appConfig);
+//                if (array_key_exists(
+//                    'item_name',
+//                    $request
+//                )) // Поиск по присутвию item_name в GET запросе и совпадению item_name в запросе и массиве занятий. [начало]
+//                {
+//                    $LessonMeetSearchCriteria = ($request['item_name'] === $itemsIdToInfo[$lesson['item_id']]->getName(
+//                        ));
+//                }// Поиск по присутвию item_name в GET запросе и совпадению item_name в запросе и массиве занятий. [конец]
+//                if (array_key_exists(
+//                    'item_description',
+//                    $request
+//                )) // Поиск по присутвию item_description в GET запросе и совпадению item_description в запросе и массиве занятий. [начало]
+//                {
+//                    $LessonMeetSearchCriteria = ($request['item_description'] === $itemsIdToInfo[$lesson['item_id']]->getDescription(
+//                        ));
+//                }// Поиск по присутвию item_description в GET запросе и совпадению item_description в запросе и массиве занятий. [конец]
+//                if (array_key_exists(
+//                    'date',
+//                    $request
+//                )) // Поиск по присутвию date в GET запросе и совпадению date в запросе и массиве занятий. [начало]
+//                {
+//                    $LessonMeetSearchCriteria = ($request['date'] === $lesson['date']);
+//                }// Поиск по присутвию date в GET запросе и совпадению date в запросе и массиве занятий. [конец]
+//                if (array_key_exists(
+//                    'teacher_fio',
+//                    $request
+//                )) // Поиск по присутвию teacher_fio в GET запросе и совпадению teacher_fio в запросе и массиве занятий. [начало]
+//                {
+//                    $LessonMeetSearchCriteria = ($request['teacher_fio'] === $teachersIdToInfo[$lesson['teacher_id']]->getFio(
+//                        ));
+//                }// Поиск по присутвию teacher_fio в GET запросе и совпадению teacher_fio в запросе и массиве занятий. [конец]
+//                if (array_key_exists(
+//                    'teacher_cabinet',
+//                    $request
+//                )) // Поиск по присутвию teacher_cabinet в GET запросе и совпадению teacher_cabinet в запросе и массиве занятий. [начало]
+//                {
+//                    $LessonMeetSearchCriteria = ((int)$request['teacher_cabinet'] === $teachersIdToInfo[$lesson['teacher_id']]->getCabinet(
+//                        ));
+//                }// Поиск по присутвию teacher_cabinet в GET запросе и совпадению teacher_cabinet в запросе и массиве занятий. [конец]
+//                if (array_key_exists(
+//                    'class_number',
+//                    $request
+//                )) // Поиск по присутвию class_number в GET запросе и совпадению class_number в запросе и массиве занятий. [начало]
+//                {
+//                    $LessonMeetSearchCriteria = ((int)$request['class_number'] === $classesIdToInfo[$lesson['class_id']]->getNumber(
+//                        ));
+//                }// Поиск по присутвию class_number в GET запросе и совпадению class_number в запросе и массиве занятий. [конец]
+//                if (array_key_exists(
+//                    'class_letter',
+//                    $request
+//                )) // Поиск по присутвию class_letter в GET запросе и совпадению class_letter в запросе и массиве занятий. [начало]
+//                {
+//                    $LessonMeetSearchCriteria = ($request['class_letter'] === $classesIdToInfo[$lesson['class_id']]->getLetter(
+//                        ));
+//                }// Поиск по присутвию class_letter в GET запросе и совпадению class_letter в запросе и массиве занятий. [конец]
                 if ($LessonMeetSearchCriteria) { // Отбор найденных занятий
                     $lesson['item_id'] = $itemsIdToInfo[$lesson['item_id']];
                     $lesson['teacher_id'] = $teachersIdToInfo[$lesson['teacher_id']];

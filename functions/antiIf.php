@@ -24,15 +24,9 @@ function getSearch(array $request, array $report, AppConfig $appConfig): bool{
     $graitHardcodeArray['student'] = $students;
     $graitHardcodeArray['parent'] = $parents;
 
-
     $searchingKey = array_keys($request);
-    $searchingKeyHardCode = array_keys($request);
-    if($searchingKey[0] === 'date'){
-        $searchingKey[0] = 'lesson_date';
 
-    }
     $splitKey = explode('_', $searchingKey[0]);
-
 
     if(array_key_exists($splitKey[0], $graitHardcodeArray))
     {
@@ -40,16 +34,12 @@ function getSearch(array $request, array $report, AppConfig $appConfig): bool{
         {
 
             if(array_key_exists($splitKey[1],$currentValue)){
-                $a = $request[$searchingKeyHardCode[0]];
-                $b = $currentValue[$splitKey[1]];
-                if ($request[$searchingKeyHardCode[0]] == $currentValue[$splitKey[1]]){
-                    $a = 8;
+                if ($request[$searchingKey[0]] == $currentValue[$splitKey[1]]){
                     return true;
                 }
             }
         }
     }
-
     return false;
 }
 

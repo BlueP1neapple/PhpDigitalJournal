@@ -27,7 +27,7 @@
         $paramValidations = [
             'item_name' => 'Incorrect item name',
             'item_description' => 'Incorrect item description',
-            'date' => 'Incorrect date',
+            'lesson_date' => 'Incorrect date',
             'teacher_fio' => 'Incorrect teacher fio',
             'teacher_cabinet' => 'Incorrect teacher cabinet',
             'class_number' => 'Incorrect class number',

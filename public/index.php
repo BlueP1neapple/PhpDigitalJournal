@@ -1,18 +1,18 @@
 <?php
 
 // Функции
-    require_once "functions/application.php";
-    require_once "Classes/AppConfig.php";
+    require_once __DIR__."/../src/Infrastructure/application.php";
+    require_once __DIR__."/../src/Infrastructure/AppConfig.php";
 
     $resultApplication = app
     (
-        include __DIR__ . '/functions/request.handlers.php',
+        include __DIR__ . '/../config/request.handlers.php',
         //Массив путей запросов ведущие к функциям реализующие этот запрос
         $_SERVER['REQUEST_URI'],
         //Полный путь запроса
         'loggerInFile', //Название функции логирования
         static function () {
-            return AppConfig::createFromArray(include __DIR__.'/dev.env.config.php');
+            return AppConfig::createFromArray(include __DIR__ . '/../config/dev/config.php');
         } // Конфиг приложения
     );
 

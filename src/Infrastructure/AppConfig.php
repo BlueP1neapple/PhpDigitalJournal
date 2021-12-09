@@ -11,49 +11,49 @@
          *
          * @var string
          */
-        private string $pathToLesson=__DIR__ . '/../JSON/lesson.json';
+        private string $pathToLesson= __DIR__ . '/../../data/lesson.json';
 
         /**
          * Путь до файла с данными об оценках
          *
          * @var string
          */
-        private string $pathToAssessmentReport=__DIR__  .'/../JSON/assessmentReport.json';
+        private string $pathToAssessmentReport= __DIR__ . '/../../data/assessmentReport.json';
 
         /**
          * Путь до файла с данными об Предмете
          *
          * @var string
          */
-        private string $pathToItems=__DIR__ . '/../JSON/item.json';
+        private string $pathToItems= __DIR__ . '/../../data/item.json';
 
         /**
          * Путь до файла с данными об Учителе
          *
          * @var string
          */
-        private string $pathToTeachers=__DIR__ . '/../JSON/teacher.json';
+        private string $pathToTeachers= __DIR__ . '/../../data/teacher.json';
 
         /**
          * Путь до файла с данными об Классах
          *
          * @var string
          */
-        private string $pathToClasses=__DIR__ . '/../JSON/class.json';
+        private string $pathToClasses= __DIR__ . '/../../data/class.json';
 
         /**
          * Путь до файла с данными об Студентах
          *
          * @var string
          */
-        private string $pathToStudents=__DIR__ . '/../JSON/student.json';
+        private string $pathToStudents= __DIR__ . '/../../data/student.json';
 
         /**
          * Путь до файла с данными об Родителях
          *
          * @var string
          */
-        private string $pathToParents=__DIR__ . '/../JSON/parent.json';
+        private string $pathToParents= __DIR__ . '/../../data/parent.json';
 
 
 

@@ -1,6 +1,6 @@
 <?php
 
-    require_once __DIR__.'/../Classes/InvalidDataStructureException.php';
+    require_once __DIR__ . '/../Infrastructure/InvalidDataStructureException.php';
     /**
      * Класс классов
      */

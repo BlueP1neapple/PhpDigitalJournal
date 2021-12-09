@@ -1,7 +1,7 @@
 <?php
 
-    require_once __DIR__ . '/../Classes/AppConfig.php';
-    require_once __DIR__ . '/../functions/application.php';
+    require_once __DIR__ . '/../src/Infrastructure/AppConfig.php';
+    require_once __DIR__ . '/../src/Infrastructure/application.php';
 
     /**
      * Вычисляет расхождение массивов с дополнительной проверкой индекса. Поддержка многомерных массивов
@@ -46,7 +46,7 @@
          */
         private static function testDataProvider(): array
         {
-            $handlers = include __DIR__ . '/../functions/request.handlers.php';
+            $handlers = include __DIR__ . '/../config/request.handlers.php';
             return [
                 [
                     'testName' => 'Тестирование возможности смотреть расписание по названию предмета',
@@ -165,7 +165,7 @@
                         },
                         (function(){
                             $appConfig=new AppConfig();
-                            $appConfig->setPathToLesson(__DIR__.'/../JSON/broken.lesson.json');
+                            $appConfig->setPathToLesson(__DIR__ . '/data/broken.lesson.json');
                             return $appConfig;
                         })()
                     ],

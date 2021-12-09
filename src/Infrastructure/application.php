@@ -1,6 +1,6 @@
 <?php
 
-    require_once __DIR__ . '/../Classes/AppConfig.php';
+    require_once __DIR__ . '/../Infrastructure/AppConfig.php';
 
 
     /**

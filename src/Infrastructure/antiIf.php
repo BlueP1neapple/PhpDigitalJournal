@@ -6,13 +6,13 @@
 
 function getSearch(array $request, array $report, AppConfig $appConfig): bool{
 
-    $items = loadData(__DIR__ . '/../JSON/item.json');
-    $teachers = loadData(__DIR__ . '/../JSON/teacher.json');
-    $classes = loadData(__DIR__ . '/../JSON/class.json');
-    $lessons = loadData(__DIR__ . '/../JSON/lesson.json');
-    $reports = loadData(__DIR__ . '/../JSON/assessmentReport.json');
-    $students = loadData(__DIR__ . '/../JSON/student.json');
-    $parents = loadData(__DIR__ . '/../JSON/parent.json');
+    $items = loadData(__DIR__ . '/../../data/item.json');
+    $teachers = loadData(__DIR__ . '/../../data/teacher.json');
+    $classes = loadData(__DIR__ . '/../../data/class.json');
+    $lessons = loadData(__DIR__ . '/../../data/lesson.json');
+    $reports = loadData(__DIR__ . '/../../data/assessmentReport.json');
+    $students = loadData(__DIR__ . '/../../data/student.json');
+    $parents = loadData(__DIR__ . '/../../data/parent.json');
 
     $graitHardcodeArray = [];
 

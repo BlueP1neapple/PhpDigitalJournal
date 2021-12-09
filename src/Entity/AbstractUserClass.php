@@ -85,34 +85,4 @@
          * @return AbstractUserClass - объект класса пользователь
          */
         abstract public static function createFromArray(array $data): AbstractUserClass;
-
-        // Неиспользуемые методы
-
-//    /**
-//     * @return string Получение  Даты Дня рождения
-//     */
-//final public function getDateOfBirth(): string
-//    {
-//        return $this->dateOfBirth;
-//    }
-
-
-
-//    /**
-//     * @return string Получение Номера телефона
-//     */
-//    final public function getPhone(): string
-//    {
-//        return $this->phone;
-//    }
-
-
-//    /**
-//     * @return string Получение Адресса
-//     */
-//    final public function getAddress(): string
-//    {
-//        return $this->address;
-//    }
-
     }

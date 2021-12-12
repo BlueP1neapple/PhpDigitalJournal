@@ -55,9 +55,66 @@
          */
         private string $pathToParents= __DIR__ . '/../../data/parent.json';
 
+        /**
+         * Путь с файлами с логами
+         *
+         * @var string
+         */
+        private string $pathToLogFile;
+
+        /**
+         * Тип используемого логгера
+         *
+         * @var string
+         */
+        private string $loggerType;
+
 
 
         // Методы
+
+        /**
+         * Возвращает тип используемого логгера
+         *
+         * @return string
+         */
+        public function getLoggerType(): string
+        {
+            return $this->loggerType;
+        }
+
+        /**
+         * Устанавливает тип используемого логгера
+         *
+         * @param string $loggerType
+         */
+        private function setLoggerType(string $loggerType): void
+        {
+            $this->loggerType = $loggerType;
+        }
+
+        /**
+         * Возвращает путь до файла с логерами
+         *
+         * @return string
+         */
+        public function getPathToLogFile(): string
+        {
+            return $this->pathToLogFile;
+        }
+
+        /**
+         * Устанавливает путь до файла с логами
+         *
+         * @param string $pathToLogFile -  путь до файла с логами
+         * @throws Exception
+         */
+        private function setPathToLogFile(string $pathToLogFile): void
+        {
+            $this->validateFilePath($pathToLogFile);
+            $this->pathToLogFile = $pathToLogFile;
+        }
+
         /**
          * Возвращаю путь до файла с данными об Занятиях
          *
@@ -247,6 +304,8 @@
          * @uses \AppConfig::setPathToItems()
          * @uses \AppConfig::setPathToAssessmentReport()
          * @uses \AppConfig::setPathToLesson()
+         * @uses \AppConfig::setPathToLogFile()
+         * @uses \AppConfig::setLoggerType()
          */
         public static function createFromArray(array $config): self
         {

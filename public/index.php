@@ -3,6 +3,7 @@
 // Функции
     require_once __DIR__."/../src/Infrastructure/application.php";
     require_once __DIR__."/../src/Infrastructure/AppConfig.php";
+    require_once __DIR__ . '/../src/Infrastructure/Logger/Factory.php';
 
     $resultApplication = app
     (
@@ -10,7 +11,7 @@
         //Массив путей запросов ведущие к функциям реализующие этот запрос
         $_SERVER['REQUEST_URI'],
         //Полный путь запроса
-        'loggerInFile', //Название функции логирования
+        'Factory::create', //Название функции логирования
         static function () {
             return AppConfig::createFromArray(include __DIR__ . '/../config/dev/config.php');
         } // Конфиг приложения

@@ -1,16 +1,8 @@
 <?php
+    require_once __DIR__ . '/AppConfig.php';
+    require_once __DIR__ . '/InvalidDataStructureException.php';
+    require_once __DIR__ . '/Logger/LoggerInterface.php';
 
-    require_once __DIR__ . '/../Infrastructure/AppConfig.php';
-
-
-    /**
-     * Логгирование текстовым сообщением
-     * @param string $errorString - сообщение ошибки
-     */
-    function loggerInFile(string $errorString): void
-    {
-        file_put_contents(__DIR__ . "/../app.log", $errorString . "\n", FILE_APPEND);
-    }
 
     /**
      * Функция рэдеренга
@@ -65,11 +57,11 @@
      *
      * @param array $handlers - массив сопоставляющий в url path с функциями реализующий логику обработки запроса
      * @param string $requestUri - Переменная содержащая полный путь запроса
-     * @param callable $logger - название функции логирования
+     * @param callable $loggerFactory - фабрика логгеров
      * @param callable $appConfigFactory - конфиг приложения
      * @return array - массив результатов
      */
-    function app(array $handlers, string $requestUri, callable $logger, callable $appConfigFactory): array
+    function app(array $handlers, string $requestUri, callable $loggerFactory, callable $appConfigFactory): array
     {
         try{
             $requestParams=[];
@@ -78,11 +70,19 @@
                 $requestUri,
                 PHP_URL_PATH
             ); // Создаётся переменная, урлПаф для того, что запросы без PATH_INFO обрабатывались корректно
+
+
             $appConfig=$appConfigFactory();
             if(!($appConfig instanceof AppConfig)){
                 throw new Exception('incorrect application config');
             }
-            $logger('Url request received: ' . $requestUri . "\n");
+
+            $logger=$loggerFactory($appConfig);
+            if(!($logger instanceof LoggerInterface)){
+                throw new UnexpectedValueException('incorrect logger');
+            }
+
+            $logger->log('Url request received: ' . $requestUri);
             if (array_key_exists($urlPath, $handlers)) {
                 $result = $handlers[$urlPath]($requestParams, $logger, $appConfig);
             } else {

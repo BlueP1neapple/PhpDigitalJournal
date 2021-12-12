@@ -9,14 +9,15 @@
     require_once __DIR__ . "/../Entity/StudentUserClass.php";
     require_once __DIR__ . "/../Entity/TeacherUserClass.php";
     require_once __DIR__ . "/../Entity/ParentUserClass.php";
+    require_once __DIR__ . '/../../src/Infrastructure/AppConfig.php';
     /**
      * Поиск по оценке
      * @param array $request - массив содержащий параметры поиска
-     * @param callable $logger - название функции логирования
+     * @param LoggerInterface $logger - название функции логирования
      * @param AppConfig $appConfig - конфигурация приложения
      * @return array - результат поиска оценок
      */
-    return static function (array $request, callable $logger, AppConfig $appConfig): array {
+    return static function (array $request, LoggerInterface $logger, AppConfig $appConfig): array {
         $items = loadData($appConfig->getPathToItems());
         $teachers = loadData($appConfig->getPathToTeachers());
         $classes = loadData($appConfig->getPathToClasses());
@@ -24,7 +25,7 @@
         $reports = loadData($appConfig->getPathToAssessmentReport());
         $students = loadData($appConfig->getPathToStudents());
         $parents = loadData($appConfig->getPathToParents());
-        $logger('dispatch "assessmentReport" url');
+        $logger->log('assessmentReport" url');
         $paramValidations = [
             'item_name' => 'Incorrect item name',
             'item_description' => 'Incorrect item description',
@@ -85,7 +86,7 @@
                     $foundReport[] = ReportClass::createFromArray($report);
                 }
             }//Цикл по оценкам [конец]
-            $logger('found Report' . count($foundReport));
+            $logger->log('found Report'.count($foundReport));
             $result = [
                 'httpCode' => 200,
                 'result' => $foundReport

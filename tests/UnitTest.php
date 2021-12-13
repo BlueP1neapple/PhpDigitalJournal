@@ -161,12 +161,11 @@
                         ]
                     ]
                 ],
-                //TODO доделать Unittest
                 [
                     'testName' => 'Тестирование возможности смотреть расписание по рассшифровке предмета',
                     'in' => [
                         $handlers,
-                        '/lesson?item_name=Математика',
+                        '/lesson?item_description=Математика',
                         $loggerFactory,
                         static function () {
                             return AppConfig::createFromArray(include __DIR__ . '/../config/dev/config.php');

@@ -29,7 +29,7 @@ client.test("Тестирование возможности смотреть о
     client.assert(response.body[0]["student"]["id"]===1,"id студента не корректен");
     client.assert(response.body[0]["student"]["fio"]==="Кузнецов Алексей Евгеньевич","ФИО студента не корректен");
     client.assert(response.body[0]["student"]["dateOfBirth"]==="2011.01.11","Дата рождения студента не корректено");
-    client.assert(response.body[0]["student"]["phone"]==="+792224444.88","Номер телефона студента не корректен");
+    client.assert(response.body[0]["student"]["phone"]==="+79222444488","Номер телефона студента не корректен");
     client.assert(response.body[0]["student"]["address"]==="ул. Казанская, д. 35Б, кв. 23","Адресс студента не корректен");
     client.assert(response.body[0]["student"]["parent"]!==undefined,"Нет данных о родителях Студента");
     client.assert(response.body[0]["student"]["parent"]["id"]===1,"id родителей не корректен");
@@ -74,7 +74,7 @@ client.test("Тестирование возможности смотреть о
     client.assert(response.body[0]["student"]["id"]===1,"id студента не корректен");
     client.assert(response.body[0]["student"]["fio"]==="Кузнецов Алексей Евгеньевич","ФИО студента не корректен");
     client.assert(response.body[0]["student"]["dateOfBirth"]==="2011.01.11","Дата рождения студента не корректено");
-    client.assert(response.body[0]["student"]["phone"]==="+792224444.88","Номер телефона студента не корректен");
+    client.assert(response.body[0]["student"]["phone"]==="+79222444488","Номер телефона студента не корректен");
     client.assert(response.body[0]["student"]["address"]==="ул. Казанская, д. 35Б, кв. 23","Адресс студента не корректен");
     client.assert(response.body[0]["student"]["parent"]!==undefined,"Нет данных о родителях Студента");
     client.assert(response.body[0]["student"]["parent"]["id"]===1,"id родителей не корректен");
@@ -118,7 +118,7 @@ client.test("Тестирование возможности смотреть о
     client.assert(response.body[0]["student"]["id"]===1,"id студента не корректен");
     client.assert(response.body[0]["student"]["fio"]==="Кузнецов Алексей Евгеньевич","ФИО студента не корректен");
     client.assert(response.body[0]["student"]["dateOfBirth"]==="2011.01.11","Дата рождения студента не корректено");
-    client.assert(response.body[0]["student"]["phone"]==="+792224444.88","Номер телефона студента не корректен");
+    client.assert(response.body[0]["student"]["phone"]==="+79222444488","Номер телефона студента не корректен");
     client.assert(response.body[0]["student"]["address"]==="ул. Казанская, д. 35Б, кв. 23","Адресс студента не корректен");
     client.assert(response.body[0]["student"]["parent"]!==undefined,"Нет данных о родителях Студента");
     client.assert(response.body[0]["student"]["parent"]["id"]===1,"id родителей не корректен");
@@ -163,7 +163,7 @@ client.test("Тестирование возможности смотреть о
     client.assert(response.body[0]["student"]["id"]===1,"id студента не корректен");
     client.assert(response.body[0]["student"]["fio"]==="Кузнецов Алексей Евгеньевич","ФИО студента не корректен");
     client.assert(response.body[0]["student"]["dateOfBirth"]==="2011.01.11","Дата рождения студента не корректено");
-    client.assert(response.body[0]["student"]["phone"]==="+792224444.88","Номер телефона студента не корректен");
+    client.assert(response.body[0]["student"]["phone"]==="+79222444488","Номер телефона студента не корректен");
     client.assert(response.body[0]["student"]["address"]==="ул. Казанская, д. 35Б, кв. 23","Адресс студента не корректен");
     client.assert(response.body[0]["student"]["parent"]!==undefined,"Нет данных о родителях Студента");
     client.assert(response.body[0]["student"]["parent"]["id"]===1,"id родителей не корректен");
@@ -211,7 +211,7 @@ client.test("Тестирование возможности смотреть о
     client.assert(response.body[0]["student"]["id"]===1,"id студента не корректен");
     client.assert(response.body[0]["student"]["fio"]==="Кузнецов Алексей Евгеньевич","ФИО студента не корректен");
     client.assert(response.body[0]["student"]["dateOfBirth"]==="2011.01.11","Дата рождения студента не корректено");
-    client.assert(response.body[0]["student"]["phone"]==="+792224444.88","Номер телефона студента не корректен");
+    client.assert(response.body[0]["student"]["phone"]==="+79222444488","Номер телефона студента не корректен");
     client.assert(response.body[0]["student"]["address"]==="ул. Казанская, д. 35Б, кв. 23","Адресс студента не корректен");
     client.assert(response.body[0]["student"]["parent"]!==undefined,"Нет данных о родителях Студента");
     client.assert(response.body[0]["student"]["parent"]["id"]===1,"id родителей не корректен");
@@ -256,7 +256,7 @@ client.test("Тестирование возможности смотреть о
     client.assert(response.body[0]["student"]["id"]===1,"id студента не корректен");
     client.assert(response.body[0]["student"]["fio"]==="Кузнецов Алексей Евгеньевич","ФИО студента не корректен");
     client.assert(response.body[0]["student"]["dateOfBirth"]==="2011.01.11","Дата рождения студента не корректено");
-    client.assert(response.body[0]["student"]["phone"]==="+792224444.88","Номер телефона студента не корректен");
+    client.assert(response.body[0]["student"]["phone"]==="+79222444488","Номер телефона студента не корректен");
     client.assert(response.body[0]["student"]["address"]==="ул. Казанская, д. 35Б, кв. 23","Адресс студента не корректен");
     client.assert(response.body[0]["student"]["parent"]!==undefined,"Нет данных о родителях Студента");
     client.assert(response.body[0]["student"]["parent"]["id"]===1,"id родителей не корректен");
@@ -300,7 +300,7 @@ client.test("Тестирование возможности смотреть о
     client.assert(response.body[0]["student"]["id"]===1,"id студента не корректен");
     client.assert(response.body[0]["student"]["fio"]==="Кузнецов Алексей Евгеньевич","ФИО студента не корректен");
     client.assert(response.body[0]["student"]["dateOfBirth"]==="2011.01.11","Дата рождения студента не корректено");
-    client.assert(response.body[0]["student"]["phone"]==="+792224444.88","Номер телефона студента не корректен");
+    client.assert(response.body[0]["student"]["phone"]==="+79222444488","Номер телефона студента не корректен");
     client.assert(response.body[0]["student"]["address"]==="ул. Казанская, д. 35Б, кв. 23","Адресс студента не корректен");
     client.assert(response.body[0]["student"]["parent"]!==undefined,"Нет данных о родителях Студента");
     client.assert(response.body[0]["student"]["parent"]["id"]===1,"id родителей не корректен");
@@ -345,7 +345,7 @@ client.test("Тестирование возможности смотреть о
     client.assert(response.body[0]["student"]["id"]===1,"id студента не корректен");
     client.assert(response.body[0]["student"]["fio"]==="Кузнецов Алексей Евгеньевич","ФИО студента не корректен");
     client.assert(response.body[0]["student"]["dateOfBirth"]==="2011.01.11","Дата рождения студента не корректено");
-    client.assert(response.body[0]["student"]["phone"]==="+792224444.88","Номер телефона студента не корректен");
+    client.assert(response.body[0]["student"]["phone"]==="+79222444488","Номер телефона студента не корректен");
     client.assert(response.body[0]["student"]["address"]==="ул. Казанская, д. 35Б, кв. 23","Адресс студента не корректен");
     client.assert(response.body[0]["student"]["parent"]!==undefined,"Нет данных о родителях Студента");
     client.assert(response.body[0]["student"]["parent"]["id"]===1,"id родителей не корректен");

@@ -10,8 +10,5 @@
         /**
          * @inheritDoc
          */
-        public function Log(string $msg): void
-        {
-            // TODO: Implement Log() method.
-        }
+        public function Log(string $msg): void {}
     }

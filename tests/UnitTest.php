@@ -161,6 +161,110 @@
                         ]
                     ]
                 ],
+                //TODO доделать Unittest
+                [
+                    'testName' => 'Тестирование возможности смотреть расписание по рассшифровке предмета',
+                    'in' => [
+                        $handlers,
+                        '/lesson?item_name=Математика',
+                        $loggerFactory,
+                        static function () {
+                            return AppConfig::createFromArray(include __DIR__ . '/../config/dev/config.php');
+                        },
+                    ],
+                    'out' => [
+                        'httpCode' => 200,
+                        'result' => [
+                            [
+                                'id' => 1,
+                                'item' => [
+                                    'id' => 1,
+                                    'name' => 'Математика',
+                                    'description' => 'Математика'
+                                ],
+                                'date' => '2011.11.10 8:30',
+                                'lessonDuration' => 40,
+                                'teacher' => [
+                                    'id' => 1,
+                                    'fio' => 'Круглова Наталия Сергеевна',
+                                    'phone' => '+79222444411',
+                                    'dateOfBirth' => '1965.01.11',
+                                    'address' => 'ул. Ясная, д. 54, кв. 19',
+                                    'item' => [
+                                        'id' => 1,
+                                        'name' => 'Математика',
+                                        'description' => 'Математика'
+                                    ],
+                                    'cabinet' => 56,
+                                    'email' => 'kruglova@gmail.com'
+                                ],
+                                'class' => [
+                                    'id' => 3,
+                                    'number' => 6,
+                                    'letter' => 'А'
+                                ]
+                            ],
+                            [
+                                'id' => 2,
+                                'item' => [
+                                    'id' => 1,
+                                    'name' => 'Математика',
+                                    'description' => 'Математика'
+                                ],
+                                'date' => '2011.11.10 10:30',
+                                'lessonDuration' => 40,
+                                'teacher' => [
+                                    'id' => 1,
+                                    'fio' => 'Круглова Наталия Сергеевна',
+                                    'phone' => '+79222444411',
+                                    'dateOfBirth' => '1965.01.11',
+                                    'address' => 'ул. Ясная, д. 54, кв. 19',
+                                    'item' => [
+                                        'id' => 1,
+                                        'name' => 'Математика',
+                                        'description' => 'Математика'
+                                    ],
+                                    'cabinet' => 56,
+                                    'email' => 'kruglova@gmail.com'
+                                ],
+                                'class' => [
+                                    'id' => 1,
+                                    'number' => 4,
+                                    'letter' => 'Б'
+                                ]
+                            ],
+                            [
+                                'id' => 3,
+                                'item' => [
+                                    'id' => 1,
+                                    'name' => 'Математика',
+                                    'description' => 'Математика'
+                                ],
+                                'date' => '2011.11.10 11:30',
+                                'lessonDuration' => 40,
+                                'teacher' => [
+                                    'id' => 1,
+                                    'fio' => 'Круглова Наталия Сергеевна',
+                                    'phone' => '+79222444411',
+                                    'dateOfBirth' => '1965.01.11',
+                                    'address' => 'ул. Ясная, д. 54, кв. 19',
+                                    'item' => [
+                                        'id' => 1,
+                                        'name' => 'Математика',
+                                        'description' => 'Математика'
+                                    ],
+                                    'cabinet' => 56,
+                                    'email' => 'kruglova@gmail.com'
+                                ],
+                                'class' => [
+                                    'id' => 2,
+                                    'number' => 3,
+                                    'letter' => 'А'
+                                ]
+                            ]
+                        ]
+                    ]
+                ],
 
                 // Тесты с некорреткными данными
                 [

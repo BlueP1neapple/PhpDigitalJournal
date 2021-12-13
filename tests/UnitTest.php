@@ -264,6 +264,51 @@
                         ]
                     ]
                 ],
+                [
+                    'testName' => 'Тестирование возможности смотреть расписание по дате',
+                    'in' => [
+                        $handlers,
+                        '/lesson?lesson_date=2011.11.10 8:30',
+                        $loggerFactory,
+                        static function () {
+                            return AppConfig::createFromArray(include __DIR__ . '/../config/dev/config.php');
+                        },
+                    ],
+                    'out' => [
+                        'httpCode' => 200,
+                        'result' => [
+                            [
+                                'id' => 1,
+                                'item' => [
+                                    'id' => 1,
+                                    'name' => 'Математика',
+                                    'description' => 'Математика'
+                                ],
+                                'date' => '2011.11.10 8:30',
+                                'lessonDuration' => 40,
+                                'teacher' => [
+                                    'id' => 1,
+                                    'fio' => 'Круглова Наталия Сергеевна',
+                                    'phone' => '+79222444411',
+                                    'dateOfBirth' => '1965.01.11',
+                                    'address' => 'ул. Ясная, д. 54, кв. 19',
+                                    'item' => [
+                                        'id' => 1,
+                                        'name' => 'Математика',
+                                        'description' => 'Математика'
+                                    ],
+                                    'cabinet' => 56,
+                                    'email' => 'kruglova@gmail.com'
+                                ],
+                                'class' => [
+                                    'id' => 3,
+                                    'number' => 6,
+                                    'letter' => 'А'
+                                ]
+                            ]
+                        ]
+                    ]
+                ],
 
                 // Тесты с некорреткными данными
                 [

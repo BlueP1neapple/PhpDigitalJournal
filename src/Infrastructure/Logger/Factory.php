@@ -1,4 +1,5 @@
 <?php
+namespace JoJoBizzareCoders\DigitalJournal\Infrastructure\Logger;
     require_once __DIR__.'/LoggerInterface.php';
     require_once __DIR__.'/../AppConfig.php';
 

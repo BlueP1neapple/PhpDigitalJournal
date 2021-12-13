@@ -1,5 +1,5 @@
 <?php
-
+namespace JoJoBizzareCoders\DigitalJournal\Controller;
     // Подключаемы функции
     require_once __DIR__ . '/../Infrastructure/application.php';
     // Подключаемые классы

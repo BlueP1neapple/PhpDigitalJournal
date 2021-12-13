@@ -1,4 +1,5 @@
 <?php
+namespace JoJoBizzareCoders\DigitalJournal\Infrastructure\Logger\NullLogger;
     require_once __DIR__.'/../LoggerInterface.php';
 
     /**

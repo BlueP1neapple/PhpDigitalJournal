@@ -1,4 +1,6 @@
 <?php
+namespace JoJoBizzareCoders\DigitalJournal\Entity;
+    use JsonSerializable;
 
     require_once __DIR__ . '/../Infrastructure/InvalidDataStructureException.php';
     /**

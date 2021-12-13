@@ -1,4 +1,6 @@
 <?php
+namespace JoJoBizzareCoders\DigitalJournal\Entity;
+    use JsonSerializable;
 
     /**
      * Класс пользователя

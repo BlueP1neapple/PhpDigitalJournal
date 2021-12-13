@@ -1,4 +1,6 @@
 <?php
+namespace JoJoBizzareCoders\DigitalJournal\Infrastructure;
+    use Exception;
 
     /**
      * Конфиг приложения
@@ -107,7 +109,7 @@
          * Устанавливает путь до файла с логами
          *
          * @param string $pathToLogFile -  путь до файла с логами
-         * @throws Exception
+         * @throws \Exception
          */
         private function setPathToLogFile(string $pathToLogFile): void
         {
@@ -283,7 +285,7 @@
          * @param string $path
          *
          * @return void
-         * @throws Exception
+         * @throws \Exception
          */
         private function validateFilePath(string $path):void
         {

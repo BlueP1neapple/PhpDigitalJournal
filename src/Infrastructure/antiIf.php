@@ -1,8 +1,10 @@
 <?php
 
 
+namespace JoJoBizzareCoders\DigitalJournal\Infrastructure;
 
 
+use AppConfig;
 
 function getSearch(array $request, array $report, AppConfig $appConfig): bool{
 

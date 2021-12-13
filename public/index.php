@@ -1,4 +1,7 @@
 <?php
+use JoJoBizzareCoders\DigitalJournal\Infrastructure\AppConfig;
+use function JoJoBizzareCoders\DigitalJournal\Infrastructure\app;
+use function JoJoBizzareCoders\DigitalJournal\Infrastructure\render;
 
 // Функции
     require_once __DIR__."/../src/Infrastructure/application.php";
@@ -11,7 +14,7 @@
         //Массив путей запросов ведущие к функциям реализующие этот запрос
         $_SERVER['REQUEST_URI'],
         //Полный путь запроса
-        'Factory::create', //Название функции логирования
+        '\Infrastructure\Factory::create', //Название функции логирования
         static function () {
             return AppConfig::createFromArray(include __DIR__ . '/../config/dev/config.php');
         } // Конфиг приложения

@@ -1,6 +1,9 @@
 <?php
 
-    require_once __DIR__ . '/../src/Infrastructure/AppConfig.php';
+use JoJoBizzareCoders\DigitalJournal\Infrastructure\AppConfig;
+use JoJoBizzareCoders\DigitalJournal\Infrastructure\Logger\LoggerInterface;
+
+require_once __DIR__ . '/../src/Infrastructure/AppConfig.php';
     require_once __DIR__ . '/../src/Infrastructure/application.php';
     require_once __DIR__ . '/../src/Infrastructure/Logger/LoggerInterface.php';
     require_once __DIR__ . '/../src/Infrastructure/Logger/NullLogger/Logger.php';

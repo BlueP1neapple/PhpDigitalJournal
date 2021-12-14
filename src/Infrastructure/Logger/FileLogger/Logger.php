@@ -2,7 +2,6 @@
 namespace JoJoBizzareCoders\DigitalJournal\Infrastructure\Logger\FileLogger;
     use JoJoBizzareCoders\DigitalJournal\Infrastructure\Logger\LoggerInterface;
 
-    require_once __DIR__ . '/../LoggerInterface.php';
 
     /**
      * Логирование в файл

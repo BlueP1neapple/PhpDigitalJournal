@@ -3,7 +3,6 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
     use JsonSerializable;
     use  JoJoBizzareCoders\DigitalJournal\Infrastructure\InvalidDataStructureException;
 
-    require_once __DIR__ . '/../Infrastructure/InvalidDataStructureException.php';
     /**
      * Класс классов
      */

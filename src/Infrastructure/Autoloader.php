@@ -4,10 +4,10 @@ namespace JoJoBizzareCoders\DigitalJournal\Infrastructure;
 final class Autoloader
 {
     /**
-     * Registred namespace
+     * Registered namespace
      * @var array
      */
-    private array $registerNamespaces = [];
+    private array $registerNamespaces=[];
 
     public function __construct(array $registerNamespaces)
     {

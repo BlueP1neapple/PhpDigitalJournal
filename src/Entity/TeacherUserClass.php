@@ -2,9 +2,6 @@
 namespace JoJoBizzareCoders\DigitalJournal\Entity;
     use JoJoBizzareCoders\DigitalJournal\Infrastructure\InvalidDataStructureException;
 
-    require_once __DIR__ . "/AbstractUserClass.php";
-    require_once __DIR__ . "/ItemClass.php";
-    require_once __DIR__ . '/../Infrastructure/InvalidDataStructureException.php';
 
     /**
      * Класс Учителя

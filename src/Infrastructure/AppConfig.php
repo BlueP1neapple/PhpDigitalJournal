@@ -297,7 +297,7 @@ namespace JoJoBizzareCoders\DigitalJournal\Infrastructure;
         private function validateFilePath(string $path):void
         {
             if(false===file_exists($path)){
-                throw new Exception('Неккоректный путь до файла с данными ' . $path);
+                throw new Exception('Неккоректный путь до файла с данными');
             }
         }
 

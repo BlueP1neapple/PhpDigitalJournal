@@ -11,12 +11,13 @@ namespace JoJoBizzareCoders\DigitalJournal\Controller;
     use JoJoBizzareCoders\DigitalJournal\Infrastructure\Logger\LoggerInterface;
     use  JoJoBizzareCoders\DigitalJournal\Infrastructure\InvalidDataStructureException;
 
+
     use function JoJoBizzareCoders\DigitalJournal\Infrastructure\getSearch;
     use function JoJoBizzareCoders\DigitalJournal\Infrastructure\loadData;
     use function JoJoBizzareCoders\DigitalJournal\Infrastructure\paramTypeValidation;
 
+    require_once __DIR__ . '/../Infrastructure/application.php';
     require_once __DIR__ . '/../Infrastructure/antiIf.php';
-    require_once __DIR__ . '/../Infrastructure/Autoloader.php';
 
     /**
      * Поиск по оценке

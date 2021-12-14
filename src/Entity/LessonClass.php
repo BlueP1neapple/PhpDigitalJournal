@@ -1,4 +1,8 @@
 <?php
+namespace JoJoBizzareCoders\DigitalJournal\Entity;
+    use JsonSerializable;
+    use  JoJoBizzareCoders\DigitalJournal\Infrastructure\InvalidDataStructureException;
+
     require_once __DIR__ . '/../Infrastructure/InvalidDataStructureException.php';
     /**
      *Класс занятий
@@ -108,6 +112,7 @@
          * Метод создания объекта класса занятия из массива данных об занятии
          * @param array $data - массив данных об занятии
          * @return LessonClass - объект класса занятий
+         * @throws InvalidDataStructureException
          */
         public static function createFromArray(array $data): LessonClass
         {

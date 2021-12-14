@@ -1,4 +1,8 @@
 <?php
+namespace JoJoBizzareCoders\DigitalJournal\Entity;
+    use JoJoBizzareCoders\DigitalJournal\Infrastructure\InvalidDataStructureException;
+    use JsonSerializable;
+
     require_once __DIR__ . '/../Infrastructure/InvalidDataStructureException.php';
     /**
      * Класс оценок
@@ -58,6 +62,7 @@
          * Метод создания объекта класса Оценок из массива данных об оценках
          * @param array $data - массив данных об оценках
          * @return ReportClass - объект класса оценок
+         * @throws InvalidDataStructureException
          */
         public static function createFromArray(array $data): ReportClass
         {

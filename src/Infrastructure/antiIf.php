@@ -1,7 +1,7 @@
 <?php
 
 
-
+namespace JoJoBizzareCoders\DigitalJournal\Infrastructure;
 
 
 function getSearch(array $request, array $report, AppConfig $appConfig): bool{

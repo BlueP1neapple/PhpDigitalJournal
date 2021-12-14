@@ -1,5 +1,5 @@
 <?php
-
+namespace JoJoBizzareCoders\DigitalJournal\Infrastructure\Logger;
     /**
      *Интерфэйс логера
      */

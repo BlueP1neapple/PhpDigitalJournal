@@ -1,4 +1,7 @@
 <?php
+namespace JoJoBizzareCoders\DigitalJournal\Entity;
+    use JoJoBizzareCoders\DigitalJournal\Infrastructure\InvalidDataStructureException;
+
     require_once __DIR__ . '/../Infrastructure/InvalidDataStructureException.php';
     require_once __DIR__ . "/AbstractUserClass.php";
 
@@ -54,6 +57,7 @@
          * Метод создания объекта класса студент из тмассива данных об студенте
          * @param array $data -массив данных об студенте
          * @return StudentUserClass - объект класса студент
+         * @throws InvalidDataStructureException
          */
         public static function createFromArray(array $data): StudentUserClass
         {

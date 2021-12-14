@@ -1,4 +1,6 @@
 <?php
+namespace JoJoBizzareCoders\DigitalJournal\Infrastructure;
+    use Exception;
 
     /**
      * Конфиг приложения
@@ -130,6 +132,7 @@
          *
          * @param string $pathToLesson - путь до файла с данными об Занятиях
          * @return AppConfig - объект с путём до файла с данными об Занятиях
+         * @throws Exception
          */
         private function setPathToLesson(string $pathToLesson): AppConfig
         {
@@ -153,6 +156,7 @@
          *
          * @param string $pathToAssessmentReport - путь до файла с данными об Оценках
          * @return AppConfig - объект с путём до файла с данными об Оценках
+         * @throws Exception
          */
         private function setPathToAssessmentReport(string $pathToAssessmentReport): AppConfig
         {
@@ -176,6 +180,7 @@
          *
          * @param string $pathToItems - путь до файла с данными об Предмете
          * @return AppConfig - объект с путём до файла с данными об Предмете
+         * @throws Exception
          */
         private function setPathToItems(string $pathToItems): AppConfig
         {
@@ -199,6 +204,7 @@
          *
          * @param string $pathToTeachers - путь до файла с данными об Учителе
          * @return AppConfig - объект с путём до файла с данными об Учителе
+         * @throws Exception
          */
         private function setPathToTeachers(string $pathToTeachers): AppConfig
         {
@@ -222,6 +228,7 @@
          *
          * @param string $pathToClasses - путь до файла с данными об Классах
          * @return AppConfig - объект с путём до файла с данными об Классах
+         * @throws Exception
          */
         private function setPathToClasses(string $pathToClasses): AppConfig
         {
@@ -245,6 +252,7 @@
          *
          * @param string $pathToStudents - путь до файла с данными об Студентах
          * @return AppConfig - объект с путём до файла с данными об Студентах
+         * @throws Exception
          */
         private function setPathToStudents(string $pathToStudents): AppConfig
         {
@@ -268,6 +276,7 @@
          *
          * @param string $pathToParents - путь до файла с данными об Родителях
          * @return AppConfig - объект с путём до файла с данными об Родителях
+         * @throws Exception
          */
         private function setPathToParents(string $pathToParents): AppConfig
         {
@@ -297,15 +306,15 @@
          *
          * @param array $config
          * @return static
-         * @uses \AppConfig::setPathToParents()
-         * @uses \AppConfig::setPathToStudents()
-         * @uses \AppConfig::setPathToClasses()
-         * @uses \AppConfig::setPathToTeachers()
-         * @uses \AppConfig::setPathToItems()
-         * @uses \AppConfig::setPathToAssessmentReport()
-         * @uses \AppConfig::setPathToLesson()
-         * @uses \AppConfig::setPathToLogFile()
-         * @uses \AppConfig::setLoggerType()
+         * @uses AppConfig::setPathToParents()
+         * @uses AppConfig::setPathToStudents()
+         * @uses AppConfig::setPathToClasses()
+         * @uses AppConfig::setPathToTeachers()
+         * @uses AppConfig::setPathToItems()
+         * @uses AppConfig::setPathToAssessmentReport()
+         * @uses AppConfig::setPathToLesson()
+         * @uses AppConfig::setPathToLogFile()
+         * @uses AppConfig::setLoggerType()
          */
         public static function createFromArray(array $config): self
         {

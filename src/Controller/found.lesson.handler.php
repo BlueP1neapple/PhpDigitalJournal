@@ -1,4 +1,17 @@
 <?php
+namespace JoJoBizzareCoders\DigitalJournal\Controller;
+
+use JoJoBizzareCoders\DigitalJournal\Entity\ClassClass;
+use JoJoBizzareCoders\DigitalJournal\Entity\ItemClass;
+use JoJoBizzareCoders\DigitalJournal\Entity\LessonClass;
+use JoJoBizzareCoders\DigitalJournal\Entity\TeacherUserClass;
+use JoJoBizzareCoders\DigitalJournal\Infrastructure\AppConfig;
+use JoJoBizzareCoders\DigitalJournal\Infrastructure\Logger\LoggerInterface;
+use  JoJoBizzareCoders\DigitalJournal\Infrastructure\InvalidDataStructureException;
+
+use function JoJoBizzareCoders\DigitalJournal\Infrastructure\getSearch;
+use function JoJoBizzareCoders\DigitalJournal\Infrastructure\loadData;
+use function JoJoBizzareCoders\DigitalJournal\Infrastructure\paramTypeValidation;
 
     // Подключаемы функции
     require_once __DIR__ . '/../Infrastructure/application.php';
@@ -11,13 +24,14 @@
     require_once __DIR__ . "/../Entity/TeacherUserClass.php";
     require_once __DIR__ . "/../Entity/ParentUserClass.php";
     require_once __DIR__ . '/../../src/Infrastructure/AppConfig.php';
-    /**
-     * Поиск по уроку
-     * @param array $request - массив содержащий параметры поиска
-     * @param LoggerInterface $logger - название функции логирования
-     * @param AppConfig $appConfig - Конфигурация приложения
-     * @return array - результат поиска уроков
-     */
+/**
+ * Поиск по уроку
+ * @param array $request - массив содержащий параметры поиска
+ * @param LoggerInterface $logger - название функции логирования
+ * @param AppConfig $appConfig - Конфигурация приложения
+ * @return array - результат поиска уроков
+ * @throws InvalidDataStructureException
+ */
     return static function (array $request, LoggerInterface $logger, AppConfig $appConfig): array {
         // Загрузка данных из json
         $items = loadData($appConfig->getPathToItems());

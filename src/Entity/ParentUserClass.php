@@ -1,5 +1,7 @@
 <?php
 
+namespace JoJoBizzareCoders\DigitalJournal\Entity;
+    use JoJoBizzareCoders\DigitalJournal\Infrastructure\InvalidDataStructureException;
 
     require_once __DIR__ . "/AbstractUserClass.php";
     require_once __DIR__ . '/../Infrastructure/InvalidDataStructureException.php';
@@ -56,6 +58,7 @@
          * @inheritdoc
          * @param array $data - Массив данных данных об родителях
          * @return ParentUserClass - Объект класса Родителей
+         * @throws InvalidDataStructureException
          */
         public static function createFromArray(array $data): ParentUserClass
         {

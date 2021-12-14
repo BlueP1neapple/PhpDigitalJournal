@@ -359,6 +359,60 @@ client.test("Тестирование возможности смотреть о
 });
  %}
 
+### Тестирование некорреткного ввода названия предмета
+GET http://localhost:8000/assessmentReport?item_name[]=Математика
+
+> {%
+client.test("Тестирование некорреткного ввода названия предмета",function ()
+{
+    client.assert(response.status=== 500, "Проверяю код ответа. Ожидаю код 404. Фактическое значение: " + response.status);
+    client.assert(response.contentType.mimeType==="application/json", "Ожидаю application/type фактически " + response.contentType.mimeType);
+    client.assert(response.body["message"]==="Incorrect item name","Некоректное сообщение");
+    client.assert(response.body["status"]==="fail","Некоректный статус");
+});
+ %}
+
+### Тестирование некорреткного ввода расшифровки названия предмета
+GET http://localhost:8000/studentReport?item_description[]=Математика
+
+> {%
+client.test("Тестирование некорреткного ввода рассшифровки предмета",function ()
+{
+    client.assert(response.status=== 500, "Проверяю код ответа. Ожидаю код 404. Фактическое значение: " + response.status);
+    client.assert(response.contentType.mimeType==="application/json", "Ожидаю application/type фактически " + response.contentType.mimeType);
+    client.assert(response.body["message"]==="Incorrect item description","Некоректное сообщение");
+    client.assert(response.body["status"]==="fail","Некоректный статус");
+});
+ %}
+
+### Тестирование некорреткного ввода дате проведения занятия
+GET http://localhost:8000/studentReport?lesson_date[]=2011.11.10 8:30
+
+> {%
+client.test("Тестирование некорреткного ввода даты занятия",function ()
+{
+    client.assert(response.status=== 500, "Проверяю код ответа. Ожидаю код 404. Фактическое значение: " + response.status);
+    client.assert(response.contentType.mimeType==="application/json", "Ожидаю application/type фактически " + response.contentType.mimeType);
+    client.assert(response.body["message"]==="Incorrect lesson date","Некоректное сообщение");
+    client.assert(response.body["status"]==="fail","Некоректный статус");
+});
+ %}
+
+### Тестирование некорреткного ввода ФИО cтудента
+GET http://localhost:8000/studentReport?student_fio[]=Кузнецов Алексей Евгеньевич
+
+> {%
+client.test("Тестирование некорреткного ввода fio преподавателя",function ()
+{
+    client.assert(response.status=== 500, "Проверяю код ответа. Ожидаю код 404. Фактическое значение: " + response.status);
+    client.assert(response.contentType.mimeType==="application/json", "Ожидаю application/type фактически " + response.contentType.mimeType);
+    client.assert(response.body["message"]==="Incorrect student fio","Некоректное сообщение");
+    client.assert(response.body["status"]==="fail","Некоректный статус");
+});
+ %}
+
+
+
 
 
 

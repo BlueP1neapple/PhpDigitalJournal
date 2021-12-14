@@ -1,6 +1,7 @@
 <?php
 namespace JoJoBizzareCoders\DigitalJournal\Controller;
 
+// Подключаемы функции
 use JoJoBizzareCoders\DigitalJournal\Entity\ClassClass;
 use JoJoBizzareCoders\DigitalJournal\Entity\ItemClass;
 use JoJoBizzareCoders\DigitalJournal\Entity\LessonClass;
@@ -12,18 +13,12 @@ use  JoJoBizzareCoders\DigitalJournal\Infrastructure\InvalidDataStructureExcepti
 use function JoJoBizzareCoders\DigitalJournal\Infrastructure\getSearch;
 use function JoJoBizzareCoders\DigitalJournal\Infrastructure\loadData;
 use function JoJoBizzareCoders\DigitalJournal\Infrastructure\paramTypeValidation;
+require_once __DIR__ . '/../Infrastructure/antiIf.php';
 
-    // Подключаемы функции
-    require_once __DIR__ . '/../Infrastructure/application.php';
-    // Подключаемые классы
-    require_once __DIR__ . "/../Entity/ItemClass.php";
-    require_once __DIR__ . "/../Entity/LessonClass.php";
-    require_once __DIR__ . "/../Entity/ClassClass.php";
-    require_once __DIR__ . "/../Entity/ReportClass.php";
-    require_once __DIR__ . "/../Entity/StudentUserClass.php";
-    require_once __DIR__ . "/../Entity/TeacherUserClass.php";
-    require_once __DIR__ . "/../Entity/ParentUserClass.php";
-    require_once __DIR__ . '/../../src/Infrastructure/AppConfig.php';
+
+
+    require_once __DIR__ . '/../Infrastructure/Autoloader.php';
+
 /**
  * Поиск по уроку
  * @param array $request - массив содержащий параметры поиска

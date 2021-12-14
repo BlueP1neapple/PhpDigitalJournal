@@ -15,17 +15,9 @@ namespace JoJoBizzareCoders\DigitalJournal\Controller;
     use function JoJoBizzareCoders\DigitalJournal\Infrastructure\loadData;
     use function JoJoBizzareCoders\DigitalJournal\Infrastructure\paramTypeValidation;
 
-
-    require_once __DIR__ . '/../Infrastructure/application.php';
     require_once __DIR__ . '/../Infrastructure/antiIf.php';
-    require_once __DIR__ . "/../Entity/ItemClass.php";
-    require_once __DIR__ . "/../Entity/LessonClass.php";
-    require_once __DIR__ . "/../Entity/ClassClass.php";
-    require_once __DIR__ . "/../Entity/ReportClass.php";
-    require_once __DIR__ . "/../Entity/StudentUserClass.php";
-    require_once __DIR__ . "/../Entity/TeacherUserClass.php";
-    require_once __DIR__ . "/../Entity/ParentUserClass.php";
-    require_once __DIR__ . '/../../src/Infrastructure/AppConfig.php';
+    require_once __DIR__ . '/../Infrastructure/Autoloader.php';
+
     /**
      * Поиск по оценке
      * @param array $request - массив содержащий параметры поиска

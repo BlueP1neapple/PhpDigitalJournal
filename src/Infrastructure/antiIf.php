@@ -4,8 +4,6 @@
 namespace JoJoBizzareCoders\DigitalJournal\Infrastructure;
 
 
-use AppConfig;
-
 function getSearch(array $request, array $report, AppConfig $appConfig): bool{
 
     $items = loadData(__DIR__ . '/../../data/item.json');

@@ -62,6 +62,7 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
          * Метод создания объекта класса Оценок из массива данных об оценках
          * @param array $data - массив данных об оценках
          * @return ReportClass - объект класса оценок
+         * @throws InvalidDataStructureException
          */
         public static function createFromArray(array $data): ReportClass
         {

@@ -2,6 +2,8 @@
 
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\AppConfig;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Logger\LoggerInterface;
+use JoJoBizzareCoders\DigitalJournal\Infrastructure\Logger\NullLogger\Logger;
+use function JoJoBizzareCoders\DigitalJournal\Infrastructure\app;
 
 require_once __DIR__ . '/../src/Infrastructure/AppConfig.php';
     require_once __DIR__ . '/../src/Infrastructure/application.php';

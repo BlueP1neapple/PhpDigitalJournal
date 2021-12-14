@@ -1,7 +1,6 @@
 <?php
 namespace JoJoBizzareCoders\DigitalJournal\Infrastructure;
     use Exception;
-    use JoJoBizzareCoders\DigitalJournal\Infrastructure\InvalidDataStructureException;
     use JoJoBizzareCoders\DigitalJournal\Infrastructure\Logger\LoggerInterface;
     use Throwable;
     use UnexpectedValueException;

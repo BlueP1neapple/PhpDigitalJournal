@@ -58,6 +58,7 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
          * @inheritdoc
          * @param array $data - Массив данных данных об родителях
          * @return ParentUserClass - Объект класса Родителей
+         * @throws InvalidDataStructureException
          */
         public static function createFromArray(array $data): ParentUserClass
         {

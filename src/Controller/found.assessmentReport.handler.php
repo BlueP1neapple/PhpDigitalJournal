@@ -9,10 +9,12 @@ namespace JoJoBizzareCoders\DigitalJournal\Controller;
     use JoJoBizzareCoders\DigitalJournal\Entity\TeacherUserClass;
     use JoJoBizzareCoders\DigitalJournal\Infrastructure\AppConfig;
     use JoJoBizzareCoders\DigitalJournal\Infrastructure\Logger\LoggerInterface;
+    use  JoJoBizzareCoders\DigitalJournal\Infrastructure\InvalidDataStructureException;
 
     use function JoJoBizzareCoders\DigitalJournal\Infrastructure\getSearch;
     use function JoJoBizzareCoders\DigitalJournal\Infrastructure\loadData;
     use function JoJoBizzareCoders\DigitalJournal\Infrastructure\paramTypeValidation;
+
 
     require_once __DIR__ . '/../Infrastructure/application.php';
     require_once __DIR__ . '/../Infrastructure/antiIf.php';
@@ -30,6 +32,7 @@ namespace JoJoBizzareCoders\DigitalJournal\Controller;
      * @param LoggerInterface $logger - название функции логирования
      * @param AppConfig $appConfig - конфигурация приложения
      * @return array - результат поиска оценок
+     * @throws InvalidDataStructureException
      */
     return static function (array $request, LoggerInterface $logger, AppConfig $appConfig): array {
         $items = loadData($appConfig->getPathToItems());

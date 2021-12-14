@@ -57,6 +57,7 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
          * Метод создания объекта класса студент из тмассива данных об студенте
          * @param array $data -массив данных об студенте
          * @return StudentUserClass - объект класса студент
+         * @throws InvalidDataStructureException
          */
         public static function createFromArray(array $data): StudentUserClass
         {

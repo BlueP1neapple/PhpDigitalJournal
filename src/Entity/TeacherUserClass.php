@@ -77,6 +77,7 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
          * Метод создания объекта класса Учитель из массива данных об Учителе
          * @param array $data -массив данных об Учителе
          * @return TeacherUserClass - Объект класса Учитель
+         * @throws InvalidDataStructureException
          */
         public static function createFromArray(array $data): TeacherUserClass
         {

@@ -14,7 +14,7 @@ use function JoJoBizzareCoders\DigitalJournal\Infrastructure\render;
         //Массив путей запросов ведущие к функциям реализующие этот запрос
         $_SERVER['REQUEST_URI'],
         //Полный путь запроса
-        '\Infrastructure\Logger\Factory::create', //Название функции логирования
+        '\JoJoBizzareCoders\DigitalJournal\Infrastructure\Logger\Factory::create', //Название функции логирования
         static function () {
             return AppConfig::createFromArray(include __DIR__ . '/../config/dev/config.php');
         } // Конфиг приложения

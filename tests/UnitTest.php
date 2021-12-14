@@ -1780,14 +1780,14 @@ class UnitTest
                 ]
             ],
             [
-                'testName' => 'Тестирование ситуации когда данные об предметах не корректны. Нет поля description',
+                'testName' => 'Тестирование ситуации когда данные об классаха не корректны. Нет поля letter',
                 'in' => [
                     $handlers,
                     '/lesson?item_name=Математика',
                     $loggerFactory,
                     static function () {
                         $config = include __DIR__ . '/../config/dev/config.php';
-                        $config['pathToItems'] = __DIR__ . '/data/broken.item.json';
+                        $config['pathToClasses'] = __DIR__ . '/data/broken.class.json';
                         return AppConfig::createFromArray($config);
                     }
                 ],
@@ -1795,10 +1795,71 @@ class UnitTest
                     'httpCode' => 503,
                     'result' => [
                         'status' => 'fail',
-                        'message' => 'Отсутвуют обязательные элементы: description'
+                        'message' => 'Отсутвуют обязательные элементы: letter'
                     ]
                 ]
             ],
+            [
+                'testName' => 'Тестирование ситуации когда данные об родителях не корректны. Нет поля email',
+                'in' => [
+                    $handlers,
+                    '/assessmentReport?item_name=Математика',
+                    $loggerFactory,
+                    static function () {
+                        $config = include __DIR__ . '/../config/dev/config.php';
+                        $config['pathToParents'] = __DIR__ . '/data/broken.parent.json';
+                        return AppConfig::createFromArray($config);
+                    }
+                ],
+                'out' => [
+                    'httpCode' => 503,
+                    'result' => [
+                        'status' => 'fail',
+                        'message' => 'Отсутвуют обязательные элементы: email'
+                    ]
+                ]
+            ],
+            [
+                'testName' => 'Тестирование ситуации когда данные об учениках не корректны. Нет поля address',
+                'in' => [
+                    $handlers,
+                    '/assessmentReport?item_name=Математика',
+                    $loggerFactory,
+                    static function () {
+                        $config = include __DIR__ . '/../config/dev/config.php';
+                        $config['pathToStudents'] = __DIR__ . '/data/broken.student.json';
+                        return AppConfig::createFromArray($config);
+                    }
+                ],
+                'out' => [
+                    'httpCode' => 503,
+                    'result' => [
+                        'status' => 'fail',
+                        'message' => 'Отсутвуют обязательные элементы: address'
+                    ]
+                ]
+            ],
+            [
+                'testName' => 'Тестирование ситуации когда данные об учителях не корректны. Нет поля email',
+                'in' => [
+                    $handlers,
+                    '/assessmentReport?item_name=Математика',
+                    $loggerFactory,
+                    static function () {
+                        $config = include __DIR__ . '/../config/dev/config.php';
+                        $config['pathToTeachers'] = __DIR__ . '/data/broken.teacher.json';
+                        return AppConfig::createFromArray($config);
+                    }
+                ],
+                'out' => [
+                    'httpCode' => 503,
+                    'result' => [
+                        'status' => 'fail',
+                        'message' => 'Отсутвуют обязательные элементы: email'
+                    ]
+                ]
+            ],
+
 
             // Тесты с некорректными путями
             [
@@ -1825,11 +1886,111 @@ class UnitTest
                 'testName' => 'Тестирование ситуации c некрректным путём до файла с оценками',
                 'in' => [
                     $handlers,
-                    '/lesson?item_name=Математика',
+                    '/assessmentReport?item_name=Математика',
                     $loggerFactory,
                     static function () {
                         $config = include __DIR__ . '/../config/dev/config.php';
                         $config['pathToAssessmentReport'] = __DIR__ . '/unknown.assessmentReport.json';
+                        return AppConfig::createFromArray($config);
+                    }
+                ],
+                'out' => [
+                    'httpCode' => 500,
+                    'result' => [
+                        'status' => 'fail',
+                        'message' => 'Неккоректный путь до файла с данными'
+                    ]
+                ]
+            ],
+            [
+                'testName' => 'Тестирование ситуации c некрректным путём до файла с классами',
+                'in' => [
+                    $handlers,
+                    '/assessmentReport?item_name=Математика',
+                    $loggerFactory,
+                    static function () {
+                        $config = include __DIR__ . '/../config/dev/config.php';
+                        $config['pathToClasses'] = __DIR__ . '/unknown.class.json';
+                        return AppConfig::createFromArray($config);
+                    }
+                ],
+                'out' => [
+                    'httpCode' => 500,
+                    'result' => [
+                        'status' => 'fail',
+                        'message' => 'Неккоректный путь до файла с данными'
+                    ]
+                ]
+            ],
+            [
+                'testName' => 'Тестирование ситуации c некрректным путём до файла с предметами',
+                'in' => [
+                    $handlers,
+                    '/assessmentReport?item_name=Математика',
+                    $loggerFactory,
+                    static function () {
+                        $config = include __DIR__ . '/../config/dev/config.php';
+                        $config['pathToItems'] = __DIR__ . '/unknown.Item.json';
+                        return AppConfig::createFromArray($config);
+                    }
+                ],
+                'out' => [
+                    'httpCode' => 500,
+                    'result' => [
+                        'status' => 'fail',
+                        'message' => 'Неккоректный путь до файла с данными'
+                    ]
+                ]
+            ],
+            [
+                'testName' => 'Тестирование ситуации c некрректным путём до файла с Родителями',
+                'in' => [
+                    $handlers,
+                    '/assessmentReport?item_name=Математика',
+                    $loggerFactory,
+                    static function () {
+                        $config = include __DIR__ . '/../config/dev/config.php';
+                        $config['pathToParents'] = __DIR__ . '/unknown.parent.json';
+                        return AppConfig::createFromArray($config);
+                    }
+                ],
+                'out' => [
+                    'httpCode' => 500,
+                    'result' => [
+                        'status' => 'fail',
+                        'message' => 'Неккоректный путь до файла с данными'
+                    ]
+                ]
+            ],
+            [
+                'testName' => 'Тестирование ситуации c некрректным путём до файла с Учениками',
+                'in' => [
+                    $handlers,
+                    '/assessmentReport?item_name=Математика',
+                    $loggerFactory,
+                    static function () {
+                        $config = include __DIR__ . '/../config/dev/config.php';
+                        $config['pathToStudents'] = __DIR__ . '/unknown.student.json';
+                        return AppConfig::createFromArray($config);
+                    }
+                ],
+                'out' => [
+                    'httpCode' => 500,
+                    'result' => [
+                        'status' => 'fail',
+                        'message' => 'Неккоректный путь до файла с данными'
+                    ]
+                ]
+            ],
+            [
+                'testName' => 'Тестирование ситуации c некрректным путём до файла с Учителями',
+                'in' => [
+                    $handlers,
+                    '/assessmentReport?item_name=Математика',
+                    $loggerFactory,
+                    static function () {
+                        $config = include __DIR__ . '/../config/dev/config.php';
+                        $config['pathToTeachers'] = __DIR__ . '/unknown.teacher.json';
                         return AppConfig::createFromArray($config);
                     }
                 ],
@@ -1861,6 +2022,113 @@ class UnitTest
                     ]
                 ]
             ],
+
+            // Тесты с эхологгером
+            /*[
+                'testName' => 'Тестирование возможности смотреть расписание по названию предмета',
+                'in' => [
+                    $handlers,
+                    '/lesson?item_name=Математика',
+                    $loggerFactory,
+                    static function () {
+                        $config = include __DIR__ . '/../config/dev/config.php';
+                        $config['loggerType'] = 'echoLogger';
+                        return AppConfig::createFromArray($config);
+                    }
+                ],
+                'out' => [
+                    'httpCode' => 200,
+                    'result' => [
+                        [
+                            'id' => 1,
+                            'item' => [
+                                'id' => 1,
+                                'name' => 'Математика',
+                                'description' => 'Математика'
+                            ],
+                            'date' => '2011.11.10 8:30',
+                            'lessonDuration' => 40,
+                            'teacher' => [
+                                'id' => 1,
+                                'fio' => 'Круглова Наталия Сергеевна',
+                                'phone' => '+79222444411',
+                                'dateOfBirth' => '1965.01.11',
+                                'address' => 'ул. Ясная, д. 54, кв. 19',
+                                'item' => [
+                                    'id' => 1,
+                                    'name' => 'Математика',
+                                    'description' => 'Математика'
+                                ],
+                                'cabinet' => 56,
+                                'email' => 'kruglova@gmail.com'
+                            ],
+                            'class' => [
+                                'id' => 3,
+                                'number' => 6,
+                                'letter' => 'А'
+                            ]
+                        ],
+                        [
+                            'id' => 2,
+                            'item' => [
+                                'id' => 1,
+                                'name' => 'Математика',
+                                'description' => 'Математика'
+                            ],
+                            'date' => '2011.11.10 10:30',
+                            'lessonDuration' => 40,
+                            'teacher' => [
+                                'id' => 1,
+                                'fio' => 'Круглова Наталия Сергеевна',
+                                'phone' => '+79222444411',
+                                'dateOfBirth' => '1965.01.11',
+                                'address' => 'ул. Ясная, д. 54, кв. 19',
+                                'item' => [
+                                    'id' => 1,
+                                    'name' => 'Математика',
+                                    'description' => 'Математика'
+                                ],
+                                'cabinet' => 56,
+                                'email' => 'kruglova@gmail.com'
+                            ],
+                            'class' => [
+                                'id' => 1,
+                                'number' => 4,
+                                'letter' => 'Б'
+                            ]
+                        ],
+                        [
+                            'id' => 3,
+                            'item' => [
+                                'id' => 1,
+                                'name' => 'Математика',
+                                'description' => 'Математика'
+                            ],
+                            'date' => '2011.11.10 11:30',
+                            'lessonDuration' => 40,
+                            'teacher' => [
+                                'id' => 1,
+                                'fio' => 'Круглова Наталия Сергеевна',
+                                'phone' => '+79222444411',
+                                'dateOfBirth' => '1965.01.11',
+                                'address' => 'ул. Ясная, д. 54, кв. 19',
+                                'item' => [
+                                    'id' => 1,
+                                    'name' => 'Математика',
+                                    'description' => 'Математика'
+                                ],
+                                'cabinet' => 56,
+                                'email' => 'kruglova@gmail.com'
+                            ],
+                            'class' => [
+                                'id' => 2,
+                                'number' => 3,
+                                'letter' => 'А'
+                            ]
+                        ]
+                    ]
+                ]
+            ],*/
         ];
     }
 

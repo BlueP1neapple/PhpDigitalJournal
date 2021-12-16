@@ -71,9 +71,36 @@ namespace JoJoBizzareCoders\DigitalJournal\Infrastructure;
          */
         private string $loggerType;
 
+        /**
+         * Скрывать сообщения по ошибкам
+         *
+         * @var bool
+         */
+        private bool $hideErrorMessage;
+
+
 
 
         // Методы
+        /**
+         * Возвращает флаг указывающий, что нужно скрыватиь сообщения по ошибкам
+         *
+         * @return bool
+         */
+        public function isHideErrorMessage(): bool
+        {
+            return $this->hideErrorMessage;
+        }
+
+        /**
+         * Устанавливает флаг указывающий, что нужно скрыватиь сообщения по ошибкам
+         *
+         * @param bool $hideErrorMessage
+         */
+        private function setHideErrorMessage(bool $hideErrorMessage): void
+        {
+            $this->hideErrorMessage = $hideErrorMessage;
+        }
 
         /**
          * Возвращает тип используемого логгера
@@ -315,6 +342,7 @@ namespace JoJoBizzareCoders\DigitalJournal\Infrastructure;
          * @uses AppConfig::setPathToLesson()
          * @uses AppConfig::setPathToLogFile()
          * @uses AppConfig::setLoggerType()
+         * @uses AppConfig::setHideErrorMessage()
          */
         public static function createFromArray(array $config): self
         {

@@ -1,11 +1,10 @@
 <?php
 
-
 namespace JoJoBizzareCoders\DigitalJournal\Infrastructure;
 
 
-function getSearch(array $request, array $report, AppConfig $appConfig): bool{
-
+function getSearch(array $request, array $report, AppConfig $appConfig): bool
+{
     $items = loadData(__DIR__ . '/../../data/item.json');
     $teachers = loadData(__DIR__ . '/../../data/teacher.json');
     $classes = loadData(__DIR__ . '/../../data/class.json');
@@ -28,15 +27,10 @@ function getSearch(array $request, array $report, AppConfig $appConfig): bool{
 
     $splitKey = explode('_', $searchingKey[0]);
 
-    if(array_key_exists($splitKey[0], $graitHardcodeArray))
-    {
-        foreach ($graitHardcodeArray[$splitKey[0]] as $currentValue)
-        {
-
-            if(array_key_exists($splitKey[1],$currentValue)){
-                if ($request[$searchingKey[0]] == $currentValue[$splitKey[1]]){
+    if (array_key_exists($splitKey[0], $graitHardcodeArray)) {
+        foreach ($graitHardcodeArray[$splitKey[0]] as $currentValue) {
+            if (array_key_exists($splitKey[1], $currentValue)) {
                     return true;
-                }
             }
         }
     }

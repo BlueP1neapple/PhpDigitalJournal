@@ -36,5 +36,10 @@
         /**
          * Тип используемого логгера
          */
-        'loggerType' => 'fileLogger'
+        'loggerType' => 'fileLogger',
+
+        /**
+         * Скрывать сообщения об ошибках
+         */
+        'hideErrorMessage'=> false,
     ];

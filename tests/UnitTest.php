@@ -74,10 +74,10 @@
                 [
                     'testName' => 'Тестирование возможности смотреть расписание по названию предмета',
                     'in' => [
-                        $handlers,
-                        '/lesson?item_name=Математика',
-                        $loggerFactory,
-                        static function () {
+                       'handlers'=> $handlers,
+                        'uri'=> '/lesson?item_name=Математика',
+                        'loggerFactory' => $loggerFactory,
+                        'appConfigFactory'=> static function () {
                             return AppConfig::createFromArray(include __DIR__ . '/../config/dev/config.php');
                         },
                     ],
@@ -177,10 +177,10 @@
                 [
                     'testName' => 'Тестирование возможности смотреть расписание по рассшифровке предмета',
                     'in' => [
-                        $handlers,
-                        '/lesson?item_description=Математика',
-                        $loggerFactory,
-                        static function () {
+                        'handlers'=>$handlers,
+                        'uri'=>'/lesson?item_description=Математика',
+                        'loggerFactory'=>$loggerFactory,
+                        'appConfigFactory'=>static function () {
                             return AppConfig::createFromArray(include __DIR__ . '/../config/dev/config.php');
                         },
                     ],
@@ -280,10 +280,10 @@
                 [
                     'testName' => 'Тестирование возможности смотреть расписание по дате',
                     'in' => [
-                        $handlers,
-                        '/lesson?lesson_date=2011.11.10 8:30',
-                        $loggerFactory,
-                        static function () {
+                        'handlers'=>$handlers,
+                        'uri'=>'/lesson?lesson_date=2011.11.10 8:30',
+                        'loggerFactory'=>$loggerFactory,
+                        'appConfigFactory'=>static function () {
                             return AppConfig::createFromArray(include __DIR__ . '/../config/dev/config.php');
                         },
                     ],
@@ -325,10 +325,10 @@
                 [
                     'testName' => 'Тестирование возможности смотреть расписание по fio преподавателя',
                     'in' => [
-                        $handlers,
-                        '/lesson?teacher_fio=Круглова Наталия Сергеевна',
-                        $loggerFactory,
-                        static function () {
+                        'handlers'=>$handlers,
+                        'uri'=>'/lesson?teacher_fio=Круглова Наталия Сергеевна',
+                        'loggerFactory'=>$loggerFactory,
+                        'appConfigFactory'=>static function () {
                             return AppConfig::createFromArray(include __DIR__ . '/../config/dev/config.php');
                         },
                     ],
@@ -428,10 +428,10 @@
                 [
                     'testName' => 'Тестирование возможности смотреть расписание по кабинету преподавателя',
                     'in' => [
-                        $handlers,
-                        '/lesson?teacher_cabinet=56',
-                        $loggerFactory,
-                        static function () {
+                        'handlers'=>$handlers,
+                        'uri'=>'/lesson?teacher_cabinet=56',
+                        'loggerFactory'=>$loggerFactory,
+                        'appConfigFactory'=>static function () {
                             return AppConfig::createFromArray(include __DIR__ . '/../config/dev/config.php');
                         },
                     ],
@@ -531,10 +531,10 @@
                 [
                     'testName' => 'Тестирование возможности смотреть расписание по номеру класса',
                     'in' => [
-                        $handlers,
-                        '/lesson?class_number=6',
-                        $loggerFactory,
-                        static function () {
+                        'handlers'=>$handlers,
+                        'uri'=>'/lesson?class_number=6',
+                        'loggerFactory'=>$loggerFactory,
+                        'appConfigFactory'=>static function () {
                             return AppConfig::createFromArray(include __DIR__ . '/../config/dev/config.php');
                         },
                     ],
@@ -576,10 +576,10 @@
                 [
                     'testName' => 'Тестирование возможности смотреть расписание по букве класса',
                     'in' => [
-                        $handlers,
-                        '/lesson?class_letter=А',
-                        $loggerFactory,
-                        static function () {
+                        'handlers'=>$handlers,
+                        'uri'=>'/lesson?class_letter=А',
+                        'loggerFactory'=>$loggerFactory,
+                        'appConfigFactory'=>static function () {
                             return AppConfig::createFromArray(include __DIR__ . '/../config/dev/config.php');
                         },
                     ],
@@ -679,10 +679,10 @@
                 [
                     'testName' => 'Тестирование возможности смотреть расписание по номеру и букве класса',
                     'in' => [
-                        $handlers,
-                        '/lesson?class_number=6&class_letter=А',
-                        $loggerFactory,
-                        static function () {
+                        'handlers'=>$handlers,
+                        'uri'=>'/lesson?class_number=6&class_letter=А',
+                        'loggerFactory'=>$loggerFactory,
+                        'appConfigFactory'=>static function () {
                             return AppConfig::createFromArray(include __DIR__ . '/../config/dev/config.php');
                         },
                     ],
@@ -726,10 +726,10 @@
                 [
                     'testName' => 'Тестирование неподдерживаемого запроса',
                     'in' => [
-                        $handlers,
-                        '/hhh?param=ru',
-                        $loggerFactory,
-                        static function () {
+                        'handlers'=>$handlers,
+                        'uri'=>'/hhh?param=ru',
+                        'loggerFactory'=>$loggerFactory,
+                        'appConfigFactory'=>static function () {
                             return AppConfig::createFromArray(include __DIR__ . '/../config/dev/config.php');
                         },
                     ],
@@ -744,10 +744,10 @@
                 [
                     'testName' => 'Тестирование некорреткного ввода названия предмета',
                     'in' => [
-                        $handlers,
-                        '/lesson?item_name[]=Математика',
-                        $loggerFactory,
-                        static function () {
+                        'handlers'=>$handlers,
+                        'uri'=>'/lesson?item_name[]=Математика',
+                        'loggerFactory'=>$loggerFactory,
+                        'appConfigFactory'=>static function () {
                             return AppConfig::createFromArray(include __DIR__ . '/../config/dev/config.php');
                         },
                     ],
@@ -762,10 +762,10 @@
                 [
                     'testName' => 'Тестирование некорреткного ввода рассшифровки предмета',
                     'in' => [
-                        $handlers,
-                        '/lesson?item_description[]=Математика',
-                        $loggerFactory,
-                        static function () {
+                        'handlers'=>$handlers,
+                        'uri'=>'/lesson?item_description[]=Математика',
+                        'loggerFactory'=>$loggerFactory,
+                        'appConfigFactory'=>static function () {
                             return AppConfig::createFromArray(include __DIR__ . '/../config/dev/config.php');
                         },
                     ],
@@ -780,10 +780,10 @@
                 [
                     'testName' => 'Тестирование некорреткного ввода даты занятия',
                     'in' => [
-                        $handlers,
-                        '/lesson?lesson_date[]=2013.11.10 8:30',
-                        $loggerFactory,
-                        static function () {
+                        'handlers'=>$handlers,
+                        'uri'=>'/lesson?lesson_date[]=2013.11.10 8:30',
+                        'loggerFactory'=>$loggerFactory,
+                        'appConfigFactory'=>static function () {
                             return AppConfig::createFromArray(include __DIR__ . '/../config/dev/config.php');
                         },
                     ],
@@ -798,10 +798,10 @@
                 [
                     'testName' => 'Тестирование некорреткного ввода fio преподавателя',
                     'in' => [
-                        $handlers,
-                        '/lesson?teacher_fio[]=Круглова Наталия Сергеевна',
-                        $loggerFactory,
-                        static function () {
+                        'handlers'=>$handlers,
+                        'uri'=>'/lesson?teacher_fio[]=Круглова Наталия Сергеевна',
+                        'loggerFactory'=>$loggerFactory,
+                        'appConfigFactory'=>static function () {
                             return AppConfig::createFromArray(include __DIR__ . '/../config/dev/config.php');
                         },
                     ],
@@ -816,10 +816,10 @@
                 [
                     'testName' => 'Тестирование некорреткного ввода кабинета преподавателя',
                     'in' => [
-                        $handlers,
-                        '/lesson?teacher_cabinet[]=56',
-                        $loggerFactory,
-                        static function () {
+                        'handlers'=>$handlers,
+                        'uri'=>'/lesson?teacher_cabinet[]=56',
+                        'loggerFactory'=>$loggerFactory,
+                        'appConfigFactory'=>static function () {
                             return AppConfig::createFromArray(include __DIR__ . '/../config/dev/config.php');
                         },
                     ],
@@ -834,10 +834,10 @@
                 [
                     'testName' => 'Тестирование некорреткного ввода номера класса',
                     'in' => [
-                        $handlers,
-                        '/lesson?class_number[]=6',
-                        $loggerFactory,
-                        static function () {
+                        'handlers'=>$handlers,
+                        'uri'=>'/lesson?class_number[]=6',
+                        'loggerFactory'=>$loggerFactory,
+                        'appConfigFactory'=>static function () {
                             return AppConfig::createFromArray(include __DIR__ . '/../config/dev/config.php');
                         },
                     ],
@@ -852,7 +852,7 @@
                 [
                     'testName' => 'Тестирование некорреткного ввода буквы класса',
                     'in' => [
-                        $handlers,
+                        $handlers, //TODO: Доделать ключи для Юнит тесты
                         '/lesson?class_letter[]=А',
                         $loggerFactory,
                         static function () {

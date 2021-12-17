@@ -6,9 +6,9 @@ use JoJoBizzareCoders\DigitalJournal\Entity\ClassClass;
 use JoJoBizzareCoders\DigitalJournal\Entity\ItemClass;
 use JoJoBizzareCoders\DigitalJournal\Entity\LessonClass;
 use JoJoBizzareCoders\DigitalJournal\Entity\TeacherUserClass;
+use JoJoBizzareCoders\DigitalJournal\Exception\InvalidDataStructureException;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\AppConfig;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Logger\LoggerInterface;
-use  JoJoBizzareCoders\DigitalJournal\Infrastructure\InvalidDataStructureException;
 
 use function JoJoBizzareCoders\DigitalJournal\Infrastructure\getSearch;
 use function JoJoBizzareCoders\DigitalJournal\Infrastructure\loadData;

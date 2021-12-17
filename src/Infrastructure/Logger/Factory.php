@@ -2,7 +2,9 @@
 namespace JoJoBizzareCoders\DigitalJournal\Infrastructure\Logger;
 use Exception;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\AppConfig;
-use JoJoBizzareCoders\DigitalJournal\Infrastructure\Logger\NullLogger\Logger;
+use JoJoBizzareCoders\DigitalJournal\Infrastructure\Logger\NullLogger\Logger as NullLogger;
+use JoJoBizzareCoders\DigitalJournal\Infrastructure\Logger\EchoLogger\Logger as EchoLogger;
+use JoJoBizzareCoders\DigitalJournal\Infrastructure\Logger\FileLogger\Logger as FileLogger;
 
 
     /**
@@ -20,11 +22,11 @@ use JoJoBizzareCoders\DigitalJournal\Infrastructure\Logger\NullLogger\Logger;
         {
             $loggerType=$appConfig->getLoggerType();
             if('fileLogger'===$loggerType){
-                $logger=new FileLogger\Logger($appConfig->getPathToLogFile());
+                $logger=new FileLogger($appConfig->getPathToLogFile());
             }elseif('echoLogger'===$loggerType){
-                $logger=new EchoLogger\Logger();
+                $logger=new EchoLogger();
             }elseif('nullLogger'===$loggerType){
-                $logger=new Logger();
+                $logger=new NullLogger();
             }else{
                 throw new Exception('Unknown Logger Type');
             }

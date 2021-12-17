@@ -72,7 +72,7 @@ use JoJoBizzareCoders\DigitalJournal\Infrastructure\AppConfig;
             return [
                 // Тесты первого сценария
                 // Тесты поиска
-                [
+               [
                     'testName' => 'Тестирование возможности смотреть расписание по названию предмета',
                     'in' => [
                        'handlers'=> $handlers,
@@ -2043,7 +2043,7 @@ use JoJoBizzareCoders\DigitalJournal\Infrastructure\AppConfig;
                     'in' => [
                         'handlers'=>$handlers,
                         'uri'=>'/lesson?item_name=Математика',
-                        'loggerFactory'=> $loggerFactory,
+                        'loggerFactory'=> '\JoJoBizzareCoders\DigitalJournal\Infrastructure\Logger\Factory::create',
                         'appConfigFactory'=>static function () {
                             $config = include __DIR__ . '/../config/dev/config.php';
                             $config['loggerType'] = 'echoLogger';

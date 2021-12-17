@@ -677,51 +677,6 @@ use JoJoBizzareCoders\DigitalJournal\Infrastructure\AppConfig;
                         ]
                     ]
                 ],
-                [
-                    'testName' => 'Тестирование возможности смотреть расписание по номеру и букве класса',
-                    'in' => [
-                        'handlers'=>$handlers,
-                        'uri'=>'/lesson?class_number=6&class_letter=А',
-                        'loggerFactory'=>$loggerFactory,
-                        'appConfigFactory'=>static function () {
-                            return AppConfig::createFromArray(include __DIR__ . '/../config/dev/config.php');
-                        },
-                    ],
-                    'out' => [
-                        'httpCode' => 200,
-                        'result' => [
-                            [
-                                'id' => 1,
-                                'item' => [
-                                    'id' => 1,
-                                    'name' => 'Математика',
-                                    'description' => 'Математика'
-                                ],
-                                'date' => '2011.11.10 8:30',
-                                'lessonDuration' => 40,
-                                'teacher' => [
-                                    'id' => 1,
-                                    'fio' => 'Круглова Наталия Сергеевна',
-                                    'phone' => '+79222444411',
-                                    'dateOfBirth' => '1965.01.11',
-                                    'address' => 'ул. Ясная, д. 54, кв. 19',
-                                    'item' => [
-                                        'id' => 1,
-                                        'name' => 'Математика',
-                                        'description' => 'Математика'
-                                    ],
-                                    'cabinet' => 56,
-                                    'email' => 'kruglova@gmail.com'
-                                ],
-                                'class' => [
-                                    'id' => 3,
-                                    'number' => 6,
-                                    'letter' => 'А'
-                                ]
-                            ]
-                        ]
-                    ]
-                ],
 
                 // Тесты с некорректными запросом поиска
                 [
@@ -1091,9 +1046,9 @@ use JoJoBizzareCoders\DigitalJournal\Infrastructure\AppConfig;
                                         'email' => 'kruglova@gmail.com'
                                     ],
                                     'class' => [
-                                        'id' => 1,
-                                        'number' => 4,
-                                        'letter' => 'Б'
+                                        'id' => 3,
+                                        'number' => 6,
+                                        'letter' => 'А'
                                     ],
                                 ],
                                 'student' => [
@@ -1109,7 +1064,7 @@ use JoJoBizzareCoders\DigitalJournal\Infrastructure\AppConfig;
                                     ],
                                     'parent' => [
                                         'id' => 6,
-                                        'fio' => 'Кузнецова Наталия Михайловна',
+                                        'fio' => 'Кузнецова Наталия Михайловна ',
                                         'phone' => '+79223333388',
                                         'dateOfBirth' => '1978.02.05',
                                         'address' => 'ул. Грузовая, д. 45, кв. 45',
@@ -1323,9 +1278,9 @@ use JoJoBizzareCoders\DigitalJournal\Infrastructure\AppConfig;
                                         'email' => 'kruglova@gmail.com'
                                     ],
                                     'class' => [
-                                        'id' => 1,
-                                        'number' => 4,
-                                        'letter' => 'Б'
+                                        'id' => 3,
+                                        'number' => 6,
+                                        'letter' => 'А'
                                     ],
                                 ],
                                 'student' => [
@@ -1341,7 +1296,7 @@ use JoJoBizzareCoders\DigitalJournal\Infrastructure\AppConfig;
                                     ],
                                     'parent' => [
                                         'id' => 6,
-                                        'fio' => 'Кузнецова Наталия Михайловна',
+                                        'fio' => 'Кузнецова Наталия Михайловна ',
                                         'phone' => '+79223333388',
                                         'dateOfBirth' => '1978.02.05',
                                         'address' => 'ул. Грузовая, д. 45, кв. 45',
@@ -1501,9 +1456,9 @@ use JoJoBizzareCoders\DigitalJournal\Infrastructure\AppConfig;
                                         'email' => 'kruglova@gmail.com'
                                     ],
                                     'class' => [
-                                        'id' => 1,
-                                        'number' => 4,
-                                        'letter' => 'Б'
+                                        'id' => 3,
+                                        'number' => 6,
+                                        'letter' => 'А'
                                     ],
                                 ],
                                 'student' => [
@@ -1519,7 +1474,7 @@ use JoJoBizzareCoders\DigitalJournal\Infrastructure\AppConfig;
                                     ],
                                     'parent' => [
                                         'id' => 6,
-                                        'fio' => 'Кузнецова Наталия Михайловна',
+                                        'fio' => 'Кузнецова Наталия Михайловна ',
                                         'phone' => '+79223333388',
                                         'dateOfBirth' => '1978.02.05',
                                         'address' => 'ул. Грузовая, д. 45, кв. 45',

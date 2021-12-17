@@ -7,12 +7,12 @@ namespace JoJoBizzareCoders\DigitalJournal\Controller;
     use JoJoBizzareCoders\DigitalJournal\Entity\ReportClass;
     use JoJoBizzareCoders\DigitalJournal\Entity\StudentUserClass;
     use JoJoBizzareCoders\DigitalJournal\Entity\TeacherUserClass;
+    use JoJoBizzareCoders\DigitalJournal\Exception\InvalidDataStructureException;
     use JoJoBizzareCoders\DigitalJournal\Infrastructure\AppConfig;
     use JoJoBizzareCoders\DigitalJournal\Infrastructure\Logger\LoggerInterface;
-    use  JoJoBizzareCoders\DigitalJournal\Infrastructure\InvalidDataStructureException;
 
 
-    use function JoJoBizzareCoders\DigitalJournal\Infrastructure\getSearch;
+    //use function JoJoBizzareCoders\DigitalJournal\Infrastructure\getSearch;
     use function JoJoBizzareCoders\DigitalJournal\Infrastructure\loadData;
     use function JoJoBizzareCoders\DigitalJournal\Infrastructure\paramTypeValidation;
 
@@ -89,7 +89,30 @@ namespace JoJoBizzareCoders\DigitalJournal\Controller;
             }
             // Поиск оценок
             foreach ($reports as $report) {
-                $ReportMeetSearchCriteria = getSearch($request, $report, $appConfig);
+                //$ReportMeetSearchCriteria = getSearch($request, $report, $appConfig);
+                $ReportMeetSearchCriteria=null;
+                if (array_key_exists(
+                    'item_name',
+                    $request
+                )) // Поиск по присутвию item_name в GET запросе и совпадению item_name в запросе и массиве оценок. [начало]
+                {
+                    $ReportMeetSearchCriteria = ($request['item_name'] === $itemsIdToInfo[$lessonIdToInfo[$report['lesson_id']]->getItem(
+                        )->getId()]->getName());
+                }// Поиск по присутвию item_name в GET запросе и совпадению item_name в запросе и массиве оценок. [конец]
+                if (array_key_exists('item_description', $request)) {
+                    $ReportMeetSearchCriteria = ($request['item_description'] === $itemsIdToInfo[$lessonIdToInfo[$report['lesson_id']]->getItem(
+                        )->getId()]->getDescription());
+                }
+                if (array_key_exists('lesson_date', $request)) {
+                    $ReportMeetSearchCriteria = ($request['lesson_date'] === $lessonIdToInfo[$report['lesson_id']]->getDate(
+                        ));
+                }
+                if (array_key_exists('student_fio', $request)) {
+                    $ReportMeetSearchCriteria = ($request['student_fio'] === $studentIdToInfo[$report['student_id']]->getFio(
+                        ));
+                }
+
+
                 if ($ReportMeetSearchCriteria) { // Отбор наёденных оценок
                     $report['lesson_id'] = $lessonIdToInfo[$report['lesson_id']];
                     $report['student_id'] = $studentIdToInfo[$report['student_id']];

@@ -1,6 +1,6 @@
 <?php
 namespace JoJoBizzareCoders\DigitalJournal\Entity;
-    use JoJoBizzareCoders\DigitalJournal\Infrastructure\InvalidDataStructureException;
+    use JoJoBizzareCoders\DigitalJournal\Exception\InvalidDataStructureException;
     use JsonSerializable;
 
 

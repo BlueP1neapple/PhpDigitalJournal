@@ -3,7 +3,8 @@
     require_once __DIR__ . "/../src/Infrastructure/application.php";
     require_once __DIR__ . "/../src/Infrastructure/Autoloader.php";
 
-    use JoJoBizzareCoders\DigitalJournal\Infrastructure\AppConfig;
+use JoJoBizzareCoders\DigitalJournal\Infrastructure\App;
+use JoJoBizzareCoders\DigitalJournal\Infrastructure\AppConfig;
     use JoJoBizzareCoders\DigitalJournal\Infrastructure\Autoloader;
     use JoJoBizzareCoders\DigitalJournal\Infrastructure\Logger\LoggerInterface;
     use JoJoBizzareCoders\DigitalJournal\Infrastructure\Logger\NullLogger\Logger;
@@ -14,7 +15,7 @@
     spl_autoload_register(
         new Autoloader([
             'JoJoBizzareCoders\\DigitalJournal\\' => __DIR__ . '/../src/',
-            'JoJoBizzareCoders\\DigitalJournalTest\\' => __DIR__,
+            'JoJoBizzareCoders\\DigitalJournalTest\\' => __DIR__.'/',
         ])
     );
 
@@ -852,10 +853,10 @@
                 [
                     'testName' => 'Тестирование некорреткного ввода буквы класса',
                     'in' => [
-                        $handlers, //TODO: Доделать ключи для Юнит тесты
-                        '/lesson?class_letter[]=А',
-                        $loggerFactory,
-                        static function () {
+                        'handlers'=>$handlers,
+                        'uri'=>'/lesson?class_letter[]=А',
+                        'loggerFactory'=>$loggerFactory,
+                        'appConfigFactory'=>static function () {
                             return AppConfig::createFromArray(include __DIR__ . '/../config/dev/config.php');
                         },
                     ],
@@ -870,10 +871,10 @@
                 [
                     'testName' => 'Тестирование запроса без path',
                     'in' => [
-                        $handlers,
-                        '/?param=ru',
-                        $loggerFactory,
-                        static function () {
+                        'handlers'=>$handlers,
+                        'uri'=>'/?param=ru',
+                        'loggerFactory'=>$loggerFactory,
+                        'appConfigFactory'=>static function () {
                             return AppConfig::createFromArray(include __DIR__ . '/../config/dev/config.php');
                         },
                     ],
@@ -892,10 +893,10 @@
                 [
                     'testName' => 'Тестирование возможности смотреть оценку по названию предмета',
                     'in' => [
-                        $handlers,
-                        '/assessmentReport?item_name=Математика',
-                        $loggerFactory,
-                        static function () {
+                        'handlers'=>$handlers,
+                        'uri'=>'/assessmentReport?item_name=Математика',
+                        'loggerFactory'=>$loggerFactory,
+                        'appConfigFactory'=>static function () {
                             return AppConfig::createFromArray(include __DIR__ . '/../config/dev/config.php');
                         },
                     ],
@@ -1124,10 +1125,10 @@
                 [
                     'testName' => 'Тестирование поиска оценок в дневнике по расшифровке названия предмета',
                     'in' => [
-                        $handlers,
-                        '/assessmentReport?item_description=Математика',
-                        $loggerFactory,
-                        static function () {
+                        'handlers'=>$handlers,
+                        'uri'=>'/assessmentReport?item_description=Математика',
+                        'loggerFactory'=>$loggerFactory,
+                        'appConfigFactory'=>static function () {
                             return AppConfig::createFromArray(include __DIR__ . '/../config/dev/config.php');
                         },
                     ],
@@ -1356,10 +1357,10 @@
                 [
                     'testName' => 'Тестирование поиска оценок в дневнике по дате проведения занятия',
                     'in' => [
-                        $handlers,
-                        '/assessmentReport?lesson_date=2011.11.10 8:30',
-                        $loggerFactory,
-                        static function () {
+                        'handlers'=>$handlers,
+                        'uri'=>'/assessmentReport?lesson_date=2011.11.10 8:30',
+                        'loggerFactory'=>$loggerFactory,
+                        'appConfigFactory'=>static function () {
                             return AppConfig::createFromArray(include __DIR__ . '/../config/dev/config.php');
                         },
                     ],
@@ -1534,10 +1535,10 @@
                 [
                     'testName' => 'Тестирование поиска оценок в дневнике по ФИО cтудента',
                     'in' => [
-                        $handlers,
-                        '/assessmentReport?student_fio=Кузнецов Алексей Евгеньевич',
-                        $loggerFactory,
-                        static function () {
+                        'handlers'=>$handlers,
+                        'uri'=>'/assessmentReport?student_fio=Кузнецов Алексей Евгеньевич',
+                        'loggerFactory'=>$loggerFactory,
+                        'appConfigFactory'=>static function () {
                             return AppConfig::createFromArray(include __DIR__ . '/../config/dev/config.php');
                         },
                     ],
@@ -1660,10 +1661,10 @@
                 [
                     'testName' => 'Тестирование некорреткного ввода названия предмета',
                     'in' => [
-                        $handlers,
-                        '/assessmentReport?item_name[]=Математика',
-                        $loggerFactory,
-                        static function () {
+                        'handlers'=>$handlers,
+                        'uri'=>'/assessmentReport?item_name[]=Математика',
+                        'loggerFactory'=>$loggerFactory,
+                        'appConfigFactory'=>static function () {
                             return AppConfig::createFromArray(include __DIR__ . '/../config/dev/config.php');
                         },
                     ],
@@ -1678,10 +1679,10 @@
                 [
                     'testName' => 'Тестирование некорреткного ввода рассшифровки предмета',
                     'in' => [
-                        $handlers,
-                        '/studentReport?item_description[]=Математика',
-                        $loggerFactory,
-                        static function () {
+                        'handlers'=>$handlers,
+                        'uri'=>'/studentReport?item_description[]=Математика',
+                        'loggerFactory'=>$loggerFactory,
+                        'appConfigFactory'=>static function () {
                             return AppConfig::createFromArray(include __DIR__ . '/../config/dev/config.php');
                         },
                     ],
@@ -1696,10 +1697,10 @@
                 [
                     'testName' => 'Тестирование некорреткного ввода даты занятия',
                     'in' => [
-                        $handlers,
-                        '/studentReport?lesson_date[]=2011.11.10 8:30',
-                        $loggerFactory,
-                        static function () {
+                        'handlers'=>$handlers,
+                        'uri'=>'/studentReport?lesson_date[]=2011.11.10 8:30',
+                        'loggerFactory'=>$loggerFactory,
+                        'appConfigFactory'=>static function () {
                             return AppConfig::createFromArray(include __DIR__ . '/../config/dev/config.php');
                         },
                     ],
@@ -1714,10 +1715,10 @@
                 [
                     'testName' => 'Тестирование некорреткного ввода ФИО cтудента',
                     'in' => [
-                        $handlers,
-                        '/studentReport?student_fio[]=Кузнецов Алексей Евгеньевич',
-                        $loggerFactory,
-                        static function () {
+                        'handlers'=>$handlers, //TODO доделать юнит тесты
+                        'uri'=>'/studentReport?student_fio[]=Кузнецов Алексей Евгеньевич',
+                        'loggerFactory'=>$loggerFactory,
+                        'appConfigFactory'=>static function () {
                             return AppConfig::createFromArray(include __DIR__ . '/../config/dev/config.php');
                         },
                     ],
@@ -1735,10 +1736,10 @@
                 [
                     'testName' => 'Тестирование ситуации когда данные о занятии не корректны. Нет поля date',
                     'in' => [
-                        $handlers,
-                        '/lesson?item_name=Математика',
-                        $loggerFactory,
-                        static function () {
+                        'handlers'=>$handlers,
+                        'uri'=>'/lesson?item_name=Математика',
+                        'loggerFactory'=>$loggerFactory,
+                        'appConfigFactory'=>static function () {
                             $config = include __DIR__ . '/../config/dev/config.php';
                             $config['pathToLesson'] = __DIR__ . '/data/broken.lesson.json';
                             return AppConfig::createFromArray($config);
@@ -1752,13 +1753,13 @@
                         ]
                     ]
                 ],
-                [
+               [
                     'testName' => 'Тестирование ситуации когда данные о оценке не корректны. Нет поля mark',
                     'in' => [
-                        $handlers,
-                        '/assessmentReport?item_name=Математика',
-                        $loggerFactory,
-                        static function () {
+                        'handlers'=>$handlers,
+                        'uri'=>'/assessmentReport?item_name=Математика',
+                        'loggerFactory'=>$loggerFactory,
+                        'appConfigFactory'=>static function () {
                             $config = include __DIR__ . '/../config/dev/config.php';
                             $config['pathToAssessmentReport'] = __DIR__ . '/data/broken.assessmentReport.json';
                             return AppConfig::createFromArray($config);
@@ -1775,10 +1776,10 @@
                 [
                     'testName' => 'Тестирование ситуации когда данные об предметах не корректны. Нет поля description',
                     'in' => [
-                        $handlers,
-                        '/lesson?item_name=Математика',
-                        $loggerFactory,
-                        static function () {
+                        'handlers'=>$handlers,
+                        'uri'=>'/lesson?item_name=Математика',
+                        'loggerFactory'=>$loggerFactory,
+                        'appConfigFactory'=>static function () {
                             $config = include __DIR__ . '/../config/dev/config.php';
                             $config['pathToItems'] = __DIR__ . '/data/broken.item.json';
                             return AppConfig::createFromArray($config);
@@ -1795,10 +1796,10 @@
                 [
                     'testName' => 'Тестирование ситуации когда данные об классаха не корректны. Нет поля letter',
                     'in' => [
-                        $handlers,
-                        '/lesson?item_name=Математика',
-                        $loggerFactory,
-                        static function () {
+                        'handlers'=>$handlers,
+                        'uri'=>'/lesson?item_name=Математика',
+                        'loggerFactory'=>$loggerFactory,
+                        'appConfigFactory'=>static function () {
                             $config = include __DIR__ . '/../config/dev/config.php';
                             $config['pathToClasses'] = __DIR__ . '/data/broken.class.json';
                             return AppConfig::createFromArray($config);
@@ -1815,10 +1816,10 @@
                 [
                     'testName' => 'Тестирование ситуации когда данные об родителях не корректны. Нет поля email',
                     'in' => [
-                        $handlers,
-                        '/assessmentReport?item_name=Математика',
-                        $loggerFactory,
-                        static function () {
+                        'handlers'=>$handlers,
+                        'uri'=>'/assessmentReport?item_name=Математика',
+                        'loggerFactory'=>$loggerFactory,
+                        'appConfigFactory'=>static function () {
                             $config = include __DIR__ . '/../config/dev/config.php';
                             $config['pathToParents'] = __DIR__ . '/data/broken.parent.json';
                             return AppConfig::createFromArray($config);
@@ -1835,10 +1836,10 @@
                 [
                     'testName' => 'Тестирование ситуации когда данные об учениках не корректны. Нет поля address',
                     'in' => [
-                        $handlers,
-                        '/assessmentReport?item_name=Математика',
-                        $loggerFactory,
-                        static function () {
+                        'handlers'=>$handlers,
+                        'uri'=>'/assessmentReport?item_name=Математика',
+                        'loggerFactory'=>$loggerFactory,
+                        'appConfigFactory'=>static function () {
                             $config = include __DIR__ . '/../config/dev/config.php';
                             $config['pathToStudents'] = __DIR__ . '/data/broken.student.json';
                             return AppConfig::createFromArray($config);
@@ -1855,10 +1856,10 @@
                 [
                     'testName' => 'Тестирование ситуации когда данные об учителях не корректны. Нет поля email',
                     'in' => [
-                        $handlers,
-                        '/assessmentReport?item_name=Математика',
-                        $loggerFactory,
-                        static function () {
+                        'handlers'=>$handlers,
+                        'uri'=>'/assessmentReport?item_name=Математика',
+                        'loggerFactory'=>$loggerFactory,
+                        'appConfigFactory'=>static function () {
                             $config = include __DIR__ . '/../config/dev/config.php';
                             $config['pathToTeachers'] = __DIR__ . '/data/broken.teacher.json';
                             return AppConfig::createFromArray($config);
@@ -1878,10 +1879,10 @@
                 [
                     'testName' => 'Тестирование ситуации c некрректным путём до файла с занятиями',
                     'in' => [
-                        $handlers,
-                        '/lesson?item_name=Математика',
-                        $loggerFactory,
-                        static function () {
+                        'handlers'=>$handlers,
+                        'uri'=>'/lesson?item_name=Математика',
+                        'loggerFactory'=>$loggerFactory,
+                        'appConfigFactory'=>static function () {
                             $config = include __DIR__ . '/../config/dev/config.php';
                             $config['pathToLesson'] = __DIR__ . '/unknown.lesson.json';
                             return AppConfig::createFromArray($config);
@@ -1898,10 +1899,10 @@
                 [
                     'testName' => 'Тестирование ситуации c некрректным путём до файла с оценками',
                     'in' => [
-                        $handlers,
-                        '/assessmentReport?item_name=Математика',
-                        $loggerFactory,
-                        static function () {
+                        'handlers'=>$handlers,
+                        'uri'=>'/assessmentReport?item_name=Математика',
+                        'loggerFactory'=>$loggerFactory,
+                        'appConfigFactory'=>static function () {
                             $config = include __DIR__ . '/../config/dev/config.php';
                             $config['pathToAssessmentReport'] = __DIR__ . '/unknown.assessmentReport.json';
                             return AppConfig::createFromArray($config);
@@ -1918,10 +1919,10 @@
                 [
                     'testName' => 'Тестирование ситуации c некрректным путём до файла с классами',
                     'in' => [
-                        $handlers,
-                        '/assessmentReport?item_name=Математика',
-                        $loggerFactory,
-                        static function () {
+                        'handlers'=> $handlers,
+                        'uri'=>'/assessmentReport?item_name=Математика',
+                        'loggerFactory'=>$loggerFactory,
+                        'appConfigFactory'=>static function () {
                             $config = include __DIR__ . '/../config/dev/config.php';
                             $config['pathToClasses'] = __DIR__ . '/unknown.class.json';
                             return AppConfig::createFromArray($config);
@@ -1938,10 +1939,10 @@
                 [
                     'testName' => 'Тестирование ситуации c некрректным путём до файла с предметами',
                     'in' => [
-                        $handlers,
-                        '/assessmentReport?item_name=Математика',
-                        $loggerFactory,
-                        static function () {
+                        'handlers'=> $handlers,
+                        'uri'=>'/assessmentReport?item_name=Математика',
+                        'loggerFactory'=>$loggerFactory,
+                        'appConfigFactory'=>static function () {
                             $config = include __DIR__ . '/../config/dev/config.php';
                             $config['pathToItems'] = __DIR__ . '/unknown.Item.json';
                             return AppConfig::createFromArray($config);
@@ -1958,10 +1959,10 @@
                 [
                     'testName' => 'Тестирование ситуации c некрректным путём до файла с Родителями',
                     'in' => [
-                        $handlers,
-                        '/assessmentReport?item_name=Математика',
-                        $loggerFactory,
-                        static function () {
+                        'handlers'=>$handlers,
+                        'uri'=>'/assessmentReport?item_name=Математика',
+                        'loggerFactory'=>$loggerFactory,
+                        'appConfigFactory'=>static function () {
                             $config = include __DIR__ . '/../config/dev/config.php';
                             $config['pathToParents'] = __DIR__ . '/unknown.parent.json';
                             return AppConfig::createFromArray($config);
@@ -1978,10 +1979,10 @@
                 [
                     'testName' => 'Тестирование ситуации c некрректным путём до файла с Учениками',
                     'in' => [
-                        $handlers,
-                        '/assessmentReport?item_name=Математика',
-                        $loggerFactory,
-                        static function () {
+                        'handlers'=>$handlers,
+                        'uri'=>'/assessmentReport?item_name=Математика',
+                        'loggerFactory'=>$loggerFactory,
+                        'appConfigFactory'=>static function () {
                             $config = include __DIR__ . '/../config/dev/config.php';
                             $config['pathToStudents'] = __DIR__ . '/unknown.student.json';
                             return AppConfig::createFromArray($config);
@@ -1998,10 +1999,10 @@
                 [
                     'testName' => 'Тестирование ситуации c некрректным путём до файла с Учителями',
                     'in' => [
-                        $handlers,
-                        '/assessmentReport?item_name=Математика',
-                        $loggerFactory,
-                        static function () {
+                        'handlers'=> $handlers,
+                        'uri'=>'/assessmentReport?item_name=Математика',
+                        'loggerFactory'=> $loggerFactory,
+                        'appConfigFactory'=>static function () {
                             $config = include __DIR__ . '/../config/dev/config.php';
                             $config['pathToTeachers'] = __DIR__ . '/unknown.teacher.json';
                             return AppConfig::createFromArray($config);
@@ -2020,10 +2021,10 @@
                 [
                     'testName' => 'Тестирование ситуации когда нет Конфига',
                     'in' => [
-                        $handlers,
-                        '/lesson?item_name=Математика',
-                        $loggerFactory,
-                        static function () {
+                        'handlers'=> $handlers,
+                        'uri'=>'/lesson?item_name=Математика',
+                        'loggerFactory'=> $loggerFactory,
+                        'appConfigFactory'=>static function () {
                             return 'Oops';
                         }
                     ],
@@ -2037,13 +2038,13 @@
                 ],
 
                 // Тесты с эхологгером
-                /*[
-                    'testName' => 'Тестирование возможности смотреть расписание по названию предмета',
+                [
+                    'testName' => 'Тестирование возможности смотреть расписание по названию предмета ЭхоЛоггер',
                     'in' => [
-                        $handlers,
-                        '/lesson?item_name=Математика',
-                        $loggerFactory,
-                        static function () {
+                        'handlers'=>$handlers,
+                        'uri'=>'/lesson?item_name=Математика',
+                        'loggerFactory'=> $loggerFactory,
+                        'appConfigFactory'=>static function () {
                             $config = include __DIR__ . '/../config/dev/config.php';
                             $config['loggerType'] = 'echoLogger';
                             return AppConfig::createFromArray($config);
@@ -2141,7 +2142,7 @@
                             ]
                         ]
                     ]
-                ],*/
+                ],
             ];
         }
 
@@ -2155,7 +2156,11 @@
             foreach (static::testDataProvider() as $testItem) {
                 echo "__________{$testItem['testName']}__________\n";
                 //Arrange и Act
-                $appResult = app(...$testItem['in']);
+                $appResult=(new App(
+                    $testItem['in']['handlers'],
+                    $testItem['in']['loggerFactory'],
+                    $testItem['in']['appConfigFactory'],
+                ))->dispatch($testItem['in']['uri']);
 
                 // Assert
                 if ($appResult['httpCode'] === $testItem['out']['httpCode']) {

@@ -2,22 +2,24 @@
 namespace JoJoBizzareCoders\DigitalJournal\Entity;
     use JoJoBizzareCoders\DigitalJournal\Exception\InvalidDataStructureException;
 
-
     /**
      * Класс Студента
      */
     final class StudentUserClass extends AbstractUserClass
     {
+        //Свойства
         /**
          *  класс ученика
          */
-
         private ClassClass $class;
 
         /**
          * Родитель ученика
          */
         private ParentUserClass $parent;
+
+
+        //Методы
 
         /**
          * Конструктор класса студента

@@ -1,5 +1,7 @@
 <?php
-namespace JoJoBizzareCoders\DigitalJournal\Controller;
+
+    namespace JoJoBizzareCoders\DigitalJournal\Controller;
+
     use JoJoBizzareCoders\DigitalJournal\Entity\ClassClass;
     use JoJoBizzareCoders\DigitalJournal\Entity\ItemClass;
     use JoJoBizzareCoders\DigitalJournal\Entity\LessonClass;
@@ -9,6 +11,9 @@ namespace JoJoBizzareCoders\DigitalJournal\Controller;
     use JoJoBizzareCoders\DigitalJournal\Entity\TeacherUserClass;
     use JoJoBizzareCoders\DigitalJournal\Exception\InvalidDataStructureException;
     use JoJoBizzareCoders\DigitalJournal\Infrastructure\AppConfig;
+    use JoJoBizzareCoders\DigitalJournal\Infrastructure\Http\HttpResponse;
+    use JoJoBizzareCoders\DigitalJournal\Infrastructure\Http\ServerRequest;
+    use JoJoBizzareCoders\DigitalJournal\Infrastructure\Http\ServerResponseFactory;
     use JoJoBizzareCoders\DigitalJournal\Infrastructure\Logger\LoggerInterface;
 
 
@@ -21,13 +26,13 @@ namespace JoJoBizzareCoders\DigitalJournal\Controller;
 
     /**
      * Поиск по оценке
-     * @param array $request - массив содержащий параметры поиска
+     * @param ServerRequest $request - http запрос
      * @param LoggerInterface $logger - название функции логирования
      * @param AppConfig $appConfig - конфигурация приложения
-     * @return array - результат поиска оценок
+     * @return HttpResponse - http ответ
      * @throws InvalidDataStructureException
      */
-    return static function (array $request, LoggerInterface $logger, AppConfig $appConfig): array {
+    return static function (ServerRequest $request, LoggerInterface $logger, AppConfig $appConfig): HttpResponse {
         $items = loadData($appConfig->getPathToItems());
         $teachers = loadData($appConfig->getPathToTeachers());
         $classes = loadData($appConfig->getPathToClasses());
@@ -42,7 +47,8 @@ namespace JoJoBizzareCoders\DigitalJournal\Controller;
             'lesson_date' => 'Incorrect lesson date',
             'student_fio' => 'Incorrect student fio',
         ];
-        if (null === ($result = paramTypeValidation($paramValidations, $request))) {
+        $requestParams = $request->getQueryParams();
+        if (null === ($result = paramTypeValidation($paramValidations, $requestParams))) {
             //Хэшмапирование
             $foundReport = [];
             $itemsIdToInfo = [];
@@ -90,25 +96,25 @@ namespace JoJoBizzareCoders\DigitalJournal\Controller;
             // Поиск оценок
             foreach ($reports as $report) {
                 //$ReportMeetSearchCriteria = getSearch($request, $report, $appConfig);
-                $ReportMeetSearchCriteria=null;
+                $ReportMeetSearchCriteria = null;
                 if (array_key_exists(
                     'item_name',
-                    $request
+                    $requestParams
                 )) // Поиск по присутвию item_name в GET запросе и совпадению item_name в запросе и массиве оценок. [начало]
                 {
-                    $ReportMeetSearchCriteria = ($request['item_name'] === $itemsIdToInfo[$lessonIdToInfo[$report['lesson_id']]->getItem(
+                    $ReportMeetSearchCriteria = ($requestParams['item_name'] === $itemsIdToInfo[$lessonIdToInfo[$report['lesson_id']]->getItem(
                         )->getId()]->getName());
                 }// Поиск по присутвию item_name в GET запросе и совпадению item_name в запросе и массиве оценок. [конец]
-                if (array_key_exists('item_description', $request)) {
-                    $ReportMeetSearchCriteria = ($request['item_description'] === $itemsIdToInfo[$lessonIdToInfo[$report['lesson_id']]->getItem(
+                if (array_key_exists('item_description', $requestParams)) {
+                    $ReportMeetSearchCriteria = ($requestParams['item_description'] === $itemsIdToInfo[$lessonIdToInfo[$report['lesson_id']]->getItem(
                         )->getId()]->getDescription());
                 }
-                if (array_key_exists('lesson_date', $request)) {
-                    $ReportMeetSearchCriteria = ($request['lesson_date'] === $lessonIdToInfo[$report['lesson_id']]->getDate(
+                if (array_key_exists('lesson_date', $requestParams)) {
+                    $ReportMeetSearchCriteria = ($requestParams['lesson_date'] === $lessonIdToInfo[$report['lesson_id']]->getDate(
                         ));
                 }
-                if (array_key_exists('student_fio', $request)) {
-                    $ReportMeetSearchCriteria = ($request['student_fio'] === $studentIdToInfo[$report['student_id']]->getFio(
+                if (array_key_exists('student_fio', $requestParams)) {
+                    $ReportMeetSearchCriteria = ($requestParams['student_fio'] === $studentIdToInfo[$report['student_id']]->getFio(
                         ));
                 }
 
@@ -119,11 +125,11 @@ namespace JoJoBizzareCoders\DigitalJournal\Controller;
                     $foundReport[] = ReportClass::createFromArray($report);
                 }
             }//Цикл по оценкам [конец]
-            $logger->log('found Report'.count($foundReport));
+            $logger->log('found Report' . count($foundReport));
             $result = [
                 'httpCode' => 200,
                 'result' => $foundReport
             ];
         }
-        return $result;
+        return ServerResponseFactory::createJsonResponse($result['httpCode'], $result['result']);
     };

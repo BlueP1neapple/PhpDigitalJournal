@@ -2,20 +2,24 @@
 namespace JoJoBizzareCoders\DigitalJournal\Infrastructure;
 
 
+use JoJoBizzareCoders\DigitalJournal\Infrastructure\Http\HttpResponse;
 
-
-    /**
-     * Функция рэдеренга
-     * @param int $httpCode - код ответа
-     * @param array $data - ответ
-     */
-    function render(int $httpCode, array $data): void
-    {
-        header('Content-Type: application/json');
-        http_response_code($httpCode);
-        echo json_encode($data);
-        exit();
+/**
+ *Отображает результат клиенту
+ *
+ * @param HttpResponse $response
+ *
+ * @return void
+ */
+function render(HttpResponse $response): void
+{
+    foreach ($response->getHeaders() as $headerName=>$headerValue){
+        header("$headerName: $headerValue");
     }
+    http_response_code($response->getStatusCode());
+    echo $response->getBody();
+    exit();
+}
 
     /**
      * Функция валидации

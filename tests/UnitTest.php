@@ -6,10 +6,12 @@
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\App;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\AppConfig;
     use JoJoBizzareCoders\DigitalJournal\Infrastructure\Autoloader;
+    use JoJoBizzareCoders\DigitalJournal\Infrastructure\Http\ServerRequest;
     use JoJoBizzareCoders\DigitalJournal\Infrastructure\Logger\LoggerInterface;
     use JoJoBizzareCoders\DigitalJournal\Infrastructure\Logger\NullLogger\Logger;
+    use JoJoBizzareCoders\DigitalJournal\Infrastructure\Uri\Uri;
+    use JoJoBizzareCoders\DigitalJournalTest\TestUtils;
 
-    use function JoJoBizzareCoders\DigitalJournal\Infrastructure\app;
 
 
     spl_autoload_register(
@@ -20,35 +22,6 @@ use JoJoBizzareCoders\DigitalJournal\Infrastructure\AppConfig;
     );
 
 
-    /**
-     * Вычисляет расхождение массивов с дополнительной проверкой индекса. Поддержка многомерных массивов
-     *
-     * @param array $a1
-     * @param array $a2
-     *
-     * @return array
-     */
-    function array_diff_assoc_recursive(array $a1, array $a2): array
-    {
-        $result = [];
-        foreach ($a1 as $k1 => $v1) {
-            if (false === array_key_exists($k1, $a2)) {
-                $result[$k1] = $v1;
-                continue;
-            }
-            if (is_iterable($v1) && is_iterable($a2[$k1])) {
-                $resultCheck = array_diff_assoc_recursive($v1, $a2[$k1]);
-                if (count($resultCheck) > 0) {
-                    $result[$k1] = $resultCheck;
-                }
-                continue;
-            }
-            if ($v1 !== $a2[$k1]) {
-                $result[$k1] = $v1;
-            }
-        }
-        return $result;
-    }
 
     /**
      * Тестирование приложений
@@ -1670,7 +1643,7 @@ use JoJoBizzareCoders\DigitalJournal\Infrastructure\AppConfig;
                 [
                     'testName' => 'Тестирование некорреткного ввода ФИО cтудента',
                     'in' => [
-                        'handlers'=>$handlers, //TODO доделать юнит тесты
+                        'handlers'=>$handlers,
                         'uri'=>'/studentReport?student_fio[]=Кузнецов Алексей Евгеньевич',
                         'loggerFactory'=>$loggerFactory,
                         'appConfigFactory'=>static function () {
@@ -2105,43 +2078,52 @@ use JoJoBizzareCoders\DigitalJournal\Infrastructure\AppConfig;
          *Запускает тест
          *
          * @return void
+         * @throws JsonException
          */
         public static function runTest(): void
         {
             foreach (static::testDataProvider() as $testItem) {
                 echo "__________{$testItem['testName']}__________\n";
                 //Arrange и Act
-                $appResult=(new App(
+                $httpRequest=new ServerRequest(
+                    'GET',
+                    '1.1',
+                    $testItem['in']['uri'],
+                    Uri::createFromString($testItem['in']['uri']),
+                    ['Content-Type'=>'application/json'],
+                    null,
+                );
+                $httpResponse=(new App(
                     $testItem['in']['handlers'],
                     $testItem['in']['loggerFactory'],
                     $testItem['in']['appConfigFactory'],
-                ))->dispatch($testItem['in']['uri']);
+                ))->dispatch($httpRequest);
 
                 // Assert
-                if ($appResult['httpCode'] === $testItem['out']['httpCode']) {
+                if ($httpResponse->getStatusCode() === $testItem['out']['httpCode']) {
                     echo "-----ok - код ответа-----\n";
                 } else {
-                    echo "-----fail - код ответа. Ожидалось: {$testItem['out']['httpCode']}, Актуальное значение: {$appResult['httpCode']}-----\n";
+                    echo "-----fail - код ответа. Ожидалось: {$testItem['out']['httpCode']}, Актуальное значение: {$httpResponse->getStatusCode()}-----\n";
                 }
 
-                $actualResult = json_decode(json_encode($appResult['result']), true);
+                $actualResult = json_decode($httpResponse->getBody(), true, 512, JSON_THROW_ON_ERROR);
 
                 //Лишние Элементы
-                $unnecessaryElements = array_diff_assoc_recursive($actualResult, $testItem['out']['result']);
+                $unnecessaryElements = TestUtils::arrayDiffAssocRecursive($actualResult, $testItem['out']['result']);
                 //Недостоющие Элементы
-                $missingElements = array_diff_assoc_recursive($testItem['out']['result'], $actualResult,);
+                $missingElements = TestUtils::arrayDiffAssocRecursive($testItem['out']['result'], $actualResult);
 
                 $errMsg = '';
                 if (count($unnecessaryElements) > 0) {
                     $errMsg .= sprintf(
                         "     Есть лишние элементы %s\n",
-                        json_encode($unnecessaryElements, JSON_UNESCAPED_UNICODE)
+                        json_encode($unnecessaryElements, JSON_THROW_ON_ERROR|JSON_UNESCAPED_UNICODE)
                     );
                 }
                 if (count($missingElements) > 0) {
                     $errMsg .= sprintf(
                         "     Есть недостоющие элементы %s\n",
-                        json_encode($missingElements, JSON_UNESCAPED_UNICODE)
+                        json_encode($missingElements, JSON_THROW_ON_ERROR|JSON_UNESCAPED_UNICODE)
                     );
                 }
                 if ('' === $errMsg) {
@@ -2155,4 +2137,7 @@ use JoJoBizzareCoders\DigitalJournal\Infrastructure\AppConfig;
     }
 
 //Вызов метода
-    UnitTest::runTest();
+    try {
+        UnitTest::runTest();
+    } catch (JsonException $e) {
+    }

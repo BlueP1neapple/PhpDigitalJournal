@@ -8,7 +8,7 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
      */
     final class TeacherUserClass extends AbstractUserClass
     {
-
+        //Свойства
         /**
          *  Предмета
          */
@@ -23,6 +23,9 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
          * @var string Email учителя
          */
         private string $email;
+
+
+        //Методы
 
         /**
          * Конструктор класса учителя

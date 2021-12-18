@@ -8,6 +8,7 @@ use JsonSerializable;
      */
     final class ItemClass implements JsonSerializable
     {
+        // Свойства
         /**
          * @int id предмета
          */
@@ -23,6 +24,7 @@ use JsonSerializable;
          */
         private string $description;
 
+        //Методы
         /**
          * Конструктор класса предметов
          * @param int $id - id Предмета
@@ -36,7 +38,6 @@ use JsonSerializable;
             $this->description = $description;
         }
 
-
         /**
          * @return int получить id
          */
@@ -44,7 +45,6 @@ use JsonSerializable;
         {
             return $this->id;
         }
-
 
         /**
          * @return string получить имя предмета
@@ -54,7 +54,6 @@ use JsonSerializable;
             return $this->name;
         }
 
-
         /**
          * @return string получить Полное название предмета
          */
@@ -62,7 +61,6 @@ use JsonSerializable;
         {
             return $this->description;
         }
-
 
         /**
          * Метод получения массива для кодирования в json

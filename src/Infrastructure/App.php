@@ -2,6 +2,10 @@
 
 namespace JoJoBizzareCoders\DigitalJournal\Infrastructure;
 
+
+use JoJoBizzareCoders\DigitalJournal\Infrastructure\Http\HttpResponse;
+use JoJoBizzareCoders\DigitalJournal\Infrastructure\Http\ServerRequest;
+use JoJoBizzareCoders\DigitalJournal\Infrastructure\Http\ServerResponseFactory;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Logger\LoggerInterface;
 use JoJoBizzareCoders\DigitalJournal\Exception;
 use Throwable;
@@ -11,6 +15,7 @@ use UnexpectedValueException;
  */
 final class App
 {
+    //Свойства
     /**
      * Обработчик запросов
      *
@@ -46,6 +51,7 @@ final class App
      */
     private ?LoggerInterface $logger = null;
 
+    //Методы
     /**
      * Конструктор ядра приложения
      *
@@ -114,55 +120,40 @@ final class App
     }
 
     /**
-     * Извлекает параметры из url
+     * обработчик запроса
      *
-     * @param string $requestUri - данные запроса uri
-     * @return array - параметры запроса
+     * @param ServerRequest $serverRequest - объект серверного http запроса
+     * @return HttpResponse - http ответ
      */
-    private function extractQueryParams(string $requestUri): array
-    {
-        $requestParams = [];
-        $requestQuery = parse_url($requestUri, PHP_URL_QUERY);
-        parse_str($requestQuery, $requestParams);
-        return $requestParams;
-    }
-
-    /**
-     *
-     *
-     * @param string $requestUri
-     * @return array
-     */
-    public function dispatch(string $requestUri): array
+    public function dispatch(ServerRequest $serverRequest): HttpResponse
     {
         $appConfig=null;
         try {
             $appConfig = $this->getAppConfig();
             $logger = $this->getLogger();
 
-            $urlPath = parse_url($requestUri, PHP_URL_PATH);
-            $logger->log('Url request received: ' . $requestUri);
+            $urlPath = $serverRequest->getUri()->getPath();
+            $logger->log('Url request received: ' . $urlPath);
 
             if (array_key_exists($urlPath, $this->handlers)) {
-                $requestParams = $this->extractQueryParams($requestUri);
-                $result = call_user_func($this->handlers[$urlPath], $requestParams, $logger, $appConfig);
+                $httpResponse = call_user_func($this->handlers[$urlPath], $serverRequest, $logger, $appConfig);
             } else {
-                $result = [
-                    'httpCode' => 404,
-                    'result' => [
+                $httpResponse=ServerResponseFactory::createJsonResponse(
+                    404,
+                    [
                         'status' => 'fail',
                         'message' => 'unsupported request'
                     ]
-                ];
+                );
             }
         } catch (Exception\InvalidDataStructureException $e) {
-            $result = [
-                'httpCode' => 503,
-                'result' => [
+            $httpResponse=ServerResponseFactory::createJsonResponse(
+                503,
+                [
                     'status' => 'fail',
-                    'message' => $e->getMessage(),
+                    'message' => $e->getMessage()
                 ]
-            ];
+            );
         } catch (Throwable $e) {
             $errMsg = ($appConfig instanceof AppConfig && !$appConfig->isHideErrorMessage())
             || $e instanceof Exception\ErrorCreateAppConfigException
@@ -172,15 +163,14 @@ final class App
             try{
                 $this->getLogger()->log($e->getMessage());
             }catch (Throwable $e1){}
-
-            $result = [
-                'httpCode' => 500,
-                'result' => [
+            $httpResponse=ServerResponseFactory::createJsonResponse(
+                500,
+                [
                     'status' => 'fail',
-                    'message' => $errMsg,
+                    'message' => $errMsg
                 ]
-            ];
+            );
         }
-        return $result;
+        return $httpResponse;
     }
 }

@@ -9,6 +9,7 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
      */
     final class ReportClass implements JsonSerializable
     {
+        //Свойства
         /**
          * @var int id оценки
          */
@@ -29,6 +30,7 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
          */
         private int $mark;
 
+        //Методы
         /**
          * Конструкор класса оценок
          * @param int $id - id оценок

@@ -8,6 +8,7 @@ namespace JoJoBizzareCoders\DigitalJournal\Infrastructure\Logger\FileLogger;
      */
     class Logger implements LoggerInterface
     {
+        // Свойства
         /**
          * Путь до файла в который пишуться логи
          *
@@ -15,7 +16,11 @@ namespace JoJoBizzareCoders\DigitalJournal\Infrastructure\Logger\FileLogger;
          */
         private string $pathToFile;
 
+        // Методы
+
         /**
+         * Конструктор логгера
+         *
          * @param string $pathToFile
          */
         public function __construct(string $pathToFile)

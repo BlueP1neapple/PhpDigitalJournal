@@ -10,6 +10,7 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
      */
     final class LessonClass implements JsonSerializable
     {
+        //Свойства
         /**
          * @var int id урока
          */
@@ -40,6 +41,7 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
          */
         private ClassClass $class;
 
+        //Методы
         /**
          * Конструктор класса занятий
          * @param int $id - id занятия

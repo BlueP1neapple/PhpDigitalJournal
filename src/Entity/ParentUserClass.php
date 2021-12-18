@@ -9,6 +9,7 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
      */
     final class ParentUserClass extends AbstractUserClass
     {
+        //Свойства
         /**
          * @string Место работы родителя
          */
@@ -19,6 +20,7 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
          */
         private string $email;
 
+        //Методы
         /**
          * Конструктор класса Родетелей
          * @inheritdoc

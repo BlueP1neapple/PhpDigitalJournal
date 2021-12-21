@@ -25,20 +25,14 @@ function render(HttpResponse $response): void
      * Функция валидации
      * @param array $validateParameters - валидируемые параметры, ключ имя параметра, значение - текст ошибки
      * @param array $params - все параметры
-     * @return array - сообщение о ошибках,
+     * @return string|null - сообщение о ошибках,
      */
-    function paramTypeValidation(array $validateParameters, array $params): ?array
+    function paramTypeValidation(array $validateParameters, array $params): ?string
     {
         $result = null;
         foreach ($validateParameters as $paramName => $errorMsg) {
             if (array_key_exists($paramName, $params) && false === is_string($params[$paramName])) {
-                $result = [
-                    'httpCode' => 500,
-                    'result' => [
-                        'status' => 'fail',
-                        'message' => $errorMsg,
-                    ]
-                ];
+                $result = $errorMsg;
                 break;
             }
         }

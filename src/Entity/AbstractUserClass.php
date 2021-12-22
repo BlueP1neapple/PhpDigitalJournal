@@ -72,6 +72,7 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
             return $this->fio;
         }
 
+
         /**
          * @return array - Массив для кодирования в json
          */

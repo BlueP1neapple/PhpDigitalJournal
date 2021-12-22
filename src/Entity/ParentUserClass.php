@@ -88,20 +88,5 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
             );
         }
 
-        //    /**
-//     * @return string Получить Место работы родителя
-//     */
-//    public function getPlaceOfWork(): string
-//    {
-//        return $this->placeOfWork;
-//    }
 
-
-//    /**
-//     * @return string получить email родителя
-//     */
-//    public function getEmail(): string
-//    {
-//        return $this->email;
-//    }
     }

@@ -86,22 +86,24 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
             );
         }
 
-        //Неиспользуемые методы
-        //    /**
-//     * @return ClassClass получить класс ученика
-//     */
-//    public function getClass(): ClassClass
-//    {
-//        return $this->class;
-//    }
+        /**
+         * Получить в каком классе ученик
+         * @return ClassClass
+         */
+        public function getClass(): ClassClass
+        {
+            return $this->class;
+        }
+
+        /**
+         * Получить Родителя
+         * @return ParentUserClass
+         */
+        public function getParent(): ParentUserClass
+        {
+            return $this->parent;
+        }
 
 
-//    /**
-//     * @return ParentUserClass получить родителя ученика
-//     */
-//    public function getParent(): ParentUserClass
-//    {
-//        return $this->parent;
-//    }
     }
 

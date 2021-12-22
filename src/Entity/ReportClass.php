@@ -87,39 +87,29 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
             );
         }
 
-        // Неиспользуемые методы
-        //    /**
-//     * @return int получить id оценки
-//     */
-//    public function getId(): int
-//    {
-//        return $this->id;
-//    }
+        /**
+         * @return int
+         */
+        public function getId(): int
+        {
+            return $this->id;
+        }
+
+        /**
+         * @return LessonClass
+         */
+        public function getLesson(): LessonClass
+        {
+            return $this->lesson;
+        }
+
+        /**
+         * @return StudentUserClass
+         */
+        public function getStudent(): StudentUserClass
+        {
+            return $this->student;
+        }
 
 
-//    /**
-//     * @return LessonClass получить урок
-//     */
-//    public function getLesson(): LessonClass
-//    {
-//        return $this->lesson;
-//    }
-
-
-//    /**
-//     * @return StudentUserClass получить студента
-//     */
-//    public function getStudent(): StudentUserClass
-//    {
-//        return $this->student;
-//    }
-
-
-//    /**
-//     * @return int получить оценку
-//     */
-//    public function getMark(): int
-//    {
-//        return $this->mark;
-//    }
     }

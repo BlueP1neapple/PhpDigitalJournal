@@ -1,17 +1,14 @@
 <?php
 namespace JoJoBizzareCoders\DigitalJournal\Entity;
-    use JoJoBizzareCoders\DigitalJournal\Infrastructure\InvalidDataStructureException;
+    use JoJoBizzareCoders\DigitalJournal\Exception\InvalidDataStructureException;
 
-    require_once __DIR__ . "/AbstractUserClass.php";
-    require_once __DIR__ . "/ItemClass.php";
-    require_once __DIR__ . '/../Infrastructure/InvalidDataStructureException.php';
 
     /**
      * Класс Учителя
      */
     final class TeacherUserClass extends AbstractUserClass
     {
-
+        //Свойства
         /**
          *  Предмета
          */
@@ -26,6 +23,9 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
          * @var string Email учителя
          */
         private string $email;
+
+
+        //Методы
 
         /**
          * Конструктор класса учителя
@@ -56,6 +56,15 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
         public function getCabinet(): int
         {
             return $this->cabinet;
+        }
+
+        /**
+         * Получить предмет учителя
+         * @return ItemClass
+         */
+        public function getItem(): ItemClass
+        {
+            return $this->item;
         }
 
         /**
@@ -107,21 +116,4 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
                 $data['email']
             );
         }
-
-        // Неиспользуемые методы
-        //    /**
-//     *  Получить предмета учителя
-//     */
-//    public function getItem(): ItemClass
-//    {
-//        return $this->item;
-//    }
-        //    /**
-//     * @return string Получить Email учителя
-//     */
-//    public function getEmail(): string
-//    {
-//        return $this->email;
-//    }
-
     }

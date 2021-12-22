@@ -1,15 +1,15 @@
 <?php
 namespace JoJoBizzareCoders\DigitalJournal\Entity;
+    use JoJoBizzareCoders\DigitalJournal\Exception\InvalidDataStructureException;
     use JsonSerializable;
-    use  JoJoBizzareCoders\DigitalJournal\Infrastructure\InvalidDataStructureException;
 
-    require_once __DIR__ . '/../Infrastructure/InvalidDataStructureException.php';
+
     /**
      * Класс классов
      */
     final class ClassClass implements JsonSerializable
     {
-
+        // Свойства
         /**
          * @var int id класса
          */
@@ -25,6 +25,7 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
          */
         private string $letter;
 
+        // Методы
         /**
          * Конструтор классов
          * @param int $id
@@ -38,7 +39,6 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
             $this->letter = $letter;
         }
 
-
         /**
          * @return int получить id класса
          */
@@ -46,7 +46,6 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
         {
             return $this->id;
         }
-
 
         /**
          * @return int получить Номер класса
@@ -56,7 +55,6 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
             return $this->number;
         }
 
-
         /**
          * @return string получить Букву класса
          */
@@ -64,7 +62,6 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
         {
             return $this->letter;
         }
-
 
         /**
          * @return array - массив для кодирования в json

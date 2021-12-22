@@ -1,25 +1,25 @@
 <?php
 namespace JoJoBizzareCoders\DigitalJournal\Entity;
-    use JoJoBizzareCoders\DigitalJournal\Infrastructure\InvalidDataStructureException;
-
-    require_once __DIR__ . '/../Infrastructure/InvalidDataStructureException.php';
-    require_once __DIR__ . "/AbstractUserClass.php";
+    use JoJoBizzareCoders\DigitalJournal\Exception\InvalidDataStructureException;
 
     /**
      * Класс Студента
      */
     final class StudentUserClass extends AbstractUserClass
     {
+        //Свойства
         /**
          *  класс ученика
          */
-
         private ClassClass $class;
 
         /**
          * Родитель ученика
          */
         private ParentUserClass $parent;
+
+
+        //Методы
 
         /**
          * Конструктор класса студента
@@ -86,22 +86,24 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
             );
         }
 
-        //Неиспользуемые методы
-        //    /**
-//     * @return ClassClass получить класс ученика
-//     */
-//    public function getClass(): ClassClass
-//    {
-//        return $this->class;
-//    }
+        /**
+         * Получить в каком классе ученик
+         * @return ClassClass
+         */
+        public function getClass(): ClassClass
+        {
+            return $this->class;
+        }
+
+        /**
+         * Получить Родителя
+         * @return ParentUserClass
+         */
+        public function getParent(): ParentUserClass
+        {
+            return $this->parent;
+        }
 
 
-//    /**
-//     * @return ParentUserClass получить родителя ученика
-//     */
-//    public function getParent(): ParentUserClass
-//    {
-//        return $this->parent;
-//    }
     }
 

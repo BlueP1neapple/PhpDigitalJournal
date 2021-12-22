@@ -7,6 +7,7 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
      */
     abstract class AbstractUserClass implements JsonSerializable
     {
+        //Свойства
         /**
          * Id пользователя
          */
@@ -32,8 +33,12 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
          */
         private string $address;
 
+
+        //Методы
+
         /**
          * Конструктор Пользователя
+         *
          * @param int $id - Id пользователя
          * @param string $fio - ФИО пользователя
          * @param string $dateOfBirth - Дата рождения Пользователя
@@ -67,6 +72,7 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
             return $this->fio;
         }
 
+
         /**
          * @return array - Массив для кодирования в json
          */
@@ -83,6 +89,7 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
 
         /**
          * Создание объекта класса пользователя из массива данных об Пользователе
+         *
          * @param array $data - массив данных об Пользователе
          * @return AbstractUserClass - объект класса пользователь
          */

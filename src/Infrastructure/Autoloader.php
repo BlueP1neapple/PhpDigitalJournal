@@ -1,23 +1,36 @@
 <?php
 namespace JoJoBizzareCoders\DigitalJournal\Infrastructure;
 
+/**
+ * Автолоудер автоматически подуключает require_once
+ */
 final class Autoloader
 {
+    // Свойства
     /**
-     * Registred namespace
+     * Registered namespace
      * @var array
      */
     private array $registerNamespaces = [];
 
+    //Методы
+
+    /**
+     * Конструктор Автолодара
+     *
+     * @param array $registerNamespaces - Registered namespace
+     */
     public function __construct(array $registerNamespaces)
     {
-        foreach ($registerNamespaces as $nms => $src){
+        foreach ($registerNamespaces as $nms => $src) {
             $this->registerNamespaces[trim($nms, '\\') . '\\'] = $src;
         }
-        $this->registerNamespaces= $registerNamespaces;
+        $this->registerNamespaces = $registerNamespaces;
     }
 
     /**
+     * Функция создающая путь к подключаемому файлу
+     *
      * @param string $className - имя загружаемого файла
      * @return string|null - путь до файла или нулл если файл не найден
      */
@@ -35,8 +48,10 @@ final class Autoloader
         }
         return $path;
     }
+
     /**
      *  Логика загрузки файлов
+     *
      * @param string $className - имя загружаемого класса
      */
     public function __invoke(string $className):void
@@ -45,8 +60,5 @@ final class Autoloader
         if(null !== $pathToFile && file_exists($pathToFile) && false === is_dir($pathToFile)){
             require_once $pathToFile;
         }
-
-
-
     }
 }

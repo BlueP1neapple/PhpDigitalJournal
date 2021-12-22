@@ -1,13 +1,14 @@
 <?php
 namespace JoJoBizzareCoders\DigitalJournal\Entity;
-    use JsonSerializable;
+use JoJoBizzareCoders\DigitalJournal\Exception\InvalidDataStructureException;
+use JsonSerializable;
 
-    require_once __DIR__ . '/../Infrastructure/InvalidDataStructureException.php';
     /**
      * Класс Предметов
      */
     final class ItemClass implements JsonSerializable
     {
+        // Свойства
         /**
          * @int id предмета
          */
@@ -23,6 +24,7 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
          */
         private string $description;
 
+        //Методы
         /**
          * Конструктор класса предметов
          * @param int $id - id Предмета
@@ -36,7 +38,6 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
             $this->description = $description;
         }
 
-
         /**
          * @return int получить id
          */
@@ -44,7 +45,6 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
         {
             return $this->id;
         }
-
 
         /**
          * @return string получить имя предмета
@@ -54,7 +54,6 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
             return $this->name;
         }
 
-
         /**
          * @return string получить Полное название предмета
          */
@@ -62,7 +61,6 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
         {
             return $this->description;
         }
-
 
         /**
          * Метод получения массива для кодирования в json

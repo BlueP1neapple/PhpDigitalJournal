@@ -1,14 +1,15 @@
 <?php
 namespace JoJoBizzareCoders\DigitalJournal\Entity;
-    use JoJoBizzareCoders\DigitalJournal\Infrastructure\InvalidDataStructureException;
+    use JoJoBizzareCoders\DigitalJournal\Exception\InvalidDataStructureException;
     use JsonSerializable;
 
-    require_once __DIR__ . '/../Infrastructure/InvalidDataStructureException.php';
+
     /**
      * Класс оценок
      */
     final class ReportClass implements JsonSerializable
     {
+        //Свойства
         /**
          * @var int id оценки
          */
@@ -29,6 +30,7 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
          */
         private int $mark;
 
+        //Методы
         /**
          * Конструкор класса оценок
          * @param int $id - id оценок
@@ -85,39 +87,29 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
             );
         }
 
-        // Неиспользуемые методы
-        //    /**
-//     * @return int получить id оценки
-//     */
-//    public function getId(): int
-//    {
-//        return $this->id;
-//    }
+        /**
+         * @return int
+         */
+        public function getId(): int
+        {
+            return $this->id;
+        }
+
+        /**
+         * @return LessonClass
+         */
+        public function getLesson(): LessonClass
+        {
+            return $this->lesson;
+        }
+
+        /**
+         * @return StudentUserClass
+         */
+        public function getStudent(): StudentUserClass
+        {
+            return $this->student;
+        }
 
 
-//    /**
-//     * @return LessonClass получить урок
-//     */
-//    public function getLesson(): LessonClass
-//    {
-//        return $this->lesson;
-//    }
-
-
-//    /**
-//     * @return StudentUserClass получить студента
-//     */
-//    public function getStudent(): StudentUserClass
-//    {
-//        return $this->student;
-//    }
-
-
-//    /**
-//     * @return int получить оценку
-//     */
-//    public function getMark(): int
-//    {
-//        return $this->mark;
-//    }
     }

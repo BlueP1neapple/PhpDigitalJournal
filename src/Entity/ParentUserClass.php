@@ -1,15 +1,15 @@
 <?php
 
 namespace JoJoBizzareCoders\DigitalJournal\Entity;
-    use JoJoBizzareCoders\DigitalJournal\Infrastructure\InvalidDataStructureException;
+    use JoJoBizzareCoders\DigitalJournal\Exception\InvalidDataStructureException;
 
-    require_once __DIR__ . "/AbstractUserClass.php";
-    require_once __DIR__ . '/../Infrastructure/InvalidDataStructureException.php';
+
     /**
      * Класс Родителей
      */
     final class ParentUserClass extends AbstractUserClass
     {
+        //Свойства
         /**
          * @string Место работы родителя
          */
@@ -20,6 +20,7 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
          */
         private string $email;
 
+        //Методы
         /**
          * Конструктор класса Родетелей
          * @inheritdoc
@@ -87,20 +88,5 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
             );
         }
 
-        //    /**
-//     * @return string Получить Место работы родителя
-//     */
-//    public function getPlaceOfWork(): string
-//    {
-//        return $this->placeOfWork;
-//    }
 
-
-//    /**
-//     * @return string получить email родителя
-//     */
-//    public function getEmail(): string
-//    {
-//        return $this->email;
-//    }
     }

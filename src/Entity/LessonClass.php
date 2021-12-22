@@ -1,14 +1,16 @@
 <?php
 namespace JoJoBizzareCoders\DigitalJournal\Entity;
+    use JoJoBizzareCoders\DigitalJournal\Exception\InvalidDataStructureException;
     use JsonSerializable;
-    use  JoJoBizzareCoders\DigitalJournal\Infrastructure\InvalidDataStructureException;
 
-    require_once __DIR__ . '/../Infrastructure/InvalidDataStructureException.php';
+
+
     /**
      *Класс занятий
      */
     final class LessonClass implements JsonSerializable
     {
+        //Свойства
         /**
          * @var int id урока
          */
@@ -39,6 +41,7 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
          */
         private ClassClass $class;
 
+        //Методы
         /**
          * Конструктор класса занятий
          * @param int $id - id занятия
@@ -139,30 +142,5 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
             );
         }
 
-        // Неиспользуемые Методы
-        //    /**
-//     * @return int получить длительность урока
-//     */
-//    public function getLessonDuration(): int
-//    {
-//        return $this->lessonDuration;
-//    }
 
-
-//    /**
-//     * @return TeacherUserClass получить преподавателя
-//     */
-//    public function getTeacher(): TeacherUserClass
-//    {
-//        return $this->teacher;
-//    }
-
-
-//    /**
-//     * @return ClassClass получить класс
-//     */
-//    public function getClass(): ClassClass
-//    {
-//        return $this->class;
-//    }
     }

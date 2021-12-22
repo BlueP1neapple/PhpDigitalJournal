@@ -1,6 +1,6 @@
 <?php
 namespace JoJoBizzareCoders\DigitalJournal\Infrastructure;
-    use Exception;
+    use JoJoBizzareCoders\DigitalJournal\Exception;
 
     /**
      * Конфиг приложения
@@ -71,9 +71,36 @@ namespace JoJoBizzareCoders\DigitalJournal\Infrastructure;
          */
         private string $loggerType;
 
+        /**
+         * Скрывать сообщения по ошибкам
+         *
+         * @var bool
+         */
+        private bool $hideErrorMessage;
+
+
 
 
         // Методы
+        /**
+         * Возвращает флаг указывающий, что нужно скрыватиь сообщения по ошибкам
+         *
+         * @return bool
+         */
+        public function isHideErrorMessage(): bool
+        {
+            return $this->hideErrorMessage;
+        }
+
+        /**
+         * Устанавливает флаг указывающий, что нужно скрыватиь сообщения по ошибкам
+         *
+         * @param bool $hideErrorMessage
+         */
+        private function setHideErrorMessage(bool $hideErrorMessage): void
+        {
+            $this->hideErrorMessage = $hideErrorMessage;
+        }
 
         /**
          * Возвращает тип используемого логгера
@@ -109,7 +136,7 @@ namespace JoJoBizzareCoders\DigitalJournal\Infrastructure;
          * Устанавливает путь до файла с логами
          *
          * @param string $pathToLogFile -  путь до файла с логами
-         * @throws Exception
+         * @throws Exception\RuntimeException
          */
         private function setPathToLogFile(string $pathToLogFile): void
         {
@@ -132,7 +159,7 @@ namespace JoJoBizzareCoders\DigitalJournal\Infrastructure;
          *
          * @param string $pathToLesson - путь до файла с данными об Занятиях
          * @return AppConfig - объект с путём до файла с данными об Занятиях
-         * @throws Exception
+         * @throws Exception\RuntimeException
          */
         private function setPathToLesson(string $pathToLesson): AppConfig
         {
@@ -156,7 +183,7 @@ namespace JoJoBizzareCoders\DigitalJournal\Infrastructure;
          *
          * @param string $pathToAssessmentReport - путь до файла с данными об Оценках
          * @return AppConfig - объект с путём до файла с данными об Оценках
-         * @throws Exception
+         * @throws Exception\RuntimeException
          */
         private function setPathToAssessmentReport(string $pathToAssessmentReport): AppConfig
         {
@@ -180,7 +207,7 @@ namespace JoJoBizzareCoders\DigitalJournal\Infrastructure;
          *
          * @param string $pathToItems - путь до файла с данными об Предмете
          * @return AppConfig - объект с путём до файла с данными об Предмете
-         * @throws Exception
+         * @throws Exception\RuntimeException
          */
         private function setPathToItems(string $pathToItems): AppConfig
         {
@@ -204,7 +231,7 @@ namespace JoJoBizzareCoders\DigitalJournal\Infrastructure;
          *
          * @param string $pathToTeachers - путь до файла с данными об Учителе
          * @return AppConfig - объект с путём до файла с данными об Учителе
-         * @throws Exception
+         * @throws Exception\RuntimeException
          */
         private function setPathToTeachers(string $pathToTeachers): AppConfig
         {
@@ -228,7 +255,7 @@ namespace JoJoBizzareCoders\DigitalJournal\Infrastructure;
          *
          * @param string $pathToClasses - путь до файла с данными об Классах
          * @return AppConfig - объект с путём до файла с данными об Классах
-         * @throws Exception
+         * @throws Exception\RuntimeException
          */
         private function setPathToClasses(string $pathToClasses): AppConfig
         {
@@ -252,7 +279,7 @@ namespace JoJoBizzareCoders\DigitalJournal\Infrastructure;
          *
          * @param string $pathToStudents - путь до файла с данными об Студентах
          * @return AppConfig - объект с путём до файла с данными об Студентах
-         * @throws Exception
+         * @throws Exception\RuntimeException
          */
         private function setPathToStudents(string $pathToStudents): AppConfig
         {
@@ -276,7 +303,7 @@ namespace JoJoBizzareCoders\DigitalJournal\Infrastructure;
          *
          * @param string $pathToParents - путь до файла с данными об Родителях
          * @return AppConfig - объект с путём до файла с данными об Родителях
-         * @throws Exception
+         * @throws Exception\RuntimeException
          */
         private function setPathToParents(string $pathToParents): AppConfig
         {
@@ -292,12 +319,12 @@ namespace JoJoBizzareCoders\DigitalJournal\Infrastructure;
          * @param string $path
          *
          * @return void
-         * @throws Exception
+         * @throws Exception\RuntimeException
          */
         private function validateFilePath(string $path):void
         {
             if(false===file_exists($path)){
-                throw new Exception('Неккоректный путь до файла с данными ' . $path);
+                throw new Exception\RuntimeException('Неккоректный путь до файла с данными');
             }
         }
 
@@ -315,6 +342,7 @@ namespace JoJoBizzareCoders\DigitalJournal\Infrastructure;
          * @uses AppConfig::setPathToLesson()
          * @uses AppConfig::setPathToLogFile()
          * @uses AppConfig::setLoggerType()
+         * @uses AppConfig::setHideErrorMessage()
          */
         public static function createFromArray(array $config): self
         {

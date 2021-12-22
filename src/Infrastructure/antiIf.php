@@ -1,42 +1,49 @@
 <?php
 
+
 namespace JoJoBizzareCoders\DigitalJournal\Infrastructure;
 
 
-function getSearch(array $request, array $report, AppConfig $appConfig): bool
-{
-    $items = loadData(__DIR__ . '/../../data/item.json');
-    $teachers = loadData(__DIR__ . '/../../data/teacher.json');
-    $classes = loadData(__DIR__ . '/../../data/class.json');
-    $lessons = loadData(__DIR__ . '/../../data/lesson.json');
-    $reports = loadData(__DIR__ . '/../../data/assessmentReport.json');
-    $students = loadData(__DIR__ . '/../../data/student.json');
-    $parents = loadData(__DIR__ . '/../../data/parent.json');
+function getSearch(array $request, array $report, array $hashMap): bool{
 
-    $graitHardcodeArray = [];
 
-    $graitHardcodeArray['item'] = $items;
-    $graitHardcodeArray['teacher'] = $teachers;
-    $graitHardcodeArray['class'] = $classes;
-    $graitHardcodeArray['lesson'] = $lessons;
-    $graitHardcodeArray['report'] = $reports;
-    $graitHardcodeArray['student'] = $students;
-    $graitHardcodeArray['parent'] = $parents;
 
-    $searchingKey = array_keys($request);
 
-    $splitKey = explode('_', $searchingKey[0]);
 
-    if (array_key_exists($splitKey[0], $graitHardcodeArray)) {
-        foreach ($graitHardcodeArray[$splitKey[0]] as $currentValue) {
-            if (array_key_exists($splitKey[1], $currentValue)) {
-                    return true;
+
+    foreach ($report as $key => $value)
+    {
+        if(stripos($key, '_') !== false)
+        {
+            $id = $value;
+            $valueSplit = explode('_', $key);
+            $requestSplit = explode('_' , array_keys($request)[0]);
+            $getterId = 'get' . ucfirst($valueSplit[1]);
+            $getterEntity = 'get' . ucfirst($requestSplit[0]);
+            $getterKey = 'get' . ucfirst($requestSplit[1]);
+            foreach ($hashMap as $entityKey => $entity){
+                if($entityKey === $valueSplit[0])
+                {
+                    foreach ($entity as $obj)
+                    {
+                        $a = $obj->{$getterId}();
+                        if($a === $value)
+                        {
+                            $get = $obj->{$getterEntity};
+                            $b = $get->{$getterKey}();
+                            if($request[array_keys($request)[0]] === $b){
+                                return true;
+                            }
+                        }
+                    }
+                }
             }
         }
     }
+
+
     return false;
 }
-
 
 
 

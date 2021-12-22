@@ -142,30 +142,5 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
             );
         }
 
-        // Неиспользуемые Методы
-        //    /**
-//     * @return int получить длительность урока
-//     */
-//    public function getLessonDuration(): int
-//    {
-//        return $this->lessonDuration;
-//    }
 
-
-//    /**
-//     * @return TeacherUserClass получить преподавателя
-//     */
-//    public function getTeacher(): TeacherUserClass
-//    {
-//        return $this->teacher;
-//    }
-
-
-//    /**
-//     * @return ClassClass получить класс
-//     */
-//    public function getClass(): ClassClass
-//    {
-//        return $this->class;
-//    }
     }

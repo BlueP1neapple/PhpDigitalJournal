@@ -59,6 +59,15 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
         }
 
         /**
+         * Получить предмет учителя
+         * @return ItemClass
+         */
+        public function getItem(): ItemClass
+        {
+            return $this->item;
+        }
+
+        /**
          * Метод получения массива для кодирование в json
          * @return array - массив для кодирования
          */
@@ -107,21 +116,4 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
                 $data['email']
             );
         }
-
-        // Неиспользуемые методы
-        //    /**
-//     *  Получить предмета учителя
-//     */
-//    public function getItem(): ItemClass
-//    {
-//        return $this->item;
-//    }
-        //    /**
-//     * @return string Получить Email учителя
-//     */
-//    public function getEmail(): string
-//    {
-//        return $this->email;
-//    }
-
     }

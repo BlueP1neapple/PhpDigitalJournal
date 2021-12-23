@@ -8,13 +8,19 @@ use JoJoBizzareCoders\DigitalJournal\Infrastructure\Http\HttpResponse;
 
 
 return [
-    '/lesson' => include __DIR__ . '/../src/Controller/found.lesson.handler.php',
-    '/assessmentReport' => static function (
+    '/lesson'  => static function (
         ServerRequest $serverRequest,
         LoggerInterface $logger,
         AppConfig $appConfig
     ): HttpResponse {
         return (new Controller\FoundAssessmentReport($logger, $appConfig))($serverRequest);
+    },
+    '/assessmentReport' => static function (
+        ServerRequest $serverRequest,
+        LoggerInterface $logger,
+        AppConfig $appConfig
+    ): HttpResponse {
+        return (new Controller\FoundLesson($logger, $appConfig))($serverRequest);
     },
 
     '/studentReport' => static function (

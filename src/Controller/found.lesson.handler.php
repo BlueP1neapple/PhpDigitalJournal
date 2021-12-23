@@ -1,7 +1,6 @@
 <?php
 
     namespace JoJoBizzareCoders\DigitalJournal\Controller;
-    //TODO Создать класс контроллера поиска занятия
     // Подключаемы функции
     use JoJoBizzareCoders\DigitalJournal\Entity\ClassClass;
     use JoJoBizzareCoders\DigitalJournal\Entity\ItemClass;

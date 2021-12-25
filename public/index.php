@@ -4,11 +4,10 @@
     use JoJoBizzareCoders\DigitalJournal\Infrastructure\App;
     use JoJoBizzareCoders\DigitalJournal\Infrastructure\Autoloader;
     use JoJoBizzareCoders\DigitalJournal\Infrastructure\Http\ServerRequestFactory;
+    use JoJoBizzareCoders\DigitalJournal\Infrastructure\View\DefaultRender;
 
-    use function JoJoBizzareCoders\DigitalJournal\Infrastructure\render;
 
 // Функции
-    require_once __DIR__ . "/../src/Infrastructure/application.php";
     require_once __DIR__ . "/../src/Infrastructure/Autoloader.php";
 
     spl_autoload_register(
@@ -23,8 +22,8 @@
         '\JoJoBizzareCoders\DigitalJournal\Infrastructure\Logger\Factory::create',
         static function () {
             return AppConfig::createFromArray(include __DIR__ . '/../config/dev/config.php');
+        },
+        static function(){
+            return new DefaultRender();
         }
     ))->dispatch(ServerRequestFactory::createFromGlobals($_SERVER));
-
-
-    render($httpResponse); // Рэндер конечного результата

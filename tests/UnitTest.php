@@ -1,6 +1,5 @@
 <?php
 
-    require_once __DIR__ . "/../src/Infrastructure/application.php";
     require_once __DIR__ . "/../src/Infrastructure/Autoloader.php";
 
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\App;
@@ -10,6 +9,7 @@ use JoJoBizzareCoders\DigitalJournal\Infrastructure\AppConfig;
     use JoJoBizzareCoders\DigitalJournal\Infrastructure\Logger\LoggerInterface;
     use JoJoBizzareCoders\DigitalJournal\Infrastructure\Logger\NullLogger\Logger;
     use JoJoBizzareCoders\DigitalJournal\Infrastructure\Uri\Uri;
+    use JoJoBizzareCoders\DigitalJournal\Infrastructure\View\NullRender;
     use JoJoBizzareCoders\DigitalJournalTest\TestUtils;
 
 
@@ -2097,6 +2097,9 @@ use JoJoBizzareCoders\DigitalJournal\Infrastructure\AppConfig;
                     $testItem['in']['handlers'],
                     $testItem['in']['loggerFactory'],
                     $testItem['in']['appConfigFactory'],
+                    static function(){
+                        return new NullRender();
+                    }
                 ))->dispatch($httpRequest);
 
                 // Assert

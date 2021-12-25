@@ -7,18 +7,22 @@ use JoJoBizzareCoders\DigitalJournal\Entity\ItemClass;
 use JoJoBizzareCoders\DigitalJournal\Entity\LessonClass;
 use JoJoBizzareCoders\DigitalJournal\Entity\TeacherUserClass;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\AppConfig;
+use JoJoBizzareCoders\DigitalJournal\Infrastructure\Controller\ControllerInterface;
+use JoJoBizzareCoders\DigitalJournal\Infrastructure\DataLoader\JsonDataLoader;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Http\HttpResponse;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Http\ServerRequest;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Http\ServerResponseFactory;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Logger\LoggerInterface;
 
-use function JoJoBizzareCoders\DigitalJournal\Infrastructure\loadData;
-use function JoJoBizzareCoders\DigitalJournal\Infrastructure\paramTypeValidation;
+use JoJoBizzareCoders\DigitalJournal\Infrastructure\Validator\Assert;
+
+use JsonException;
+
 
 /**
  * Контроллер отвечающий за поиск занятий
  */
-class FoundLesson
+class FoundLesson implements ControllerInterface
 {
     //Свойства
     /**
@@ -53,11 +57,13 @@ class FoundLesson
      * Загрузка сущностей Предметы
      *
      * @return array
+     * @throws JsonException
      */
     private function loadEntityItems():array
     {
         $itemsIdToInfo = [];
-        $items = loadData($this->appConfig->getPathToItems());
+        $loader=new JsonDataLoader();
+        $items = $loader->LoadDate($this->appConfig->getPathToItems());
         foreach ($items as $item) {
             $itemsObj = ItemClass::createFromArray($item);
             $itemsIdToInfo[$itemsObj->getId()] = $itemsObj;
@@ -69,11 +75,13 @@ class FoundLesson
      * Загрузка сущностей Учителя
      *
      * @return array
+     * @throws JsonException
      */
     private function loadEntityTeachers():array
     {
         $teachersIdToInfo = [];
-        $teachers = loadData($this->appConfig->getPathToTeachers());
+        $loader=new JsonDataLoader();
+        $teachers = $loader->LoadDate($this->appConfig->getPathToTeachers());
         $itemsIdToInfo=$this->loadEntityItems();
         foreach ($teachers as $teacher) {
             $teacher['idItem'] = $itemsIdToInfo[$teacher['idItem']];
@@ -87,11 +95,13 @@ class FoundLesson
      * Загрузка сущностей Классы
      *
      * @return array
+     * @throws JsonException
      */
     private function loadEntityClasses():array
     {
         $classesIdToInfo = [];
-        $classes = loadData($this->appConfig->getPathToClasses());
+        $loader=new JsonDataLoader();
+        $classes = $loader->LoadDate($this->appConfig->getPathToClasses());
         foreach ($classes as $class) {
             $classesObj = ClassClass::createFromArray($class);
             $classesIdToInfo[$classesObj->getId()] = $classesObj;
@@ -103,10 +113,11 @@ class FoundLesson
      * Загрузка данных о Занятиях из Файла в массив
      *
      * @return array
+     * @throws JsonException
      */
     private function LoadDataLesson():array
     {
-        return loadData($this->appConfig->getPathToLesson());
+        return (new JsonDataLoader())->LoadDate($this->appConfig->getPathToLesson());
     }
 
     /**
@@ -138,7 +149,7 @@ class FoundLesson
             'class_letter' => 'Incorrect class letter',
         ];
         $requestParams = $serverRequest->getQueryParams();
-        return paramTypeValidation($paramValidations, $requestParams);
+        return Assert::arrayElementsIsString($paramValidations, $requestParams);
     }
 
     /**
@@ -261,6 +272,7 @@ class FoundLesson
      *
      * @param ServerRequest $serverRequest - объект серверного http запроса
      * @return HttpResponse - объект http ответа
+     * @throws JsonException
      */
     public function __invoke(ServerRequest $serverRequest):HttpResponse
     {

@@ -11,18 +11,22 @@ use JoJoBizzareCoders\DigitalJournal\Entity\StudentUserClass;
 use JoJoBizzareCoders\DigitalJournal\Entity\TeacherUserClass;
 use JoJoBizzareCoders\DigitalJournal\Exception\InvalidDataStructureException;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\AppConfig;
+use JoJoBizzareCoders\DigitalJournal\Infrastructure\Controller\ControllerInterface;
+use JoJoBizzareCoders\DigitalJournal\Infrastructure\DataLoader\JsonDataLoader;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Http\HttpResponse;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Http\ServerRequest;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Http\ServerResponseFactory;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Logger\LoggerInterface;
 
-use function JoJoBizzareCoders\DigitalJournal\Infrastructure\loadData;
-use function JoJoBizzareCoders\DigitalJournal\Infrastructure\paramTypeValidation;
+use JoJoBizzareCoders\DigitalJournal\Infrastructure\Validator\Assert;
+
+use JsonException;
+
 
 /**
  * Контроллер отвечающий за поиск оценок
  */
-final class FoundAssessmentReport
+final class FoundAssessmentReport implements ControllerInterface
 {
     // Свойства
     /**
@@ -58,10 +62,12 @@ final class FoundAssessmentReport
      * Загрузка данных о предметах и создаёт сущности Предметов на основе этих данных
      *
      * @return array
+     * @throws JsonException
      */
     private function loadItemsEntity(): array
     {
-        $items = loadData($this->appConfig->getPathToItems());
+        $loader=new JsonDataLoader();
+        $items = $loader->LoadDate($this->appConfig->getPathToItems());
         $itemsIdToInfo = [];
         foreach ($items as $item) {
             $itemsObj = ItemClass::createFromArray($item);
@@ -75,10 +81,12 @@ final class FoundAssessmentReport
      *
      * @param array $itemsIdToInfo - Сущности Предметов
      * @return array
+     * @throws JsonException
      */
     private function loadTeachersEntity(array $itemsIdToInfo): array
     {
-        $teachers = loadData($this->appConfig->getPathToTeachers());
+        $loader=new JsonDataLoader();
+        $teachers = $loader->LoadDate($this->appConfig->getPathToTeachers());
         $teachersIdToInfo = [];
         foreach ($teachers as $teacher) {
             $teacher['idItem'] = $itemsIdToInfo[$teacher['idItem']];
@@ -92,10 +100,12 @@ final class FoundAssessmentReport
      * Загрузка данных о классах и создаёт сущности Классы на основе этих данных
      *
      * @return array
+     * @throws JsonException
      */
     private function loadClassEntity(): array
     {
-        $classes = loadData($this->appConfig->getPathToClasses());
+        $loader=new JsonDataLoader();
+        $classes = $loader->LoadDate($this->appConfig->getPathToClasses());
         $classesIdToInfo = [];
         foreach ($classes as $class) {
             $classesObj = ClassClass::createFromArray($class);
@@ -109,11 +119,13 @@ final class FoundAssessmentReport
      *
      * @param array $itemsIdToInfo - сущности Предметов
      * @return array
+     * @throws JsonException
      */
     private function loadLessonEntity(
         array $itemsIdToInfo
     ): array {
-        $lessons = loadData($this->appConfig->getPathToLesson());
+        $loader=new JsonDataLoader();
+        $lessons = $loader->LoadDate($this->appConfig->getPathToLesson());
         $teachersIdToInfo = $this->loadTeachersEntity($itemsIdToInfo);
         $classesIdToInfo = $this->loadClassEntity();
         $lessonIdToInfo = [];
@@ -131,20 +143,23 @@ final class FoundAssessmentReport
      * Метод реализующий загрузку данных о Оцкенках
      *
      * @return array
+     * @throws JsonException
      */
     private function loadReportData(): array
     {
-        return loadData($this->appConfig->getPathToAssessmentReport());
+        return (new JsonDataLoader())->LoadDate($this->appConfig->getPathToAssessmentReport());
     }
 
     /**
      * Загрузка данных о родителях и создаёт сущности Родители на основе этих данных
      *
      * @return array
+     * @throws JsonException
      */
     private function loadParentsEntity(): array
     {
-        $parents = loadData($this->appConfig->getPathToParents());
+        $loader=new JsonDataLoader();
+        $parents = $loader->LoadDate($this->appConfig->getPathToParents());
         $parentIdToInfo = [];
         foreach ($parents as $parent) {
             $parentsObj = ParentUserClass::createFromArray($parent);
@@ -157,10 +172,12 @@ final class FoundAssessmentReport
      * Загрузка данных о Учениках и создаёт сущности Ученики на основе этих данных
      *
      * @return array
+     * @throws JsonException
      */
     private function loadStudentsEntity(): array
     {
-        $students = loadData($this->appConfig->getPathToStudents());
+        $loader=new JsonDataLoader();
+        $students = $loader->LoadDate($this->appConfig->getPathToStudents());
         $classesIdToInfo = $this->loadClassEntity();
         $parentIdToInfo = $this->loadParentsEntity();
         $studentIdToInfo = [];
@@ -200,7 +217,7 @@ final class FoundAssessmentReport
             'student_fio' => 'Incorrect student fio',
         ];
         $requestParams = $serverRequest->getQueryParams();
-        return paramTypeValidation($paramValidations, $requestParams);
+        return Assert::arrayElementsIsString($paramValidations, $requestParams);
     }
 
     /**
@@ -286,7 +303,7 @@ final class FoundAssessmentReport
      *
      * @param ServerRequest $serverRequest - http запрос
      * @return HttpResponse - http ответ
-     * @throws InvalidDataStructureException
+     * @throws InvalidDataStructureException|JsonException
      */
     public function __invoke(ServerRequest $serverRequest): HttpResponse
     {

@@ -10,7 +10,6 @@ use JoJoBizzareCoders\DigitalJournal\Entity\ReportClass;
 use JoJoBizzareCoders\DigitalJournal\Entity\StudentUserClass;
 use JoJoBizzareCoders\DigitalJournal\Entity\TeacherUserClass;
 use JoJoBizzareCoders\DigitalJournal\Exception\InvalidDataStructureException;
-use JoJoBizzareCoders\DigitalJournal\Infrastructure\AppConfig;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Controller\ControllerInterface;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\DataLoader\JsonDataLoader;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Http\HttpResponse;
@@ -37,11 +36,53 @@ final class FoundAssessmentReport implements ControllerInterface
     private LoggerInterface $logger;
 
     /**
-     * Используемый конфиг приложения
+     * Путь до файла с данными об предметах
      *
-     * @var AppConfig
+     * @var string
      */
-    private AppConfig $appConfig;
+    private string $pathToItems;
+
+    /**
+     * Путь до файла с данными об учителях
+     *
+     * @var string
+     */
+    private string $pathToTeachers;
+
+    /**
+     * Путь до файла с данными об классах
+     *
+     * @var string
+     */
+    private string $pathToClasses;
+
+    /**
+     * Путь до файла с данными об Учителях
+     *
+     * @var string
+     */
+    private string $pathToStudents;
+
+    /**
+     * Путь до файла с данными об Родителях
+     *
+     * @var string
+     */
+    private string $pathToParents;
+
+    /**
+     * Путь до файла с данными об Занятиях
+     *
+     * @var string
+     */
+    private string $pathToLesson;
+
+    /**
+     * Путь до файла с данными об оценках
+     *
+     * @var string
+     */
+    private string $pathToAssessmentReport;
 
     //Методы
 
@@ -49,12 +90,30 @@ final class FoundAssessmentReport implements ControllerInterface
      * Конструктор поиска Оценок
      *
      * @param LoggerInterface $logger - используемый логгер
-     * @param AppConfig $appConfig - Конфиг приложения
+     * @param string $pathToItems - Путь до файла с данными об предметах
+     * @param string $pathToTeachers - Путь до файла с данными об учителях
+     * @param string $pathToClasses - Путь до файла с данными об классах
+     * @param string $pathToStudents - Путь до файла с данными об Учителях
+     * @param string $pathToParents - Путь до файла с данными об Родителях
      */
-    public function __construct(LoggerInterface $logger, AppConfig $appConfig)
-    {
+    public function __construct(
+        LoggerInterface $logger,
+        string $pathToItems,
+        string $pathToTeachers,
+        string $pathToClasses,
+        string $pathToStudents,
+        string $pathToParents,
+        string $pathToLesson,
+        string $pathToAssessmentReport
+    ) {
         $this->logger = $logger;
-        $this->appConfig = $appConfig;
+        $this->pathToItems = $pathToItems;
+        $this->pathToTeachers = $pathToTeachers;
+        $this->pathToClasses = $pathToClasses;
+        $this->pathToStudents = $pathToStudents;
+        $this->pathToParents = $pathToParents;
+        $this->pathToLesson = $pathToLesson;
+        $this->pathToAssessmentReport = $pathToAssessmentReport;
     }
 
 
@@ -67,7 +126,7 @@ final class FoundAssessmentReport implements ControllerInterface
     private function loadItemsEntity(): array
     {
         $loader=new JsonDataLoader();
-        $items = $loader->LoadDate($this->appConfig->getPathToItems());
+        $items = $loader->LoadDate($this->pathToItems);
         $itemsIdToInfo = [];
         foreach ($items as $item) {
             $itemsObj = ItemClass::createFromArray($item);
@@ -85,8 +144,8 @@ final class FoundAssessmentReport implements ControllerInterface
      */
     private function loadTeachersEntity(array $itemsIdToInfo): array
     {
-        $loader=new JsonDataLoader();
-        $teachers = $loader->LoadDate($this->appConfig->getPathToTeachers());
+        $loader = new JsonDataLoader();
+        $teachers = $loader->LoadDate($this->pathToTeachers);
         $teachersIdToInfo = [];
         foreach ($teachers as $teacher) {
             $teacher['idItem'] = $itemsIdToInfo[$teacher['idItem']];
@@ -104,8 +163,8 @@ final class FoundAssessmentReport implements ControllerInterface
      */
     private function loadClassEntity(): array
     {
-        $loader=new JsonDataLoader();
-        $classes = $loader->LoadDate($this->appConfig->getPathToClasses());
+        $loader = new JsonDataLoader();
+        $classes = $loader->LoadDate($this->pathToClasses);
         $classesIdToInfo = [];
         foreach ($classes as $class) {
             $classesObj = ClassClass::createFromArray($class);
@@ -124,8 +183,8 @@ final class FoundAssessmentReport implements ControllerInterface
     private function loadLessonEntity(
         array $itemsIdToInfo
     ): array {
-        $loader=new JsonDataLoader();
-        $lessons = $loader->LoadDate($this->appConfig->getPathToLesson());
+        $loader = new JsonDataLoader();
+        $lessons = $loader->LoadDate($this->pathToLesson);
         $teachersIdToInfo = $this->loadTeachersEntity($itemsIdToInfo);
         $classesIdToInfo = $this->loadClassEntity();
         $lessonIdToInfo = [];
@@ -147,7 +206,7 @@ final class FoundAssessmentReport implements ControllerInterface
      */
     private function loadReportData(): array
     {
-        return (new JsonDataLoader())->LoadDate($this->appConfig->getPathToAssessmentReport());
+        return (new JsonDataLoader())->LoadDate($this->pathToAssessmentReport);
     }
 
     /**
@@ -159,7 +218,7 @@ final class FoundAssessmentReport implements ControllerInterface
     private function loadParentsEntity(): array
     {
         $loader=new JsonDataLoader();
-        $parents = $loader->LoadDate($this->appConfig->getPathToParents());
+        $parents = $loader->LoadDate($this->pathToParents);
         $parentIdToInfo = [];
         foreach ($parents as $parent) {
             $parentsObj = ParentUserClass::createFromArray($parent);
@@ -177,7 +236,7 @@ final class FoundAssessmentReport implements ControllerInterface
     private function loadStudentsEntity(): array
     {
         $loader=new JsonDataLoader();
-        $students = $loader->LoadDate($this->appConfig->getPathToStudents());
+        $students = $loader->LoadDate($this->pathToStudents);
         $classesIdToInfo = $this->loadClassEntity();
         $parentIdToInfo = $this->loadParentsEntity();
         $studentIdToInfo = [];

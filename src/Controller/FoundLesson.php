@@ -6,7 +6,6 @@ use JoJoBizzareCoders\DigitalJournal\Entity\ClassClass;
 use JoJoBizzareCoders\DigitalJournal\Entity\ItemClass;
 use JoJoBizzareCoders\DigitalJournal\Entity\LessonClass;
 use JoJoBizzareCoders\DigitalJournal\Entity\TeacherUserClass;
-use JoJoBizzareCoders\DigitalJournal\Infrastructure\AppConfig;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Controller\ControllerInterface;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\DataLoader\JsonDataLoader;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Http\HttpResponse;
@@ -33,24 +32,56 @@ class FoundLesson implements ControllerInterface
     private LoggerInterface $logger;
 
     /**
-     * спользуемый конфиг приложения
+     * Путь до файла с данными об предметах
      *
-     * @var AppConfig
+     * @var string
      */
-    private AppConfig $appConfig;
+    private string $pathToItems;
+
+    /**
+     * Путь до файла с данными об Учителях
+     *
+     * @var string
+     */
+    private string $pathToTeachers;
+
+    /**
+     * Путь до файла с данными об Классах
+     *
+     * @var string
+     */
+    private string $pathToClasses;
+
+    /**
+     * Путь до файла с данными об Занятиях
+     *
+     * @var string
+     */
+    private string $pathToLesson;
 
     //Методы
 
     /**
-     * Конструктор контроллера отвечающего за поиск занятий
+     * Конструктор контроллера поиска занятий
      *
-     * @param LoggerInterface $logger - используемый логгер
-     * @param AppConfig $appConfig - используемый конфиг приложения
+     * @param LoggerInterface $logger - Используемый логгер
+     * @param string $pathToItems - Путь до файла с данными об предметах
+     * @param string $pathToTeachers - Путь до файла с данными об Учителях
+     * @param string $pathToClasses - Путь до файла с данными об Классах
+     * @param string $pathToLesson - Путь до файла с данными об Занятиях
      */
-    public function __construct(LoggerInterface $logger, AppConfig $appConfig)
-    {
+    public function __construct(
+        LoggerInterface $logger,
+        string $pathToItems,
+        string $pathToTeachers,
+        string $pathToClasses,
+        string $pathToLesson
+    ) {
         $this->logger = $logger;
-        $this->appConfig = $appConfig;
+        $this->pathToItems = $pathToItems;
+        $this->pathToTeachers = $pathToTeachers;
+        $this->pathToClasses = $pathToClasses;
+        $this->pathToLesson = $pathToLesson;
     }
 
     /**
@@ -62,8 +93,8 @@ class FoundLesson implements ControllerInterface
     private function loadEntityItems():array
     {
         $itemsIdToInfo = [];
-        $loader=new JsonDataLoader();
-        $items = $loader->LoadDate($this->appConfig->getPathToItems());
+        $loader = new JsonDataLoader();
+        $items = $loader->LoadDate($this->pathToItems);
         foreach ($items as $item) {
             $itemsObj = ItemClass::createFromArray($item);
             $itemsIdToInfo[$itemsObj->getId()] = $itemsObj;
@@ -80,9 +111,9 @@ class FoundLesson implements ControllerInterface
     private function loadEntityTeachers():array
     {
         $teachersIdToInfo = [];
-        $loader=new JsonDataLoader();
-        $teachers = $loader->LoadDate($this->appConfig->getPathToTeachers());
-        $itemsIdToInfo=$this->loadEntityItems();
+        $loader = new JsonDataLoader();
+        $teachers = $loader->LoadDate($this->pathToTeachers);
+        $itemsIdToInfo = $this->loadEntityItems();
         foreach ($teachers as $teacher) {
             $teacher['idItem'] = $itemsIdToInfo[$teacher['idItem']];
             $teachersObj = TeacherUserClass::createFromArray($teacher);
@@ -100,8 +131,8 @@ class FoundLesson implements ControllerInterface
     private function loadEntityClasses():array
     {
         $classesIdToInfo = [];
-        $loader=new JsonDataLoader();
-        $classes = $loader->LoadDate($this->appConfig->getPathToClasses());
+        $loader = new JsonDataLoader();
+        $classes = $loader->LoadDate($this->pathToClasses);
         foreach ($classes as $class) {
             $classesObj = ClassClass::createFromArray($class);
             $classesIdToInfo[$classesObj->getId()] = $classesObj;
@@ -117,7 +148,7 @@ class FoundLesson implements ControllerInterface
      */
     private function LoadDataLesson():array
     {
-        return (new JsonDataLoader())->LoadDate($this->appConfig->getPathToLesson());
+        return (new JsonDataLoader())->LoadDate($this->pathToLesson);
     }
 
     /**

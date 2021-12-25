@@ -3,13 +3,14 @@
 namespace JoJoBizzareCoders\DigitalJournal\Infrastructure;
 
 
+use JoJoBizzareCoders\DigitalJournal\Exception\UnexpectedValueException;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Http\HttpResponse;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Http\ServerRequest;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Http\ServerResponseFactory;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Logger\LoggerInterface;
 use JoJoBizzareCoders\DigitalJournal\Exception;
+use JoJoBizzareCoders\DigitalJournal\Infrastructure\View\RenderInterface;
 use Throwable;
-use UnexpectedValueException;
 /**
  * Ядро приложения
  */
@@ -51,7 +52,22 @@ final class App
      */
     private ?LoggerInterface $logger = null;
 
+    /**
+     * Компонент отвечающий за рендеринг
+     *
+     * @var RenderInterface|null
+     */
+    private ?RenderInterface $render = null;
+
+    /**
+     * компонент отвечающий за создание рендеринга
+     *
+     * @var callable
+     */
+    private $renderFactory;
+
     //Методы
+
     /**
      * Конструктор ядра приложения
      *
@@ -59,13 +75,35 @@ final class App
      * @param callable $loggerFactory - Фабика для создания Логгеров
      * @param callable $appConfigFactory - Фабрика для создания конфига приложения
      */
-    public function __construct(array $handlers, callable $loggerFactory, callable $appConfigFactory)
-    {
+    public function __construct(
+        array $handlers,
+        callable $loggerFactory,
+        callable $appConfigFactory,
+        callable $renderFactory
+    ) {
         $this->handlers = $handlers;
         $this->loggerFactory = $loggerFactory;
         $this->appConfigFactory = $appConfigFactory;
+        $this->renderFactory=$renderFactory;
         $this->initiateErrorHandler();
     }
+
+    /**
+     * @return RenderInterface
+     */
+    public function getRender(): RenderInterface
+    {
+        if (null===$this->render){
+            $renderFactory=$this->renderFactory;
+            $render=$renderFactory();
+            if(!$render instanceof RenderInterface){
+                throw new UnexpectedValueException('Рендер не корректного типа');
+            }
+            $this->render=$render;
+        }
+        return $this->render;
+    }
+
 
     /**
      * Иициалирую обработку ошибок
@@ -137,6 +175,9 @@ final class App
 
             if (array_key_exists($urlPath, $this->handlers)) {
                 $httpResponse = call_user_func($this->handlers[$urlPath], $serverRequest, $logger, $appConfig);
+                if (!$httpResponse instanceof HttpResponse) {
+                    throw new UnexpectedValueException('Контроллер вернул не корректный результат');
+                }
             } else {
                 $httpResponse=ServerResponseFactory::createJsonResponse(
                     404,
@@ -171,6 +212,7 @@ final class App
                 ]
             );
         }
+        $this->getRender()->render($httpResponse);
         return $httpResponse;
     }
 }

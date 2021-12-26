@@ -7,7 +7,6 @@ use JoJoBizzareCoders\DigitalJournal\Infrastructure\DI\Container;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Http\ServerRequestFactory;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Logger\LoggerInterface;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Router\RouterInterface;
-use JoJoBizzareCoders\DigitalJournal\Infrastructure\View\DefaultRender;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\View\RenderInterface;
 
 

@@ -3,9 +3,7 @@
 namespace JoJoBizzareCoders\DigitalJournal\Infrastructure;
 
 
-use JoJoBizzareCoders\DigitalJournal\Infrastructure\Controller\ControllerInterface;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\DI\ContainerInterface;
-use JoJoBizzareCoders\DigitalJournal\Infrastructure\DI\ServiceLocator;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Http\HttpResponse;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Http\ServerRequest;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Http\ServerResponseFactory;
@@ -169,7 +167,7 @@ final class App
             $logger = $this->getLogger();
 
             $urlPath = $serverRequest->getUri()->getPath();
-            $logger->Log("Переход на " . $urlPath);
+            $logger->log("Переход на " . $urlPath);
 
             $dispatcher = $this->getRouter()->getDispatcher($serverRequest);
             if (is_callable($dispatcher)) {
@@ -190,6 +188,7 @@ final class App
                 'status'  => 'fail',
                 'message' => $e->getMessage()
             ]);
+
             $this->silentRender($httpResponse);
             $this->logger->log('ERROR: ' . $e->getMessage());
         } catch (Throwable $e) {
@@ -201,9 +200,11 @@ final class App
                 'status' => 'fail', 'message' => $errMsg
             ]);
             $this->silentRender($httpResponse);
+
         }
 
         return $httpResponse;
+
     }
 
     //?Спросить про контроллер

@@ -57,7 +57,7 @@
             $instances = array_key_exists('instances', $diConfig) ? $diConfig['instances'] : [];
             $factories = array_key_exists('factories', $diConfig) ? $diConfig['factories'] : [];
             $services = array_key_exists('services', $diConfig) ? $diConfig['services'] : [];
-            return new self($instances, $services, $factories);
+            return new self($instances, $factories, $services);
         }
 
         private function createService(string $serviceName)

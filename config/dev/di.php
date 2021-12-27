@@ -48,7 +48,7 @@ return [
         ],
         RenderInterface::class => [
             'class' => DefaultRender::class
-        ],//TODO дописать конфиг, описать сервис Роутер Интерфейс
+        ],
         RouterInterface::class =>[
             'class' => ChainRouters::class,
             'args' =>[

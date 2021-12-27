@@ -4,15 +4,19 @@ namespace JoJoBizzareCoders\DigitalJournal\Infrastructure\Router;
 
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Http\ServerRequest;
 
+/**
+ * Цепочка роутеров
+ */
 class ChainRouters implements RouterInterface
 {
-
+    //Свойства
     /**
      * Цепочка роутеров
      * @var RouterInterface[]
      */
     private array $routers;
 
+    //Методы
     /**
      * @param RouterInterface ...$routers
      */

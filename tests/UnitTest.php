@@ -36,11 +36,14 @@ use JoJoBizzareCoders\DigitalJournal\Infrastructure\AppConfig;
          */
         private static function testDataProvider(): array
         {
-            $handlers = include __DIR__ . '/../config/request.handlers.php';
+            $diConfig = require __DIR__ . '/../config/dev/di.php';
 
-            $loggerFactory = static function (): LoggerInterface {
-                return new Logger();
-            };
+            $diConfig['services'][LoggerInterface::class] = [
+                'class' => Logger::class
+            ];
+            $diConfig['services'][RenderInterface::class] = [
+                'class' => NullRender::class
+            ];//TODO доделать юнит тесты
 
             return [
                 // Тесты первого сценария

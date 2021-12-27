@@ -25,7 +25,7 @@ use JsonException;
 /**
  * Контроллер отвечающий за поиск оценок
  */
-final class FoundAssessmentReport implements ControllerInterface
+class GetReportCollectionController implements ControllerInterface
 {
     // Свойства
     /**

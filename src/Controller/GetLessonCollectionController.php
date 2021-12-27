@@ -21,7 +21,7 @@ use JsonException;
 /**
  * Контроллер отвечающий за поиск занятий
  */
-class FoundLesson implements ControllerInterface
+class GetLessonCollectionController implements ControllerInterface
 {
     //Свойства
     /**
@@ -93,6 +93,7 @@ class FoundLesson implements ControllerInterface
     private function loadEntityItems():array
     {
         $itemsIdToInfo = [];
+
         $loader = new JsonDataLoader();
         $items = $loader->LoadDate($this->pathToItems);
         foreach ($items as $item) {
@@ -179,8 +180,10 @@ class FoundLesson implements ControllerInterface
             'class_number' => 'Incorrect class number',
             'class_letter' => 'Incorrect class letter',
         ];
-        $requestParams = $serverRequest->getQueryParams();
-        return Assert::arrayElementsIsString($paramValidations, $requestParams);
+        $params = array_merge($serverRequest->getQueryParams(), $serverRequest->getAttributes());
+
+
+        return Assert::arrayElementsIsString($paramValidations, $params);
     }
 
     /**
@@ -203,62 +206,63 @@ class FoundLesson implements ControllerInterface
     {
         $foundLessons = [];
         $LessonMeetSearchCriteria = null;
-        $requestParams = $serverRequest->getQueryParams();
+        $searchCriteria = array_merge($serverRequest->getQueryParams(), $serverRequest->getAttributes());
+
         foreach ($lessons as $lesson) // Цикл по все занятиям. [начало]
         {
             if (array_key_exists(
                 'item_name',
-                $requestParams
+                $searchCriteria
             )) // Поиск по присутвию item_name в GET запросе и совпадению item_name в запросе и массиве занятий. [начало]
             {
-                $LessonMeetSearchCriteria = ($requestParams['item_name'] === $itemsIdToInfo[$lesson['item_id']]
+                $LessonMeetSearchCriteria = ($searchCriteria['item_name'] === $itemsIdToInfo[$lesson['item_id']]
                         ->getName());
             }// Поиск по присутвию item_name в GET запросе и совпадению item_name в запросе и массиве занятий. [конец]
             if (array_key_exists(
                 'item_description',
-                $requestParams
+                $searchCriteria
             )) // Поиск по присутвию item_description в GET запросе и совпадению item_description в запросе и массиве занятий. [начало]
             {
-                $LessonMeetSearchCriteria = ($requestParams['item_description'] === $itemsIdToInfo[$lesson['item_id']]
+                $LessonMeetSearchCriteria = ($searchCriteria['item_description'] === $itemsIdToInfo[$lesson['item_id']]
                         ->getDescription());
             }// Поиск по присутвию item_description в GET запросе и совпадению item_description в запросе и массиве занятий. [конец]
             if (array_key_exists(
                 'lesson_date',
-                $requestParams
+                $searchCriteria
             )) // Поиск по присутвию date в GET запросе и совпадению date в запросе и массиве занятий. [начало]
             {
-                $LessonMeetSearchCriteria = ($requestParams['lesson_date'] === $lesson['date']);
+                $LessonMeetSearchCriteria = ($searchCriteria['lesson_date'] === $lesson['date']);
             }// Поиск по присутвию date в GET запросе и совпадению date в запросе и массиве занятий. [конец]
             if (array_key_exists(
                 'teacher_fio',
-                $requestParams
+                $searchCriteria
             )) // Поиск по присутвию teacher_fio в GET запросе и совпадению teacher_fio в запросе и массиве занятий. [начало]
             {
-                $LessonMeetSearchCriteria = ($requestParams['teacher_fio'] === $teachersIdToInfo[$lesson['teacher_id']]
+                $LessonMeetSearchCriteria = ($searchCriteria['teacher_fio'] === $teachersIdToInfo[$lesson['teacher_id']]
                         ->getFio());
             }// Поиск по присутвию teacher_fio в GET запросе и совпадению teacher_fio в запросе и массиве занятий. [конец]
             if (array_key_exists(
                 'teacher_cabinet',
-                $requestParams
+                $searchCriteria
             )) // Поиск по присутвию teacher_cabinet в GET запросе и совпадению teacher_cabinet в запросе и массиве занятий. [начало]
             {
-                $LessonMeetSearchCriteria = ((int)$requestParams['teacher_cabinet']
+                $LessonMeetSearchCriteria = ((int)$searchCriteria['teacher_cabinet']
                     === $teachersIdToInfo[$lesson['teacher_id']]->getCabinet());
             }// Поиск по присутвию teacher_cabinet в GET запросе и совпадению teacher_cabinet в запросе и массиве занятий. [конец]
             if (array_key_exists(
                 'class_number',
-                $requestParams
+                $searchCriteria
             )) // Поиск по присутвию class_number в GET запросе и совпадению class_number в запросе и массиве занятий. [начало]
             {
-                $LessonMeetSearchCriteria = ((int)$requestParams['class_number']
+                $LessonMeetSearchCriteria = ((int)$searchCriteria['class_number']
                     === $classesIdToInfo[$lesson['class_id']]->getNumber());
             }// Поиск по присутвию class_number в GET запросе и совпадению class_number в запросе и массиве занятий. [конец]
             if (array_key_exists(
                 'class_letter',
-                $requestParams
+                $searchCriteria
             )) // Поиск по присутвию class_letter в GET запросе и совпадению class_letter в запросе и массиве занятий. [начало]
             {
-                $LessonMeetSearchCriteria = ($requestParams['class_letter'] === $classesIdToInfo[$lesson['class_id']]
+                $LessonMeetSearchCriteria = ($searchCriteria['class_letter'] === $classesIdToInfo[$lesson['class_id']]
                         ->getLetter());
             }// Поиск по присутвию class_letter в GET запросе и совпадению class_letter в запросе и массиве занятий. [конец]
 
@@ -310,18 +314,14 @@ class FoundLesson implements ControllerInterface
         $this->log('dispatch "lesson" url');
         $resultOfParamsValidation=$this->validateQueryParams($serverRequest);
         if (null === $resultOfParamsValidation) {
-            $httpCode=200;
+
             $itemsIdToInfo=$this->loadEntityItems();
             $teachersIdToInfo=$this->loadEntityTeachers();
             $classesIdToInfo=$this->loadEntityClasses();
             $lessons=$this->LoadDataLesson();
-            $result=$this->searchLesson(
-                $serverRequest,
-                $lessons,
-                $itemsIdToInfo,
-                $teachersIdToInfo,
-                $classesIdToInfo
-            );
+            $foundLesson=$this->searchLesson($serverRequest, $lessons, $itemsIdToInfo, $teachersIdToInfo, $classesIdToInfo);
+            $httpCode = $this->buildHttpCode($foundLesson);
+            $result = $this->buildResult($foundLesson);
         }else{
             $httpCode=500;
             $result=[
@@ -331,4 +331,25 @@ class FoundLesson implements ControllerInterface
         }
         return ServerResponseFactory::createJsonResponse($httpCode, $result);
     }
+
+    /**
+     * Определят httpCode
+     * @param array $foundAuthors
+     * @return int
+     */
+    protected function buildHttpCode(array $foundAuthors):int
+    {
+        return 200;
+    }
+
+    /**
+     * Подготавливает данныые для ответа
+     * @param array $foundAuthors
+     * @return array
+     */
+    protected function buildResult(array $foundAuthors)
+    {
+        return $foundAuthors;
+    }
+
 }

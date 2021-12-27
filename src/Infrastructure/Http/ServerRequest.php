@@ -14,9 +14,34 @@
          * @var array|null
          */
         private ?array $queryParams = null;
-
-
+        /**
+         * Атребуты серверного запроса
+         * @var array
+         */
+        private array $attributes = [];
         // Методы
+
+        /**
+         * @return array
+         */
+        public function getAttributes(): array
+        {
+            return $this->attributes;
+        }
+
+        /**
+         * Устанавливает атребуты
+         * @param array $attributes
+         * @return ServerRequest
+         */
+        public function setAttributes(array $attributes): ServerRequest
+        {
+            $this->attributes = $attributes;
+            return $this;
+        }
+
+
+
 
         /**
          * Возвращает параметры запроса

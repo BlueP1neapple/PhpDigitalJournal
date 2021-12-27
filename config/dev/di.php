@@ -1,7 +1,7 @@
 <?php
 
-use JoJoBizzareCoders\DigitalJournal\Controller\FoundAssessmentReport;
-use JoJoBizzareCoders\DigitalJournal\Controller\FoundLesson;
+use JoJoBizzareCoders\DigitalJournal\Controller\GetReportCollectionController;
+use JoJoBizzareCoders\DigitalJournal\Controller\GetLessonCollectionController;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\AppConfig;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\DI\ContainerInterface;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Logger\FileLogger\Logger;
@@ -15,11 +15,13 @@ use JoJoBizzareCoders\DigitalJournal\Infrastructure\View\RenderInterface;
 
 return [
     'instances' => [
+    //    'regExpHandlers'       => require __DIR__ . '/../regExp.handlers.php',
         'handlers' => require __DIR__ . '/../request.handlers.php',
         'appConfig' => include __DIR__ . '/config.php',
+        'controllerNs' => 'EfTech\\BookLibrary\\Controller'
     ],
     'services' => [
-        FoundAssessmentReport::class => [
+        GetReportCollectionController::class => [
             'args' => [
                 'logger' => LoggerInterface::class,
                 'pathToItems' => 'pathToItems',
@@ -31,7 +33,7 @@ return [
                 'pathToAssessmentReport' => 'pathToAssessmentReport'
             ]
         ],
-        FoundLesson::class => [
+        GetLessonCollectionController::class => [
             'args' => [
                 'logger' => LoggerInterface::class,
                 'pathToItems' => 'pathToItems',

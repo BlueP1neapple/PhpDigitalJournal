@@ -27,11 +27,11 @@
          * Создаёт ответ с данными
          *
          * @param int $code - код ответа
-         * @param array $data - Данные ответа
+         * @param  $data - Данные ответа
          *
          * @return HttpResponse
          */
-        public static function createJsonResponse(int $code, array $data): HttpResponse
+        public static function createJsonResponse(int $code,  $data): HttpResponse
         {
             try {
                 $body = json_encode($data, JSON_THROW_ON_ERROR);

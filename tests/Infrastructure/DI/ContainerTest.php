@@ -1,6 +1,6 @@
 <?php
     namespace JoJoBizzareCoders\DigitalJournalTest\Infrastructure\DI;
-    use JoJoBizzareCoders\DigitalJournal\Controller\FoundAssessmentReport;
+    use JoJoBizzareCoders\DigitalJournal\Controller\GetReportCollectionController;
     use JoJoBizzareCoders\DigitalJournal\Infrastructure\Autoloader;
 
     require_once __DIR__ . "/../../../src/Infrastructure/Autoloader.php";
@@ -30,7 +30,7 @@
                   'appConfig'=>require __DIR__ . '/../../../config/dev/config.php'
               ],
                 'services'=>[
-                    FoundAssessmentReport::class=>[
+                    GetReportCollectionController::class=>[
                         args=>[
                             'Logger' //TODO Доделать тест
                         ]

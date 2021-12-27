@@ -5,9 +5,9 @@ use JoJoBizzareCoders\DigitalJournal\Controller;
 
 
 return [
-    '/lesson'  => Controller\FoundLesson::class,
+    '/lesson'  => Controller\GetLessonCollectionController::class,
 
-    '/assessmentReport' => Controller\FoundAssessmentReport::class,
+    '/assessmentReport' => Controller\GetReportCollectionController::class,
 
-    '/studentReport' => Controller\FoundAssessmentReport::class
+    '/studentReport' => Controller\GetReportCollectionController::class
 ];

@@ -63,7 +63,7 @@ final class App
      * Фабрика di
      * @var callable
      */
-    private $diConteinerFactory;
+    private $diContainerFactory;
 
 
     private function initiateErrorHandling(): void
@@ -92,7 +92,7 @@ final class App
         $this->loggerFactory = $loggerFactory;
         $this->appConfigFactory = $appConfigFactory;
         $this->renderFactory = $renderFactory;
-        $this->diConteinerFactory = $diContainerFactory;
+        $this->diContainerFactory = $diContainerFactory;
         $this->initiateErrorHandling();
     }
 
@@ -102,7 +102,7 @@ final class App
     private function getContainer(): ContainerInterface
     {
         if(null === $this->container){
-            $this->container = ($this->diConteinerFactory)();
+            $this->container = ($this->diContainerFactory)();
         }
         return $this->container;
     }
@@ -131,9 +131,9 @@ final class App
     }
 
     /**
-     * @return LoggerInterface|null
+     * @return LoggerInterface
      */
-    private function getLogger(): ?LoggerInterface
+    private function getLogger(): LoggerInterface
     {
         if(null === $this->logger){
             $this->logger = ($this->loggerFactory)($this->getContainer());
@@ -180,7 +180,7 @@ final class App
                     'status'  => 'fail',
                     'message' => 'unsupported request'
                 ]);
-                $this->logger->log('ERROR: unsupported request');
+                $this->logger->log('unsupported request');
             }
             $this->getRender()->render($httpResponse);
         } catch (Exception\InvalidDataStructureException $e) {
@@ -190,10 +190,10 @@ final class App
             ]);
 
             $this->silentRender($httpResponse);
-            $this->logger->log('ERROR: ' . $e->getMessage());
+            $this->logger->log($e->getMessage());
         } catch (Throwable $e) {
             $errMsg = ($hasAppConfig && !$this->getAppConfig()->isHideErrorMessage())
-            || $e instanceof Exception\ErrorCreateAppConfigException ? 'ERROR: ' . $e->getMessage() : 'ERROR: system error';
+            || $e instanceof Exception\ErrorCreateAppConfigException ? $e->getMessage() : 'system error';
 
             $this->silentLog($e->getMessage());
             $httpResponse = ServerResponseFactory::createJsonResponse(500, [

@@ -80,7 +80,7 @@
          *
          * @return ServerRequest
          */
-        public static function createFromGlobals(array $globalServer, string $body = null): ServerRequest
+        public static function createFromGlobal(array $globalServer, string $body = null): ServerRequest
         {
             self::validateRequiredFields($globalServer);
             self::httpValidationMethod($globalServer['REQUEST_METHOD']);

@@ -1,15 +1,18 @@
 <?php
 
-    require_once __DIR__ . "/../src/Infrastructure/application.php";
     require_once __DIR__ . "/../src/Infrastructure/Autoloader.php";
 
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\App;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\AppConfig;
     use JoJoBizzareCoders\DigitalJournal\Infrastructure\Autoloader;
+    use JoJoBizzareCoders\DigitalJournal\Infrastructure\DI\Container;
     use JoJoBizzareCoders\DigitalJournal\Infrastructure\Http\ServerRequest;
     use JoJoBizzareCoders\DigitalJournal\Infrastructure\Logger\LoggerInterface;
     use JoJoBizzareCoders\DigitalJournal\Infrastructure\Logger\NullLogger\Logger;
+    use JoJoBizzareCoders\DigitalJournal\Infrastructure\Router\RouterInterface;
     use JoJoBizzareCoders\DigitalJournal\Infrastructure\Uri\Uri;
+    use JoJoBizzareCoders\DigitalJournal\Infrastructure\View\NullRender;
+    use JoJoBizzareCoders\DigitalJournal\Infrastructure\View\RenderInterface;
     use JoJoBizzareCoders\DigitalJournalTest\TestUtils;
 
 
@@ -36,24 +39,23 @@ use JoJoBizzareCoders\DigitalJournal\Infrastructure\AppConfig;
          */
         private static function testDataProvider(): array
         {
-            $handlers = include __DIR__ . '/../config/request.handlers.php';
+            $diConfig = require __DIR__ . '/../config/dev/di.php';
 
-            $loggerFactory = static function (): LoggerInterface {
-                return new Logger();
-            };
+            $diConfig['services'][LoggerInterface::class] = [
+                'class' => Logger::class
+            ];
+            $diConfig['services'][RenderInterface::class] = [
+                'class' => NullRender::class
+            ];
 
             return [
                 // Тесты первого сценария
                 // Тесты поиска
-               [
+           /*     [
                     'testName' => 'Тестирование возможности смотреть расписание по названию предмета',
                     'in' => [
-                       'handlers'=> $handlers,
                         'uri'=> '/lesson?item_name=Математика',
-                        'loggerFactory' => $loggerFactory,
-                        'appConfigFactory'=> static function () {
-                            return AppConfig::createFromArray(include __DIR__ . '/../config/dev/config.php');
-                        },
+                        'diConfig'=>$diConfig
                     ],
                     'out' => [
                         'httpCode' => 200,
@@ -151,12 +153,8 @@ use JoJoBizzareCoders\DigitalJournal\Infrastructure\AppConfig;
                 [
                     'testName' => 'Тестирование возможности смотреть расписание по рассшифровке предмета',
                     'in' => [
-                        'handlers'=>$handlers,
                         'uri'=>'/lesson?item_description=Математика',
-                        'loggerFactory'=>$loggerFactory,
-                        'appConfigFactory'=>static function () {
-                            return AppConfig::createFromArray(include __DIR__ . '/../config/dev/config.php');
-                        },
+                        'diConfig'=>$diConfig
                     ],
                     'out' => [
                         'httpCode' => 200,
@@ -254,12 +252,8 @@ use JoJoBizzareCoders\DigitalJournal\Infrastructure\AppConfig;
                 [
                     'testName' => 'Тестирование возможности смотреть расписание по дате',
                     'in' => [
-                        'handlers'=>$handlers,
                         'uri'=>'/lesson?lesson_date=2011.11.10 8:30',
-                        'loggerFactory'=>$loggerFactory,
-                        'appConfigFactory'=>static function () {
-                            return AppConfig::createFromArray(include __DIR__ . '/../config/dev/config.php');
-                        },
+                        'diConfig'=>$diConfig
                     ],
                     'out' => [
                         'httpCode' => 200,
@@ -299,12 +293,8 @@ use JoJoBizzareCoders\DigitalJournal\Infrastructure\AppConfig;
                 [
                     'testName' => 'Тестирование возможности смотреть расписание по fio преподавателя',
                     'in' => [
-                        'handlers'=>$handlers,
                         'uri'=>'/lesson?teacher_fio=Круглова Наталия Сергеевна',
-                        'loggerFactory'=>$loggerFactory,
-                        'appConfigFactory'=>static function () {
-                            return AppConfig::createFromArray(include __DIR__ . '/../config/dev/config.php');
-                        },
+                        'diConfig'=>$diConfig
                     ],
                     'out' => [
                         'httpCode' => 200,
@@ -402,12 +392,8 @@ use JoJoBizzareCoders\DigitalJournal\Infrastructure\AppConfig;
                 [
                     'testName' => 'Тестирование возможности смотреть расписание по кабинету преподавателя',
                     'in' => [
-                        'handlers'=>$handlers,
                         'uri'=>'/lesson?teacher_cabinet=56',
-                        'loggerFactory'=>$loggerFactory,
-                        'appConfigFactory'=>static function () {
-                            return AppConfig::createFromArray(include __DIR__ . '/../config/dev/config.php');
-                        },
+                        'diConfig'=>$diConfig
                     ],
                     'out' => [
                         'httpCode' => 200,
@@ -505,12 +491,8 @@ use JoJoBizzareCoders\DigitalJournal\Infrastructure\AppConfig;
                 [
                     'testName' => 'Тестирование возможности смотреть расписание по номеру класса',
                     'in' => [
-                        'handlers'=>$handlers,
                         'uri'=>'/lesson?class_number=6',
-                        'loggerFactory'=>$loggerFactory,
-                        'appConfigFactory'=>static function () {
-                            return AppConfig::createFromArray(include __DIR__ . '/../config/dev/config.php');
-                        },
+                        'diConfig'=>$diConfig
                     ],
                     'out' => [
                         'httpCode' => 200,
@@ -550,12 +532,8 @@ use JoJoBizzareCoders\DigitalJournal\Infrastructure\AppConfig;
                 [
                     'testName' => 'Тестирование возможности смотреть расписание по букве класса',
                     'in' => [
-                        'handlers'=>$handlers,
                         'uri'=>'/lesson?class_letter=А',
-                        'loggerFactory'=>$loggerFactory,
-                        'appConfigFactory'=>static function () {
-                            return AppConfig::createFromArray(include __DIR__ . '/../config/dev/config.php');
-                        },
+                        'diConfig'=>$diConfig
                     ],
                     'out' => [
                         'httpCode' => 200,
@@ -655,12 +633,8 @@ use JoJoBizzareCoders\DigitalJournal\Infrastructure\AppConfig;
                 [
                     'testName' => 'Тестирование неподдерживаемого запроса',
                     'in' => [
-                        'handlers'=>$handlers,
                         'uri'=>'/hhh?param=ru',
-                        'loggerFactory'=>$loggerFactory,
-                        'appConfigFactory'=>static function () {
-                            return AppConfig::createFromArray(include __DIR__ . '/../config/dev/config.php');
-                        },
+                        'diConfig'=>$diConfig
                     ],
                     'out' => [
                         'httpCode' => 404,
@@ -673,12 +647,8 @@ use JoJoBizzareCoders\DigitalJournal\Infrastructure\AppConfig;
                 [
                     'testName' => 'Тестирование некорреткного ввода названия предмета',
                     'in' => [
-                        'handlers'=>$handlers,
                         'uri'=>'/lesson?item_name[]=Математика',
-                        'loggerFactory'=>$loggerFactory,
-                        'appConfigFactory'=>static function () {
-                            return AppConfig::createFromArray(include __DIR__ . '/../config/dev/config.php');
-                        },
+                        'diConfig'=>$diConfig
                     ],
                     'out' => [
                         'httpCode' => 500,
@@ -691,12 +661,8 @@ use JoJoBizzareCoders\DigitalJournal\Infrastructure\AppConfig;
                 [
                     'testName' => 'Тестирование некорреткного ввода рассшифровки предмета',
                     'in' => [
-                        'handlers'=>$handlers,
                         'uri'=>'/lesson?item_description[]=Математика',
-                        'loggerFactory'=>$loggerFactory,
-                        'appConfigFactory'=>static function () {
-                            return AppConfig::createFromArray(include __DIR__ . '/../config/dev/config.php');
-                        },
+                        'diConfig'=>$diConfig
                     ],
                     'out' => [
                         'httpCode' => 500,
@@ -709,12 +675,8 @@ use JoJoBizzareCoders\DigitalJournal\Infrastructure\AppConfig;
                 [
                     'testName' => 'Тестирование некорреткного ввода даты занятия',
                     'in' => [
-                        'handlers'=>$handlers,
                         'uri'=>'/lesson?lesson_date[]=2013.11.10 8:30',
-                        'loggerFactory'=>$loggerFactory,
-                        'appConfigFactory'=>static function () {
-                            return AppConfig::createFromArray(include __DIR__ . '/../config/dev/config.php');
-                        },
+                        'diConfig'=>$diConfig
                     ],
                     'out' => [
                         'httpCode' => 500,
@@ -727,12 +689,8 @@ use JoJoBizzareCoders\DigitalJournal\Infrastructure\AppConfig;
                 [
                     'testName' => 'Тестирование некорреткного ввода fio преподавателя',
                     'in' => [
-                        'handlers'=>$handlers,
                         'uri'=>'/lesson?teacher_fio[]=Круглова Наталия Сергеевна',
-                        'loggerFactory'=>$loggerFactory,
-                        'appConfigFactory'=>static function () {
-                            return AppConfig::createFromArray(include __DIR__ . '/../config/dev/config.php');
-                        },
+                        'diConfig'=>$diConfig
                     ],
                     'out' => [
                         'httpCode' => 500,
@@ -745,12 +703,8 @@ use JoJoBizzareCoders\DigitalJournal\Infrastructure\AppConfig;
                 [
                     'testName' => 'Тестирование некорреткного ввода кабинета преподавателя',
                     'in' => [
-                        'handlers'=>$handlers,
                         'uri'=>'/lesson?teacher_cabinet[]=56',
-                        'loggerFactory'=>$loggerFactory,
-                        'appConfigFactory'=>static function () {
-                            return AppConfig::createFromArray(include __DIR__ . '/../config/dev/config.php');
-                        },
+                        'diConfig'=>$diConfig
                     ],
                     'out' => [
                         'httpCode' => 500,
@@ -763,12 +717,8 @@ use JoJoBizzareCoders\DigitalJournal\Infrastructure\AppConfig;
                 [
                     'testName' => 'Тестирование некорреткного ввода номера класса',
                     'in' => [
-                        'handlers'=>$handlers,
                         'uri'=>'/lesson?class_number[]=6',
-                        'loggerFactory'=>$loggerFactory,
-                        'appConfigFactory'=>static function () {
-                            return AppConfig::createFromArray(include __DIR__ . '/../config/dev/config.php');
-                        },
+                        'diConfig'=>$diConfig
                     ],
                     'out' => [
                         'httpCode' => 500,
@@ -781,12 +731,8 @@ use JoJoBizzareCoders\DigitalJournal\Infrastructure\AppConfig;
                 [
                     'testName' => 'Тестирование некорреткного ввода буквы класса',
                     'in' => [
-                        'handlers'=>$handlers,
                         'uri'=>'/lesson?class_letter[]=А',
-                        'loggerFactory'=>$loggerFactory,
-                        'appConfigFactory'=>static function () {
-                            return AppConfig::createFromArray(include __DIR__ . '/../config/dev/config.php');
-                        },
+                        'diConfig'=>$diConfig
                     ],
                     'out' => [
                         'httpCode' => 500,
@@ -799,12 +745,8 @@ use JoJoBizzareCoders\DigitalJournal\Infrastructure\AppConfig;
                 [
                     'testName' => 'Тестирование запроса без path',
                     'in' => [
-                        'handlers'=>$handlers,
                         'uri'=>'/?param=ru',
-                        'loggerFactory'=>$loggerFactory,
-                        'appConfigFactory'=>static function () {
-                            return AppConfig::createFromArray(include __DIR__ . '/../config/dev/config.php');
-                        },
+                        'diConfig'=>$diConfig
                     ],
                     'out' => [
                         'httpCode' => 404,
@@ -821,12 +763,8 @@ use JoJoBizzareCoders\DigitalJournal\Infrastructure\AppConfig;
                 [
                     'testName' => 'Тестирование возможности смотреть оценку по названию предмета',
                     'in' => [
-                        'handlers'=>$handlers,
                         'uri'=>'/assessmentReport?item_name=Математика',
-                        'loggerFactory'=>$loggerFactory,
-                        'appConfigFactory'=>static function () {
-                            return AppConfig::createFromArray(include __DIR__ . '/../config/dev/config.php');
-                        },
+                        'diConfig'=>$diConfig
                     ],
                     'out' => [
                         'httpCode' => 200,
@@ -1053,12 +991,8 @@ use JoJoBizzareCoders\DigitalJournal\Infrastructure\AppConfig;
                 [
                     'testName' => 'Тестирование поиска оценок в дневнике по расшифровке названия предмета',
                     'in' => [
-                        'handlers'=>$handlers,
                         'uri'=>'/assessmentReport?item_description=Математика',
-                        'loggerFactory'=>$loggerFactory,
-                        'appConfigFactory'=>static function () {
-                            return AppConfig::createFromArray(include __DIR__ . '/../config/dev/config.php');
-                        },
+                        'diConfig'=>$diConfig
                     ],
                     'out' => [
                         'httpCode' => 200,
@@ -1285,12 +1219,8 @@ use JoJoBizzareCoders\DigitalJournal\Infrastructure\AppConfig;
                 [
                     'testName' => 'Тестирование поиска оценок в дневнике по дате проведения занятия',
                     'in' => [
-                        'handlers'=>$handlers,
                         'uri'=>'/assessmentReport?lesson_date=2011.11.10 8:30',
-                        'loggerFactory'=>$loggerFactory,
-                        'appConfigFactory'=>static function () {
-                            return AppConfig::createFromArray(include __DIR__ . '/../config/dev/config.php');
-                        },
+                        'diConfig'=>$diConfig
                     ],
                     'out' => [
                         'httpCode' => 200,
@@ -1463,12 +1393,8 @@ use JoJoBizzareCoders\DigitalJournal\Infrastructure\AppConfig;
                 [
                     'testName' => 'Тестирование поиска оценок в дневнике по ФИО cтудента',
                     'in' => [
-                        'handlers'=>$handlers,
                         'uri'=>'/assessmentReport?student_fio=Кузнецов Алексей Евгеньевич',
-                        'loggerFactory'=>$loggerFactory,
-                        'appConfigFactory'=>static function () {
-                            return AppConfig::createFromArray(include __DIR__ . '/../config/dev/config.php');
-                        },
+                        'diConfig'=>$diConfig
                     ],
                     'out' => [
                         'httpCode' => 200,
@@ -1589,12 +1515,8 @@ use JoJoBizzareCoders\DigitalJournal\Infrastructure\AppConfig;
                 [
                     'testName' => 'Тестирование некорреткного ввода названия предмета',
                     'in' => [
-                        'handlers'=>$handlers,
                         'uri'=>'/assessmentReport?item_name[]=Математика',
-                        'loggerFactory'=>$loggerFactory,
-                        'appConfigFactory'=>static function () {
-                            return AppConfig::createFromArray(include __DIR__ . '/../config/dev/config.php');
-                        },
+                        'diConfig'=>$diConfig
                     ],
                     'out' => [
                         'httpCode' => 500,
@@ -1607,12 +1529,8 @@ use JoJoBizzareCoders\DigitalJournal\Infrastructure\AppConfig;
                 [
                     'testName' => 'Тестирование некорреткного ввода рассшифровки предмета',
                     'in' => [
-                        'handlers'=>$handlers,
                         'uri'=>'/studentReport?item_description[]=Математика',
-                        'loggerFactory'=>$loggerFactory,
-                        'appConfigFactory'=>static function () {
-                            return AppConfig::createFromArray(include __DIR__ . '/../config/dev/config.php');
-                        },
+                        'diConfig'=>$diConfig
                     ],
                     'out' => [
                         'httpCode' => 500,
@@ -1625,12 +1543,8 @@ use JoJoBizzareCoders\DigitalJournal\Infrastructure\AppConfig;
                 [
                     'testName' => 'Тестирование некорреткного ввода даты занятия',
                     'in' => [
-                        'handlers'=>$handlers,
                         'uri'=>'/studentReport?lesson_date[]=2011.11.10 8:30',
-                        'loggerFactory'=>$loggerFactory,
-                        'appConfigFactory'=>static function () {
-                            return AppConfig::createFromArray(include __DIR__ . '/../config/dev/config.php');
-                        },
+                        'diConfig'=>$diConfig
                     ],
                     'out' => [
                         'httpCode' => 500,
@@ -1643,12 +1557,8 @@ use JoJoBizzareCoders\DigitalJournal\Infrastructure\AppConfig;
                 [
                     'testName' => 'Тестирование некорреткного ввода ФИО cтудента',
                     'in' => [
-                        'handlers'=>$handlers,
                         'uri'=>'/studentReport?student_fio[]=Кузнецов Алексей Евгеньевич',
-                        'loggerFactory'=>$loggerFactory,
-                        'appConfigFactory'=>static function () {
-                            return AppConfig::createFromArray(include __DIR__ . '/../config/dev/config.php');
-                        },
+                        'diConfig'=>$diConfig
                     ],
                     'out' => [
                         'httpCode' => 500,
@@ -1664,14 +1574,13 @@ use JoJoBizzareCoders\DigitalJournal\Infrastructure\AppConfig;
                 [
                     'testName' => 'Тестирование ситуации когда данные о занятии не корректны. Нет поля date',
                     'in' => [
-                        'handlers'=>$handlers,
                         'uri'=>'/lesson?item_name=Математика',
-                        'loggerFactory'=>$loggerFactory,
-                        'appConfigFactory'=>static function () {
+                        'diConfig'=>(static function($diConfig){
                             $config = include __DIR__ . '/../config/dev/config.php';
                             $config['pathToLesson'] = __DIR__ . '/data/broken.lesson.json';
-                            return AppConfig::createFromArray($config);
-                        }
+                            $diConfig['instances']['appConfig']=$config;
+                            return $diConfig;
+                        })($diConfig)
                     ],
                     'out' => [
                         'httpCode' => 503,
@@ -1681,17 +1590,16 @@ use JoJoBizzareCoders\DigitalJournal\Infrastructure\AppConfig;
                         ]
                     ]
                 ],
-               [
+                [
                     'testName' => 'Тестирование ситуации когда данные о оценке не корректны. Нет поля mark',
                     'in' => [
-                        'handlers'=>$handlers,
                         'uri'=>'/assessmentReport?item_name=Математика',
-                        'loggerFactory'=>$loggerFactory,
-                        'appConfigFactory'=>static function () {
+                        'diConfig'=>(static function($diConfig){
                             $config = include __DIR__ . '/../config/dev/config.php';
                             $config['pathToAssessmentReport'] = __DIR__ . '/data/broken.assessmentReport.json';
-                            return AppConfig::createFromArray($config);
-                        }
+                            $diConfig['instances']['appConfig']=$config;
+                            return $diConfig;
+                        })($diConfig)
                     ],
                     'out' => [
                         'httpCode' => 503,
@@ -1704,14 +1612,13 @@ use JoJoBizzareCoders\DigitalJournal\Infrastructure\AppConfig;
                 [
                     'testName' => 'Тестирование ситуации когда данные об предметах не корректны. Нет поля description',
                     'in' => [
-                        'handlers'=>$handlers,
                         'uri'=>'/lesson?item_name=Математика',
-                        'loggerFactory'=>$loggerFactory,
-                        'appConfigFactory'=>static function () {
+                        'diConfig'=>(static function($diConfig){
                             $config = include __DIR__ . '/../config/dev/config.php';
                             $config['pathToItems'] = __DIR__ . '/data/broken.item.json';
-                            return AppConfig::createFromArray($config);
-                        }
+                            $diConfig['instances']['appConfig']=$config;
+                            return $diConfig;
+                        })($diConfig)
                     ],
                     'out' => [
                         'httpCode' => 503,
@@ -1724,14 +1631,13 @@ use JoJoBizzareCoders\DigitalJournal\Infrastructure\AppConfig;
                 [
                     'testName' => 'Тестирование ситуации когда данные об классаха не корректны. Нет поля letter',
                     'in' => [
-                        'handlers'=>$handlers,
                         'uri'=>'/lesson?item_name=Математика',
-                        'loggerFactory'=>$loggerFactory,
-                        'appConfigFactory'=>static function () {
+                        'diConfig'=>(static function($diConfig){
                             $config = include __DIR__ . '/../config/dev/config.php';
                             $config['pathToClasses'] = __DIR__ . '/data/broken.class.json';
-                            return AppConfig::createFromArray($config);
-                        }
+                            $diConfig['instances']['appConfig']=$config;
+                            return $diConfig;
+                        })($diConfig)
                     ],
                     'out' => [
                         'httpCode' => 503,
@@ -1744,14 +1650,13 @@ use JoJoBizzareCoders\DigitalJournal\Infrastructure\AppConfig;
                 [
                     'testName' => 'Тестирование ситуации когда данные об родителях не корректны. Нет поля email',
                     'in' => [
-                        'handlers'=>$handlers,
                         'uri'=>'/assessmentReport?item_name=Математика',
-                        'loggerFactory'=>$loggerFactory,
-                        'appConfigFactory'=>static function () {
+                        'diConfig'=>(static function($diConfig){
                             $config = include __DIR__ . '/../config/dev/config.php';
                             $config['pathToParents'] = __DIR__ . '/data/broken.parent.json';
-                            return AppConfig::createFromArray($config);
-                        }
+                            $diConfig['instances']['appConfig']=$config;
+                            return $diConfig;
+                        })($diConfig)
                     ],
                     'out' => [
                         'httpCode' => 503,
@@ -1764,14 +1669,13 @@ use JoJoBizzareCoders\DigitalJournal\Infrastructure\AppConfig;
                 [
                     'testName' => 'Тестирование ситуации когда данные об учениках не корректны. Нет поля address',
                     'in' => [
-                        'handlers'=>$handlers,
                         'uri'=>'/assessmentReport?item_name=Математика',
-                        'loggerFactory'=>$loggerFactory,
-                        'appConfigFactory'=>static function () {
+                        'diConfig'=>(static function($diConfig){
                             $config = include __DIR__ . '/../config/dev/config.php';
                             $config['pathToStudents'] = __DIR__ . '/data/broken.student.json';
-                            return AppConfig::createFromArray($config);
-                        }
+                            $diConfig['instances']['appConfig']=$config;
+                            return $diConfig;
+                        })($diConfig)
                     ],
                     'out' => [
                         'httpCode' => 503,
@@ -1784,14 +1688,13 @@ use JoJoBizzareCoders\DigitalJournal\Infrastructure\AppConfig;
                 [
                     'testName' => 'Тестирование ситуации когда данные об учителях не корректны. Нет поля email',
                     'in' => [
-                        'handlers'=>$handlers,
                         'uri'=>'/assessmentReport?item_name=Математика',
-                        'loggerFactory'=>$loggerFactory,
-                        'appConfigFactory'=>static function () {
+                        'diConfig'=>(static function($diConfig){
                             $config = include __DIR__ . '/../config/dev/config.php';
                             $config['pathToTeachers'] = __DIR__ . '/data/broken.teacher.json';
-                            return AppConfig::createFromArray($config);
-                        }
+                            $diConfig['instances']['appConfig']=$config;
+                            return $diConfig;
+                        })($diConfig)
                     ],
                     'out' => [
                         'httpCode' => 503,
@@ -1801,20 +1704,19 @@ use JoJoBizzareCoders\DigitalJournal\Infrastructure\AppConfig;
                         ]
                     ]
                 ],
-
+*/
 
                 // Тесты с некорректными путями
                 [
                     'testName' => 'Тестирование ситуации c некрректным путём до файла с занятиями',
                     'in' => [
-                        'handlers'=>$handlers,
                         'uri'=>'/lesson?item_name=Математика',
-                        'loggerFactory'=>$loggerFactory,
-                        'appConfigFactory'=>static function () {
+                        'diConfig'=>(static function($diConfig){
                             $config = include __DIR__ . '/../config/dev/config.php';
                             $config['pathToLesson'] = __DIR__ . '/unknown.lesson.json';
-                            return AppConfig::createFromArray($config);
-                        }
+                            $diConfig['instances']['appConfig']=$config;
+                            return $diConfig;
+                        })($diConfig)
                     ],
                     'out' => [
                         'httpCode' => 500,
@@ -1827,14 +1729,13 @@ use JoJoBizzareCoders\DigitalJournal\Infrastructure\AppConfig;
                 [
                     'testName' => 'Тестирование ситуации c некрректным путём до файла с оценками',
                     'in' => [
-                        'handlers'=>$handlers,
                         'uri'=>'/assessmentReport?item_name=Математика',
-                        'loggerFactory'=>$loggerFactory,
-                        'appConfigFactory'=>static function () {
+                        'diConfig'=>(static function($diConfig){
                             $config = include __DIR__ . '/../config/dev/config.php';
                             $config['pathToAssessmentReport'] = __DIR__ . '/unknown.assessmentReport.json';
-                            return AppConfig::createFromArray($config);
-                        }
+                            $diConfig['instances']['appConfig']=$config;
+                            return $diConfig;
+                        })($diConfig)
                     ],
                     'out' => [
                         'httpCode' => 500,
@@ -1847,14 +1748,13 @@ use JoJoBizzareCoders\DigitalJournal\Infrastructure\AppConfig;
                 [
                     'testName' => 'Тестирование ситуации c некрректным путём до файла с классами',
                     'in' => [
-                        'handlers'=> $handlers,
                         'uri'=>'/assessmentReport?item_name=Математика',
-                        'loggerFactory'=>$loggerFactory,
-                        'appConfigFactory'=>static function () {
+                        'diConfig'=>(static function($diConfig){
                             $config = include __DIR__ . '/../config/dev/config.php';
                             $config['pathToClasses'] = __DIR__ . '/unknown.class.json';
-                            return AppConfig::createFromArray($config);
-                        }
+                            $diConfig['instances']['appConfig']=$config;
+                            return $diConfig;
+                        })($diConfig)
                     ],
                     'out' => [
                         'httpCode' => 500,
@@ -1867,14 +1767,13 @@ use JoJoBizzareCoders\DigitalJournal\Infrastructure\AppConfig;
                 [
                     'testName' => 'Тестирование ситуации c некрректным путём до файла с предметами',
                     'in' => [
-                        'handlers'=> $handlers,
                         'uri'=>'/assessmentReport?item_name=Математика',
-                        'loggerFactory'=>$loggerFactory,
-                        'appConfigFactory'=>static function () {
+                        'diConfig'=>(static function($diConfig){
                             $config = include __DIR__ . '/../config/dev/config.php';
                             $config['pathToItems'] = __DIR__ . '/unknown.Item.json';
-                            return AppConfig::createFromArray($config);
-                        }
+                            $diConfig['instances']['appConfig']=$config;
+                            return $diConfig;
+                        })($diConfig)
                     ],
                     'out' => [
                         'httpCode' => 500,
@@ -1887,14 +1786,13 @@ use JoJoBizzareCoders\DigitalJournal\Infrastructure\AppConfig;
                 [
                     'testName' => 'Тестирование ситуации c некрректным путём до файла с Родителями',
                     'in' => [
-                        'handlers'=>$handlers,
                         'uri'=>'/assessmentReport?item_name=Математика',
-                        'loggerFactory'=>$loggerFactory,
-                        'appConfigFactory'=>static function () {
+                        'diConfig'=>(static function($diConfig){
                             $config = include __DIR__ . '/../config/dev/config.php';
                             $config['pathToParents'] = __DIR__ . '/unknown.parent.json';
-                            return AppConfig::createFromArray($config);
-                        }
+                            $diConfig['instances']['appConfig']=$config;
+                            return $diConfig;
+                        })($diConfig)
                     ],
                     'out' => [
                         'httpCode' => 500,
@@ -1907,14 +1805,13 @@ use JoJoBizzareCoders\DigitalJournal\Infrastructure\AppConfig;
                 [
                     'testName' => 'Тестирование ситуации c некрректным путём до файла с Учениками',
                     'in' => [
-                        'handlers'=>$handlers,
                         'uri'=>'/assessmentReport?item_name=Математика',
-                        'loggerFactory'=>$loggerFactory,
-                        'appConfigFactory'=>static function () {
+                        'diConfig'=>(static function($diConfig){
                             $config = include __DIR__ . '/../config/dev/config.php';
                             $config['pathToStudents'] = __DIR__ . '/unknown.student.json';
-                            return AppConfig::createFromArray($config);
-                        }
+                            $diConfig['instances']['appConfig']=$config;
+                            return $diConfig;
+                        })($diConfig)
                     ],
                     'out' => [
                         'httpCode' => 500,
@@ -1927,14 +1824,13 @@ use JoJoBizzareCoders\DigitalJournal\Infrastructure\AppConfig;
                 [
                     'testName' => 'Тестирование ситуации c некрректным путём до файла с Учителями',
                     'in' => [
-                        'handlers'=> $handlers,
                         'uri'=>'/assessmentReport?item_name=Математика',
-                        'loggerFactory'=> $loggerFactory,
-                        'appConfigFactory'=>static function () {
+                        'diConfig'=>(static function($diConfig){
                             $config = include __DIR__ . '/../config/dev/config.php';
                             $config['pathToTeachers'] = __DIR__ . '/unknown.teacher.json';
-                            return AppConfig::createFromArray($config);
-                        }
+                            $diConfig['instances']['appConfig']=$config;
+                            return $diConfig;
+                        })($diConfig)
                     ],
                     'out' => [
                         'httpCode' => 500,
@@ -1949,24 +1845,27 @@ use JoJoBizzareCoders\DigitalJournal\Infrastructure\AppConfig;
                 [
                     'testName' => 'Тестирование ситуации когда нет Конфига',
                     'in' => [
-                        'handlers'=> $handlers,
                         'uri'=>'/lesson?item_name=Математика',
-                        'loggerFactory'=> $loggerFactory,
-                        'appConfigFactory'=>static function () {
-                            return 'Oops';
-                        }
+                        'diConfig' => (static function ($diConfig) {
+                            $diConfig['instances']['appConfig'] = static function () {
+                                return 'Oops';
+                            };
+                            return $diConfig;
+                        })(
+                            $diConfig
+                        )
                     ],
                     'out' => [
                         'httpCode' => 500,
                         'result' => [
                             'status' => 'fail',
-                            'message' => 'incorrect application config'
+                            'message' => 'system error'
                         ]
                     ]
                 ],
 
                 // Тесты с эхологгером
-                [
+                /*[
                     'testName' => 'Тестирование возможности смотреть расписание по названию предмета ЭхоЛоггер',
                     'in' => [
                         'handlers'=>$handlers,
@@ -2070,7 +1969,7 @@ use JoJoBizzareCoders\DigitalJournal\Infrastructure\AppConfig;
                             ]
                         ]
                     ]
-                ],
+                ],*/
             ];
         }
 
@@ -2084,7 +1983,7 @@ use JoJoBizzareCoders\DigitalJournal\Infrastructure\AppConfig;
         {
             foreach (static::testDataProvider() as $testItem) {
                 echo "__________{$testItem['testName']}__________\n";
-                //Arrange и Act
+                //Arrange
                 $httpRequest=new ServerRequest(
                     'GET',
                     '1.1',
@@ -2093,10 +1992,25 @@ use JoJoBizzareCoders\DigitalJournal\Infrastructure\AppConfig;
                     ['Content-Type'=>'application/json'],
                     null,
                 );
+                $diConfig=$testItem['in']['diConfig'];
+
+                //Act
                 $httpResponse=(new App(
-                    $testItem['in']['handlers'],
-                    $testItem['in']['loggerFactory'],
-                    $testItem['in']['appConfigFactory'],
+                    static function (Container $di): RouterInterface {
+                        return $di->get(RouterInterface::class);
+                    },
+                    static function (Container $di): LoggerInterface {
+                        return $di->get(LoggerInterface::class);
+                    },
+                    static function (Container $di): AppConfig {
+                        return $di->get(AppConfig::class);
+                    },
+                    static function (Container $di): RenderInterface {
+                        return $di->get(RenderInterface::class);
+                    },
+                    static function ()use ($diConfig) : Container {
+                        return Container::createFromArray($diConfig);}
+
                 ))->dispatch($httpRequest);
 
                 // Assert

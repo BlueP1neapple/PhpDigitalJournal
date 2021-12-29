@@ -2,6 +2,7 @@
 
 namespace JoJoBizzareCoders\DigitalJournal\Infrastructure\Router;
 
+use JoJoBizzareCoders\DigitalJournal\Infrastructure\Controller\ControllerInterface;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Http\ServerRequest;
 
 class RegExpRouter implements RouterInterface

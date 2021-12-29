@@ -20,7 +20,7 @@ use JoJoBizzareCoders\DigitalJournal\Infrastructure\View\RenderInterface;
         ])
     );
 
-$httpResponse = (new App(
+(new App(
     static function (Container $di): RouterInterface {
         return $di->get(RouterInterface::class);
     },

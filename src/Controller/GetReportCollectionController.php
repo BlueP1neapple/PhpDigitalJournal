@@ -275,8 +275,8 @@ class GetReportCollectionController implements ControllerInterface
             'lesson_date' => 'Incorrect lesson date',
             'student_fio' => 'Incorrect student fio',
         ];
-        $requestParams = $serverRequest->getQueryParams();
-        return Assert::arrayElementsIsString($paramValidations, $requestParams);
+        $queryParams = array_merge($serverRequest->getQueryParams(), $serverRequest->getAttributes());
+        return Assert::arrayElementsIsString($paramValidations, $queryParams);
     }
 
     /**
@@ -296,42 +296,33 @@ class GetReportCollectionController implements ControllerInterface
         array $lessonIdToInfo,
         array $studentIdToInfo
     ): array {
+        $searchCriteria = array_merge( $serverRequest->getQueryParams(), $serverRequest->getAttributes());
         $foundReport = [];
-        $requestParams = $serverRequest->getQueryParams();
         // Поиск оценок
         $ReportMeetSearchCriteria = null;
         foreach ($reports as $report) {
-            //$ReportMeetSearchCriteria = getSearch($request, $report, $appConfig);
-            if (array_key_exists(
-                'item_name',
-                $requestParams
-            )) // Поиск по присутвию item_name в GET запросе и совпадению item_name в запросе и массиве оценок. [начало]
+            if (array_key_exists('item_name', $searchCriteria)) // Поиск по присутвию item_name в GET запросе и совпадению item_name в запросе и массиве оценок. [начало]
             {
-                $ReportMeetSearchCriteria = ($requestParams['item_name']
-                    === $itemsIdToInfo[$lessonIdToInfo[$report['lesson_id']]
+                $ReportMeetSearchCriteria = ($searchCriteria['item_name'] === $itemsIdToInfo[$lessonIdToInfo[$report['lesson_id']]
                         ->getItem()
                         ->getId()]
                         ->getName());
             }// Поиск по присутвию item_name в GET запросе и совпадению item_name в запросе и массиве оценок. [конец]
-            if (array_key_exists('item_description', $requestParams)) {
-                $ReportMeetSearchCriteria = ($requestParams['item_description']
-                    === $itemsIdToInfo[$lessonIdToInfo[$report['lesson_id']]
+            if (array_key_exists('item_description', $searchCriteria)) {
+                $ReportMeetSearchCriteria = ($searchCriteria['item_description'] === $itemsIdToInfo[$lessonIdToInfo[$report['lesson_id']]
                         ->getItem()
                         ->getId()]
                         ->getDescription());
             }
-            if (array_key_exists('lesson_date', $requestParams)) {
-                $ReportMeetSearchCriteria = ($requestParams['lesson_date']
-                    === $lessonIdToInfo[$report['lesson_id']]
+            if (array_key_exists('lesson_date', $searchCriteria)) {
+                $ReportMeetSearchCriteria = ($searchCriteria['lesson_date'] === $lessonIdToInfo[$report['lesson_id']]
                         ->getDate());
             }
-            if (array_key_exists('student_fio', $requestParams)) {
-                $ReportMeetSearchCriteria = ($requestParams['student_fio']
+            if (array_key_exists('student_fio', $searchCriteria)) {
+                $ReportMeetSearchCriteria = ($searchCriteria['student_fio']
                     === $studentIdToInfo[$report['student_id']]
                         ->getFio());
             }
-
-
             if ($ReportMeetSearchCriteria) { // Отбор наёденных оценок
                 $foundReport[] = $this->ReportFactory($report, $lessonIdToInfo, $studentIdToInfo);
                 $ReportMeetSearchCriteria = null;
@@ -369,19 +360,20 @@ class GetReportCollectionController implements ControllerInterface
         $this->Log($this->logger, 'assessmentReport" url');
         $resultOfParamValidation = $this->ValidateQueryParams($serverRequest);
         if (null === $resultOfParamValidation) {
-            $httpCode=200;
             $itemsIdToInfo = $this->loadItemsEntity();
             $lessonIdToInfo = $this->loadLessonEntity($itemsIdToInfo);
             $studentIdToInfo = $this->loadStudentsEntity();
             $reports = $this->loadReportData();
 
-            $result = $this->searchForAssessmentReportInData(
+            $foundReport = $this->searchForAssessmentReportInData(
                 $serverRequest,
                 $reports,
                 $itemsIdToInfo,
                 $lessonIdToInfo,
                 $studentIdToInfo
             );
+            $result = $this->buildResult($foundReport);
+            $httpCode = $this->buildHttpCode($foundReport);
         } else {
             $httpCode = 500;
             $result = [
@@ -391,4 +383,19 @@ class GetReportCollectionController implements ControllerInterface
         }
         return ServerResponseFactory::createJsonResponse($httpCode, $result);
     }
+    protected function buildResult(array $foundReport)
+    {
+        return $foundReport;
+    }
+
+    /**
+     * HttpCode
+     * @param array $foundReport
+     * @return int
+     */
+    protected function buildHttpCode(array $foundReport):int
+    {
+        return 200;
+    }
+
 }

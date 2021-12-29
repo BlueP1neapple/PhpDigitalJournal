@@ -9,13 +9,15 @@ use JoJoBizzareCoders\DigitalJournal\Infrastructure\Logger\LoggerInterface;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Router\ChainRouters;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Router\ControllerFactory;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Router\DefaultRouter;
+use JoJoBizzareCoders\DigitalJournal\Infrastructure\Router\RegExpRouter;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Router\RouterInterface;
+use JoJoBizzareCoders\DigitalJournal\Infrastructure\Router\UniversalRouter;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\View\DefaultRender;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\View\RenderInterface;
 
 return [
     'instances' => [
-    //    'regExpHandlers'       => require __DIR__ . '/../regExp.handlers.php',
+        'regExpHandlers'       => require __DIR__ . '/../regExp.handlers.php',
         'handlers' => require __DIR__ . '/../request.handlers.php',
         'appConfig' => include __DIR__ . '/config.php',
         'controllerNs' => 'EfTech\\BookLibrary\\Controller'
@@ -54,7 +56,15 @@ return [
         RouterInterface::class =>[
             'class' => ChainRouters::class,
             'args' =>[
-                DefaultRouter::class
+                RegExpRouter::class,
+                DefaultRouter::class,
+                UniversalRouter::class
+            ]
+        ],
+        UniversalRouter::class =>[
+            'args' =>[
+                'controllerFactory' => ControllerFactory::class,
+                'controllerNs' => 'controllerNs'
             ]
         ],
         DefaultRouter::class =>[
@@ -68,6 +78,14 @@ return [
                 'diContainer' => ContainerInterface::class
             ]
         ],
+        RegExpRouter::class =>[
+            'args' =>[
+                'handlers' => 'regExpHandlers',
+                'controllerFactory' => ControllerFactory::class,
+            ]
+        ]
+
+
 
     ],
     'factories' =>[

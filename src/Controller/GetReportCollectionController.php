@@ -18,7 +18,8 @@ use JoJoBizzareCoders\DigitalJournal\Infrastructure\Http\ServerResponseFactory;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Logger\LoggerInterface;
 
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Validator\Assert;
-
+use JoJoBizzareCoders\DigitalJournal\Exception;
+use JoJoBizzareCoders\DigitalJournal\ValueObject\AdditionalInfo;
 use JsonException;
 
 
@@ -345,6 +346,7 @@ class GetReportCollectionController implements ControllerInterface
     {
         $report['lesson_id'] = $lessonIdToInfo[$report['lesson_id']];
         $report['student_id'] = $studentIdToInfo[$report['student_id']];
+        $report['additional_info'] = $this->createAdditionalInfo($report);
         return ReportClass::createFromArray($report);
     }
 
@@ -396,6 +398,31 @@ class GetReportCollectionController implements ControllerInterface
     protected function buildHttpCode(array $foundReport):int
     {
         return 200;
+    }
+
+    private function createAdditionalInfo($additionalInfo): AdditionalInfo
+    {
+        if(false === is_array($additionalInfo['additional_info'])){
+            throw new Exception\InvalidDataStructureException("Не верный формат данных");
+        }
+
+        if(false === array_key_exists('topic', $additionalInfo['additional_info'])){
+            throw new Exception\InvalidDataStructureException("Нет заголовка");
+        }
+        if(false === is_string($additionalInfo['additional_info']['topic'])){
+            throw new Exception\InvalidDataStructureException("Заголовок не строка");
+        }
+
+        if(false === array_key_exists('comment', $additionalInfo['additional_info'])){
+            throw new Exception\InvalidDataStructureException("Нет коментария");
+        }
+        if(false === is_string($additionalInfo['additional_info']['comment'])){
+            throw new Exception\InvalidDataStructureException("Комментарий не строка");
+        }
+        return new AdditionalInfo(
+            $additionalInfo['additional_info']['topic'],
+            $additionalInfo['additional_info']['comment']
+        );
     }
 
 }

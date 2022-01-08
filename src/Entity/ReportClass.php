@@ -1,6 +1,7 @@
 <?php
 namespace JoJoBizzareCoders\DigitalJournal\Entity;
     use JoJoBizzareCoders\DigitalJournal\Exception\InvalidDataStructureException;
+    use JoJoBizzareCoders\DigitalJournal\ValueObject\AdditionalInfo;
     use JsonSerializable;
 
 
@@ -30,6 +31,11 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
          */
         private int $mark;
 
+        /**
+         * @var AdditionalInfo Дополнительный коментарий к оценке
+         */
+        private AdditionalInfo $additional_info;
+
         //Методы
         /**
          * Конструкор класса оценок
@@ -38,12 +44,13 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
          * @param StudentUserClass $student - студент которому поставили оценку
          * @param int $mark - значение оценки
          */
-        public function __construct(int $id, LessonClass $lesson, StudentUserClass $student, int $mark)
+        public function __construct(int $id, LessonClass $lesson, StudentUserClass $student, int $mark, AdditionalInfo $additional_info)
         {
             $this->id = $id;
             $this->lesson = $lesson;
             $this->student = $student;
             $this->mark = $mark;
+            $this->additional_info = $additional_info;
         }
 
         /**
@@ -72,7 +79,8 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
                 'id',
                 'lesson_id',
                 'student_id',
-                'mark'
+                'mark',
+                'additional_info'
             ];
             $missingFields=array_diff($requiredFields,array_keys($data));
             if(count($missingFields)>0){
@@ -83,7 +91,8 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
                 $data['id'],
                 $data['lesson_id'],
                 $data['student_id'],
-                $data['mark']
+                $data['mark'],
+                $data['additional_info']
             );
         }
 

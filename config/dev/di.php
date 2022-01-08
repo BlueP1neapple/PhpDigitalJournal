@@ -1,8 +1,12 @@
 <?php
 
+use JoJoBizzareCoders\DigitalJournal\ConsoleCommand\GetLesson;
+use JoJoBizzareCoders\DigitalJournal\ConsoleCommand\GetReport;
 use JoJoBizzareCoders\DigitalJournal\Controller\GetReportCollectionController;
 use JoJoBizzareCoders\DigitalJournal\Controller\GetLessonCollectionController;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\AppConfig;
+use JoJoBizzareCoders\DigitalJournal\Infrastructure\Console\Output\EchoOutPut;
+use JoJoBizzareCoders\DigitalJournal\Infrastructure\Console\Output\OutputInterface;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\DI\ContainerInterface;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Logger\FileLogger\Logger;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Logger\LoggerInterface;
@@ -23,6 +27,21 @@ return [
         'controllerNs' => 'EfTech\\BookLibrary\\Controller'
     ],
     'services' => [
+        OutputInterface::class =>[
+            'class' => EchoOutPut::class,
+            'args' => []
+        ],
+        GetReport::class =>[
+            'args' =>[
+                'output' =>OutputInterface::class
+            ]
+        ],
+        GetLesson::class => [
+            'args' => [
+                'output' => OutputInterface::class
+            ]
+        ],
+
         GetReportCollectionController::class => [
             'args' => [
                 'logger' => LoggerInterface::class,

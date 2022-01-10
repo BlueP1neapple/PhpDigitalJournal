@@ -11,7 +11,7 @@ class GetReportController extends GetReportCollectionController
     }
 
 
-    protected function buildResult(array $foundReport)
+    protected function buildResult(array $foundReport): array
     {
         return 1 === count($foundReport) ? current($foundReport) : [    'status' => 'fail',
             'message' => 'entity not found',];

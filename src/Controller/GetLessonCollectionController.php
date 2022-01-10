@@ -310,22 +310,22 @@ class GetLessonCollectionController implements ControllerInterface
 
     /**
      * Определят httpCode
-     * @param array $foundAuthors
+     * @param array $foundLesson
      * @return int
      */
-    protected function buildHttpCode(array $foundAuthors):int
+    protected function buildHttpCode(array $foundLesson):int
     {
         return 200;
     }
 
     /**
      * Подготавливает данныые для ответа
-     * @param array $foundAuthors
+     * @param array $foundLesson
      * @return array
      */
-    protected function buildResult(array $foundAuthors)
+    protected function buildResult(array $foundLesson): array
     {
-        return $foundAuthors;
+        return $foundLesson;
     }
 
 }

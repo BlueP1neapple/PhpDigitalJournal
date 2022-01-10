@@ -19,7 +19,7 @@ class GetLessonController extends GetLessonCollectionController
      * @param array $foundLesson
      * @return array|false|mixed|string[]
      */
-    protected function buildResult(array $foundLesson)
+    protected function buildResult(array $foundLesson): array
     {
         return 1 === count($foundLesson) ? current($foundLesson) : [    'status' => 'fail',
             'message' => 'entity not found',];

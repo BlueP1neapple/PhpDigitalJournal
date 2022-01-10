@@ -1,5 +1,11 @@
 <?php
 
+use JoJoBizzareCoders\DigitalJournal\Infrastructure\Console\CommandInterface;
+use JoJoBizzareCoders\DigitalJournal\Infrastructure\Console\Output\EchoOutPut;
+use JoJoBizzareCoders\DigitalJournal\Infrastructure\Console\Output\OutputInterface;
+use JoJoBizzareCoders\DigitalJournal\Infrastructure\DI\ContainerInterface;
+use JoJoBizzareCoders\DigitalJournal\Exception;
+
 class AppConsole
 {
     /**
@@ -33,9 +39,9 @@ class AppConsole
     private $diConteinerFactory;
 
     /**
-     * @param OutputInterface $output
+     * @param array $commands
      * @param callable $outPutFactory
-     * @param $diConteinerFactory
+     * @param callable $diConteinerFactory
      */
     public function __construct(array $commands, callable $outPutFactory, callable $diConteinerFactory)
     {

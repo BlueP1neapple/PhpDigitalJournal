@@ -385,7 +385,7 @@ class GetReportCollectionController implements ControllerInterface
         }
         return ServerResponseFactory::createJsonResponse($httpCode, $result);
     }
-    protected function buildResult(array $foundReport)
+    protected function buildResult(array $foundReport): array
     {
         return $foundReport;
     }

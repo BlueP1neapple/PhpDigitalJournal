@@ -20,7 +20,26 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
          */
         private string $email;
 
+        /**
+         * @return string
+         */
+        public function getPlaceOfWork(): string
+        {
+            return $this->placeOfWork;
+        }
+
+        /**
+         * @return string
+         */
+        public function getEmail(): string
+        {
+            return $this->email;
+        }
+
         //Методы
+
+
+
         /**
          * Конструктор класса Родетелей
          * @inheritdoc

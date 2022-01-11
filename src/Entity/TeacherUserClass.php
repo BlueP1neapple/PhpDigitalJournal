@@ -25,6 +25,8 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
         private string $email;
 
 
+
+
         //Методы
 
         /**
@@ -66,6 +68,15 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
         {
             return $this->item;
         }
+
+        /**
+         * @return string
+         */
+        public function getEmail(): string
+        {
+            return $this->email;
+        }
+
 
         /**
          * Метод получения массива для кодирование в json

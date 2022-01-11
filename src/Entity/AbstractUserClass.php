@@ -72,6 +72,31 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
             return $this->fio;
         }
 
+        /**
+         * @return string
+         */
+        public function getDateOfBirth(): string
+        {
+            return $this->dateOfBirth;
+        }
+
+        /**
+         * @return string
+         */
+        public function getPhone(): string
+        {
+            return $this->phone;
+        }
+
+        /**
+         * @return string
+         */
+        public function getAddress(): string
+        {
+            return $this->address;
+        }
+
+
 
         /**
          * @return array - Массив для кодирования в json

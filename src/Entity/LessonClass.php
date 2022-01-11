@@ -94,6 +94,31 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
             return $this->date;
         }
 
+        /**
+         * @return int
+         */
+        public function getLessonDuration(): int
+        {
+            return $this->lessonDuration;
+        }
+
+        /**
+         * @return TeacherUserClass
+         */
+        public function getTeacher(): TeacherUserClass
+        {
+            return $this->teacher;
+        }
+
+        /**
+         * @return ClassClass
+         */
+        public function getClass(): ClassClass
+        {
+            return $this->class;
+        }
+
+
 
         /**
          * Метод получения массива для кодирование в json

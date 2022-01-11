@@ -121,5 +121,22 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
             return $this->student;
         }
 
+        /**
+         * @return int
+         */
+        public function getMark(): int
+        {
+            return $this->mark;
+        }
+
+        /**
+         * @return AdditionalInfo
+         */
+        public function getAdditionalInfo(): AdditionalInfo
+        {
+            return $this->additional_info;
+        }
+
+
 
     }

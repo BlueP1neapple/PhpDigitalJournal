@@ -28,7 +28,7 @@ use JsonException;
  */
 class GetReportCollectionController implements ControllerInterface
 {
-    // Свойства
+// Свойства
     /**
      * Использвуемый логгер
      *
@@ -276,8 +276,8 @@ class GetReportCollectionController implements ControllerInterface
             'lesson_date' => 'Incorrect lesson date',
             'student_fio' => 'Incorrect student fio',
         ];
-        $queryParams = array_merge($serverRequest->getQueryParams(), $serverRequest->getAttributes());
-        return Assert::arrayElementsIsString($paramValidations, $queryParams);
+        $Params=array_merge($serverRequest->getQueryParams(),$serverRequest->getAttributes());
+        return Assert::arrayElementsIsString($paramValidations, $Params);
     }
 
     /**
@@ -297,33 +297,46 @@ class GetReportCollectionController implements ControllerInterface
         array $lessonIdToInfo,
         array $studentIdToInfo
     ): array {
-        $searchCriteria = array_merge( $serverRequest->getQueryParams(), $serverRequest->getAttributes());
         $foundReport = [];
+        $criteriaForSearch=array_merge($serverRequest->getQueryParams(),$serverRequest->getAttributes());
         // Поиск оценок
         $ReportMeetSearchCriteria = null;
         foreach ($reports as $report) {
-            if (array_key_exists('item_name', $searchCriteria)) // Поиск по присутвию item_name в GET запросе и совпадению item_name в запросе и массиве оценок. [начало]
+            //$ReportMeetSearchCriteria = getSearch($request, $report, $appConfig);
+            if (array_key_exists(
+                'item_name',
+                $criteriaForSearch
+            )) // Поиск по присутвию item_name в GET запросе и совпадению item_name в запросе и массиве оценок. [начало]
             {
-                $ReportMeetSearchCriteria = ($searchCriteria['item_name'] === $itemsIdToInfo[$lessonIdToInfo[$report['lesson_id']]
+                $ReportMeetSearchCriteria = ($criteriaForSearch['item_name']
+                    === $itemsIdToInfo[$lessonIdToInfo[$report['lesson_id']]
                         ->getItem()
                         ->getId()]
                         ->getName());
             }// Поиск по присутвию item_name в GET запросе и совпадению item_name в запросе и массиве оценок. [конец]
-            if (array_key_exists('item_description', $searchCriteria)) {
-                $ReportMeetSearchCriteria = ($searchCriteria['item_description'] === $itemsIdToInfo[$lessonIdToInfo[$report['lesson_id']]
+            if (array_key_exists('item_description', $criteriaForSearch)) {
+                $ReportMeetSearchCriteria = ($criteriaForSearch['item_description']
+                    === $itemsIdToInfo[$lessonIdToInfo[$report['lesson_id']]
                         ->getItem()
                         ->getId()]
                         ->getDescription());
             }
-            if (array_key_exists('lesson_date', $searchCriteria)) {
-                $ReportMeetSearchCriteria = ($searchCriteria['lesson_date'] === $lessonIdToInfo[$report['lesson_id']]
+            if (array_key_exists('lesson_date', $criteriaForSearch)) {
+                $ReportMeetSearchCriteria = ($criteriaForSearch['lesson_date']
+                    === $lessonIdToInfo[$report['lesson_id']]
                         ->getDate());
             }
-            if (array_key_exists('student_fio', $searchCriteria)) {
-                $ReportMeetSearchCriteria = ($searchCriteria['student_fio']
+            if (array_key_exists('student_fio', $criteriaForSearch)) {
+                $ReportMeetSearchCriteria = ($criteriaForSearch['student_fio']
                     === $studentIdToInfo[$report['student_id']]
                         ->getFio());
             }
+            if (array_key_exists('id', $criteriaForSearch)) {
+                $ReportMeetSearchCriteria = ($criteriaForSearch['id']
+                    === (string)$report['id']);
+            }
+
+
             if ($ReportMeetSearchCriteria) { // Отбор наёденных оценок
                 $foundReport[] = $this->ReportFactory($report, $lessonIdToInfo, $studentIdToInfo);
                 $ReportMeetSearchCriteria = null;
@@ -366,16 +379,15 @@ class GetReportCollectionController implements ControllerInterface
             $lessonIdToInfo = $this->loadLessonEntity($itemsIdToInfo);
             $studentIdToInfo = $this->loadStudentsEntity();
             $reports = $this->loadReportData();
-
-            $foundReport = $this->searchForAssessmentReportInData(
+            $foundReport=$this->searchForAssessmentReportInData(
                 $serverRequest,
                 $reports,
                 $itemsIdToInfo,
                 $lessonIdToInfo,
                 $studentIdToInfo
             );
+            $httpCode=$this->buildHttpCode($foundReport);
             $result = $this->buildResult($foundReport);
-            $httpCode = $this->buildHttpCode($foundReport);
         } else {
             $httpCode = 500;
             $result = [
@@ -385,19 +397,27 @@ class GetReportCollectionController implements ControllerInterface
         }
         return ServerResponseFactory::createJsonResponse($httpCode, $result);
     }
-    protected function buildResult(array $foundReport): array
-    {
-        return $foundReport;
-    }
 
     /**
-     * HttpCode
-     * @param array $foundReport
+     * Создаёт http код
+     *
+     * @param array $foundReport - коллекция найденных оценок
      * @return int
      */
     protected function buildHttpCode(array $foundReport):int
     {
         return 200;
+    }
+
+    /**
+     * Создаёт результат поиска оценок
+     *
+     * @param array $foundReport - коллекция найденных оценок
+     * @return array|ReportClass
+     */
+    protected function buildResult(array $foundReport)
+    {
+        return $foundReport;
     }
 
     private function createAdditionalInfo($additionalInfo): AdditionalInfo

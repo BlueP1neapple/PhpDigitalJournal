@@ -1,7 +1,9 @@
 <?php
 
+
+
 return [
-//    '/^.*?\/books\/(?<___ID___>[0-9]+).*$/'      => Controller\GetBooksCollectionController::class,
-//    '/^.*?\/authors\/(?<___ID___>[0-9]+).*$/' => Controller\GetAuthorsCollectionController::class,
+   '/^.*?\/lesson\/(?<___ID___>[0-9]+).*$/'      => JoJoBizzareCoders\DigitalJournal\Controller\GetLessonController::class,
+   '/^.*?\/assessmentReport\/(?<___ID___>[0-9]+).*$/'     => JoJoBizzareCoders\DigitalJournal\Controller\GetReportController::class,
 
 ];

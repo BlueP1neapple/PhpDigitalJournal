@@ -63,7 +63,8 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
                 'id' => $this->id,
                 'lesson' => $this->lesson,
                 'student' => $this->student,
-                'mark' => $this->mark
+                'mark' => $this->mark,
+                'additional_info' => $this->additional_info
             ];
         }
 

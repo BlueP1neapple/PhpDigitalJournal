@@ -2,8 +2,10 @@
 
 use JoJoBizzareCoders\DigitalJournal\ConsoleCommand\GetLesson;
 use JoJoBizzareCoders\DigitalJournal\ConsoleCommand\GetReport;
+use JoJoBizzareCoders\DigitalJournal\Controller\GetLessonController;
 use JoJoBizzareCoders\DigitalJournal\Controller\GetReportCollectionController;
 use JoJoBizzareCoders\DigitalJournal\Controller\GetLessonCollectionController;
+use JoJoBizzareCoders\DigitalJournal\Controller\GetReportController;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\AppConfig;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Console\Output\EchoOutPut;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Console\Output\OutputInterface;
@@ -21,10 +23,10 @@ use JoJoBizzareCoders\DigitalJournal\Infrastructure\View\RenderInterface;
 
 return [
     'instances' => [
-        'regExpHandlers'       => require __DIR__ . '/../regExp.handlers.php',
         'handlers' => require __DIR__ . '/../request.handlers.php',
         'appConfig' => include __DIR__ . '/config.php',
-        'controllerNs' => 'EfTech\\BookLibrary\\Controller'
+        'controllerNs' => 'JoJoBizzareCoders\\DigitalJournal\\Controller',
+        'regExpHandlers'       => require __DIR__ . '/../regExp.handlers.php'
     ],
     'services' => [
         OutputInterface::class =>[
@@ -54,7 +56,29 @@ return [
                 'pathToAssessmentReport' => 'pathToAssessmentReport'
             ]
         ],
+        GetReportController::class => [
+            'args' => [
+                'logger' => LoggerInterface::class,
+                'pathToItems' => 'pathToItems',
+                'pathToTeachers' => 'pathToTeachers',
+                'pathToClasses' => 'pathToClasses',
+                'pathToStudents' => 'pathToStudents',
+                'pathToParents' => 'pathToParents',
+                'pathToLesson' => 'pathToLesson',
+                'pathToAssessmentReport' => 'pathToAssessmentReport'
+            ]
+
+        ],
         GetLessonCollectionController::class => [
+            'args' => [
+                'logger' => LoggerInterface::class,
+                'pathToItems' => 'pathToItems',
+                'pathToTeachers' => 'pathToTeachers',
+                'pathToClasses' => 'pathToClasses',
+                'pathToLesson' => 'pathToLesson'
+            ]
+        ],
+        GetLessonController::class =>[
             'args' => [
                 'logger' => LoggerInterface::class,
                 'pathToItems' => 'pathToItems',

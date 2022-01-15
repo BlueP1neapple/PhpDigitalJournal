@@ -7,7 +7,6 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
      */
     final class StudentUserClass extends AbstractUserClass
     {
-        //Свойства
         /**
          *  класс ученика
          */
@@ -19,8 +18,6 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
         private ParentUserClass $parent;
 
 
-        //Методы
-
         /**
          * Конструктор класса студента
          * @inheritdoc
@@ -29,28 +26,16 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
          */
         public function __construct(
             int $id,
-            string $fio,
+            array $fio,
             string $dateOfBirth,
             string $phone,
-            string $address,
+            array $address,
             ClassClass $class,
             ParentUserClass $parent
         ) {
             parent::__construct($id, $fio, $dateOfBirth, $phone, $address);
             $this->class = $class;
             $this->parent = $parent;
-        }
-
-        /**
-         * Метод получения массива для кодирование в json
-         * @return array - массив для кодирования
-         */
-        public function jsonSerialize(): array
-        {
-            $jsonData = parent::jsonSerialize();
-            $jsonData['class'] = $this->class;
-            $jsonData['parent'] = $this->parent;
-            return $jsonData;
         }
 
         /**

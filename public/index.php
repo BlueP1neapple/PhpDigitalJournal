@@ -10,7 +10,6 @@ use JoJoBizzareCoders\DigitalJournal\Infrastructure\Router\RouterInterface;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\View\RenderInterface;
 
 
-// Функции
     require_once __DIR__ . "/../src/Infrastructure/Autoloader.php";
 
     spl_autoload_register(
@@ -20,7 +19,7 @@ use JoJoBizzareCoders\DigitalJournal\Infrastructure\View\RenderInterface;
         ])
     );
 
-(new App(
+$httpResponse = (new App(
     static function (Container $di): RouterInterface {
         return $di->get(RouterInterface::class);
     },

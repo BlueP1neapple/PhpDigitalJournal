@@ -1,16 +1,15 @@
 <?php
 namespace JoJoBizzareCoders\DigitalJournal\Entity;
     use JoJoBizzareCoders\DigitalJournal\Exception\InvalidDataStructureException;
-    use JsonSerializable;
 
 
 
     /**
      *Класс занятий
      */
-    final class LessonClass implements JsonSerializable
+    final class LessonClass
     {
-        //Свойства
+
         /**
          * @var int id урока
          */
@@ -41,7 +40,7 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
          */
         private ClassClass $class;
 
-        //Методы
+
         /**
          * Конструктор класса занятий
          * @param int $id - id занятия
@@ -95,48 +94,6 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
         }
 
         /**
-         * @return int
-         */
-        public function getLessonDuration(): int
-        {
-            return $this->lessonDuration;
-        }
-
-        /**
-         * @return TeacherUserClass
-         */
-        public function getTeacher(): TeacherUserClass
-        {
-            return $this->teacher;
-        }
-
-        /**
-         * @return ClassClass
-         */
-        public function getClass(): ClassClass
-        {
-            return $this->class;
-        }
-
-
-
-        /**
-         * Метод получения массива для кодирование в json
-         * @return array - массив для кодирования
-         */
-        public function jsonSerialize(): array
-        {
-            return [
-                'id' => $this->id,
-                'item' => $this->item,
-                'date' => $this->date,
-                'lessonDuration' => $this->lessonDuration,
-                'teacher' => $this->teacher,
-                'class' => $this->class
-            ];
-        }
-
-        /**
          * Метод создания объекта класса занятия из массива данных об занятии
          * @param array $data - массив данных об занятии
          * @return LessonClass - объект класса занятий
@@ -167,5 +124,33 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
             );
         }
 
+        /**
+         * Возвращает время проведения занятий
+         *
+         * @return int
+         */
+        public function getLessonDuration(): int
+        {
+            return $this->lessonDuration;
+        }
 
+        /**
+         * Возвращает информацию о преподователе
+         *
+         * @return TeacherUserClass
+         */
+        public function getTeacher(): TeacherUserClass
+        {
+            return $this->teacher;
+        }
+
+        /**
+         * Возвращает информацию о классе
+         *
+         * @return ClassClass
+         */
+        public function getClass(): ClassClass
+        {
+            return $this->class;
+        }
     }

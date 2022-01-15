@@ -1,73 +1,169 @@
 [
     {
         "id": 1,
-        "fio": "Кузнецов Евгений Сергеевич",
+        "fio": [
+            {
+                "surname": "Кузнецов",
+                "name": "Евгений",
+                "patronymic": "Сергеевич"
+            }
+        ],
         "dateOfBirth": "1975.10.01",
         "phone": "+79222444488",
-        "address": "ул. Казанская, д. 35Б, кв. 23",
+        "address": [
+            {
+                "street": "ул. Казанская",
+                "home": "д. 35Б",
+                "apartment": "кв. 23"
+            }
+        ],
         "placeOfWork": "ООО Алмаз",
         "email": "kuznecov@gmail.com"
     },
     {
         "id": 2,
-        "fio": "Крабов Юрий Владимирович",
+        "fio": [
+            {
+                "surname": "Крабов",
+                "name": "Юрий",
+                "patronymic": "Владимирович"
+            }
+        ],
         "dateOfBirth": "1985.11.10",
         "phone": "+79888444488",
-        "address": "ул. Новая, д. 54, кв. 22",
+        "address": [
+            {
+                "street": "ул. Новая",
+                "home": "д. 54",
+                "apartment": "кв. 22"
+            }
+        ],
         "placeOfWork": "ООО Весна",
         "email": "krabov@gmail.com"
     },
     {
         "id": 3,
-        "fio": "Яснова Ксения Евгеньевна",
+        "fio": [
+            {
+                "surname": "Яснова",
+                "name": "Ксения",
+                "patronymic": "Евгеньевна"
+            }
+        ],
         "dateOfBirth": "1980.09.01",
         "phone": "+79222444656",
-        "address": "ул. Щавелева, д. 55Б, кв. 23",
+        "address": [
+            {
+                "street": "ул. Щавелева",
+                "home": "д. 55Б",
+                "apartment": "кв. 23"
+            }
+        ],
         "placeOfWork": "ОАО Открытие",
         "email": "jasnova@gmail.com"
     },
     {
         "id": 4,
-        "fio": "Смирнова Алина Викторовна",
+        "fio": [
+            {
+                "surname": "Смирнова",
+                "name": "Алина",
+                "patronymic": "Викторовна"
+            }
+        ],
         "dateOfBirth": "1978.02.10",
         "phone": "+79322444423",
-        "address": "ул. Круглова, д. 32, кв. 45",
+        "address": [
+            {
+                "street": "ул. Круглова",
+                "home": "д. 32",
+                "apartment": "кв. 45"
+            }
+        ],
         "placeOfWork": "ИП Круглов",
         "email": "smirnova@gmail.com"
     },
     {
         "id": 5,
-        "fio": "Заимова Ксения Евгеньевна",
+        "fio": [
+            {
+                "surname": "Заимова",
+                "name": "Ксения",
+                "patronymic": "Евгеньевна"
+            }
+        ],
         "dateOfBirth": "1987.10.23",
         "phone": "+79234444488",
-        "address": "ул. Лужская, д. 34, кв. 34",
+        "address": [
+            {
+                "street": "ул. Лужская",
+                "home": "д. 34",
+                "apartment": "кв. 34"
+            }
+        ],
         "placeOfWork": "ООО Зеленое-Красное",
         "email": "zaumova@gmail.com"
     },
     {
         "id": 6,
-        "fio": "Кузнецова Наталия Михайловна ",
+        "fio": [
+            {
+                "surname": "Кузнецова",
+                "name": "Наталия",
+                "patronymic": "Михайловна"
+            }
+        ],
         "dateOfBirth": "1978.02.05",
         "phone": "+79223333388",
-        "address": "ул. Грузовая, д. 45, кв. 45",
+        "address": [
+            {
+                "street": "ул. Грузовая",
+                "home": "д. 45",
+                "apartment": "кв. 45"
+            }
+        ],
         "placeOfWork": "ИП Сергеев",
         "email": "kuznecova@gmail.com"
     },
     {
         "id": 7,
-        "fio": "Соломона Елена Николаевна",
+        "fio": [
+            {
+                "surname": "Соломона",
+                "name": "Елена",
+                "patronymic": "Николаевна"
+            }
+        ],
         "dateOfBirth": "1978.11.22",
         "phone": "+79222222222",
-        "address": "ул. Красносельская, д. 65, кв. 56",
+        "address": [
+            {
+                "street": "ул. Красносельская",
+                "home": "д. 65",
+                "apartment": "кв. 56"
+            }
+        ],
         "placeOfWork": "ООО Кружка",
         "email": "solomova@gmail.com"
     },
     {
         "id": 8,
-        "fio": "Соколова Лидия Михайловна",
+        "fio": [
+            {
+                "surname": "Соколова",
+                "name": "Лидия",
+                "patronymic": "Михайловна"
+            }
+        ],
         "dateOfBirth": "1985.01.11",
         "phone": "+79222433488",
-        "address": "ул. Зеленская, д. 47, кв. 34",
+        "address": [
+            {
+                "street": "ул. Зеленская",
+                "home": "д. 47",
+                "apartment": "кв. 34"
+            }
+        ],
         "placeOfWork": "ООО Тесты",
         "email": "sokolova@gmail.com"
     }

@@ -1,122 +1,126 @@
 <?php
 namespace JoJoBizzareCoders\DigitalJournal\Entity;
-    use JsonSerializable;
+
+use JoJoBizzareCoders\DigitalJournal\ValueObject\Address;
+use JoJoBizzareCoders\DigitalJournal\ValueObject\Fio;
+
+
+/**
+ * Класс пользователя
+ */
+abstract class AbstractUserClass
+{
+    /**
+     * Id пользователя
+     *
+     * @var int
+     */
+    private int $id;
 
     /**
-     * Класс пользователя
+     * ФИО пользователя
+     *
+     * @var Fio[]
      */
-    abstract class AbstractUserClass implements JsonSerializable
+    private array $fio;
+
+    /**
+     * День Рождения пользователя
+     *
+     * @var string
+     */
+    private string $dateOfBirth;
+
+    /**
+     * Номер телефона пользователя
+     *
+     * @var string
+     */
+    private string $phone;
+
+    /**
+     * Адресс пользователя
+     *
+     * @var Address[]
+     */
+    private array $address;
+
+
+    /**
+     * Конструктор Пользователя
+     *
+     * @param int $id - Id пользователя
+     * @param array $fio - ФИО пользователя
+     * @param string $dateOfBirth - Дата рождения Пользователя
+     * @param string $phone - Номер телефона Пользователя
+     * @param array $address - Домашний адресс пользователя
+     */
+    public function __construct(int $id, array $fio, string $dateOfBirth, string $phone, array $address)
     {
-        //Свойства
-        /**
-         * Id пользователя
-         */
-        private int $id;
-
-        /**
-         * ФИО пользователя
-         */
-        private string $fio;
-
-        /**
-         * День Рождения пользователя
-         */
-        private string $dateOfBirth;
-
-        /**
-         * @var string Номер телефона пользователя
-         */
-        private string $phone;
-
-        /**
-         * @var string Адресс пользователя
-         */
-        private string $address;
-
-
-        //Методы
-
-        /**
-         * Конструктор Пользователя
-         *
-         * @param int $id - Id пользователя
-         * @param string $fio - ФИО пользователя
-         * @param string $dateOfBirth - Дата рождения Пользователя
-         * @param string $phone - Номер телефона Пользователя
-         * @param string $address - Домашний адресс пользователя
-         */
-        public function __construct(int $id, string $fio, string $dateOfBirth, string $phone, string $address)
-        {
-            $this->id = $id;
-            $this->fio = $fio;
-            $this->dateOfBirth = $dateOfBirth;
-            $this->phone = $phone;
-            $this->address = $address;
-        }
-
-
-        /**
-         * @return int Получение id
-         */
-        final public function getId(): int
-        {
-            return $this->id;
-        }
-
-
-        /**
-         * @return string Получение ФИО
-         */
-        final public function getFio(): string
-        {
-            return $this->fio;
-        }
-
-        /**
-         * @return string
-         */
-        public function getDateOfBirth(): string
-        {
-            return $this->dateOfBirth;
-        }
-
-        /**
-         * @return string
-         */
-        public function getPhone(): string
-        {
-            return $this->phone;
-        }
-
-        /**
-         * @return string
-         */
-        public function getAddress(): string
-        {
-            return $this->address;
-        }
-
-
-
-        /**
-         * @return array - Массив для кодирования в json
-         */
-        public function jsonSerialize(): array
-        {
-            return [
-                'id' => $this->id,
-                'fio' => $this->fio,
-                'phone' => $this->phone,
-                'dateOfBirth' => $this->dateOfBirth,
-                'address' => $this->address
-            ];
-        }
-
-        /**
-         * Создание объекта класса пользователя из массива данных об Пользователе
-         *
-         * @param array $data - массив данных об Пользователе
-         * @return AbstractUserClass - объект класса пользователь
-         */
-        abstract public static function createFromArray(array $data): AbstractUserClass;
+        $this->id = $id;
+        $this->fio = $fio;
+        $this->dateOfBirth = $dateOfBirth;
+        $this->phone = $phone;
+        $this->address = $address;
     }
+
+
+    /**
+     * Получение id
+     *
+     * @return int
+     */
+    final public function getId(): int
+    {
+        return $this->id;
+    }
+
+
+    /**
+     * Получение ФИО
+     *
+     * @return Fio[]
+     */
+    final public function getFio(): array
+    {
+        return $this->fio;
+    }
+
+    /**
+     * Получение даты рождения
+     *
+     * @return string
+     */
+    public function getDateOfBirth(): string
+    {
+        return $this->dateOfBirth;
+    }
+
+    /**
+     * Получение номера телефона
+     *
+     * @return string
+     */
+    public function getPhone(): string
+    {
+        return $this->phone;
+    }
+
+    /**
+     * Получение домашнего адресса
+     *
+     * @return Address[]
+     */
+    public function getAddress(): array
+    {
+        return $this->address;
+    }
+
+    /**
+     * Создание объекта класса пользователя из массива данных об Пользователе
+     *
+     * @param array $data - массив данных об Пользователе
+     * @return AbstractUserClass - объект класса пользователь
+     */
+    abstract public static function createFromArray(array $data): AbstractUserClass;
+}

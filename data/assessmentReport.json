@@ -3,93 +3,48 @@
         "id": 1,
         "lesson_id": 1,
         "student_id": 1,
-        "mark": 5,
-        "additional_info": {
-                "topic": "Тема урока",
-                "comment": "Отличная подготовка, комрад"
-            }
+        "mark": 5
     },
     {
         "id": 2,
         "lesson_id": 1,
         "student_id": 7,
-        "mark": 4,
-        "additional_info": {
-                "topic": "Тема урока",
-                "comment": "Не совсем Отличная подготовка, комрад"
-            }
-
+        "mark": 4
     },
     {
         "id": 3,
         "lesson_id": 6,
         "student_id": 1,
-        "mark": 3,
-        "additional_info":
-            {
-                "topic": "Тема урока",
-                "comment": "Совсем не отличная подготовка, комрад"
-            }
-
+        "mark": 3
     },
     {
         "id": 4,
         "lesson_id": 2,
         "student_id": 2,
-        "mark": 4,
-        "additional_info":
-            {
-                "topic": "Тема урока",
-                "comment": "Не совсем Отличная подготовка, комрад"
-            }
-
+        "mark": 4
     },
     {
         "id": 5,
         "lesson_id": 4,
         "student_id": 5,
-        "mark": 5,
-        "additional_info":
-            {
-                "topic": "Тема урока",
-                "comment": "Отличная подготовка, комрад"
-            }
-
+        "mark": 5
     },
     {
         "id": 6,
         "lesson_id": 5,
         "student_id": 7,
-        "mark": 5,
-        "additional_info":
-            {
-                "topic": "Тема урока",
-                "comment": "Отличная подготовка, комрад"
-            }
-
+        "mark": 5
     },
     {
         "id": 7,
         "lesson_id": 5,
         "student_id": 8,
-        "mark": 5,
-        "additional_info":
-            {
-                "topic": "Тема урока",
-                "comment": "Отличная подготовка, комрад"
-            }
-
+        "mark": 5
     },
     {
         "id": 8,
         "lesson_id": 1,
         "student_id": 5,
-        "mark": 5,
-        "additional_info":
-            {
-                "topic": "Тема урока",
-                "comment": "Отличная подготовка, комрад"
-            }
-
+        "mark": 5
     }
 ]

@@ -1,11 +1,9 @@
 <?php
 
-use JoJoBizzareCoders\DigitalJournal\ConsoleCommand;
+    use JoJoBizzareCoders\DigitalJournal\ConsoleCommand\FindAssessmentReport;
+    use JoJoBizzareCoders\DigitalJournal\ConsoleCommand\FindLesson;
 
-return [
-    '/lesson'  => ConsoleCommand\GetLesson::class,
-
-    '/assessmentReport' => ConsoleCommand\GetReport::class,
-
-    '/studentReport' => ConsoleCommand\GetReport::class
-];
+    return[
+        'find-lesson'=>FindLesson::class,
+        'find-assessmentReport'=>FindAssessmentReport::class,
+    ];

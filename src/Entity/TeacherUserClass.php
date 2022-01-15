@@ -8,7 +8,6 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
      */
     final class TeacherUserClass extends AbstractUserClass
     {
-        //Свойства
         /**
          *  Предмета
          */
@@ -26,9 +25,6 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
 
 
 
-
-        //Методы
-
         /**
          * Конструктор класса учителя
          * @inheritdoc
@@ -38,10 +34,10 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
          */
         public function __construct(
             int $id,
-            string $fio,
+            array $fio,
             string $dateOfBirth,
             string $phone,
-            string $address,
+            array $address,
             ItemClass $item,
             int $cabinet,
             string $email
@@ -67,30 +63,6 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
         public function getItem(): ItemClass
         {
             return $this->item;
-        }
-
-        /**
-         * @return string
-         */
-        public function getEmail(): string
-        {
-            return $this->email;
-        }
-
-
-        /**
-         * Метод получения массива для кодирование в json
-         * @return array - массив для кодирования
-         */
-        public function jsonSerialize(): array
-        {
-            $jsonData = parent::jsonSerialize();
-            $jsonData['item'] = $this->item;
-            $jsonData['cabinet'] = $this->cabinet;
-            $jsonData['email'] = $this->email;
-
-
-            return $jsonData;
         }
 
         /**
@@ -126,5 +98,15 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
                 $data['cabinet'],
                 $data['email']
             );
+        }
+
+        /**
+         * Возвращает email преподавателя
+         *
+         * @return string
+         */
+        public function getEmail(): string
+        {
+            return $this->email;
         }
     }

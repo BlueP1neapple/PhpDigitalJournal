@@ -9,7 +9,7 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
      */
     final class ParentUserClass extends AbstractUserClass
     {
-        //Свойства
+
         /**
          * @string Место работы родителя
          */
@@ -20,26 +20,7 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
          */
         private string $email;
 
-        /**
-         * @return string
-         */
-        public function getPlaceOfWork(): string
-        {
-            return $this->placeOfWork;
-        }
-
-        /**
-         * @return string
-         */
-        public function getEmail(): string
-        {
-            return $this->email;
-        }
-
         //Методы
-
-
-
         /**
          * Конструктор класса Родетелей
          * @inheritdoc
@@ -48,29 +29,16 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
          */
         public function __construct(
             int $id,
-            string $fio,
+            array $fio,
             string $dateOfBirth,
             string $phone,
-            string $address,
+            array $address,
             string $placeOfWork,
             string $email
         ) {
             parent::__construct($id, $fio, $dateOfBirth, $phone, $address);
             $this->placeOfWork = $placeOfWork;
             $this->email = $email;
-        }
-
-
-        /**
-         * Метод получения массива для кодирование в json
-         * @return array - массив для кодирования
-         */
-        public function jsonSerialize(): array
-        {
-            $jsonData = parent::jsonSerialize();
-            $jsonData['placeOfWork'] = $this->placeOfWork;
-            $jsonData['email'] = $this->email;
-            return $jsonData;
         }
 
         /**
@@ -106,6 +74,23 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
                 $data['email']
             );
         }
+
+        /**
+         * @return string
+         */
+        public function getPlaceOfWork(): string
+        {
+            return $this->placeOfWork;
+        }
+
+        /**
+         * @return string
+         */
+        public function getEmail(): string
+        {
+            return $this->email;
+        }
+
 
 
     }

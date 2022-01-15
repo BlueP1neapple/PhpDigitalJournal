@@ -1,14 +1,13 @@
 <?php
 namespace JoJoBizzareCoders\DigitalJournal\Entity;
 use JoJoBizzareCoders\DigitalJournal\Exception\InvalidDataStructureException;
-use JsonSerializable;
 
     /**
      * Класс Предметов
      */
-    final class ItemClass implements JsonSerializable
+    final class ItemClass
     {
-        // Свойства
+
         /**
          * @int id предмета
          */
@@ -24,7 +23,6 @@ use JsonSerializable;
          */
         private string $description;
 
-        //Методы
         /**
          * Конструктор класса предметов
          * @param int $id - id Предмета
@@ -60,19 +58,6 @@ use JsonSerializable;
         public function getDescription(): string
         {
             return $this->description;
-        }
-
-        /**
-         * Метод получения массива для кодирования в json
-         * @return array - массив данных для кодирования в json
-         */
-        public function jsonSerialize(): array
-        {
-            return [
-                'id' => $this->id,
-                'name' => $this->name,
-                'description' => $this->description
-            ];
         }
 
         /**

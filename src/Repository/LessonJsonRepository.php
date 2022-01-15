@@ -20,7 +20,6 @@ use JsonException;
 class LessonJsonRepository implements LessonRepositoryInterface
 {
 
-    //Свойства
     /**
      * Путь до файла с данными об предметах
      *
@@ -91,8 +90,13 @@ class LessonJsonRepository implements LessonRepositoryInterface
      */
     private ?array $lessonIdToIndex = null;
 
-    //Методы
 
+    /**
+     * Тееущий id
+     *
+     * @var int
+     */
+    private int $currentId;
     /**
      * Конструктор репризитория для поиска занятий. В качестве хранилища используеться json файлы
      *
@@ -199,6 +203,14 @@ class LessonJsonRepository implements LessonRepositoryInterface
                 ),
                 array_keys($this->lessonIdToInfo)
             );
+
+            $this->currentId = max(
+                array_map(
+                    static function(array $v){ return $v['id'];},
+                    $this->lessonIdToInfo
+                )
+            );
+
         }
         return $this->lessonIdToInfo;
     }
@@ -456,4 +468,66 @@ class LessonJsonRepository implements LessonRepositoryInterface
             'class_id' => $entity->getClass()->getId()
         ];
     }
+
+    /**
+     * Извлекает данные из id
+     *
+     * @param $v
+     * @return int
+     */
+    private function extractLessonId($v):int
+    {
+        if(false === is_array($v)){
+            throw new InvalidDataStructureException('dannystmassiv');
+        }
+        if(false === array_key_exists('id', $v)){
+            throw new InvalidDataStructureException('net id');
+        }
+        if(false === is_int($v['id'])){
+            throw new InvalidDataStructureException(
+                'id ne chislo'
+            );
+        }
+
+        return $v['id'];
+    }
+
+    /**
+     * Получить следующий id
+     *
+     * @return int
+     * @throws JsonException
+     */
+    public function nextId(): int
+    {
+        $this->LoadDataLesson();
+        ++$this->currentId;
+        return $this->currentId;
+    }
+
+    /**
+     * Добавление урока
+     *
+     * @param LessonClass $entity
+     * @return LessonClass
+     * @throws JsonException
+     */
+    public function add(LessonClass $entity): LessonClass{
+
+        $this->LoadDataLesson();
+
+        $item = $this->buildJsonData($entity);
+        $this->lessonIdToInfo[] = $item;
+        $data = $this->lessonIdToInfo;
+        $this->lessonIdToIndex[$entity->getId()] = array_key_last($this->lessonIdToInfo);
+        $file = $this->pathToLesson;
+
+        $jsonSrt = json_encode($data, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+
+        file_put_contents($file, $jsonSrt);
+
+        return $entity;
+    }
+
+
 }

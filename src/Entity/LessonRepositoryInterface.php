@@ -23,4 +23,19 @@ interface LessonRepositoryInterface
      * @return LessonClass
      */
     public function save(LessonClass $entity):LessonClass;
+
+    /**
+     * Получить id
+     *
+     * @return int
+     */
+    public function nextId():int;
+
+    /**
+     * Добавить урок
+     *
+     * @param LessonClass $entity
+     * @return LessonClass
+     */
+    public function add(LessonClass $entity): LessonClass;
 }

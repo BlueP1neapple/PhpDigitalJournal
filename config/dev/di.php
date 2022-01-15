@@ -2,6 +2,8 @@
 
 use JoJoBizzareCoders\DigitalJournal\ConsoleCommand\FindAssessmentReport;
 use JoJoBizzareCoders\DigitalJournal\ConsoleCommand\FindLesson;
+use JoJoBizzareCoders\DigitalJournal\Controller\CreateRegisterAssessmentReportController;
+use JoJoBizzareCoders\DigitalJournal\Controller\CreateRegisterLessonController;
 use JoJoBizzareCoders\DigitalJournal\Controller\GetAssessmentReportCollectionController;
 use JoJoBizzareCoders\DigitalJournal\Controller\GetAssessmentReportController;
 use JoJoBizzareCoders\DigitalJournal\Controller\GetLessonCollectionController;
@@ -25,7 +27,12 @@ use JoJoBizzareCoders\DigitalJournal\Infrastructure\Router\UniversalRouter;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\View\DefaultRender;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\View\RenderInterface;
 use JoJoBizzareCoders\DigitalJournal\Repository\AssessmentReportJsonRepository;
+use JoJoBizzareCoders\DigitalJournal\Repository\ClassJsonFileRepository;
+use JoJoBizzareCoders\DigitalJournal\Repository\ItemJsonFileRepository;
 use JoJoBizzareCoders\DigitalJournal\Repository\LessonJsonRepository;
+use JoJoBizzareCoders\DigitalJournal\Repository\TeacherJsonFileRepository;
+use JoJoBizzareCoders\DigitalJournal\Service\NewLessonService;
+use JoJoBizzareCoders\DigitalJournal\Service\NewReportService;
 use JoJoBizzareCoders\DigitalJournal\Service\SearchAssessmentReportService;
 use JoJoBizzareCoders\DigitalJournal\Service\SearchLessonService;
 
@@ -37,6 +44,42 @@ return [
         'regExpHandlers' => require __DIR__ . '/../regExp.handlers.php'
     ],
     'services' => [
+        CreateRegisterLessonController::class =>[
+            'args' =>[
+                'newLessonService' => NewLessonService::class
+            ]
+        ],
+        CreateRegisterAssessmentReportController::class =>[
+            'args' => [
+                'newReportService' => NewReportService::class
+            ]
+        ],
+        NewLessonService::class => [
+            'args' => [
+                'lessonJsonRepository' => LessonRepositoryInterface::class,
+                'teacherJsonFileRepository' => TeacherJsonFileRepository::class,
+                'itemJsonFileRepository' => ItemJsonFileRepository::class,
+                'classJsonFileRepository' => ClassJsonFileRepository::class
+            ]
+        ],
+        TeacherJsonFileRepository::class =>[
+            'args' => [
+                'pathToTeachers' => 'pathToTeachers',
+                'dataLoader' => DataLoaderInterface::class
+            ]
+        ],
+        ItemJsonFileRepository::class =>[
+            'args' => [
+                'pathToItems' => 'pathToItems',
+                'dataLoader' => DataLoaderInterface::class
+            ]
+        ],
+        ClassJsonFileRepository::class =>[
+            'args' => [
+                'pathToClasses' => 'pathToClasses',
+                'dataLoader' => DataLoaderInterface::class
+            ]
+        ],
         GetAssessmentReportCollectionController::class => [
             'args' => [
                 'logger' => LoggerInterface::class,

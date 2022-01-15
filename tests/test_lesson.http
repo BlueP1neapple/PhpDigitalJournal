@@ -1,3 +1,15 @@
+### Тестирование добавления урока
+POST http://localhost:8000/lesson/register
+Content-Type: application/json
+
+{
+  "item_id": 1,
+  "date": "2222.11.10 4:20",
+  "lessonDuration": 40,
+  "teacher_id": 1,
+  "class_id": 1
+}
+
 ### Тестирование возможности смотреть расписание по названию предмета
 GET http://localhost:8000/lesson?item_name=Математика
 

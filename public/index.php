@@ -35,4 +35,4 @@ $httpResponse = (new App(
     static function (): Container {
         return Container::createFromArray(require __DIR__ . '/../config/dev/di.php');}
 
-))->dispatch(ServerRequestFactory::createFromGlobal($_SERVER));
+))->dispatch(ServerRequestFactory::createFromGlobal($_SERVER, file_get_contents('php://input')));

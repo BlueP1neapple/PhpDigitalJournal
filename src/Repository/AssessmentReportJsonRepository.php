@@ -23,7 +23,6 @@ use JsonException;
  */
 class AssessmentReportJsonRepository implements AssessmentReportRepositoryInterface
 {
-    //Свойство
     /**
      * Путь до файла с данными об предметах
      *
@@ -136,7 +135,13 @@ class AssessmentReportJsonRepository implements AssessmentReportRepositoryInterf
      */
     private ?array $reportIdToIndex = null;
 
-    //Методы
+    /**
+     * Текущий id
+     *
+     * @var int
+     */
+    private int $currentId;
+
 
     /**
      * Конструктор репризитория для поиска оценок. В качестве хранилища используеться json файлы

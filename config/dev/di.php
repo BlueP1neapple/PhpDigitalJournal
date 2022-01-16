@@ -8,6 +8,7 @@ use JoJoBizzareCoders\DigitalJournal\Controller\GetAssessmentReportCollectionCon
 use JoJoBizzareCoders\DigitalJournal\Controller\GetAssessmentReportController;
 use JoJoBizzareCoders\DigitalJournal\Controller\GetLessonCollectionController;
 use JoJoBizzareCoders\DigitalJournal\Controller\GetLessonController;
+use JoJoBizzareCoders\DigitalJournal\Controller\JournalAdministrationController;
 use JoJoBizzareCoders\DigitalJournal\Entity\AssessmentReportRepositoryInterface;
 use JoJoBizzareCoders\DigitalJournal\Entity\LessonRepositoryInterface;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\AppConfig;
@@ -26,6 +27,8 @@ use JoJoBizzareCoders\DigitalJournal\Infrastructure\Router\RouterInterface;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Router\UniversalRouter;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\View\DefaultRender;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\View\RenderInterface;
+use JoJoBizzareCoders\DigitalJournal\Infrastructure\ViewTemplate\PhtmlTemplate;
+use JoJoBizzareCoders\DigitalJournal\Infrastructure\ViewTemplate\ViewTemplateInterface;
 use JoJoBizzareCoders\DigitalJournal\Repository\AssessmentReportJsonRepository;
 use JoJoBizzareCoders\DigitalJournal\Repository\ClassJsonFileRepository;
 use JoJoBizzareCoders\DigitalJournal\Repository\ItemJsonFileRepository;
@@ -44,6 +47,17 @@ return [
         'regExpHandlers' => require __DIR__ . '/../regExp.handlers.php'
     ],
     'services' => [
+        ViewTemplateInterface::class =>[
+            'class' => PhtmlTemplate::class
+        ],
+        JournalAdministrationController::class => [
+            'args' => [
+                'logger' => LoggerInterface::class,
+                'searchAssessmentReportService' => SearchAssessmentReportService::class,
+                'viewTemplate' => ViewTemplateInterface::class,
+                'searchLessonService' => SearchLessonService::class
+            ]
+        ],
         CreateRegisterLessonController::class =>[
             'args' =>[
                 'newLessonService' => NewLessonService::class

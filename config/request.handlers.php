@@ -9,5 +9,7 @@ return [
 
     '/assessmentReport' => Controller\GetAssessmentReportCollectionController::class,
 
-    '/studentReport' => Controller\GetAssessmentReportCollectionController::class
+    '/studentReport' => Controller\GetAssessmentReportCollectionController::class,
+
+    '/journalAdministrationController' => Controller\JournalAdministrationController::class
 ];

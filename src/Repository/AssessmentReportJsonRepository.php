@@ -488,6 +488,8 @@ class AssessmentReportJsonRepository implements AssessmentReportRepositoryInterf
                         ->getItem()
                         ->getId()]
                         ->getName());
+            } else{
+                $ReportMeetSearchCriteria = true;
             }
             if (array_key_exists('item_description', $criteria)) {
                 $ReportMeetSearchCriteria = ($criteria['item_description']

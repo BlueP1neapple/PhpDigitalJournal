@@ -3,6 +3,7 @@
     namespace JoJoBizzareCoders\DigitalJournal\Infrastructure\Http;
 
     use JoJoBizzareCoders\DigitalJournal\Exception\RuntimeException;
+    use JoJoBizzareCoders\DigitalJournal\Exception\UnexpectedValueException;
     use Throwable;
 
     /**
@@ -45,6 +46,29 @@
                 $phrases = "Unknown error";
             }
             return new HttpResponse('1.1', $code, $phrases, ['Content-Type' => 'application/json'], $body);
+        }
+
+        /**
+         * Созадёт html ответ
+         *
+         * @param int $code
+         * @param string $html
+         * @return HttpResponse
+         */
+        public static function createHtmlResponse(int $code, string $html):HttpResponse
+        {
+            try {
+                if(false === array_key_exists($code,self::PHRASES)){
+                    throw new UnexpectedValueException('Некорректный код ответа');
+                }
+                $phrases = self::PHRASES[$code];
+            }catch (Throwable $e){
+                $html = '<h1>Unknown error</h1>';
+                $code = 520;
+                $phrases = 'Unknown error';
+            }
+
+            return new HttpResponse('1.1', $code, $phrases,['Content-Type' => 'text/html'], $html);
         }
 
     }

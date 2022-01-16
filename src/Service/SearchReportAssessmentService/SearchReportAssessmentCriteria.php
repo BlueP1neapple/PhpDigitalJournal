@@ -8,57 +8,55 @@
      */
     final class SearchReportAssessmentCriteria
     {
-        //Свойства
         /**
          * Название предмета
          *
          * @var string|null
          */
-        private ?string $itemName;
+        private ?string $itemName = null;
 
         /**
          * id оценки
          *
          * @var string|null
          */
-        private ?string $id;
+        private ?string $id = null;
 
         /**
          * Расшифровка название предмета
          *
          * @var string|null
          */
-        private ?string $itemDescription;
+        private ?string $itemDescription = null;
 
         /**
          * Дата проведения занятия
          *
          * @var string|null
          */
-        private ?string $lessonDate;
+        private ?string $lessonDate = null;
 
         /**
          * Имя студента
          *
          * @var string|null
          */
-        private ?string $studentSurname;
+        private ?string $studentSurname = null;
 
         /**
          * Фамилия студента
          *
          * @var string|null
          */
-        private ?string $studentName;
+        private ?string $studentName = null;
 
         /**
          * Отчество студента
          *
          * @var string|null
          */
-        private ?string $studentPatronymic;
+        private ?string $studentPatronymic = null;
 
-        //Методы
 
         /**
          * Возвращает название предмета
@@ -187,7 +185,7 @@
          */
         public function getStudentPatronymic(): ?string
         {
-            return $this->patronymic;
+            return $this->studentPatronymic;
         }
 
         /**
@@ -197,6 +195,7 @@
          */
         public function setStudentPatronymic(?string $patronymic): void
         {
-            $this->patronymic = $patronymic;
+            $this->studentPatronymic = $patronymic;
         }
+
     }

@@ -1,0 +1,78 @@
+<?php
+use JoJoBizzareCoders\DigitalJournal;
+/**
+ *
+ * @var DigitalJournal\Service\SearchReportAssessmentService\AssessmentReportDto[] $reports
+ * @var DigitalJournal\Service\SearchLessonService\LessonDto[] $lesson
+ * @var array $formValidationResult
+ */
+?>
+
+<h1>Journal Page</h1>
+
+
+<table>
+    <thead>
+    <tr>
+
+        <th>Название предмета</th>
+        <th>Дата проведения урока</th>
+        <th>Фамилия ученика</th>
+        <th>Оценка</th>
+    </tr>
+    </thead>
+    <tbody>
+        <tr>
+         <?php  foreach ($reports as $index => $report): ?>
+
+             <td><?php echo $report->getLesson()->getItem()->getName()?></td>
+             <td><?php echo $report->getLesson()->getDate()?></td>
+             <td><?php $fio = $report->getStudent()->getFio();
+                    $fioToArray = (array)$fio[0];
+                    echo $fioToArray["\0JoJoBizzareCoders\\DigitalJournal\\ValueObject\\Fio\0surname"];
+                 ?></td>
+             <td><?php echo $report->getMark()?></td>
+
+        </tr>
+        <?php  endforeach; ?>
+    </tbody>
+
+</table>
+
+<style>
+    table {
+        font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+        font-size: 14px;
+        text-align: left;
+        border-collapse: collapse;
+        border-radius: 20px;
+        box-shadow: 0 0 0 10px #F2906B;
+        color: #452F21;
+    }
+    th {
+        padding: 10px 8px;
+        background: white;
+    }
+    table th:first-child {
+        border-top-left-radius: 20px;
+    }
+    table th:last-child {
+        border-top-right-radius: 20px;
+    }
+    td {
+        border-top: 10px solid #F2906B;
+        padding: 8px;
+        background: white;
+    }
+    table td:first-child {
+        border-bottom-left-radius: 20px;
+    }
+    table td:last-child {
+        border-bottom-right-radius: 20px;
+    }
+</style>
+
+
+
+
+

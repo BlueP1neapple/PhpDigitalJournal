@@ -4,78 +4,76 @@
 
     final class SearchLessonServiceCriteria
     {
-        //Свойства
         /**
          * id занятий
          *
          * @var string|null
          */
-        private ?string $id;
+        private ?string $id = null;
 
         /**
          * Название предмета
          *
          * @var string|null
          */
-        private ?string $itemName;
+        private ?string $itemName = null;
 
         /**
          * Расщифровка названия предмета
          *
          * @var string|null
          */
-        private ?string $itemDescription;
+        private ?string $itemDescription = null;
 
         /**
          * Дата проведения занятий
          *
          * @var string|null
          */
-        private ?string $date;
+        private ?string $date = null;
 
         /**
          * Фамилия преподавателя
          *
          * @var string|null
          */
-        private ?string $teacherSurname;
+        private ?string $teacherSurname = null;
 
         /**
          * Имя преподавателя
          *
          * @var string|null
          */
-        private ?string $teacherName;
+        private ?string $teacherName = null;
 
         /**
          * Отчество преподавателя
          *
          * @var string|null
          */
-        private ?string $teacherPatronymic;
+        private ?string $teacherPatronymic = null;
 
         /**
          * Кабинет преподавателя
          *
          * @var int|null
          */
-        private ?int $teacherCabinet;
+        private ?int $teacherCabinet = null;
 
         /**
          * номер класса
          *
          * @var int|null
          */
-        private ?int $classNumber;
+        private ?int $classNumber = null;
 
         /**
          * Буква класса
          *
          * @var string|null
          */
-        private ?string $classLetter;
+        private ?string $classLetter = null;
 
-        //Методы
 
         /**
          * Возвращает ид занятий

@@ -10,8 +10,8 @@ use JoJoBizzareCoders\DigitalJournal\Repository\ClassJsonFileRepository;
 use JoJoBizzareCoders\DigitalJournal\Repository\ItemJsonFileRepository;
 use JoJoBizzareCoders\DigitalJournal\Repository\LessonJsonRepository;
 use JoJoBizzareCoders\DigitalJournal\Repository\TeacherJsonFileRepository;
-use JoJoBizzareCoders\DigitalJournal\Service\NewLessonService\NewLessonDto;
-use JoJoBizzareCoders\DigitalJournal\Service\NewLessonService\ResultRegistrationLessonDto;
+use JoJoBizzareCoders\DigitalJournal\Service\SearchLessonService\NewLessonDto;
+use JoJoBizzareCoders\DigitalJournal\Service\SearchLessonService\ResultRegistrationLessonDto;
 
 /**
  * Сервис регистрации нового урока

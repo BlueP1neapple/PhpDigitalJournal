@@ -1,6 +1,6 @@
 <?php
 
-namespace JoJoBizzareCoders\DigitalJournal\Service\NewLessonService;
+namespace JoJoBizzareCoders\DigitalJournal\Service\SearchLessonService;
 
 final class NewLessonDto
 {

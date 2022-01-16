@@ -6,14 +6,12 @@ namespace JoJoBizzareCoders\DigitalJournal\Infrastructure;
  */
 final class Autoloader
 {
-    // Свойства
     /**
      * Registered namespace
      * @var array
      */
     private array $registerNamespaces = [];
 
-    //Методы
 
     /**
      * Конструктор Автолодара

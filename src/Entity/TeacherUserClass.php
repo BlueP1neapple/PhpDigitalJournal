@@ -73,6 +73,7 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
          */
         public static function createFromArray(array $data): TeacherUserClass
         {
+
             $requiredFields=[
                 'id',
                 'fio',

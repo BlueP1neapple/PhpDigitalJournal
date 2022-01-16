@@ -7,8 +7,8 @@ use JoJoBizzareCoders\DigitalJournal\Infrastructure\Http\HttpResponse;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Http\ServerRequest;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Http\ServerResponseFactory;
 use JoJoBizzareCoders\DigitalJournal\Service\NewLessonService;
-use JoJoBizzareCoders\DigitalJournal\Service\NewLessonService\NewLessonDto;
-use JoJoBizzareCoders\DigitalJournal\Service\NewLessonService\ResultRegistrationLessonDto;
+use JoJoBizzareCoders\DigitalJournal\Service\SearchLessonService\NewLessonDto;
+use JoJoBizzareCoders\DigitalJournal\Service\SearchLessonService\ResultRegistrationLessonDto;
 use Throwable;
 
 class CreateRegisterLessonController implements ControllerInterface

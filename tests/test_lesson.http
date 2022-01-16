@@ -10,6 +10,12 @@ Content-Type: application/json
   "class_id": 1
 }
 
+> {%
+client.test("Тестирование возможности смотреть расписание по названию предмета",function (){
+   client.assert(response.status===201, "Проверяю код ответа. Ожидаю код 201. Фактический код: "+response.status);
+
+});
+%}
 ### Тестирование возможности смотреть расписание по названию предмета
 GET http://localhost:8000/lesson?item_name=Математика
 

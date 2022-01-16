@@ -23,8 +23,6 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
          */
         private string $email;
 
-
-
         /**
          * Конструктор класса учителя
          * @inheritdoc
@@ -110,4 +108,6 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
         {
             return $this->email;
         }
+
+
     }

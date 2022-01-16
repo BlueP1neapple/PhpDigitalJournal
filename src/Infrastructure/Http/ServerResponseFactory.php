@@ -11,18 +11,17 @@
      */
     class ServerResponseFactory
     {
-        // Свойства
         /**
          * Расщифровка http кодов
          */
         private const PHRASES = [
             200 => 'OK',
+            201 => 'Create',
             404 => 'Not found',
             500 => 'Internal Server Error',
             503 => 'Service Unavailable',
         ];
 
-        // Методы
 
         /**
          * Создаёт ответ с данными

@@ -3,13 +3,34 @@ use JoJoBizzareCoders\DigitalJournal;
 /**
  *
  * @var DigitalJournal\Service\SearchReportAssessmentService\AssessmentReportDto[] $reports
- * @var DigitalJournal\Service\SearchLessonService\LessonDto[] $lesson
+ * @var DigitalJournal\Service\SearchLessonService\LessonDto[] $lessons
+ * @var DigitalJournal\Service\SearchLessonService\TeacherDto[] $teachers
+ * @var DigitalJournal\Service\SearchLessonService\ItemDto[] $items
+ *
  * @var array $formValidationResult
  */
 ?>
 
 <h1>Journal Page</h1>
 
+<div>
+    <h3>Добавить урок</h3>
+    <form method="POST">
+        <input type="hidden" value="lesson" name="type"/>
+
+        <div>
+            <label for="lesson_item_id">Предмет</label>
+            <select name="item_id" id="lesson_item_id">
+                <?php //foreach ($items as $item):?>
+                    <option value="<?php //echo $item->getId() ?>">
+                        <?php // echo $item->getName()?>
+                    </option>
+                <?php // endforeach; ?>
+            </select>
+        </div>
+
+    </form>
+</div>
 
 <table>
     <thead>

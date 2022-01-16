@@ -55,7 +55,8 @@ return [
                 'logger' => LoggerInterface::class,
                 'searchAssessmentReportService' => SearchAssessmentReportService::class,
                 'viewTemplate' => ViewTemplateInterface::class,
-                'searchLessonService' => SearchLessonService::class
+                'searchLessonService' => SearchLessonService::class,
+                'newLessonService' => NewLessonService::class
             ]
         ],
         CreateRegisterLessonController::class =>[
@@ -79,6 +80,7 @@ return [
         TeacherJsonFileRepository::class =>[
             'args' => [
                 'pathToTeachers' => 'pathToTeachers',
+                'pathToItems' => 'pathToItems',
                 'dataLoader' => DataLoaderInterface::class
             ]
         ],

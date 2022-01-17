@@ -11,12 +11,15 @@ use JoJoBizzareCoders\DigitalJournal\Infrastructure\ViewTemplate\ViewTemplateInt
 use JoJoBizzareCoders\DigitalJournal\Repository\LessonJsonRepository;
 use JoJoBizzareCoders\DigitalJournal\Service\NewLessonService;
 use JoJoBizzareCoders\DigitalJournal\Service\SearchAssessmentReportService;
+use JoJoBizzareCoders\DigitalJournal\Service\SearchClassService;
+use JoJoBizzareCoders\DigitalJournal\Service\SearchItemService;
 use JoJoBizzareCoders\DigitalJournal\Service\SearchLessonService;
 use JoJoBizzareCoders\DigitalJournal\Service\SearchLessonService\NewLessonDto;
 use JoJoBizzareCoders\DigitalJournal\Service\SearchLessonService\SearchLessonServiceCriteria;
 use JoJoBizzareCoders\DigitalJournal\Service\SearchReportAssessmentService\SearchReportAssessmentCriteria;
 
 use JoJoBizzareCoders\DigitalJournal\Exception;
+use JoJoBizzareCoders\DigitalJournal\Service\SearchTeacherService;
 
 class JournalAdministrationController implements
     ControllerInterface
@@ -59,24 +62,54 @@ class JournalAdministrationController implements
     private NewLessonService $newLessonService;
 
     /**
+     * Сервис предметов
+     *
+     * @var SearchItemService
+     */
+    private SearchItemService $itemService;
+
+    /**
+     * Сервис учетелей
+     *
+     * @var SearchTeacherService
+     */
+    private SearchTeacherService $teacherService;
+
+    /**
+     * Сервис классов
+     *
+     * @var SearchClassService
+     */
+    private SearchClassService $classService;
+
+    /**
      * @param LoggerInterface $logger
      * @param SearchAssessmentReportService $reportService
      * @param ViewTemplateInterface $viewTemplate
      * @param SearchLessonService $lessonService
      * @param NewLessonService $newLessonService
+     * @param SearchItemService $itemService
+     * @param SearchTeacherService $teacherService
+     * @param SearchClassService $classService
      */
     public function __construct(
         LoggerInterface $logger,
         SearchAssessmentReportService $reportService,
         ViewTemplateInterface $viewTemplate,
         SearchLessonService $lessonService,
-        NewLessonService $newLessonService
+        NewLessonService $newLessonService,
+        SearchItemService $itemService,
+        SearchTeacherService $teacherService,
+        SearchClassService $classService
     ) {
         $this->logger = $logger;
         $this->reportService = $reportService;
         $this->viewTemplate = $viewTemplate;
         $this->lessonService = $lessonService;
         $this->newLessonService = $newLessonService;
+        $this->itemService = $itemService;
+        $this->teacherService = $teacherService;
+        $this->classService = $classService;
     }
 
 
@@ -95,10 +128,16 @@ class JournalAdministrationController implements
 
         $dtoReportCollection = $this->reportService->search(new SearchReportAssessmentCriteria());
         $dtoLessonCollection = $this->lessonService->search(new SearchLessonServiceCriteria());
+        $dtoItemCollection = $this->itemService->search();
+        $dtoTeacherCollection = $this->teacherService->search();
+        $dtoClassCollection = $this->classService->search();
 
         $viewData = [
             'reports' => $dtoReportCollection,
-            'lessons' => $dtoLessonCollection
+            'lessons' => $dtoLessonCollection,
+            'items' => $dtoItemCollection,
+            'teachers' => $dtoTeacherCollection,
+            'classes' => $dtoClassCollection
         ];
 
         $context = array_merge($viewData, $resultCreatingTextDocuments);
@@ -183,6 +222,7 @@ class JournalAdministrationController implements
         if(count($errClassId) > 0) {
             $errs = array_merge($errs, $errClassId);
         }
+        return $errs;
     }
 
     private function validateItemId(array $dataToCreate):array
@@ -195,7 +235,7 @@ class JournalAdministrationController implements
 
     private function validateDate(array $dataToCreate):array
     {
-        $err = [];
+        $errs = [];
         if(false === array_key_exists('date', $dataToCreate)){
             throw new Exception\RuntimeException('Нет даты');
         }elseif (false === is_string($dataToCreate['date'])){
@@ -210,7 +250,7 @@ class JournalAdministrationController implements
                 $errDate[] = 'Дата не может быть пустым';
             }
 
-            if(0 === count($errDate)){
+            if(0 !== count($errDate)){
                 $errs['date'] = $errDate;
             }
         }
@@ -221,6 +261,7 @@ class JournalAdministrationController implements
 
     private function validateLessonDuration(array $dataToCreate):array
     {
+        $errs = [];
         if(false === array_key_exists('lesson_duration', $dataToCreate)){
             throw new Exception\RuntimeException('Нет длительности урока');
         }elseif (false === is_string($dataToCreate['lesson_duration'])){
@@ -235,7 +276,7 @@ class JournalAdministrationController implements
                 $errDate[] = 'длительность не может быть пустым';
             }
 
-            if(0 === count($errDate)){
+            if(0 !== count($errDate)){
                 $errs['lesson_duration'] = $errDate;
             }
         }

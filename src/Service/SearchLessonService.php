@@ -18,7 +18,6 @@ use JoJoBizzareCoders\DigitalJournal\Service\SearchLessonService\TeacherDto;
  */
 class SearchLessonService
 {
-    //Свойства
     /**
      * Используемый логгер
      *
@@ -32,7 +31,6 @@ class SearchLessonService
      * @var LessonRepositoryInterface
      */
     private LessonRepositoryInterface $lessonRepository;
-    //Методы
 
     /**
      * Конструктор Сервиса поиска занятий

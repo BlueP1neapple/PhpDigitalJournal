@@ -36,7 +36,9 @@ class ClassJsonFileRepository implements ClassRepositoryInterface
      * @param string $patchToClass
      * @param DataLoaderInterface $dataLoader
      */
-    public function __construct(string $patchToClass, DataLoaderInterface $dataLoader)
+    public function __construct(
+        string $patchToClass,
+        DataLoaderInterface $dataLoader)
     {
         $this->patchToClass = $patchToClass;
         $this->dataLoader = $dataLoader;

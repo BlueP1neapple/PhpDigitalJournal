@@ -53,7 +53,10 @@ class TeacherJsonFileRepository implements TeacherRepositoryInterface
      * @param DataLoaderInterface $dataLoader
      * @param string $pathToItems
      */
-    public function __construct(string $pathToTeacher, string $pathToItems, DataLoaderInterface $dataLoader)
+    public function __construct(
+        string $pathToTeacher,
+        string $pathToItems,
+        DataLoaderInterface $dataLoader)
     {
         $this->pathToTeachers = $pathToTeacher;
         $this->dataLoader = $dataLoader;

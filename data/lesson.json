@@ -102,5 +102,13 @@
         "lessonDuration": 40,
         "teacher_id": 1,
         "class_id": 1
+    },
+    {
+        "id": 14,
+        "item_id": 1,
+        "date": "2022-01-04",
+        "lessonDuration": 40,
+        "teacher_id": 1,
+        "class_id": 1
     }
 ]

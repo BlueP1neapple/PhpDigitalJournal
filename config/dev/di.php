@@ -10,7 +10,10 @@ use JoJoBizzareCoders\DigitalJournal\Controller\GetLessonCollectionController;
 use JoJoBizzareCoders\DigitalJournal\Controller\GetLessonController;
 use JoJoBizzareCoders\DigitalJournal\Controller\JournalAdministrationController;
 use JoJoBizzareCoders\DigitalJournal\Entity\AssessmentReportRepositoryInterface;
+use JoJoBizzareCoders\DigitalJournal\Entity\ClassRepositoryInterface;
+use JoJoBizzareCoders\DigitalJournal\Entity\ItemRepositoryInterface;
 use JoJoBizzareCoders\DigitalJournal\Entity\LessonRepositoryInterface;
+use JoJoBizzareCoders\DigitalJournal\Entity\TeacherRepositoryInterface;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\AppConfig;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Console\Output\EchoOutput;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Console\Output\OutputInterface;
@@ -37,7 +40,10 @@ use JoJoBizzareCoders\DigitalJournal\Repository\TeacherJsonFileRepository;
 use JoJoBizzareCoders\DigitalJournal\Service\NewLessonService;
 use JoJoBizzareCoders\DigitalJournal\Service\NewReportService;
 use JoJoBizzareCoders\DigitalJournal\Service\SearchAssessmentReportService;
+use JoJoBizzareCoders\DigitalJournal\Service\SearchClassService;
+use JoJoBizzareCoders\DigitalJournal\Service\SearchItemService;
 use JoJoBizzareCoders\DigitalJournal\Service\SearchLessonService;
+use JoJoBizzareCoders\DigitalJournal\Service\SearchTeacherService;
 
 return [
     'instances' => [
@@ -47,6 +53,7 @@ return [
         'regExpHandlers' => require __DIR__ . '/../regExp.handlers.php'
     ],
     'services' => [
+
         ViewTemplateInterface::class =>[
             'class' => PhtmlTemplate::class
         ],
@@ -56,7 +63,10 @@ return [
                 'searchAssessmentReportService' => SearchAssessmentReportService::class,
                 'viewTemplate' => ViewTemplateInterface::class,
                 'searchLessonService' => SearchLessonService::class,
-                'newLessonService' => NewLessonService::class
+                'newLessonService' => NewLessonService::class,
+                'searchItemService' => SearchItemService::class,
+                'searchTeacherService' => SearchTeacherService::class,
+                'searchClassService' => SearchClassService::class
             ]
         ],
         CreateRegisterLessonController::class =>[
@@ -188,6 +198,47 @@ return [
             'args' => [
                 'logger' => LoggerInterface::class,
                 'assessmentReportRepository'=>AssessmentReportRepositoryInterface::class
+            ]
+        ],
+        SearchItemService::class =>[
+            'args' => [
+                'logger' => LoggerInterface::class,
+                'itemRepository' => ItemRepositoryInterface::class
+            ]
+        ],
+        SearchTeacherService::class => [
+            'args' => [
+                'logger' => LoggerInterface::class,
+                'teacherRepository' => TeacherRepositoryInterface::class
+            ]
+        ],
+        SearchClassService::class =>[
+            'args' =>[
+                'logger' => LoggerInterface::class,
+                'classRepository' => ClassRepositoryInterface::class
+            ]
+        ],
+        ClassRepositoryInterface::class =>[
+            'class' => ClassJsonFileRepository::class,
+            'args' =>[
+                'pathToClasses' => 'pathToClasses',
+                'dataLoader' => DataLoaderInterface::class,
+            ]
+        ],
+        TeacherRepositoryInterface::class => [
+            'class' => TeacherJsonFileRepository::class,
+            'args' => [
+                'pathToTeachers' => 'pathToTeachers',
+                'pathToItems' => 'pathToItems',
+                'dataLoader' => DataLoaderInterface::class,
+
+            ]
+        ],
+        ItemRepositoryInterface::class =>[
+            'class' => ItemJsonFileRepository::class,
+            'args' => [
+                'pathToItems' => 'pathToItems',
+                'dataLoader' => DataLoaderInterface::class
             ]
         ],
         LessonRepositoryInterface::class => [

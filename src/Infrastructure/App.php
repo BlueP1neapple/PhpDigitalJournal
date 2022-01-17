@@ -207,20 +207,6 @@ final class App
 
     }
 
-    //?Спросить про контроллер
-//    private function getController(string $urlPath): callable
-//    {
-//        if (is_callable($this->handlers[$urlPath])) {
-//            $controller = $this->handlers[$urlPath];
-//        } elseif (is_string($this->handlers[$urlPath]) && is_subclass_of($this->handlers[$urlPath],
-//                ControllerInterface::class, true)) {
-//            $controller = new $this->handlers[$urlPath]($this->serviceLocator);
-//        } else {
-//            throw new Exception\RuntimeException("Для $urlPath зарегистрирован некорректный обработчик.");
-//        }
-//        return $controller;
-//    }
-
     /**
      * Тихий рендер
      * @param HttpResponse $httpResponse

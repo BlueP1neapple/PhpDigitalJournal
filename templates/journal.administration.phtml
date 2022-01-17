@@ -6,32 +6,75 @@ use JoJoBizzareCoders\DigitalJournal;
  * @var DigitalJournal\Service\SearchLessonService\LessonDto[] $lessons
  * @var DigitalJournal\Service\SearchLessonService\TeacherDto[] $teachers
  * @var DigitalJournal\Service\SearchLessonService\ItemDto[] $items
+ * @var DigitalJournal\Service\SearchLessonService\ClassDto[] $classes
  *
  * @var array $formValidationResult
  */
 ?>
+<head>
+    <title>Journal Page</title>
+    <style>
+        body{
+            background: #ffce9e;
+        }
+    </style>
+</head>
 
-<h1>Journal Page</h1>
-
-<div>
+<div >
+<div class="inner">
+    <h1>Journal Page</h1>
     <h3>Добавить урок</h3>
     <form method="POST">
         <input type="hidden" value="lesson" name="type"/>
-
+        <input type="hidden" value="40" name="lesson_duration">
         <div>
             <label for="lesson_item_id">Предмет</label>
             <select name="item_id" id="lesson_item_id">
-                <?php //foreach ($items as $item):?>
-                    <option value="<?php //echo $item->getId() ?>">
-                        <?php // echo $item->getName()?>
+                <?php foreach ($items as $item):?>
+                    <option value="<?php echo $item->getId() ?>">
+                        <?php  echo $item->getName()?>
                     </option>
-                <?php // endforeach; ?>
+                <?php  endforeach; ?>
             </select>
         </div>
 
+        <div>
+            <label for="lesson_teacher_id">Учитель</label>
+            <select name="teacher_id" id="lesson_teacher_id">
+                <?php foreach ($teachers as $teacher):?>
+                    <option value="<?php echo $teacher->getId() ?>">
+                        <?php  echo $teacher->getFio()[0]->getName() . " " . $teacher->getFio()[0]->getSurname() ?>
+                    </option>
+                <?php  endforeach; ?>
+            </select>
+        </div>
+
+        <div>
+            <label for="lesson_class_id">Учитель</label>
+            <select name="class_id" id="lesson_class_id">
+                <?php foreach ($classes as $class):?>
+                    <option value="<?php echo $class->getId() ?>">
+                        <?php  echo $class->getNumber() . " " . $class->getLetter() ?>
+                    </option>
+                <?php  endforeach; ?>
+            </select>
+        </div>
+
+        <div>
+            <label for="lesson_date_id">Дата занятия</label>
+            <input type="date" id="lesson_date_id" name="date">
+
+        </div>
+        <div>
+            <label for="lesson_time_id">Время проведения</label>
+            <input type="time" id="lesson_time_id" name="time">
+        </div>
+        <div>
+            <input type="submit" value="Добавить"/>
+        </div>
     </form>
 </div>
-
+</div>
 <table>
     <thead>
     <tr>
@@ -48,10 +91,7 @@ use JoJoBizzareCoders\DigitalJournal;
 
              <td><?php echo $report->getLesson()->getItem()->getName()?></td>
              <td><?php echo $report->getLesson()->getDate()?></td>
-             <td><?php $fio = $report->getStudent()->getFio();
-                    $fioToArray = (array)$fio[0];
-                    echo $fioToArray["\0JoJoBizzareCoders\\DigitalJournal\\ValueObject\\Fio\0surname"];
-                 ?></td>
+             <td><?php echo $fio = $report->getStudent()->getFio()[0]->getSurname(); ?></td>
              <td><?php echo $report->getMark()?></td>
 
         </tr>
@@ -61,6 +101,13 @@ use JoJoBizzareCoders\DigitalJournal;
 </table>
 
 <style>
+
+    .inner {
+        margin-left: auto;
+        margin-right: auto;
+        width: 200px;
+        background: #fff9c0;
+    }
     table {
         font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
         font-size: 14px;
@@ -69,6 +116,9 @@ use JoJoBizzareCoders\DigitalJournal;
         border-radius: 20px;
         box-shadow: 0 0 0 10px #F2906B;
         color: #452F21;
+        margin-top: 10px;
+        margin-left: auto;
+        margin-right: auto;
     }
     th {
         padding: 10px 8px;

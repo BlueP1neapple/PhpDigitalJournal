@@ -1,6 +1,10 @@
 <?php
 
-    namespace JoJoBizzareCoders\DigitalJournal\Service\SearchLessonService;
+    namespace JoJoBizzareCoders\DigitalJournal\Service\SearchTeacherService;
+
+    use JoJoBizzareCoders\DigitalJournal\Service\SearchItemService\ItemDto;
+    use JoJoBizzareCoders\DigitalJournal\ValueObject\Address;
+    use JoJoBizzareCoders\DigitalJournal\ValueObject\Fio;
 
     /**
      * DTO объект специфицирующий результаты работы сервиса Учителей
@@ -17,9 +21,9 @@
         /**
          * Фио - преподавателя
          *
-         * @var FioDto
+         * @var Fio[]
          */
-        private FioDto $fio;
+        private array $fio;
 
         /**
          * Дата рождения преподавателя
@@ -38,9 +42,9 @@
         /**
          * Адресс проживания преподователя
          *
-         * @var AddressDto
+         * @var Address[]
          */
-        private AddressDto $address;
+        private array $address;
 
         /**
          * id предмета Преподавателя
@@ -63,24 +67,25 @@
          */
         private string $email;
 
+
         /**
          * Конструктор DTO объект специфицирующий результаты работы сервиса Учителей
          *
          * @param int $id - ид преподователя
-         * @param FioDto $fio - Фио - преподавателя
+         * @param Fio[] $fio - Фио - преподавателя
          * @param string $dateOfBirth - Дата рождения преподавателя
          * @param string $phone - Номер телефона преподавателя
-         * @param AddressDto $address - Адресс проживания преподователя
+         * @param Address[] $address - Адресс проживания преподователя
          * @param ItemDto $item - id предмета Преподавателя
          * @param int $cabinet - Кабинет преподавателя
          * @param string $email - email Преподавателя
          */
         public function __construct(
             int $id,
-            FioDto $fio,
+            array $fio,
             string $dateOfBirth,
             string $phone,
-            AddressDto $address,
+            array $address,
             ItemDto $item,
             int $cabinet,
             string $email
@@ -108,9 +113,9 @@
         /**
          * Возвращает Фио - преподавателя
          *
-         * @return FioDto
+         * @return Fio[]
          */
-        public function getFio(): FioDto
+        public function getFio(): array
         {
             return $this->fio;
         }
@@ -138,9 +143,9 @@
         /**
          * Возвращает Адресс проживания преподователя
          *
-         * @return AddressDto
+         * @return Address[]
          */
-        public function getAddress(): AddressDto
+        public function getAddress(): array
         {
             return $this->address;
         }

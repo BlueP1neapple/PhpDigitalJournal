@@ -8,7 +8,7 @@ interface ClassRepositoryInterface
      * Поиск сущностей по критериям
      *
      * @param array $criteria
-     * @return TeacherUserClass[]
+     * @return ClassClass[]
      */
     public function findBy(array $criteria):array;
 }

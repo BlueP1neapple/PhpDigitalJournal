@@ -30,7 +30,9 @@ class ItemJsonFileRepository implements ItemRepositoryInterface
      * @param string $patchToItem
      * @param DataLoaderInterface $dataLoader
      */
-    public function __construct(string $patchToItem, DataLoaderInterface $dataLoader)
+    public function __construct(
+        string $patchToItem,
+        DataLoaderInterface $dataLoader)
     {
         $this->patchToItems = $patchToItem;
         $this->dataLoader = $dataLoader;

@@ -19,7 +19,6 @@ use JoJoBizzareCoders\DigitalJournal\Service\SearchReportAssessmentService\Stude
  */
 class SearchAssessmentReportService
 {
-    // Свойства
     /**
      * Использвуемый логгер
      *
@@ -34,7 +33,6 @@ class SearchAssessmentReportService
      */
     private AssessmentReportRepositoryInterface $assessmentReportRepository;
 
-    //Методы
 
     /**
      * Конструктор Сервиса поиска оценок

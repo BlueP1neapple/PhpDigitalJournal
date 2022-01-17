@@ -172,12 +172,13 @@ class FindAssessmentReport implements CommandInterface
         ];
     }
 
-    public static function getShortOption(): string
+
+    public static function getShortOptions(): string
     {
         return '';
     }
 
-    public static function getLongOption(): array
+    public static function getLongOptions(): array
     {
         return [
             'id:',

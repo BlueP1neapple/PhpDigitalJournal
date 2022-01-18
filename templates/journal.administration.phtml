@@ -99,6 +99,27 @@ use JoJoBizzareCoders\DigitalJournal;
     </tbody>
 
 </table>
+Уроки
+<table>
+    <thead>
+    <tr>
+        <th>Предмет</th>
+        <th>Преподаватель</th>
+        <th>Дата занятия</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <?php foreach ($lessons as $index => $lesson): ?>
+            <td><?php echo $lesson->getItem()->getName()?></td>
+            <td><?php //echo $fio = $lesson->getTeacher()->getFio()[0]->getSurname();?></td>
+            <td><?php echo $lesson->getDate()?></td>
+
+    </tr>
+    <?php endforeach; ?>
+    </tbody>
+</table>
+
 
 <style>
 

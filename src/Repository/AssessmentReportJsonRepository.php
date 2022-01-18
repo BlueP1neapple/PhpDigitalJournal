@@ -136,6 +136,13 @@ class AssessmentReportJsonRepository implements AssessmentReportRepositoryInterf
     private ?array $reportIdToIndex = null;
 
     /**
+     * Данные об занятиях
+     *
+     * @var array|null
+     */
+    private ?array $reportIdToInfo = null;
+
+    /**
      * Текущий id
      *
      * @var int
@@ -581,4 +588,71 @@ class AssessmentReportJsonRepository implements AssessmentReportRepositoryInterf
             'mark'=>$entity->getMark()
         ];
     }
+
+    /**
+     * Получить сделуйщий айди
+     *
+     * @return int
+     * @throws JsonException
+     */
+    public function nextId(): int
+    {
+        $this->LoadDataReport();
+        ++$this->currentId;
+        return $this->currentId;
+    }
+
+    /**
+     * Загрузка данных о Занятиях из Файла в массив
+     *
+     * @return array
+     * @throws JsonException
+     */
+    private function LoadDataReport(): array
+    {
+        if (null === $this->reportIdToInfo) {
+            $this->reportIdToInfo = $this->dataLoader->LoadDate($this->pathToAssessmentReport);
+            $this->reportIdToIndex = array_combine(
+                array_map(
+                    static function (array $v) {
+                        return $v['id'];
+                    },
+                    $this->reportIdToInfo
+                ),
+                array_keys($this->reportIdToInfo)
+            );
+
+            $this->currentId = max(
+                array_map(
+                    static function(array $v){ return $v['id'];},
+                    $this->reportIdToInfo
+                )
+            );
+
+        }
+        return $this->reportIdToInfo;
+    }
+
+    /**
+     *  Добавление
+     *
+     * @param ReportClass $entity
+     * @return ReportClass
+     * @throws JsonException
+     */
+    public function add(ReportClass $entity): ReportClass
+    {
+        $object = $this->buildJsonData($entity);
+        $this->reportIdToInfo[] = $object;
+        $data = $this->reportIdToInfo;
+        $this->reportIdToIndex[$entity->getId()] = array_key_last($this->reportIdToInfo);
+        $file = $this->pathToAssessmentReport;
+
+        $jsonStr = json_encode($data, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        file_put_contents($file, $jsonStr);
+        return $entity;
+
+    }
+
+
 }

@@ -13,6 +13,7 @@ use JoJoBizzareCoders\DigitalJournal\Entity\AssessmentReportRepositoryInterface;
 use JoJoBizzareCoders\DigitalJournal\Entity\ClassRepositoryInterface;
 use JoJoBizzareCoders\DigitalJournal\Entity\ItemRepositoryInterface;
 use JoJoBizzareCoders\DigitalJournal\Entity\LessonRepositoryInterface;
+use JoJoBizzareCoders\DigitalJournal\Entity\StudentRepositoryInterface;
 use JoJoBizzareCoders\DigitalJournal\Entity\TeacherRepositoryInterface;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\AppConfig;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Console\Output\EchoOutput;
@@ -36,6 +37,7 @@ use JoJoBizzareCoders\DigitalJournal\Repository\AssessmentReportJsonRepository;
 use JoJoBizzareCoders\DigitalJournal\Repository\ClassJsonFileRepository;
 use JoJoBizzareCoders\DigitalJournal\Repository\ItemJsonFileRepository;
 use JoJoBizzareCoders\DigitalJournal\Repository\LessonJsonRepository;
+use JoJoBizzareCoders\DigitalJournal\Repository\StudentJsonRepository;
 use JoJoBizzareCoders\DigitalJournal\Repository\TeacherJsonFileRepository;
 use JoJoBizzareCoders\DigitalJournal\Service\NewLessonService;
 use JoJoBizzareCoders\DigitalJournal\Service\NewReportService;
@@ -43,6 +45,7 @@ use JoJoBizzareCoders\DigitalJournal\Service\SearchAssessmentReportService;
 use JoJoBizzareCoders\DigitalJournal\Service\SearchClassService;
 use JoJoBizzareCoders\DigitalJournal\Service\SearchItemService;
 use JoJoBizzareCoders\DigitalJournal\Service\SearchLessonService;
+use JoJoBizzareCoders\DigitalJournal\Service\SearchStudentService;
 use JoJoBizzareCoders\DigitalJournal\Service\SearchTeacherService;
 
 return [
@@ -66,7 +69,9 @@ return [
                 'newLessonService' => NewLessonService::class,
                 'searchItemService' => SearchItemService::class,
                 'searchTeacherService' => SearchTeacherService::class,
-                'searchClassService' => SearchClassService::class
+                'searchClassService' => SearchClassService::class,
+                'newReportService' => NewReportService::class,
+                'searchStudentService' => SearchStudentService::class
             ]
         ],
         CreateRegisterLessonController::class =>[
@@ -77,6 +82,13 @@ return [
         CreateRegisterAssessmentReportController::class =>[
             'args' => [
                 'newReportService' => NewReportService::class
+            ]
+        ],
+        NewReportService::class => [
+            'args'=>[
+                'assessmentReportRepository'=>AssessmentReportRepositoryInterface::class,
+                'lessonRepository'=>LessonRepositoryInterface::class,
+                'studentRepository'=>StudentRepositoryInterface::class
             ]
         ],
         NewLessonService::class => [
@@ -106,6 +118,16 @@ return [
                 'dataLoader' => DataLoaderInterface::class
             ]
         ],
+        StudentRepositoryInterface::class=>[
+            'class'=>StudentJsonRepository::class,
+            'args'=>[
+                'pathToStudents'=>'pathToStudents',
+                'pathToClasses'=>'pathToClasses',
+                'pathToParents'=>'pathToParents',
+                'dataLoader'=>DataLoaderInterface::class
+            ]
+        ],
+
         GetAssessmentReportCollectionController::class => [
             'args' => [
                 'logger' => LoggerInterface::class,
@@ -187,6 +209,11 @@ return [
         ],
         DataLoaderInterface::class => [
             'class' => JsonDataLoader::class
+        ],
+        SearchStudentService::class =>[
+            'args' => [
+                'studentRepository' => StudentRepositoryInterface::class
+            ]
         ],
         SearchLessonService::class => [
             'args' => [

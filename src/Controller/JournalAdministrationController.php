@@ -10,15 +10,18 @@ use JoJoBizzareCoders\DigitalJournal\Infrastructure\Logger\LoggerInterface;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\ViewTemplate\ViewTemplateInterface;
 use JoJoBizzareCoders\DigitalJournal\Repository\LessonJsonRepository;
 use JoJoBizzareCoders\DigitalJournal\Service\NewLessonService;
+use JoJoBizzareCoders\DigitalJournal\Service\NewReportService;
 use JoJoBizzareCoders\DigitalJournal\Service\SearchAssessmentReportService;
 use JoJoBizzareCoders\DigitalJournal\Service\SearchClassService;
 use JoJoBizzareCoders\DigitalJournal\Service\SearchItemService;
 use JoJoBizzareCoders\DigitalJournal\Service\SearchLessonService;
 use JoJoBizzareCoders\DigitalJournal\Service\SearchLessonService\NewLessonDto;
 use JoJoBizzareCoders\DigitalJournal\Service\SearchLessonService\SearchLessonServiceCriteria;
+use JoJoBizzareCoders\DigitalJournal\Service\SearchReportAssessmentService\NewAssessmentReportDto;
 use JoJoBizzareCoders\DigitalJournal\Service\SearchReportAssessmentService\SearchReportAssessmentCriteria;
 
 use JoJoBizzareCoders\DigitalJournal\Exception;
+use JoJoBizzareCoders\DigitalJournal\Service\SearchStudentService;
 use JoJoBizzareCoders\DigitalJournal\Service\SearchTeacherService;
 
 class JournalAdministrationController implements
@@ -83,6 +86,20 @@ class JournalAdministrationController implements
     private SearchClassService $classService;
 
     /**
+     * Сервис по созданию репортов
+     *
+     * @var NewReportService
+     */
+    private NewReportService $newReportService;
+
+    /**
+     * Поиск студентов
+     *
+     * @var SearchStudentService
+     */
+    private SearchStudentService $searchStudentService;
+
+    /**
      * @param LoggerInterface $logger
      * @param SearchAssessmentReportService $reportService
      * @param ViewTemplateInterface $viewTemplate
@@ -91,6 +108,8 @@ class JournalAdministrationController implements
      * @param SearchItemService $itemService
      * @param SearchTeacherService $teacherService
      * @param SearchClassService $classService
+     * @param NewReportService $newReportService
+     * @param SearchStudentService $searchStudentService
      */
     public function __construct(
         LoggerInterface $logger,
@@ -100,7 +119,9 @@ class JournalAdministrationController implements
         NewLessonService $newLessonService,
         SearchItemService $itemService,
         SearchTeacherService $teacherService,
-        SearchClassService $classService
+        SearchClassService $classService,
+        NewReportService $newReportService,
+        SearchStudentService $searchStudentService
     ) {
         $this->logger = $logger;
         $this->reportService = $reportService;
@@ -110,6 +131,8 @@ class JournalAdministrationController implements
         $this->itemService = $itemService;
         $this->teacherService = $teacherService;
         $this->classService = $classService;
+        $this->newReportService = $newReportService;
+        $this->searchStudentService = $searchStudentService;
     }
 
 
@@ -131,13 +154,15 @@ class JournalAdministrationController implements
         $dtoItemCollection = $this->itemService->search();
         $dtoTeacherCollection = $this->teacherService->search();
         $dtoClassCollection = $this->classService->search();
+        $dtoStudentCollection = $this->searchStudentService->search();
 
         $viewData = [
             'reports' => $dtoReportCollection,
             'lessons' => $dtoLessonCollection,
             'items' => $dtoItemCollection,
             'teachers' => $dtoTeacherCollection,
-            'classes' => $dtoClassCollection
+            'classes' => $dtoClassCollection,
+            'students' => $dtoStudentCollection
         ];
 
         $context = array_merge($viewData, $resultCreatingTextDocuments);
@@ -174,6 +199,13 @@ class JournalAdministrationController implements
                 $this->createLesson($dataToCreate);
             }
 
+        } elseif ('report'){
+            $result['formValidationResult']['report'] = $this->validateReport($dataToCreate);
+
+            if(0 === count($result['formValidationResult']['report'])){
+                $this->createReport($dataToCreate);
+            }
+
         }
         else{
             throw new Exception\RuntimeException('Неизвестный тип тексового документа');
@@ -182,6 +214,27 @@ class JournalAdministrationController implements
         return [];
     }
 
+    /**
+     * Функция для создания реперта
+     *
+     * @param array $dataToCreate
+     */
+    private function createReport(array $dataToCreate):void
+    {
+        $this->newReportService->registerAssessmentReport(
+            new NewAssessmentReportDto(
+                (int)$dataToCreate['lesson_id'],
+                (int)$dataToCreate['student_id'],
+                (int)$dataToCreate['mark']
+            )
+        );
+    }
+
+    /**
+     * Функция для создания урока
+     *
+     * @param array $dataToCreate
+     */
     private function createLesson(array $dataToCreate):void
     {
         $this->newLessonService->registerLesson(
@@ -309,6 +362,11 @@ class JournalAdministrationController implements
         if(false === array_key_exists('class_id', $dataToCreate)){
             throw new Exception\RuntimeException('Нет id класса');
         }
+        return [];
+    }
+
+    private function validateReport(array $dataToCreate):array
+    {
         return [];
     }
 

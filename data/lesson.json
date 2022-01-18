@@ -62,5 +62,13 @@
         "lessonDuration": 40,
         "teacher_id": 2,
         "class_id": 1
+    },
+    {
+        "id": 9,
+        "item_id": 1,
+        "date": "2222.11.10 4:20",
+        "lessonDuration": 40,
+        "teacher_id": 1,
+        "class_id": 1
     }
 ]

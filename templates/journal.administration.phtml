@@ -1,5 +1,7 @@
 <?php
+
 use JoJoBizzareCoders\DigitalJournal;
+
 /**
  *
  * @var DigitalJournal\Service\SearchReportAssessmentService\AssessmentReportDto[] $reports
@@ -7,6 +9,7 @@ use JoJoBizzareCoders\DigitalJournal;
  * @var DigitalJournal\Service\SearchLessonService\TeacherDto[] $teachers
  * @var DigitalJournal\Service\SearchLessonService\ItemDto[] $items
  * @var DigitalJournal\Service\SearchLessonService\ClassDto[] $classes
+ * @var DigitalJournal\Service\SearchReportAssessmentService\StudentDto[] $students
  *
  * @var array $formValidationResult
  */
@@ -14,72 +17,83 @@ use JoJoBizzareCoders\DigitalJournal;
 <head>
     <title>Journal Page</title>
     <style>
-        body{
+        body {
             background: #ffce9e;
         }
     </style>
 </head>
 
-<div >
-<div class="inner">
-    <h1>Journal Page</h1>
-    <h3>Добавить урок</h3>
-    <form method="POST">
-        <input type="hidden" value="lesson" name="type"/>
-        <input type="hidden" value="40" name="lesson_duration">
-        <div>
-            <label for="lesson_item_id">Предмет</label>
-            <select name="item_id" id="lesson_item_id">
-                <?php foreach ($items as $item):?>
-                    <option value="<?php echo $item->getId() ?>">
-                        <?php  echo $item->getName()?>
-                    </option>
-                <?php  endforeach; ?>
-            </select>
-        </div>
+<div>
+    <div class="inner">
+        <h1>Journal Page</h1>
+        <h3>Добавить урок</h3>
+        <form method="POST">
+            <input type="hidden" value="lesson" name="type"/>
+            <input type="hidden" value="40" name="lesson_duration">
+            <div>
+                <label for="lesson_item_id">Предмет</label>
+                <select name="item_id" id="lesson_item_id">
+                    <?php
+                    foreach ($items as $item): ?>
+                        <option value="<?php
+                        echo $item->getId() ?>">
+                            <?php
+                            echo $item->getName() ?>
+                        </option>
+                    <?php
+                    endforeach; ?>
+                </select>
+            </div>
 
-        <div>
-            <label for="lesson_teacher_id">Учитель</label>
-            <select name="teacher_id" id="lesson_teacher_id">
-                <?php foreach ($teachers as $teacher):?>
-                    <option value="<?php echo $teacher->getId() ?>">
-                        <?php  echo $teacher->getFio()[0]->getName() . " " . $teacher->getFio()[0]->getSurname() ?>
-                    </option>
-                <?php  endforeach; ?>
-            </select>
-        </div>
+            <div>
+                <label for="lesson_teacher_id">Учитель</label>
+                <select name="teacher_id" id="lesson_teacher_id">
+                    <?php
+                    foreach ($teachers as $teacher): ?>
+                        <option value="<?php
+                        echo $teacher->getId() ?>">
+                            <?php
+                            echo $teacher->getFio()[0]->getName() . " " . $teacher->getFio()[0]->getSurname() ?>
+                        </option>
+                    <?php
+                    endforeach; ?>
+                </select>
+            </div>
 
-        <div>
-            <label for="lesson_class_id">Учитель</label>
-            <select name="class_id" id="lesson_class_id">
-                <?php foreach ($classes as $class):?>
-                    <option value="<?php echo $class->getId() ?>">
-                        <?php  echo $class->getNumber() . " " . $class->getLetter() ?>
-                    </option>
-                <?php  endforeach; ?>
-            </select>
-        </div>
+            <div>
+                <label for="lesson_class_id">Учитель</label>
+                <select name="class_id" id="lesson_class_id">
+                    <?php
+                    foreach ($classes as $class): ?>
+                        <option value="<?php
+                        echo $class->getId() ?>">
+                            <?php
+                            echo $class->getNumber() . " " . $class->getLetter() ?>
+                        </option>
+                    <?php
+                    endforeach; ?>
+                </select>
+            </div>
 
-        <div>
-            <label for="lesson_date_id">Дата занятия</label>
-            <input type="date" id="lesson_date_id" name="date">
+            <div>
+                <label for="lesson_date_id">Дата занятия</label>
+                <input type="date" id="lesson_date_id" name="date">
 
-        </div>
-        <div>
-            <label for="lesson_time_id">Время проведения</label>
-            <input type="time" id="lesson_time_id" name="time">
-        </div>
-        <div>
-            <input type="submit" value="Добавить"/>
-        </div>
-    </form>
+            </div>
+            <div>
+                <label for="lesson_time_id">Время проведения</label>
+                <input type="time" id="lesson_time_id" name="time">
+            </div>
+            <div>
+                <input type="submit" value="Добавить"/>
+            </div>
+        </form>
+    </div>
 </div>
-</div>
-
 
 
 <div class="inner">
-<h1>Уроки</h1>
+    <h1>Уроки</h1>
 </div>
 <table>
     <thead>
@@ -93,18 +107,76 @@ use JoJoBizzareCoders\DigitalJournal;
     </thead>
     <tbody>
     <tr>
-        <?php foreach ($lessons as $index => $lesson): ?>
-            <td><?php echo $lesson->getItem()->getName()?></td>
-            <td><?php echo $fio = $lesson->getTeacher()->getFio()[0]->getSurname();?></td>
-            <td><?php echo $lesson->getClass()->getLetter() . " " . $lesson->getClass()->getNumber() ?></td>
-            <td><?php echo $lesson->getDate()?></td>
+        <?php
+        foreach ($lessons
+
+        as $index => $lesson): ?>
+        <td><?php
+            echo $lesson->getItem()->getName() ?></td>
+        <td><?php
+            echo $fio = $lesson->getTeacher()->getFio()[0]->getSurname(); ?></td>
+        <td><?php
+            echo $lesson->getClass()->getLetter() . " " . $lesson->getClass()->getNumber() ?></td>
+        <td><?php
+            echo $lesson->getDate() ?></td>
 
     </tr>
-    <?php endforeach; ?>
+    <?php
+    endforeach; ?>
     </tbody>
 </table>
-
-
+<div>
+    <div class="inner">
+        <form method="POST">
+            <input type="hidden" value="report" name="type"/>
+            <div>
+                <div>
+                    <label for="report_lesson_id">Урок</label>
+                <select name="lesson_id" id="report_lesson_id">
+                    <?php foreach ($lessons as $lesson): ?>
+                        <option value="<?php
+                        echo $lesson->getId()?>">
+                            <?php
+                            echo $lesson->getItem()->getName() . " " .
+                                $lesson->getTeacher()->getFio()[0]->getSurname() . " " .
+                                $lesson->getDate()
+                            ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+                </div>
+                <div>
+                <label for="report_student_id">Ученик</label>
+                <select name="student_id" id="report_student_id">
+                    <?php foreach ($students as $student): ?>
+                        <option value="<?php
+                        echo $student->getId()?>">
+                            <?php
+                            echo $student->getFio()[0]['surname'] . " " .
+                                $student->getFio()[0]['name'] . " " .
+                                $student->getClass()->getLetter() . " " .
+                                $student->getClass()->getNumber() . " "
+                            ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+                </div>
+                <div>
+                    <label for="report_mark_id">Оценка</label>
+                    <select name="mark" id="report_mark_id">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                </div>
+            <div>
+                <input type="submit" value="Добавить"/>
+            </div>
+        </form>
+    </div>
+</div>
 <div class="inner">
     <h1>Оценки</h1>
 </div>
@@ -119,15 +191,23 @@ use JoJoBizzareCoders\DigitalJournal;
     </thead>
     <tbody>
     <tr>
-        <?php  foreach ($reports as $index => $report): ?>
+        <?php
+        foreach ($reports
 
-        <td><?php echo $report->getLesson()->getItem()->getName()?></td>
-        <td><?php echo $report->getLesson()->getDate()?></td>
-        <td><?php echo $fio = $report->getStudent()->getFio()[0]->getSurname(); ?></td>
-        <td><?php echo $report->getMark()?></td>
+        as $index => $report): ?>
+
+        <td><?php
+            echo $report->getLesson()->getItem()->getName() ?></td>
+        <td><?php
+            echo $report->getLesson()->getDate() ?></td>
+        <td><?php
+            echo $fio = $report->getStudent()->getFio()[0]->getSurname(); ?></td>
+        <td><?php
+            echo $report->getMark() ?></td>
 
     </tr>
-    <?php  endforeach; ?>
+    <?php
+    endforeach; ?>
     </tbody>
 </table>
 
@@ -135,12 +215,14 @@ use JoJoBizzareCoders\DigitalJournal;
 <style>
 
     .inner {
+        margin-top: 30px;
         margin-left: auto;
         margin-right: auto;
-        width: 200px;
+        width: 800px;
         background: #fff9c0;
         text-align: center;
     }
+
     table {
         font-size: 14px;
         text-align: left;
@@ -152,24 +234,30 @@ use JoJoBizzareCoders\DigitalJournal;
         margin-left: auto;
         margin-right: auto;
     }
+
     th {
         padding: 10px 8px;
         background: white;
     }
+
     table th:first-child {
         border-top-left-radius: 20px;
     }
+
     table th:last-child {
         border-top-right-radius: 20px;
     }
+
     td {
         border-top: 10px solid #F2906B;
         padding: 8px;
         background: white;
     }
+
     table td:first-child {
         border-bottom-left-radius: 20px;
     }
+
     table td:last-child {
         border-bottom-right-radius: 20px;
     }

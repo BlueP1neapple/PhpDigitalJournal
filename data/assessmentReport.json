@@ -46,5 +46,17 @@
         "lesson_id": 1,
         "student_id": 5,
         "mark": 5
+    },
+    {
+        "id": 9,
+        "lesson_id": 1,
+        "student_id": 1,
+        "mark": 2
+    },
+    {
+        "id": 10,
+        "lesson_id": 4,
+        "student_id": 5,
+        "mark": 1
     }
 ]

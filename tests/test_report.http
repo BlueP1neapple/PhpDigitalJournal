@@ -1,3 +1,23 @@
+### Тестирование регистрации новой оценки
+POST http://localhost:8000/assessmentReport/register
+Content-Type: application/json
+
+{
+  "lesson_id": 1,
+  "student_id": 1,
+  "mark": 2
+}
+
+> {%
+client.test("Тестирование регистрации новой оценки", function()
+{
+  client.assert(response.status=== 201, "Проверяю код ответа. Ожидаю код 201. Фактическое значение: " + response.status);
+  client.assert(response.contentType.mimeType==="application/json", "Ожидаю application/type фактически " + response.contentType.mimeType);
+  client.assert(response.body.hasOwnProperty("id"), "Отсутвует id новой оценки");
+});
+%}
+
+
 ### Тестирование поиска оценок в дневнике по Названию предмета
 GET http://localhost:8000/assessmentReport?item_name=Математика
 

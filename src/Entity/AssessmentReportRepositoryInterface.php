@@ -16,6 +16,13 @@ interface AssessmentReportRepositoryInterface
     public function findBy(array $criteria):array;
 
     /**
+     * Получить id
+     *
+     * @return int
+     */
+    public function nextId():int;
+
+    /**
      * Сохранить сущность занятия
      *
      * @param ReportClass $entity - сущность занятия

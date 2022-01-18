@@ -403,7 +403,7 @@ class LessonJsonRepository implements LessonRepositoryInterface
                         ->getLetter());
             }
             if (array_key_exists('id', $criteria)) {
-                $LessonMeetSearchCriteria = $criteria['id'] === (string)$lesson['id'];
+                $LessonMeetSearchCriteria = (int)$criteria['id'] === (int)$lesson['id'];
             }
 
             if ($LessonMeetSearchCriteria) {

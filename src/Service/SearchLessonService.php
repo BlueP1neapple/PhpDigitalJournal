@@ -93,7 +93,7 @@ class SearchLessonService
         );
         $teacherDto = new TeacherDto(
             $teacher->getId(),
-            $teacherFioDto,
+            $teacher->getFio(),
             $teacher->getDateOfBirth(),
             $teacher->getPhone(),
             $teacherAddressDto,

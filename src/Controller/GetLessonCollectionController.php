@@ -158,9 +158,9 @@ class GetLessonCollectionController implements ControllerInterface
         $jsonData['teacher'] = [
             'id' => $teacherDto->getId(),
             'fio' => [
-                'surname'=>$teacherFioDto->getSurname(),
-                'name'=>$teacherFioDto->getName(),
-                'patronymic'=>$teacherFioDto->getPatronymic()
+                'surname'=>$teacherFioDto[0]->getSurname(),
+                'name'=>$teacherFioDto[0]->getName(),
+                'patronymic'=>$teacherFioDto[0]->getPatronymic()
             ],
             'dateOfBirth' => $teacherDto->getDateOfBirth(),
             'phone' => $teacherDto->getPhone(),

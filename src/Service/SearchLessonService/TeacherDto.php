@@ -17,9 +17,9 @@
         /**
          * Фио - преподавателя
          *
-         * @var FioDto
+         * @var array
          */
-        private FioDto $fio;
+        private array $fio;
 
         /**
          * Дата рождения преподавателя
@@ -67,7 +67,7 @@
          * Конструктор DTO объект специфицирующий результаты работы сервиса Учителей
          *
          * @param int $id - ид преподователя
-         * @param FioDto $fio - Фио - преподавателя
+         * @param array $fio - Фио - преподавателя
          * @param string $dateOfBirth - Дата рождения преподавателя
          * @param string $phone - Номер телефона преподавателя
          * @param AddressDto $address - Адресс проживания преподователя
@@ -77,7 +77,7 @@
          */
         public function __construct(
             int $id,
-            FioDto $fio,
+            array $fio,
             string $dateOfBirth,
             string $phone,
             AddressDto $address,
@@ -108,9 +108,9 @@
         /**
          * Возвращает Фио - преподавателя
          *
-         * @return FioDto
+         * @return array
          */
-        public function getFio(): FioDto
+        public function getFio(): array
         {
             return $this->fio;
         }

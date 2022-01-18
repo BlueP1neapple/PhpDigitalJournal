@@ -187,12 +187,20 @@ class JournalAdministrationController implements
         $this->newLessonService->registerLesson(
                 new NewLessonDto(
                     (int)$dataToCreate['item_id'],
-                    $dataToCreate['date'],
+                    $this->createDate($dataToCreate),
                     (int)$dataToCreate['lesson_duration'],
                     (int)$dataToCreate['teacher_id'],
                     (int)$dataToCreate['class_id'],
                 )
         );
+    }
+
+    private function createDate(array $dataToCreate):string
+    {
+        $date = $dataToCreate['date'];
+        $time = $dataToCreate['time'];
+
+        return date("Y.m.d", strtotime($date)) . " " . $time;
     }
 
     private function validateLesson(array $dataToCreate):array
@@ -236,23 +244,25 @@ class JournalAdministrationController implements
     private function validateDate(array $dataToCreate):array
     {
         $errs = [];
-        if(false === array_key_exists('date', $dataToCreate)){
+        if (false === array_key_exists('date', $dataToCreate)) {
             throw new Exception\RuntimeException('Нет даты');
-        }elseif (false === is_string($dataToCreate['date'])){
+        }
+
+        if(false === is_string($dataToCreate['date'])) {
             throw new Exception\RuntimeException('Данные о дате должны быть строкой');
-        }else{
-            $DateLength = strlen(trim($dataToCreate['date']));
-            $errDate = [];
+        }
 
-            if($DateLength > 250){
-                $errDate[] = 'Дата не может быть длиннее 250 символов';
-            } elseif (0 === $DateLength){
-                $errDate[] = 'Дата не может быть пустым';
-            }
+        $DateLength = strlen(trim($dataToCreate['date']));
+        $errDate = [];
 
-            if(0 !== count($errDate)){
-                $errs['date'] = $errDate;
-            }
+        if($DateLength > 250){
+            $errDate[] = 'Дата не может быть длиннее 250 символов';
+        } elseif (0 === $DateLength){
+            $errDate[] = 'Дата не может быть пустым';
+        }
+
+        if(0 !== count($errDate)){
+            $errs['date'] = $errDate;
         }
 
         return $errs;
@@ -262,23 +272,25 @@ class JournalAdministrationController implements
     private function validateLessonDuration(array $dataToCreate):array
     {
         $errs = [];
-        if(false === array_key_exists('lesson_duration', $dataToCreate)){
+        if (false === array_key_exists('lesson_duration', $dataToCreate)) {
             throw new Exception\RuntimeException('Нет длительности урока');
-        }elseif (false === is_string($dataToCreate['lesson_duration'])){
+        }
+
+        if(false === is_string($dataToCreate['lesson_duration'])) {
             throw new Exception\RuntimeException('Данные о длительности должны быть строкой');
-        }else{
-            $durationLength = strlen(trim($dataToCreate['lesson_duration']));
-            $errDate = [];
+        }
 
-            if($durationLength > 250){
-                $errDate[] = 'длительность не может быть длиннее 250 символов';
-            } elseif (0 === $durationLength){
-                $errDate[] = 'длительность не может быть пустым';
-            }
+        $durationLength = strlen(trim($dataToCreate['lesson_duration']));
+        $errDate = [];
 
-            if(0 !== count($errDate)){
-                $errs['lesson_duration'] = $errDate;
-            }
+        if($durationLength > 250){
+            $errDate[] = 'длительность не может быть длиннее 250 символов';
+        } elseif (0 === $durationLength){
+            $errDate[] = 'длительность не может быть пустым';
+        }
+
+        if(0 !== count($errDate)){
+            $errs['lesson_duration'] = $errDate;
         }
 
         return $errs;

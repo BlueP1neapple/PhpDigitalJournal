@@ -75,10 +75,42 @@ use JoJoBizzareCoders\DigitalJournal;
     </form>
 </div>
 </div>
+
+
+
+<div class="inner">
+<h1>Уроки</h1>
+</div>
 <table>
     <thead>
     <tr>
+        <th>Предмет</th>
+        <th>Преподаватель</th>
+        <th>Класс</th>
+        <th>Дата занятия</th>
 
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <?php foreach ($lessons as $index => $lesson): ?>
+            <td><?php echo $lesson->getItem()->getName()?></td>
+            <td><?php echo $fio = $lesson->getTeacher()->getFio()[0]->getSurname();?></td>
+            <td><?php echo $lesson->getClass()->getLetter() . " " . $lesson->getClass()->getNumber() ?></td>
+            <td><?php echo $lesson->getDate()?></td>
+
+    </tr>
+    <?php endforeach; ?>
+    </tbody>
+</table>
+
+
+<div class="inner">
+    <h1>Оценки</h1>
+</div>
+<table>
+    <thead>
+    <tr>
         <th>Название предмета</th>
         <th>Дата проведения урока</th>
         <th>Фамилия ученика</th>
@@ -86,37 +118,16 @@ use JoJoBizzareCoders\DigitalJournal;
     </tr>
     </thead>
     <tbody>
-        <tr>
-         <?php  foreach ($reports as $index => $report): ?>
-
-             <td><?php echo $report->getLesson()->getItem()->getName()?></td>
-             <td><?php echo $report->getLesson()->getDate()?></td>
-             <td><?php echo $fio = $report->getStudent()->getFio()[0]->getSurname(); ?></td>
-             <td><?php echo $report->getMark()?></td>
-
-        </tr>
-        <?php  endforeach; ?>
-    </tbody>
-
-</table>
-Уроки
-<table>
-    <thead>
     <tr>
-        <th>Предмет</th>
-        <th>Преподаватель</th>
-        <th>Дата занятия</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-        <?php foreach ($lessons as $index => $lesson): ?>
-            <td><?php echo $lesson->getItem()->getName()?></td>
-            <td><?php //echo $fio = $lesson->getTeacher()->getFio()[0]->getSurname();?></td>
-            <td><?php echo $lesson->getDate()?></td>
+        <?php  foreach ($reports as $index => $report): ?>
+
+        <td><?php echo $report->getLesson()->getItem()->getName()?></td>
+        <td><?php echo $report->getLesson()->getDate()?></td>
+        <td><?php echo $fio = $report->getStudent()->getFio()[0]->getSurname(); ?></td>
+        <td><?php echo $report->getMark()?></td>
 
     </tr>
-    <?php endforeach; ?>
+    <?php  endforeach; ?>
     </tbody>
 </table>
 
@@ -128,9 +139,9 @@ use JoJoBizzareCoders\DigitalJournal;
         margin-right: auto;
         width: 200px;
         background: #fff9c0;
+        text-align: center;
     }
     table {
-        font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
         font-size: 14px;
         text-align: left;
         border-collapse: collapse;

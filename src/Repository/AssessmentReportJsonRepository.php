@@ -218,6 +218,7 @@ class AssessmentReportJsonRepository implements AssessmentReportRepositoryInterf
                 $teacher['idItem'] = $itemsIdToInfo[$teacher['idItem']];
                 $teacher['fio'] = $this->createArrayFio($teacher);
                 $teacher['address'] = $this->createArrayAddress($teacher);
+                //$teacher['login'] = $itemsIdToInfo[$r]
                 $teachersObj = TeacherUserClass::createFromArray($teacher);
                 $teachersIdToInfo[$teachersObj->getId()] = $teachersObj;
             }

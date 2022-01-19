@@ -38,9 +38,11 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
             array $address,
             ItemClass $item,
             int $cabinet,
-            string $email
+            string $email,
+            string $login,
+            string $password
         ) {
-            parent::__construct($id, $fio, $dateOfBirth, $phone, $address);
+            parent::__construct($id, $fio, $dateOfBirth, $phone, $address, $login, $password);
             $this->item = $item;
             $this->cabinet = $cabinet;
             $this->email = $email;
@@ -80,7 +82,9 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
                 'address',
                 'idItem',
                 'cabinet',
-                'email'
+                'email',
+                'login',
+                'password'
             ];
             $missingFields=array_diff($requiredFields,array_keys($data));
             if(count($missingFields)>0){
@@ -95,7 +99,9 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
                 $data['address'],
                 $data['idItem'],
                 $data['cabinet'],
-                $data['email']
+                $data['email'],
+                $data['login'],
+                $data['password']
             );
         }
 

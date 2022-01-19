@@ -18,7 +18,9 @@
             }
         ],
         "class_id": 1,
-        "parent_id": 1
+        "parent_id": 1,
+        "login": "KAE",
+        "password": ""
     },
     {
         "id": 2,
@@ -39,7 +41,9 @@
             }
         ],
         "class_id": 1,
-        "parent_id": 8
+        "parent_id": 8,
+        "login": "KAE1",
+        "password": ""
     },
     {
         "id": 3,
@@ -60,7 +64,9 @@
             }
         ],
         "class_id": 1,
-        "parent_id": 4
+        "parent_id": 4,
+        "login": "KAE2",
+        "password": ""
     },
     {
         "id": 4,
@@ -81,7 +87,9 @@
             }
         ],
         "class_id": 2,
-        "parent_id": 5
+        "parent_id": 5,
+        "login": "KAE3",
+        "password": ""
     },
     {
         "id": 5,
@@ -102,7 +110,9 @@
             }
         ],
         "class_id": 2,
-        "parent_id": 6
+        "parent_id": 6,
+        "login": "KAE4",
+        "password": ""
     },
     {
         "id": 6,
@@ -123,7 +133,9 @@
             }
         ],
         "class_id": 3,
-        "parent_id": 7
+        "parent_id": 7,
+        "login": "KAE5",
+        "password": ""
     },
     {
         "id": 7,
@@ -144,7 +156,9 @@
             }
         ],
         "class_id": 3,
-        "parent_id": 2
+        "parent_id": 2,
+        "login": "KAE6",
+        "password": ""
     },
     {
         "id": 8,
@@ -165,6 +179,8 @@
             }
         ],
         "class_id": 3,
-        "parent_id": 3
+        "parent_id": 3,
+        "login": "KAE7",
+        "password": ""
     }
 ]

@@ -2,11 +2,13 @@
 
 namespace JoJoBizzareCoders\DigitalJournal\Repository;
 
+use JoJoBizzareCoders\DigitalJournal\Entity\AbstractUserClass;
 use JoJoBizzareCoders\DigitalJournal\Entity\ClassClass;
 use JoJoBizzareCoders\DigitalJournal\Entity\ParentUserClass;
 use JoJoBizzareCoders\DigitalJournal\Entity\StudentRepositoryInterface;
 use JoJoBizzareCoders\DigitalJournal\Entity\StudentUserClass;
 use JoJoBizzareCoders\DigitalJournal\Exception\InvalidDataStructureException;
+use JoJoBizzareCoders\DigitalJournal\Exception\RuntimeException;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\DataLoader\DataLoaderInterface;
 use JoJoBizzareCoders\DigitalJournal\ValueObject\Address;
 use JoJoBizzareCoders\DigitalJournal\ValueObject\Fio;
@@ -391,5 +393,18 @@ final class StudentJsonRepository implements StudentRepositoryInterface
             'class_id'=>$entity->getClass()->getId(),
             'parent_id'=>$entity->getParent()->getId()
         ];
+    }
+
+    public function findUserByLogin(string $login): ?AbstractUserClass
+    {
+        $entities = $this->findBy(['login' => $login]);
+        $countEntities = count($entities);
+
+        if($countEntities > 1){
+            throw new RuntimeException('Найдены пользователи с дублирующимися логинами');
+        }
+
+        return 0 === $countEntities ? null : current($entities);
+
     }
 }

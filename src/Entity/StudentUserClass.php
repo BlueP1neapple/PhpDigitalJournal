@@ -31,9 +31,11 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
             string $phone,
             array $address,
             ClassClass $class,
-            ParentUserClass $parent
+            ParentUserClass $parent,
+            string $login,
+            string $password
         ) {
-            parent::__construct($id, $fio, $dateOfBirth, $phone, $address);
+            parent::__construct($id, $fio, $dateOfBirth, $phone, $address, $login, $password);
             $this->class = $class;
             $this->parent = $parent;
         }
@@ -53,7 +55,9 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
                 'phone',
                 'address',
                 'class_id',
-                'parent_id'
+                'parent_id',
+                'login',
+                'password'
             ];
             $missingFields=array_diff($requiredFields,array_keys($data));
             if(count($missingFields)>0){
@@ -67,7 +71,9 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
                 $data['phone'],
                 $data['address'],
                 $data['class_id'],
-                $data['parent_id']
+                $data['parent_id'],
+                $data['login'],
+                $data['password']
             );
         }
 

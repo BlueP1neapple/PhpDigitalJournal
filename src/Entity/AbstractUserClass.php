@@ -45,7 +45,19 @@ abstract class AbstractUserClass
      */
     private array $address;
 
+    /**
+     * Логин пользователя
+     *
+     * @var string
+     */
+    private string $login;
 
+    /**
+     * Пароль пользователя
+     *
+     * @var string
+     */
+    private string $password;
     /**
      * Конструктор Пользователя
      *
@@ -55,13 +67,15 @@ abstract class AbstractUserClass
      * @param string $phone - Номер телефона Пользователя
      * @param array $address - Домашний адресс пользователя
      */
-    public function __construct(int $id, array $fio, string $dateOfBirth, string $phone, array $address)
+    public function __construct(int $id, array $fio, string $dateOfBirth, string $phone, array $address,string $login, string $password)
     {
         $this->id = $id;
         $this->fio = $fio;
         $this->dateOfBirth = $dateOfBirth;
         $this->phone = $phone;
         $this->address = $address;
+        $this->login = $login;
+        $this->password = $password;
     }
 
 
@@ -115,6 +129,23 @@ abstract class AbstractUserClass
     {
         return $this->address;
     }
+
+    /**
+     * @return string
+     */
+    public function getLogin(): string
+    {
+        return $this->login;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPassword(): string
+    {
+        return $this->password;
+    }
+
 
     /**
      * Создание объекта класса пользователя из массива данных об Пользователе

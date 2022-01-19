@@ -5,7 +5,7 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
 /**
  * Интерфейс репризитория студентов
  */
-interface StudentRepositoryInterface
+interface StudentRepositoryInterface extends UserRepositoryInterface
 {
     /**
      * Поиск сущностей по заданным критериям

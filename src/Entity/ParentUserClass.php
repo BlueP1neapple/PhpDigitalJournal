@@ -20,7 +20,6 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
          */
         private string $email;
 
-        //Методы
         /**
          * Конструктор класса Родетелей
          * @inheritdoc
@@ -34,9 +33,11 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
             string $phone,
             array $address,
             string $placeOfWork,
-            string $email
+            string $email,
+            string $login,
+            string $password
         ) {
-            parent::__construct($id, $fio, $dateOfBirth, $phone, $address);
+            parent::__construct($id, $fio, $dateOfBirth, $phone, $address, $login, $password);
             $this->placeOfWork = $placeOfWork;
             $this->email = $email;
         }
@@ -71,7 +72,9 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
                 $data['phone'],
                 $data['address'],
                 $data['placeOfWork'],
-                $data['email']
+                $data['email'],
+                $data['login'],
+                $data['password']
             );
         }
 

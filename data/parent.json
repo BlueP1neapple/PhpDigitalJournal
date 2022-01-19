@@ -18,7 +18,9 @@
             }
         ],
         "placeOfWork": "ООО Алмаз",
-        "email": "kuznecov@gmail.com"
+        "email": "kuznecov@gmail.com",
+        "login": "r1",
+        "password": ""
     },
     {
         "id": 2,
@@ -39,7 +41,9 @@
             }
         ],
         "placeOfWork": "ООО Весна",
-        "email": "krabov@gmail.com"
+        "email": "krabov@gmail.com",
+        "login": "r2",
+        "password": ""
     },
     {
         "id": 3,
@@ -60,7 +64,9 @@
             }
         ],
         "placeOfWork": "ОАО Открытие",
-        "email": "jasnova@gmail.com"
+        "email": "jasnova@gmail.com",
+        "login": "r3",
+        "password": ""
     },
     {
         "id": 4,
@@ -81,7 +87,9 @@
             }
         ],
         "placeOfWork": "ИП Круглов",
-        "email": "smirnova@gmail.com"
+        "email": "smirnova@gmail.com",
+        "login": "r4",
+        "password": ""
     },
     {
         "id": 5,
@@ -102,7 +110,9 @@
             }
         ],
         "placeOfWork": "ООО Зеленое-Красное",
-        "email": "zaumova@gmail.com"
+        "email": "zaumova@gmail.com",
+        "login": "r5",
+        "password": ""
     },
     {
         "id": 6,
@@ -123,7 +133,9 @@
             }
         ],
         "placeOfWork": "ИП Сергеев",
-        "email": "kuznecova@gmail.com"
+        "email": "kuznecova@gmail.com",
+        "login": "r6",
+        "password": ""
     },
     {
         "id": 7,
@@ -144,7 +156,9 @@
             }
         ],
         "placeOfWork": "ООО Кружка",
-        "email": "solomova@gmail.com"
+        "email": "solomova@gmail.com",
+        "login": "r7",
+        "password": ""
     },
     {
         "id": 8,
@@ -165,6 +179,8 @@
             }
         ],
         "placeOfWork": "ООО Тесты",
-        "email": "sokolova@gmail.com"
+        "email": "sokolova@gmail.com",
+        "login": "r8",
+        "password": ""
     }
 ]

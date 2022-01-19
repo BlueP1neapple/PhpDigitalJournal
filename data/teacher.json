@@ -19,7 +19,9 @@
         ],
         "idItem": 1,
         "cabinet": 56,
-        "email": "kruglova@gmail.com"
+        "email": "kruglova@gmail.com",
+        "login": "t1",
+        "password": ""
     },
     {
         "id": 2,
@@ -41,7 +43,9 @@
         ],
         "idItem": 2,
         "cabinet": 77,
-        "email": "guseva@gmail.com"
+        "email": "guseva@gmail.com",
+        "login": "t2",
+        "password": ""
     },
     {
         "id": 3,
@@ -63,6 +67,8 @@
         ],
         "idItem": 3,
         "cabinet": 64,
-        "email": "dmitriev@gmail.com"
+        "email": "dmitriev@gmail.com",
+        "login": "t3",
+        "password": ""
     }
 ]

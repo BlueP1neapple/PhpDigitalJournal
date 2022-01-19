@@ -11,5 +11,7 @@ return [
 
     '/studentReport' => Controller\GetAssessmentReportCollectionController::class,
 
-    '/journalAdministrationController' => Controller\JournalAdministrationController::class
+    '/journalAdministrationController' => Controller\JournalAdministrationController::class,
+
+    '/login' =>Controller\LoginController::class
 ];

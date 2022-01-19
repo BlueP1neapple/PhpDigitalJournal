@@ -4,6 +4,7 @@
 
     use JoJoBizzareCoders\DigitalJournal\Exception\RuntimeException;
     use JoJoBizzareCoders\DigitalJournal\Exception\UnexpectedValueException;
+    use JoJoBizzareCoders\DigitalJournal\Infrastructure\Uri\Uri;
     use Throwable;
 
     /**
@@ -17,6 +18,8 @@
         private const PHRASES = [
             200 => 'OK',
             201 => 'Create',
+            301 => 'Moved Permanent',
+            302 => 'Redirect',
             404 => 'Not found',
             500 => 'Internal Server Error',
             503 => 'Service Unavailable',
@@ -46,6 +49,37 @@
             }
             return new HttpResponse('1.1', $code, $phrases, ['Content-Type' => 'application/json'], $body);
         }
+
+        /**
+         * Редирект
+         *
+         * @param Uri $uri
+         * @param int $httpCode
+         * @return HttpResponse
+         */
+        public static function redirect(Uri $uri, int $httpCode = 302):HttpResponse
+        {
+            try{
+                if (!($httpCode >= 300 && $httpCode < 400)){
+                    throw new RuntimeException('Не корректный код ответа');
+                }
+
+                if (false === array_key_exists($httpCode, self::PHRASES)){
+                    throw new RuntimeException('Не корректный код ответа');
+                }
+                $phrases = self::PHRASES[$httpCode];
+                $body =  '';
+                $headers = ['Location' => (string)$uri];
+            }catch (Throwable $e){
+                $body = '<h1>Unknown error</h1>';
+                $httpCode = 520;
+                $phrases = 'Unknown error';
+                $headers = ['Content-Type' => 'text/html'];
+            }
+
+            return new HttpResponse('1.1', $httpCode, $phrases, $headers, $body);
+        }
+
 
         /**
          * Созадёт html ответ

@@ -7,7 +7,6 @@ namespace JoJoBizzareCoders\DigitalJournal\Infrastructure;
      */
     class AppConfig
     {
-        // Свойства
         /**
          * Путь до файла с данными об занятиях
          *
@@ -79,9 +78,34 @@ namespace JoJoBizzareCoders\DigitalJournal\Infrastructure;
         private bool $hideErrorMessage;
 
 
+        /**
+         * Возвращает ури формы аунтефикации
+         *
+         * @var string
+         */
+        private string $loginUri;
+
+        /**
+         * Устанавливает ури формы аунтефикации
+         *
+         * @param string $loginUri
+         */
+        private function setLoginUri(string $loginUri): void
+        {
+            $this->loginUri = $loginUri;
+        }
+
+        /**
+         * Возвращает ури формы аунтефикации
+         *
+         * @return string
+         */
+        public function getLoginUri(): string
+        {
+            return $this->loginUri;
+        }
 
 
-        // Методы
         /**
          * Возвращает флаг указывающий, что нужно скрыватиь сообщения по ошибкам
          *

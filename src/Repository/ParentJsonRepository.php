@@ -56,12 +56,12 @@ class ParentJsonRepository implements ParentRepositoryInterface
                 throw new RuntimeException('данные о пользоватале должны быть массивим');
             }
 
+            if (array_key_exists('login', $criteria)) {
+                $userMeetSearchCriteria = $criteria['login'] === $user['login'];
+            }
             if (array_key_exists('surname', $criteria)) {
                 $userMeetSearchCriteria = $criteria['surname'] === $user['surname'];
-            } else {
-                $userMeetSearchCriteria = true;
             }
-
             if ($userMeetSearchCriteria && array_key_exists('id', $criteria)) {
                 $userMeetSearchCriteria = $criteria['id'] === $user['id'];
             }
@@ -158,4 +158,5 @@ class ParentJsonRepository implements ParentRepositoryInterface
 
 
     }
+
 }

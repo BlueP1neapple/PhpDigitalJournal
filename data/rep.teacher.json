@@ -1,0 +1,74 @@
+[
+    {
+        "id": 1,
+        "fio": [
+            {
+                "surname": "Круглова",
+                "name": "Наталия",
+                "patronymic": "Сергеевна"
+            }
+        ],
+        "dateOfBirth": "1965.01.11",
+        "phone": "+79222444411",
+        "address": [
+            {
+                "street": "ул. Ясная",
+                "home": "д. 54",
+                "apartment": "кв. 19"
+            }
+        ],
+        "idItem": 1,
+        "cabinet": 56,
+        "email": "kruglova@gmail.com",
+        "login": "t1",
+        "password": ""
+    },
+    {
+        "id": 2,
+        "fio": [
+            {
+                "surname": "Гусева",
+                "name": "Анна",
+                "patronymic": "Владимировна"
+            }
+        ],
+        "dateOfBirth": "1975.11.01",
+        "phone": "+79133243412",
+        "address": [
+            {
+                "street": "ул. Зеленская",
+                "home": "д. 22",
+                "apartment": "кв. 11"
+            }
+        ],
+        "idItem": 2,
+        "cabinet": 77,
+        "email": "guseva@gmail.com",
+        "login": "t2",
+        "password": ""
+    },
+    {
+        "id": 3,
+        "fio": [
+            {
+                "surname": "Дмитриев",
+                "name": "Дмитрий",
+                "patronymic": "Алексеевна"
+            }
+        ],
+        "dateOfBirth": "1970.02.01",
+        "phone": "+79655346343",
+        "address": [
+            {
+                "street": "ул. Круглова",
+                "home": "д. 11",
+                "apartment": "кв. 11"
+            }
+        ],
+        "idItem": 3,
+        "cabinet": 64,
+        "email": "dmitriev@gmail.com",
+        "login": "t3",
+        "password": ""
+    }
+]

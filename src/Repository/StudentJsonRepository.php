@@ -197,6 +197,9 @@ final class StudentJsonRepository implements StudentRepositoryInterface
             if (array_key_exists('id', $criteria)) {
                 $studentMeetSearchCriteria = ($student['id'] === $criteria['id']);
             }
+            if (array_key_exists('login', $criteria)) {
+                $studentMeetSearchCriteria = ($student['login'] === $criteria['login']);
+            }
             if ($studentMeetSearchCriteria) {
                 $foundStudents[] = $this->studentFactory(
                     $student,

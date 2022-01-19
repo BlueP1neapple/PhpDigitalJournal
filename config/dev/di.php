@@ -9,13 +9,16 @@ use JoJoBizzareCoders\DigitalJournal\Controller\GetAssessmentReportController;
 use JoJoBizzareCoders\DigitalJournal\Controller\GetLessonCollectionController;
 use JoJoBizzareCoders\DigitalJournal\Controller\GetLessonController;
 use JoJoBizzareCoders\DigitalJournal\Controller\JournalAdministrationController;
+use JoJoBizzareCoders\DigitalJournal\Controller\LoginController;
 use JoJoBizzareCoders\DigitalJournal\Entity\AssessmentReportRepositoryInterface;
 use JoJoBizzareCoders\DigitalJournal\Entity\ClassRepositoryInterface;
 use JoJoBizzareCoders\DigitalJournal\Entity\ItemRepositoryInterface;
 use JoJoBizzareCoders\DigitalJournal\Entity\LessonRepositoryInterface;
+use JoJoBizzareCoders\DigitalJournal\Entity\ParentRepositoryInterface;
 use JoJoBizzareCoders\DigitalJournal\Entity\StudentRepositoryInterface;
 use JoJoBizzareCoders\DigitalJournal\Entity\TeacherRepositoryInterface;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\AppConfig;
+use JoJoBizzareCoders\DigitalJournal\Infrastructure\Auth\HttpAuthProvider;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Console\Output\EchoOutput;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Console\Output\OutputInterface;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\DataLoader\DataLoaderInterface;
@@ -29,6 +32,9 @@ use JoJoBizzareCoders\DigitalJournal\Infrastructure\Router\DefaultRouter;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Router\RegExpRouter;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Router\RouterInterface;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Router\UniversalRouter;
+use JoJoBizzareCoders\DigitalJournal\Infrastructure\Session\SessionInterface;
+use JoJoBizzareCoders\DigitalJournal\Infrastructure\Session\SessionNative;
+use JoJoBizzareCoders\DigitalJournal\Infrastructure\Uri\Uri;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\View\DefaultRender;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\View\RenderInterface;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\ViewTemplate\PhtmlTemplate;
@@ -37,6 +43,7 @@ use JoJoBizzareCoders\DigitalJournal\Repository\AssessmentReportJsonRepository;
 use JoJoBizzareCoders\DigitalJournal\Repository\ClassJsonFileRepository;
 use JoJoBizzareCoders\DigitalJournal\Repository\ItemJsonFileRepository;
 use JoJoBizzareCoders\DigitalJournal\Repository\LessonJsonRepository;
+use JoJoBizzareCoders\DigitalJournal\Repository\ParentJsonRepository;
 use JoJoBizzareCoders\DigitalJournal\Repository\StudentJsonRepository;
 use JoJoBizzareCoders\DigitalJournal\Repository\TeacherJsonFileRepository;
 use JoJoBizzareCoders\DigitalJournal\Service\NewLessonService;
@@ -56,7 +63,21 @@ return [
         'regExpHandlers' => require __DIR__ . '/../regExp.handlers.php'
     ],
     'services' => [
-
+        HttpAuthProvider::class => [
+            'args' =>[
+                'parentRepositoryInterface' => ParentRepositoryInterface::class,
+                'studentRepositoryInterface' => StudentRepositoryInterface::class,
+                'teacherRepositoryInterface' => TeacherRepositoryInterface::class,
+                'sessionInterface' => SessionInterface::class,
+                'loginUri'=>'loginUri'
+            ]
+        ],
+        LoginController::class =>[
+            'args' => [
+                'template' => ViewTemplateInterface::class,
+                'httpAuthProvider' => HttpAuthProvider::class
+            ]
+        ],
         ViewTemplateInterface::class =>[
             'class' => PhtmlTemplate::class
         ],
@@ -71,7 +92,8 @@ return [
                 'searchTeacherService' => SearchTeacherService::class,
                 'searchClassService' => SearchClassService::class,
                 'newReportService' => NewReportService::class,
-                'searchStudentService' => SearchStudentService::class
+                'searchStudentService' => SearchStudentService::class,
+                'httpAuthProvider' => HttpAuthProvider::class
             ]
         ],
         CreateRegisterLessonController::class =>[
@@ -127,7 +149,13 @@ return [
                 'dataLoader'=>DataLoaderInterface::class
             ]
         ],
-
+        ParentRepositoryInterface::class =>[
+            'class'=> ParentJsonRepository::class,
+            'args' =>[
+                'pathToParents'=>'pathToParents',
+                'dataLoader'=>DataLoaderInterface::class
+            ]
+        ],
         GetAssessmentReportCollectionController::class => [
             'args' => [
                 'logger' => LoggerInterface::class,
@@ -335,6 +363,16 @@ return [
             /** @var AppConfig $appConfig */
             $appConfig = $c->get(AppConfig::class);
             return $appConfig->getPathToParents();
+        },
+        SessionInterface::class => static function (ContainerInterface $c) {
+            return SessionNative::create();
+        },
+        'loginUri'=>static function (ContainerInterface $c):Uri{
+            /**
+             * @var AppConfig $appConfig
+             */
+            $appConfig = $c->get(AppConfig::class);
+            return Uri::createFromString($appConfig->getLoginUri());
         },
         AppConfig::class => static function (ContainerInterface $c): AppConfig {
             $appConfig = $c->get('appConfig');

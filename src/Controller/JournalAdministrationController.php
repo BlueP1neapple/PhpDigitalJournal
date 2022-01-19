@@ -2,6 +2,7 @@
 
 namespace JoJoBizzareCoders\DigitalJournal\Controller;
 
+use JoJoBizzareCoders\DigitalJournal\Infrastructure\Auth\HttpAuthProvider;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Controller\ControllerInterface;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Http\HttpResponse;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Http\ServerRequest;
@@ -23,6 +24,7 @@ use JoJoBizzareCoders\DigitalJournal\Service\SearchReportAssessmentService\Searc
 use JoJoBizzareCoders\DigitalJournal\Exception;
 use JoJoBizzareCoders\DigitalJournal\Service\SearchStudentService;
 use JoJoBizzareCoders\DigitalJournal\Service\SearchTeacherService;
+use Throwable;
 
 class JournalAdministrationController implements
     ControllerInterface
@@ -93,6 +95,13 @@ class JournalAdministrationController implements
     private NewReportService $newReportService;
 
     /**
+     *  аунтификация
+     *
+     * @var HttpAuthProvider
+     */
+    private HttpAuthProvider $httpAuthProvider;
+
+    /**
      * Поиск студентов
      *
      * @var SearchStudentService
@@ -110,6 +119,7 @@ class JournalAdministrationController implements
      * @param SearchClassService $classService
      * @param NewReportService $newReportService
      * @param SearchStudentService $searchStudentService
+     * @param HttpAuthProvider $httpAuthProvider
      */
     public function __construct(
         LoggerInterface $logger,
@@ -121,7 +131,8 @@ class JournalAdministrationController implements
         SearchTeacherService $teacherService,
         SearchClassService $classService,
         NewReportService $newReportService,
-        SearchStudentService $searchStudentService
+        SearchStudentService $searchStudentService,
+        HttpAuthProvider $httpAuthProvider
     ) {
         $this->logger = $logger;
         $this->reportService = $reportService;
@@ -133,6 +144,7 @@ class JournalAdministrationController implements
         $this->classService = $classService;
         $this->newReportService = $newReportService;
         $this->searchStudentService = $searchStudentService;
+        $this->httpAuthProvider = $httpAuthProvider;
     }
 
 
@@ -141,73 +153,85 @@ class JournalAdministrationController implements
      */
     public function __invoke(ServerRequest $serverRequest): HttpResponse
     {
-        $this->logger->log('run JournalAdministrationController::__invoke');
+        try {
+            if (false === $this->httpAuthProvider->isAuth()) {
+                return $this->httpAuthProvider->doAuth($serverRequest->getUri());
+            }
 
-        $resultCreatingTextDocuments = [];
-        if('POST' === $serverRequest->getMethod()){
-            $resultCreatingTextDocuments = $this->creationOfLesson($serverRequest);
+            $this->logger->log('run JournalAdministrationController::__invoke');
+
+            $resultCreatingTextDocuments = [];
+            if ('POST' === $serverRequest->getMethod()) {
+                $resultCreatingTextDocuments = $this->creationOfLesson($serverRequest);
+            }
+
+
+            $dtoReportCollection = $this->reportService->search(new SearchReportAssessmentCriteria());
+            $dtoLessonCollection = $this->lessonService->search(new SearchLessonServiceCriteria());
+            $dtoItemCollection = $this->itemService->search();
+            $dtoTeacherCollection = $this->teacherService->search();
+            $dtoClassCollection = $this->classService->search();
+            $dtoStudentCollection = $this->searchStudentService->search();
+
+            $viewData = [
+                'reports' => $dtoReportCollection,
+                'lessons' => $dtoLessonCollection,
+                'items' => $dtoItemCollection,
+                'teachers' => $dtoTeacherCollection,
+                'classes' => $dtoClassCollection,
+                'students' => $dtoStudentCollection
+            ];
+
+            $context = array_merge($viewData, $resultCreatingTextDocuments);
+            $template = __DIR__ . '/../../templates/journal.administration.phtml';
+            $httpCode = 200;
+        } catch (Throwable $e) {
+            $httpCode = 500;
+            $template = __DIR__ . '/../../templates/errors.phtml';
+            $context = [
+                'errors' => [
+                    $e->getMessage()
+                ]
+            ];
         }
 
-
-        $dtoReportCollection = $this->reportService->search(new SearchReportAssessmentCriteria());
-        $dtoLessonCollection = $this->lessonService->search(new SearchLessonServiceCriteria());
-        $dtoItemCollection = $this->itemService->search();
-        $dtoTeacherCollection = $this->teacherService->search();
-        $dtoClassCollection = $this->classService->search();
-        $dtoStudentCollection = $this->searchStudentService->search();
-
-        $viewData = [
-            'reports' => $dtoReportCollection,
-            'lessons' => $dtoLessonCollection,
-            'items' => $dtoItemCollection,
-            'teachers' => $dtoTeacherCollection,
-            'classes' => $dtoClassCollection,
-            'students' => $dtoStudentCollection
-        ];
-
-        $context = array_merge($viewData, $resultCreatingTextDocuments);
-
         $html = $this->viewTemplate->render(
-            __DIR__ . '/../../templates/journal.administration.phtml',
+            $template,
             $context,
         );
 
-        return ServerResponseFactory::createHtmlResponse(200, $html);
-
+        return ServerResponseFactory::createHtmlResponse($httpCode, $html);
     }
 
-    private function creationOfLesson(ServerRequest $serverRequest):array
+    private function creationOfLesson(ServerRequest $serverRequest): array
     {
         $dataToCreate = [];
-        parse_str($serverRequest->getBody(),$dataToCreate);
+        parse_str($serverRequest->getBody(), $dataToCreate);
 
-        if(false === array_key_exists('type', $dataToCreate)){
+        if (false === array_key_exists('type', $dataToCreate)) {
             throw new Exception\RuntimeException('Wryy Отсутствуют данные о создаваемом типе');
         }
 
         $result = [
-            'formValidationResult' =>[
+            'formValidationResult' => [
                 'lesson' => [],
 
             ]
         ];
 
-        if('lesson' === $dataToCreate['type']){
+        if ('lesson' === $dataToCreate['type']) {
             $result['formValidationResult']['lesson'] = $this->validateLesson($dataToCreate);
 
-            if(0 === count($result['formValidationResult']['lesson'])){
+            if (0 === count($result['formValidationResult']['lesson'])) {
                 $this->createLesson($dataToCreate);
             }
-
-        } elseif ('report'){
+        } elseif ('report') {
             $result['formValidationResult']['report'] = $this->validateReport($dataToCreate);
 
-            if(0 === count($result['formValidationResult']['report'])){
+            if (0 === count($result['formValidationResult']['report'])) {
                 $this->createReport($dataToCreate);
             }
-
-        }
-        else{
+        } else {
             throw new Exception\RuntimeException('Неизвестный тип тексового документа');
         }
 
@@ -219,7 +243,7 @@ class JournalAdministrationController implements
      *
      * @param array $dataToCreate
      */
-    private function createReport(array $dataToCreate):void
+    private function createReport(array $dataToCreate): void
     {
         $this->newReportService->registerAssessmentReport(
             new NewAssessmentReportDto(
@@ -235,20 +259,20 @@ class JournalAdministrationController implements
      *
      * @param array $dataToCreate
      */
-    private function createLesson(array $dataToCreate):void
+    private function createLesson(array $dataToCreate): void
     {
         $this->newLessonService->registerLesson(
-                new NewLessonDto(
-                    (int)$dataToCreate['item_id'],
-                    $this->createDate($dataToCreate),
-                    (int)$dataToCreate['lesson_duration'],
-                    (int)$dataToCreate['teacher_id'],
-                    (int)$dataToCreate['class_id'],
-                )
+            new NewLessonDto(
+                (int)$dataToCreate['item_id'],
+                $this->createDate($dataToCreate),
+                (int)$dataToCreate['lesson_duration'],
+                (int)$dataToCreate['teacher_id'],
+                (int)$dataToCreate['class_id'],
+            )
         );
     }
 
-    private function createDate(array $dataToCreate):string
+    private function createDate(array $dataToCreate): string
     {
         $date = $dataToCreate['date'];
         $time = $dataToCreate['time'];
@@ -256,116 +280,115 @@ class JournalAdministrationController implements
         return date("Y.m.d", strtotime($date)) . " " . $time;
     }
 
-    private function validateLesson(array $dataToCreate):array
+    private function validateLesson(array $dataToCreate): array
     {
         $errs = [];
         $errItemId = $this->validateItemId($dataToCreate);
-        if(count($errItemId) > 0) {
+        if (count($errItemId) > 0) {
             $errs = array_merge($errs, $errItemId);
         }
 
         $errDate = $this->validateDate($dataToCreate);
-        if(count($errDate) > 0) {
+        if (count($errDate) > 0) {
             $errs = array_merge($errs, $errDate);
         }
 
         $errLessonDuration = $this->validateLessonDuration($dataToCreate);
-        if(count($errLessonDuration) > 0) {
+        if (count($errLessonDuration) > 0) {
             $errs = array_merge($errs, $errLessonDuration);
         }
 
         $errTeacherId = $this->validateTeacherId($dataToCreate);
-        if(count($errTeacherId) > 0) {
+        if (count($errTeacherId) > 0) {
             $errs = array_merge($errs, $errTeacherId);
         }
 
         $errClassId = $this->validateClassId($dataToCreate);
-        if(count($errClassId) > 0) {
+        if (count($errClassId) > 0) {
             $errs = array_merge($errs, $errClassId);
         }
         return $errs;
     }
 
-    private function validateItemId(array $dataToCreate):array
+    private function validateItemId(array $dataToCreate): array
     {
-        if(false === array_key_exists('item_id', $dataToCreate)){
+        if (false === array_key_exists('item_id', $dataToCreate)) {
             throw new Exception\RuntimeException('Нет id предмета');
         }
         return [];
     }
 
-    private function validateDate(array $dataToCreate):array
+    private function validateDate(array $dataToCreate): array
     {
         $errs = [];
         if (false === array_key_exists('date', $dataToCreate)) {
             throw new Exception\RuntimeException('Нет даты');
         }
 
-        if(false === is_string($dataToCreate['date'])) {
+        if (false === is_string($dataToCreate['date'])) {
             throw new Exception\RuntimeException('Данные о дате должны быть строкой');
         }
 
         $DateLength = strlen(trim($dataToCreate['date']));
         $errDate = [];
 
-        if($DateLength > 250){
+        if ($DateLength > 250) {
             $errDate[] = 'Дата не может быть длиннее 250 символов';
-        } elseif (0 === $DateLength){
+        } elseif (0 === $DateLength) {
             $errDate[] = 'Дата не может быть пустым';
         }
 
-        if(0 !== count($errDate)){
+        if (0 !== count($errDate)) {
             $errs['date'] = $errDate;
         }
 
         return $errs;
-
     }
 
-    private function validateLessonDuration(array $dataToCreate):array
+    private function validateLessonDuration(array $dataToCreate): array
     {
         $errs = [];
         if (false === array_key_exists('lesson_duration', $dataToCreate)) {
             throw new Exception\RuntimeException('Нет длительности урока');
         }
 
-        if(false === is_string($dataToCreate['lesson_duration'])) {
+        if (false === is_string($dataToCreate['lesson_duration'])) {
             throw new Exception\RuntimeException('Данные о длительности должны быть строкой');
         }
 
         $durationLength = strlen(trim($dataToCreate['lesson_duration']));
         $errDate = [];
 
-        if($durationLength > 250){
+        if ($durationLength > 250) {
             $errDate[] = 'длительность не может быть длиннее 250 символов';
-        } elseif (0 === $durationLength){
+        } elseif (0 === $durationLength) {
             $errDate[] = 'длительность не может быть пустым';
         }
 
-        if(0 !== count($errDate)){
+        if (0 !== count($errDate)) {
             $errs['lesson_duration'] = $errDate;
         }
 
         return $errs;
     }
 
-    private function validateTeacherId(array $dataToCreate):array
+    private function validateTeacherId(array $dataToCreate): array
     {
-        if(false === array_key_exists('teacher_id', $dataToCreate)){
+        if (false === array_key_exists('teacher_id', $dataToCreate)) {
             throw new Exception\RuntimeException('Нет id учителя');
         }
         return [];
     }
 
-    private function validateClassId(array $dataToCreate):array
+    private function validateClassId(array $dataToCreate): array
     {
-        if(false === array_key_exists('class_id', $dataToCreate)){
+        if (false === array_key_exists('class_id', $dataToCreate)) {
             throw new Exception\RuntimeException('Нет id класса');
         }
         return [];
     }
 
-    private function validateReport(array $dataToCreate):array
+    private function validateReport(array $dataToCreate): array
     {
         return [];
     }

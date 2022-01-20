@@ -10,6 +10,8 @@ use JoJoBizzareCoders\DigitalJournal\Infrastructure\Http\ServerResponseFactory;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Logger\LoggerInterface;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\ViewTemplate\ViewTemplateInterface;
 use JoJoBizzareCoders\DigitalJournal\Repository\LessonJsonRepository;
+use JoJoBizzareCoders\DigitalJournal\Service\NewItemService;
+use JoJoBizzareCoders\DigitalJournal\Service\NewItemService\NewItemDto;
 use JoJoBizzareCoders\DigitalJournal\Service\NewLessonService;
 use JoJoBizzareCoders\DigitalJournal\Service\NewReportService;
 use JoJoBizzareCoders\DigitalJournal\Service\SearchAssessmentReportService;
@@ -109,6 +111,13 @@ class JournalAdministrationController implements
     private SearchStudentService $searchStudentService;
 
     /**
+     * Сервис создания предмета
+     *
+     * @var NewItemService
+     */
+    private NewItemService $newItemService;
+
+    /**
      * @param LoggerInterface $logger
      * @param SearchAssessmentReportService $reportService
      * @param ViewTemplateInterface $viewTemplate
@@ -120,6 +129,7 @@ class JournalAdministrationController implements
      * @param NewReportService $newReportService
      * @param SearchStudentService $searchStudentService
      * @param HttpAuthProvider $httpAuthProvider
+     * @param NewItemService $newItemService
      */
     public function __construct(
         LoggerInterface $logger,
@@ -132,7 +142,8 @@ class JournalAdministrationController implements
         SearchClassService $classService,
         NewReportService $newReportService,
         SearchStudentService $searchStudentService,
-        HttpAuthProvider $httpAuthProvider
+        HttpAuthProvider $httpAuthProvider,
+        NewItemService $newItemService
     ) {
         $this->logger = $logger;
         $this->reportService = $reportService;
@@ -145,6 +156,7 @@ class JournalAdministrationController implements
         $this->newReportService = $newReportService;
         $this->searchStudentService = $searchStudentService;
         $this->httpAuthProvider = $httpAuthProvider;
+        $this->newItemService = $newItemService;
     }
 
 
@@ -268,6 +280,21 @@ class JournalAdministrationController implements
                 (int)$dataToCreate['lesson_duration'],
                 (int)$dataToCreate['teacher_id'],
                 (int)$dataToCreate['class_id'],
+            )
+        );
+    }
+
+    /**
+     * Функция для создания предмета
+     *
+     * @param array $dataToCreate
+     */
+    private function createItem(array $dataToCreate):void
+    {
+        $this->newItemService->registerItem(
+            new NewItemDto(
+                (int)$dataToCreate['item_name'],
+                $dataToCreate['item_description']
             )
         );
     }

@@ -4,6 +4,7 @@ use JoJoBizzareCoders\DigitalJournal\ConsoleCommand\FindAssessmentReport;
 use JoJoBizzareCoders\DigitalJournal\ConsoleCommand\FindLesson;
 use JoJoBizzareCoders\DigitalJournal\ConsoleCommand\HashStr;
 use JoJoBizzareCoders\DigitalJournal\Controller\CreateRegisterAssessmentReportController;
+use JoJoBizzareCoders\DigitalJournal\Controller\CreateRegisterItemController;
 use JoJoBizzareCoders\DigitalJournal\Controller\CreateRegisterLessonController;
 use JoJoBizzareCoders\DigitalJournal\Controller\GetAssessmentReportCollectionController;
 use JoJoBizzareCoders\DigitalJournal\Controller\GetAssessmentReportController;
@@ -49,6 +50,7 @@ use JoJoBizzareCoders\DigitalJournal\Repository\LessonJsonRepository;
 use JoJoBizzareCoders\DigitalJournal\Repository\ParentJsonRepository;
 use JoJoBizzareCoders\DigitalJournal\Repository\StudentJsonRepository;
 use JoJoBizzareCoders\DigitalJournal\Repository\TeacherJsonFileRepository;
+use JoJoBizzareCoders\DigitalJournal\Service\NewItemService;
 use JoJoBizzareCoders\DigitalJournal\Service\NewLessonService;
 use JoJoBizzareCoders\DigitalJournal\Service\NewReportService;
 use JoJoBizzareCoders\DigitalJournal\Service\SearchAssessmentReportService;
@@ -96,7 +98,8 @@ return [
                 'searchClassService' => SearchClassService::class,
                 'newReportService' => NewReportService::class,
                 'searchStudentService' => SearchStudentService::class,
-                'httpAuthProvider' => HttpAuthProvider::class
+                'httpAuthProvider' => HttpAuthProvider::class,
+                'newItemService' => NewItemService::class,
             ]
         ],
         CreateRegisterLessonController::class =>[
@@ -108,6 +111,17 @@ return [
             'args' => [
                 'newReportService' => NewReportService::class
             ]
+        ],
+        CreateRegisterItemController::class => [
+            'args' => [
+                'newItemService' => NewItemService::class
+            ]
+        ],
+        NewItemService::class =>[
+            'args' => [
+                'itemRepositoryInterface' => ItemRepositoryInterface::class
+            ]
+
         ],
         NewReportService::class => [
             'args'=>[

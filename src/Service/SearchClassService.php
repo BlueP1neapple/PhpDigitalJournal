@@ -42,7 +42,7 @@ class SearchClassService
         foreach ($entitiesCollection as $entity){
             $dtoCollection[] = $this->createDto($entity);
         }
-        $this->logger->log('found class: ' . count($entitiesCollection));
+        $this->logger->info('found class: ' . count($entitiesCollection));
         return $dtoCollection;
     }
 

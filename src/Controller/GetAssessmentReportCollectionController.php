@@ -88,7 +88,7 @@ class GetAssessmentReportCollectionController implements ControllerInterface
      */
     public function __invoke(ServerRequest $serverRequest): HttpResponse
     {
-        $this->logger->Log('assessmentReport" url');
+        $this->logger->info('assessmentReport" url');
         $resultOfParamValidation = $this->ValidateQueryParams($serverRequest);
         if (null === $resultOfParamValidation) {
             $params = array_merge($serverRequest->getQueryParams(), $serverRequest->getAttributes());

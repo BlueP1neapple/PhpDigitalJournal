@@ -25,7 +25,9 @@ use JoJoBizzareCoders\DigitalJournal\Infrastructure\Console\Output\OutputInterfa
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\DataLoader\DataLoaderInterface;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\DataLoader\JsonDataLoader;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\DI\ContainerInterface;
-use JoJoBizzareCoders\DigitalJournal\Infrastructure\Logger\FileLogger\Logger;
+use JoJoBizzareCoders\DigitalJournal\Infrastructure\Logger\Adapter\FileAdapter;
+use JoJoBizzareCoders\DigitalJournal\Infrastructure\Logger\AdapterInterface;
+use JoJoBizzareCoders\DigitalJournal\Infrastructure\Logger\Logger;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Logger\LoggerInterface;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Router\ChainRouters;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Router\ControllerFactory;
@@ -184,7 +186,13 @@ return [
         LoggerInterface::class => [
             'class' => Logger::class,
             'args' => [
-                'pathToFile' => 'pathToLogFile'
+                'adapter' => AdapterInterface::class
+            ]
+        ],
+        AdapterInterface::class => [
+            'class' => FileAdapter::class,
+            'args' => [
+                'pathToLogFile' => 'pathToLogFile'
             ]
         ],
         RenderInterface::class => [

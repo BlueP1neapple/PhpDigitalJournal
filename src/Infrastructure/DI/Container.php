@@ -8,7 +8,6 @@
 
     class Container implements ContainerInterface
     {
-        //Свойства
         /**
          * Инстансы зарегистрированных сервисов
          * - ключ это имя сервиса(совпадает с именем класса или интерфейса)
@@ -31,8 +30,6 @@
          * @var array
          */
         private array $services;
-
-        //Методы
 
         /**
          * @param array $instance

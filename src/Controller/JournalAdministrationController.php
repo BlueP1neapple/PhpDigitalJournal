@@ -158,7 +158,7 @@ class JournalAdministrationController implements
                 return $this->httpAuthProvider->doAuth($serverRequest->getUri());
             }
 
-            $this->logger->log('run JournalAdministrationController::__invoke');
+            $this->logger->info('run JournalAdministrationController::__invoke');
 
             $resultCreatingTextDocuments = [];
             if ('POST' === $serverRequest->getMethod()) {

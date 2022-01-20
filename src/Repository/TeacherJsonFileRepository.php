@@ -97,7 +97,7 @@ class TeacherJsonFileRepository implements TeacherRepositoryInterface
             if (array_key_exists('login', $criteria)) {
                 $teacherMeetSearchCriteria = $criteria['login'] === $teacher['login'];
             }
-            if ($teacherMeetSearchCriteria && array_key_exists('id', $criteria)) {
+            if (array_key_exists('id', $criteria)) {
                 $teacherMeetSearchCriteria = $criteria['id'] === $teacher['id'];
             }
             if ($teacherMeetSearchCriteria) {

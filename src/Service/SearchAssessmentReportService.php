@@ -62,7 +62,7 @@ class SearchAssessmentReportService
         foreach ($entitiesCollection as $entity) {
             $dtoCollection[] = $this->createDto($entity);
         }
-        $this->logger->log('found Report: ' . count($entitiesCollection));
+        $this->logger->info('found Report: ' . count($entitiesCollection));
         return $dtoCollection;
     }
 

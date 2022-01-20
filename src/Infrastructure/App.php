@@ -167,7 +167,7 @@ final class App
             $logger = $this->getLogger();
 
             $urlPath = $serverRequest->getUri()->getPath();
-            $logger->log("Переход на " . $urlPath);
+            $logger->info("Переход на " . $urlPath);
 
             $dispatcher = $this->getRouter()->getDispatcher($serverRequest);
             if (is_callable($dispatcher)) {
@@ -180,7 +180,7 @@ final class App
                     'status'  => 'fail',
                     'message' => 'unsupported request'
                 ]);
-                $this->logger->log('unsupported request');
+                $this->logger->debug('unsupported request');
             }
             $this->getRender()->render($httpResponse);
         } catch (Exception\InvalidDataStructureException $e) {
@@ -190,7 +190,7 @@ final class App
             ]);
 
             $this->silentRender($httpResponse);
-            $this->logger->log($e->getMessage());
+            $this->logger->error($e->getMessage());
         } catch (Throwable $e) {
             $errMsg = ($hasAppConfig && !$this->getAppConfig()->isHideErrorMessage())
             || $e instanceof Exception\ErrorCreateAppConfigException ? $e->getMessage() : 'system error';
@@ -227,7 +227,7 @@ final class App
     private function silentLog(string $message):void
     {
         try{
-            $this->getLogger()->log($message);
+            $this->getLogger()->error($message);
         }catch (Throwable $e){
 
         }

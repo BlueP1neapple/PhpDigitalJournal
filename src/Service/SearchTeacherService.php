@@ -43,7 +43,7 @@ class SearchTeacherService
         foreach ($entitiesCollection as $entity){
             $dtoCollection[] = $this->createDto($entity);
         }
-        $this->logger->log('found item: ' . count($entitiesCollection));
+        $this->logger->info('found item: ' . count($entitiesCollection));
         return $dtoCollection;
     }
 

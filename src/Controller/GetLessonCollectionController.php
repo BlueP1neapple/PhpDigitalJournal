@@ -78,7 +78,7 @@ class GetLessonCollectionController implements ControllerInterface
      */
     public function __invoke(ServerRequest $serverRequest): HttpResponse
     {
-        $this->logger->Log('dispatch "lesson" url');
+        $this->logger->info('dispatch "lesson" url');
         $resultOfParamsValidation = $this->validateQueryParams($serverRequest);
         if (null === $resultOfParamsValidation) {
             $params = array_merge($serverRequest->getQueryParams(), $serverRequest->getAttributes());

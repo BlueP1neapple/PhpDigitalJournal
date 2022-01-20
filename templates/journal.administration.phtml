@@ -23,6 +23,7 @@ use JoJoBizzareCoders\DigitalJournal;
     </style>
 </head>
 
+
 <div>
     <div class="inner">
         <h1>Journal Page</h1>
@@ -175,7 +176,7 @@ use JoJoBizzareCoders\DigitalJournal;
                 <input type="submit" value="Добавить"/>
             </div>
         </form>
-    </div>
+</div>
 </div>
 <div class="inner">
     <h1>Оценки</h1>
@@ -224,6 +225,20 @@ use JoJoBizzareCoders\DigitalJournal;
                         <?php endforeach; ?>
                     </ul>
                     <?php endif; ?>
+            </div>
+            <div>
+                <label for="item_description_id">Название предмета</label>
+                <input type="text" name="description" id="item_description_id" value="">
+                <?php if(isset($formValidationResult['item']['description'])): ?>
+                    <ul>
+                        <?php foreach ($formValidationResult['item']['description'] as $err): ?>
+                            <li><?php echo $err ?></li>
+                        <?php endforeach; ?>
+                    </ul>
+                <?php endif; ?>
+            </div>
+            <div>
+                <input type="submit" value="Добавить"/>
             </div>
         </form>
     </div>

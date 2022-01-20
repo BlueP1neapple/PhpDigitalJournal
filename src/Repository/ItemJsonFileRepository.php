@@ -25,7 +25,12 @@ class ItemJsonFileRepository implements ItemRepositoryInterface
      */
     private DataLoaderInterface $dataLoader;
 
+    /**
+     * @var array|null
+     */
     private ?array $data = null;
+
+    private ?array $itemsIdToIndex = null;
 
     /**
      * Текущий id пользователя
@@ -50,6 +55,24 @@ class ItemJsonFileRepository implements ItemRepositoryInterface
     {
         if (null === $this->data) {
             $this->data = $this->dataLoader->LoadDate($this->pathToItems);
+            $this->itemsIdToIndex = array_combine(
+                array_map(
+                    static function (array $v) {
+                        return $v['id'];
+                    },
+                    $this->data
+                ),
+                array_keys($this->data)
+            );
+
+            $this->currentId = max(
+                array_map(
+                    static function(array $v){ return $v['id'];},
+                    $this->data
+                )
+            );
+
+
         }
         return $this->data;
     }
@@ -100,9 +123,9 @@ class ItemJsonFileRepository implements ItemRepositoryInterface
     public function add(ItemClass $entity): ItemClass
     {
         $object = $this->buildJsonData($entity);
-        $this->itemsData[] = $object;
-        $data = $this->itemsData;
-        $this->itemsIdToIndex[$entity->getId()] = array_key_last($this->itemsData);
+        $this->data[] = $object;
+        $data = $this->data;
+        $this->itemsIdToIndex[$entity->getId()] = array_key_last($this->data);
         $file = $this->pathToItems;
         $jsonStr = json_encode($data, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
         file_put_contents($file, $jsonStr);

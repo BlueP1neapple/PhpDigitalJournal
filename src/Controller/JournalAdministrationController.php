@@ -227,6 +227,8 @@ class JournalAdministrationController implements
         $result = [
             'formValidationResult' => [
                 'lesson' => [],
+                'report' => [],
+                'item' => [],
 
             ]
         ];
@@ -237,16 +239,21 @@ class JournalAdministrationController implements
             if (0 === count($result['formValidationResult']['lesson'])) {
                 $this->createLesson($dataToCreate);
             }
-        } elseif ('report') {
+        } elseif ('report' === $dataToCreate['type']) {
             $result['formValidationResult']['report'] = $this->validateReport($dataToCreate);
 
             if (0 === count($result['formValidationResult']['report'])) {
                 $this->createReport($dataToCreate);
             }
-        } else {
+        } elseif ('item' === $dataToCreate['type']) {
+            $result['formValidationResult']['item'] = $this->validateItem($dataToCreate);
+
+            if (0 === count($result['formValidationResult']['item'])) {
+                $this->createItem($dataToCreate);
+            }
+        }else {
             throw new Exception\RuntimeException('Неизвестный тип тексового документа');
         }
-
         return [];
     }
 
@@ -293,8 +300,8 @@ class JournalAdministrationController implements
     {
         $this->newItemService->registerItem(
             new NewItemDto(
-                (int)$dataToCreate['item_name'],
-                $dataToCreate['item_description']
+                $dataToCreate['name'],
+                $dataToCreate['description']
             )
         );
     }
@@ -426,5 +433,54 @@ class JournalAdministrationController implements
         return [];
     }
 
+    private function validateItem(array $dataToCreate):array
+    {
+        $errs = [];
+
+        if (false === array_key_exists('name', $dataToCreate)) {
+            throw new Exception\RuntimeException('Нет данных о имени предмета');
+        }
+
+        if (false === is_string($dataToCreate['name'])) {
+            throw new Exception\RuntimeException('Данные о передмете должны быть строкой');
+        }
+
+        $titleLength = strlen(trim($dataToCreate['name']));
+        $errTitle = [];
+
+        if ($titleLength > 250) {
+            $errTitle[] = 'Название не может быть длиннее 250 символов';
+        } elseif (0 === $titleLength) {
+            $errTitle[] = 'Название не может быть пустым';
+        }
+
+        if (0 !== count($errTitle)) {
+            $errs['name'] = $errTitle;
+        }
+
+        if (false === array_key_exists('description', $dataToCreate)) {
+            throw new Exception\RuntimeException('Нет данных о расшифровке предмета');
+        }
+
+        if (false === is_string($dataToCreate['description'])) {
+            throw new Exception\RuntimeException('Данные о расшифровке должны быть строкой');
+        }
+
+        $titleLength = strlen(trim($dataToCreate['description']));
+        $errTitle = [];
+
+        if ($titleLength > 250) {
+            $errTitle[] = 'Расшифровка не может быть длиннее 250 символов';
+        } elseif (0 === $titleLength) {
+            $errTitle[] = 'Расшифровка не может быть пустым';
+        }
+
+        if (0 !== count($errTitle)) {
+            $errs['description'] = $errTitle;
+        }
+
+
+        return $errs;
+    }
 
 }

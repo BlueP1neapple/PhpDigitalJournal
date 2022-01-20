@@ -90,15 +90,21 @@ class TeacherJsonFileRepository implements TeacherRepositoryInterface
         $foundTeacher = [];
         $items = $this->loadItemsEntity();
         $teacherMeetSearchCriteria = false;
+        $searchFlag = false;
         foreach ($teachers as $teacher) {
             if (array_key_exists('surname', $criteria)) {
                 $teacherMeetSearchCriteria = $criteria['surname'] === $teacher['surname'];
+                $searchFlag = true;
             }
             if (array_key_exists('login', $criteria)) {
                 $teacherMeetSearchCriteria = $criteria['login'] === $teacher['login'];
+                $searchFlag = true;
             }
             if (array_key_exists('id', $criteria)) {
                 $teacherMeetSearchCriteria = $criteria['id'] === $teacher['id'];
+                $searchFlag = true;
+            } elseif(!$searchFlag){
+                $teacherMeetSearchCriteria = true;
             }
             if ($teacherMeetSearchCriteria) {
                 $foundTeacher[] = $this->teacherFactory($teacher, $items);

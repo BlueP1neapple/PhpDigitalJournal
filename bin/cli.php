@@ -12,8 +12,8 @@ require_once __DIR__ . '/../src/Infrastructure/Autoloader.php';
 
 spl_autoload_register(
     new Autoloader([
-        '\\EfTech\\BookLibrary\\' => __DIR__ . '/../src/',
-        '\\EfTech\\BookLibraryTest\\' => __DIR__ . '/../test/',
+        'JoJoBizzareCoders\\DigitalJournal\\' => __DIR__ . '/../src/',
+        'JoJoBizzareCoders\\DigitalJournalTest\\' => __DIR__ . '/../tests',
     ])
 );
 

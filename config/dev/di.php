@@ -2,6 +2,7 @@
 
 use JoJoBizzareCoders\DigitalJournal\ConsoleCommand\FindAssessmentReport;
 use JoJoBizzareCoders\DigitalJournal\ConsoleCommand\FindLesson;
+use JoJoBizzareCoders\DigitalJournal\ConsoleCommand\HashStr;
 use JoJoBizzareCoders\DigitalJournal\Controller\CreateRegisterAssessmentReportController;
 use JoJoBizzareCoders\DigitalJournal\Controller\CreateRegisterLessonController;
 use JoJoBizzareCoders\DigitalJournal\Controller\GetAssessmentReportCollectionController;
@@ -271,6 +272,11 @@ return [
             'args' =>[
                 'logger' => LoggerInterface::class,
                 'classRepository' => ClassRepositoryInterface::class
+            ]
+        ],
+        HashStr::class =>[
+            'args' => [
+                OutputInterface::class
             ]
         ],
         ClassRepositoryInterface::class =>[

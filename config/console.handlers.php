@@ -8,5 +8,4 @@ return[
         'find-lesson'=>FindLesson::class,
         'find-assessmentReport'=>FindAssessmentReport::class,
         'hash'=> HashStr::class
-
     ];

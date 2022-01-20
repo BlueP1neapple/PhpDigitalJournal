@@ -272,6 +272,12 @@ class JournalAdministrationController implements
         );
     }
 
+    /**
+     * Создаёт дату и время в нужном формате
+     *
+     * @param array $dataToCreate
+     * @return string
+     */
     private function createDate(array $dataToCreate): string
     {
         $date = $dataToCreate['date'];

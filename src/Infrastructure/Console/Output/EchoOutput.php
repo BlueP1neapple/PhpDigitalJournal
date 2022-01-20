@@ -13,6 +13,6 @@
          */
         public function print(string $text): void
         {
-            echo $text;
+            echo $text . "\n";
         }
     }

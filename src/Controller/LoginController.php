@@ -23,22 +23,22 @@ class LoginController implements ControllerInterface
     private ViewTemplateInterface $viewTemplate;
 
     /**
-     * Поставщик
+     * Поставщик услуг аунтификации
+     *
      * @var HttpAuthProvider
      */
     private HttpAuthProvider $httpAuthProvider;
 
     /**
-     * @param ViewTemplateInterface $viewTemplate
-     * @param HttpAuthProvider $httpAuthProvider
+     * @param ViewTemplateInterface $viewTemplate - Шаблонизатор
+     * @param HttpAuthProvider $httpAuthProvider - Поставщик услуг аунтификации
      */
-    public function __construct(ViewTemplateInterface $viewTemplate,
-        HttpAuthProvider $httpAuthProvider
-    )
+    public function __construct(ViewTemplateInterface $viewTemplate, HttpAuthProvider $httpAuthProvider)
     {
         $this->viewTemplate = $viewTemplate;
         $this->httpAuthProvider = $httpAuthProvider;
     }
+
 
     /**
      * @inheritDoc
@@ -46,16 +46,15 @@ class LoginController implements ControllerInterface
     public function __invoke(ServerRequest $serverRequest): HttpResponse
     {
         try {
-            $response = $this->doLogin($serverRequest);
-        }catch (Throwable $e){
+            $response= $this->doLogin($serverRequest);
+        } catch (Throwable $e){
             $response = $this->buildErrorResponse($e);
         }
         return $response;
     }
 
-
     /**
-     * Создаёт http ответ ошибок
+     * Создание http ответа для ошибки
      *
      * @param Throwable $e
      * @return HttpResponse
@@ -70,15 +69,13 @@ class LoginController implements ControllerInterface
         ];
         $html = $this->viewTemplate->render(
             __DIR__ . '/../../templates/errors.phtml',
-            $context,
+            $context
         );
-
         return ServerResponseFactory::createHtmlResponse($httpCode, $html);
-
     }
 
     /**
-     * Реализация аутентификации
+     * Процесс аунтификации
      *
      * @param ServerRequest $serverRequest
      * @return HttpResponse
@@ -87,69 +84,60 @@ class LoginController implements ControllerInterface
     {
         $response = null;
         $context = [];
-        if ('POST' === $serverRequest->getMethod()){
-
-
+        if('POST' === $serverRequest->getMethod()){
             $authData = [];
-            parse_str($serverRequest->getBody(), $authData);
+            parse_str($serverRequest->getBody(),$authData);
             $this->validateAuthData($authData);
-
-            if ($this->isAuth($authData['login'], $authData['password'])){
+            if($this->isAuth($authData['login'],$authData['password'])){
                 $queryParams = $serverRequest->getQueryParams();
-                $redirect = array_key_exists('redirect', $queryParams)
+                $redirect = array_key_exists('redirect',$queryParams)
                     ? Uri::createFromString($queryParams['redirect'])
-                    : Uri::createFromString('/');
+                    :Uri::createFromString('/');
                 $response = ServerResponseFactory::redirect($redirect);
-            } else {
+            }else{
                 $context['errMsg'] = 'Логин и пароль не подходят';
             }
-
-
-
-            if(array_key_exists('redirect', $queryParams)){
-                $response = ServerResponseFactory::redirect(Uri::createFromString($queryParams['redirect']));
-            }
         }
-
-        if (null == $response){
+        if (null === $response){
             $html = $this->viewTemplate->render(__DIR__ . '/../../templates/login.phtml', $context);
             $response = ServerResponseFactory::createHtmlResponse(200, $html);
         }
-
         return $response;
     }
 
     /**
-     * Логика валидации теола гогина
+     * логика валидации форм унтификации
      *
-     * @param array $authData
+     * @param array $authData - данные форм аунтификации
+     * @return void
      */
     private function validateAuthData(array $authData):void
     {
-        if (false === array_key_exists('login', $authData)){
-            throw new RuntimeException('Логина нет');
+        if(false === array_key_exists('login',$authData)){
+            throw new RuntimeException('Отсутсвует логин');
         }
-        if (false === is_string($authData['login'])){
-            throw new RuntimeException('Логин не верный формат');
+        if(false === is_string($authData['login'])){
+            throw new RuntimeException('Логин имеет не верный формат');
         }
-        if (false === array_key_exists('password', $authData)){
-            throw new RuntimeException('password нет');
+        if(false === array_key_exists('password',$authData)){
+            throw new RuntimeException('Отсутсвует пароль');
         }
-        if (false === is_string($authData['password'])){
-            throw new RuntimeException('password не верный формат');
+        if(false === is_string($authData['password'])){
+            throw new RuntimeException('Пароль имеет не верный формат');
         }
     }
 
     /**
-     * Проводим аутентификацию пользователя
+     * проведение аунтификации пользователя
      *
-     * @param string $login логин юзера
-     * @param string $password пароль юзера
+     * @param string $login - логин пользователя
+     * @param string $password - пароль пользователя
      * @return bool
      */
-    private function isAuth(string $login,string $password):bool
+    private function isAuth(string $login, string $password):bool
     {
-        return $this->httpAuthProvider->auth($login, $password);
+        return $this->httpAuthProvider->auth($login,$password);
     }
+
 
 }

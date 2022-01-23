@@ -1,60 +1,62 @@
 <?php
-namespace JoJoBizzareCoders\DigitalJournal\Infrastructure;
+namespace JoJoBizzareCoders\DigitalJournal\Config;
     use JoJoBizzareCoders\DigitalJournal\Exception;
+
+    use JoJoBizzareCoders\DigitalJournal\Infrastructure\HttpApplication\AppConfig as BaseConfig;
 
     /**
      * Конфиг приложения
      */
-    class AppConfig
+    class AppConfig extends BaseConfig
     {
         /**
          * Путь до файла с данными об занятиях
          *
          * @var string
          */
-        private string $pathToLesson= __DIR__ . '/../../data/lesson.json';
+        private string $pathToLesson = __DIR__ . '/../../data/lesson.json';
 
         /**
          * Путь до файла с данными об оценках
          *
          * @var string
          */
-        private string $pathToAssessmentReport= __DIR__ . '/../../data/assessmentReport.json';
+        private string $pathToAssessmentReport = __DIR__ . '/../../data/assessmentReport.json';
 
         /**
          * Путь до файла с данными об Предмете
          *
          * @var string
          */
-        private string $pathToItems= __DIR__ . '/../../data/item.json';
+        private string $pathToItems = __DIR__ . '/../../data/item.json';
 
         /**
          * Путь до файла с данными об Учителе
          *
          * @var string
          */
-        private string $pathToTeachers= __DIR__ . '/../../data/teacher.json';
+        private string $pathToTeachers = __DIR__ . '/../../data/teacher.json';
 
         /**
          * Путь до файла с данными об Классах
          *
          * @var string
          */
-        private string $pathToClasses= __DIR__ . '/../../data/class.json';
+        private string $pathToClasses = __DIR__ . '/../../data/class.json';
 
         /**
          * Путь до файла с данными об Студентах
          *
          * @var string
          */
-        private string $pathToStudents= __DIR__ . '/../../data/student.json';
+        private string $pathToStudents = __DIR__ . '/../../data/student.json';
 
         /**
          * Путь до файла с данными об Родителях
          *
          * @var string
          */
-        private string $pathToParents= __DIR__ . '/../../data/parent.json';
+        private string $pathToParents = __DIR__ . '/../../data/parent.json';
 
         /**
          * Путь с файлами с логами
@@ -71,14 +73,6 @@ namespace JoJoBizzareCoders\DigitalJournal\Infrastructure;
         private string $loggerType;
 
         /**
-         * Скрывать сообщения по ошибкам
-         *
-         * @var bool
-         */
-        private bool $hideErrorMessage;
-
-
-        /**
          * Возвращает ури формы аунтефикации
          *
          * @var string
@@ -90,7 +84,7 @@ namespace JoJoBizzareCoders\DigitalJournal\Infrastructure;
          *
          * @param string $loginUri
          */
-        private function setLoginUri(string $loginUri): void
+        protected function setLoginUri(string $loginUri): void
         {
             $this->loginUri = $loginUri;
         }
@@ -103,27 +97,6 @@ namespace JoJoBizzareCoders\DigitalJournal\Infrastructure;
         public function getLoginUri(): string
         {
             return $this->loginUri;
-        }
-
-
-        /**
-         * Возвращает флаг указывающий, что нужно скрыватиь сообщения по ошибкам
-         *
-         * @return bool
-         */
-        public function isHideErrorMessage(): bool
-        {
-            return $this->hideErrorMessage;
-        }
-
-        /**
-         * Устанавливает флаг указывающий, что нужно скрыватиь сообщения по ошибкам
-         *
-         * @param bool $hideErrorMessage
-         */
-        private function setHideErrorMessage(bool $hideErrorMessage): void
-        {
-            $this->hideErrorMessage = $hideErrorMessage;
         }
 
         /**
@@ -141,7 +114,7 @@ namespace JoJoBizzareCoders\DigitalJournal\Infrastructure;
          *
          * @param string $loggerType
          */
-        private function setLoggerType(string $loggerType): void
+        protected function setLoggerType(string $loggerType): void
         {
             $this->loggerType = $loggerType;
         }
@@ -162,7 +135,7 @@ namespace JoJoBizzareCoders\DigitalJournal\Infrastructure;
          * @param string $pathToLogFile -  путь до файла с логами
          * @throws Exception\RuntimeException
          */
-        private function setPathToLogFile(string $pathToLogFile): void
+        protected function setPathToLogFile(string $pathToLogFile): void
         {
             $this->validateFilePath($pathToLogFile);
             $this->pathToLogFile = $pathToLogFile;
@@ -185,7 +158,7 @@ namespace JoJoBizzareCoders\DigitalJournal\Infrastructure;
          * @return AppConfig - объект с путём до файла с данными об Занятиях
          * @throws Exception\RuntimeException
          */
-        private function setPathToLesson(string $pathToLesson): AppConfig
+        protected function setPathToLesson(string $pathToLesson): AppConfig
         {
             $this->validateFilePath($pathToLesson);
             $this->pathToLesson = $pathToLesson;
@@ -209,7 +182,7 @@ namespace JoJoBizzareCoders\DigitalJournal\Infrastructure;
          * @return AppConfig - объект с путём до файла с данными об Оценках
          * @throws Exception\RuntimeException
          */
-        private function setPathToAssessmentReport(string $pathToAssessmentReport): AppConfig
+        protected function setPathToAssessmentReport(string $pathToAssessmentReport): AppConfig
         {
             $this->validateFilePath($pathToAssessmentReport);
             $this->pathToAssessmentReport = $pathToAssessmentReport;
@@ -233,7 +206,7 @@ namespace JoJoBizzareCoders\DigitalJournal\Infrastructure;
          * @return AppConfig - объект с путём до файла с данными об Предмете
          * @throws Exception\RuntimeException
          */
-        private function setPathToItems(string $pathToItems): AppConfig
+        protected function setPathToItems(string $pathToItems): AppConfig
         {
             $this->validateFilePath($pathToItems);
             $this->pathToItems = $pathToItems;
@@ -257,7 +230,7 @@ namespace JoJoBizzareCoders\DigitalJournal\Infrastructure;
          * @return AppConfig - объект с путём до файла с данными об Учителе
          * @throws Exception\RuntimeException
          */
-        private function setPathToTeachers(string $pathToTeachers): AppConfig
+        protected function setPathToTeachers(string $pathToTeachers): AppConfig
         {
             $this->validateFilePath($pathToTeachers);
             $this->pathToTeachers = $pathToTeachers;
@@ -281,7 +254,7 @@ namespace JoJoBizzareCoders\DigitalJournal\Infrastructure;
          * @return AppConfig - объект с путём до файла с данными об Классах
          * @throws Exception\RuntimeException
          */
-        private function setPathToClasses(string $pathToClasses): AppConfig
+        protected function setPathToClasses(string $pathToClasses): AppConfig
         {
             $this->validateFilePath($pathToClasses);
             $this->pathToClasses = $pathToClasses;
@@ -305,7 +278,7 @@ namespace JoJoBizzareCoders\DigitalJournal\Infrastructure;
          * @return AppConfig - объект с путём до файла с данными об Студентах
          * @throws Exception\RuntimeException
          */
-        private function setPathToStudents(string $pathToStudents): AppConfig
+        protected function setPathToStudents(string $pathToStudents): AppConfig
         {
             $this->validateFilePath($pathToStudents);
             $this->pathToStudents = $pathToStudents;
@@ -329,7 +302,7 @@ namespace JoJoBizzareCoders\DigitalJournal\Infrastructure;
          * @return AppConfig - объект с путём до файла с данными об Родителях
          * @throws Exception\RuntimeException
          */
-        private function setPathToParents(string $pathToParents): AppConfig
+        protected function setPathToParents(string $pathToParents): AppConfig
         {
             $this->validateFilePath($pathToParents);
             $this->pathToParents = $pathToParents;
@@ -345,39 +318,10 @@ namespace JoJoBizzareCoders\DigitalJournal\Infrastructure;
          * @return void
          * @throws Exception\RuntimeException
          */
-        private function validateFilePath(string $path):void
+        protected function validateFilePath(string $path): void
         {
-            if(false===file_exists($path)){
+            if (false === file_exists($path)) {
                 throw new Exception\ErrorCreateAppConfigException('Неккоректный путь до файла с данными');
             }
         }
-
-        /**
-         * Создаёт конфиг приложения из массива
-         *
-         * @param array $config
-         * @return static
-         * @uses AppConfig::setPathToParents()
-         * @uses AppConfig::setPathToStudents()
-         * @uses AppConfig::setPathToClasses()
-         * @uses AppConfig::setPathToTeachers()
-         * @uses AppConfig::setPathToItems()
-         * @uses AppConfig::setPathToAssessmentReport()
-         * @uses AppConfig::setPathToLesson()
-         * @uses AppConfig::setPathToLogFile()
-         * @uses AppConfig::setLoggerType()
-         * @uses AppConfig::setHideErrorMessage()
-         */
-        public static function createFromArray(array $config): self
-        {
-            $appConfig=new self();
-            foreach ($config as $key=>$value){
-                if(property_exists($appConfig,$key)){
-                    $setter='set'.ucfirst($key);
-                    $appConfig->{$setter}($value);
-                }
-            }
-            return $appConfig;
-        }
-
     }

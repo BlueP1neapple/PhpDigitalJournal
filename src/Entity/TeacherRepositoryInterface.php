@@ -2,7 +2,7 @@
 
 namespace JoJoBizzareCoders\DigitalJournal\Entity;
 
-interface TeacherRepositoryInterface extends UserRepositoryInterface
+interface TeacherRepositoryInterface extends AbstractUserRepositoryInterface
 {
 
     /**

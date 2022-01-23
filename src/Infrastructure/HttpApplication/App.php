@@ -1,12 +1,13 @@
 <?php
 
-namespace JoJoBizzareCoders\DigitalJournal\Infrastructure;
+namespace JoJoBizzareCoders\DigitalJournal\Infrastructure\HttpApplication;
 
 
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\DI\ContainerInterface;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Http\HttpResponse;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Http\ServerRequest;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Http\ServerResponseFactory;
+use JoJoBizzareCoders\DigitalJournal\Infrastructure\HttpApplication\AppConfigInterface;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Logger\LoggerInterface;
 use JoJoBizzareCoders\DigitalJournal\Exception;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Router\RouterInterface;
@@ -17,11 +18,10 @@ use Throwable;
  */
 final class App
 {
-    //Свойства
     /**
      * Конфиг приложения
      */
-    private ?AppConfig $appConfig = null;
+    private ?AppConfigInterface $appConfig = null;
 
     /**
      * Логгирование
@@ -120,9 +120,9 @@ final class App
     }
 
     /**
-     * @return AppConfig
+     * @return AppConfigInterface
      */
-    private function getAppConfig(): AppConfig
+    private function getAppConfig(): AppConfigInterface
     {
         if(null === $this->appConfig){
             $this->appConfig = ($this->appConfigFactory)($this->getContainer());
@@ -163,7 +163,7 @@ final class App
     {
         $hasAppConfig = false;
         try {
-            $hasAppConfig = $this->getAppConfig() instanceof AppConfig;
+            $hasAppConfig = $this->getAppConfig() instanceof AppConfigInterface;
             $logger = $this->getLogger();
 
             $urlPath = $serverRequest->getUri()->getPath();
@@ -180,7 +180,6 @@ final class App
                     'status'  => 'fail',
                     'message' => 'unsupported request'
                 ]);
-                $this->logger->debug('unsupported request');
             }
             $this->getRender()->render($httpResponse);
         } catch (Exception\InvalidDataStructureException $e) {
@@ -190,7 +189,6 @@ final class App
             ]);
 
             $this->silentRender($httpResponse);
-            $this->logger->error($e->getMessage());
         } catch (Throwable $e) {
             $errMsg = ($hasAppConfig && !$this->getAppConfig()->isHideErrorMessage())
             || $e instanceof Exception\ErrorCreateAppConfigException ? $e->getMessage() : 'system error';

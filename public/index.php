@@ -1,16 +1,16 @@
 <?php
 
-    use JoJoBizzareCoders\DigitalJournal\Infrastructure\AppConfig;
-    use JoJoBizzareCoders\DigitalJournal\Infrastructure\App;
-    use JoJoBizzareCoders\DigitalJournal\Infrastructure\Autoloader;
+use JoJoBizzareCoders\DigitalJournal\Config\AppConfig;
+use JoJoBizzareCoders\DigitalJournal\Infrastructure\Autoloader\Autoloader;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\DI\Container;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Http\ServerRequestFactory;
+use JoJoBizzareCoders\DigitalJournal\Infrastructure\HttpApplication\App;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Logger\LoggerInterface;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Router\RouterInterface;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\View\RenderInterface;
 
 
-    require_once __DIR__ . "/../src/Infrastructure/Autoloader.php";
+    require_once __DIR__ . "/../src/Infrastructure/Autoloader/Autoloader.php";
 
     spl_autoload_register(
         new Autoloader([

@@ -1,5 +1,5 @@
 <?php
-namespace JoJoBizzareCoders\DigitalJournal\Infrastructure;
+namespace JoJoBizzareCoders\DigitalJournal\Infrastructure\Autoloader;
 
 /**
  * Автолоудер автоматически подуключает require_once

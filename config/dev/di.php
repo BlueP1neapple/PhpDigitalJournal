@@ -1,5 +1,8 @@
 <?php
 
+use JoJoBizzareCoders\DigitalJournal\AppService\UserDataStorage\UserDataProvider;
+use JoJoBizzareCoders\DigitalJournal\AppService\UserDataStorage\UserDataStorage;
+use JoJoBizzareCoders\DigitalJournal\Config\AppConfig;
 use JoJoBizzareCoders\DigitalJournal\ConsoleCommand\FindAssessmentReport;
 use JoJoBizzareCoders\DigitalJournal\ConsoleCommand\FindLesson;
 use JoJoBizzareCoders\DigitalJournal\ConsoleCommand\HashStr;
@@ -19,8 +22,9 @@ use JoJoBizzareCoders\DigitalJournal\Entity\LessonRepositoryInterface;
 use JoJoBizzareCoders\DigitalJournal\Entity\ParentRepositoryInterface;
 use JoJoBizzareCoders\DigitalJournal\Entity\StudentRepositoryInterface;
 use JoJoBizzareCoders\DigitalJournal\Entity\TeacherRepositoryInterface;
-use JoJoBizzareCoders\DigitalJournal\Infrastructure\AppConfig;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Auth\HttpAuthProvider;
+use JoJoBizzareCoders\DigitalJournal\Infrastructure\Auth\UserDataProviderInterface;
+use JoJoBizzareCoders\DigitalJournal\Infrastructure\Auth\UserDataStorageInterface;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Console\Output\EchoOutput;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Console\Output\OutputInterface;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\DataLoader\DataLoaderInterface;
@@ -70,13 +74,21 @@ return [
     'services' => [
         HttpAuthProvider::class => [
             'args' =>[
-                'parentRepositoryInterface' => ParentRepositoryInterface::class,
-                'studentRepositoryInterface' => StudentRepositoryInterface::class,
-                'teacherRepositoryInterface' => TeacherRepositoryInterface::class,
-                'sessionInterface' => SessionInterface::class,
-                'loginUri'=>'loginUri'
+                'userDataStorage'=>UserDataStorageInterface::class,
+                'session' => SessionInterface::class,
+                'loginUri' => 'loginUri'
+
             ]
         ],
+        UserDataStorageInterface::class => [
+            'class' => UserDataStorage::class,
+            'args' => [
+                ParentRepositoryInterface::class,
+                TeacherRepositoryInterface::class,
+                StudentRepositoryInterface::class
+            ]
+        ],
+
         LoginController::class =>[
             'args' => [
                 'template' => ViewTemplateInterface::class,
@@ -346,7 +358,11 @@ return [
                 'pathToAssessmentReport' => 'pathToAssessmentReport',
                 'dataLoader' => DataLoaderInterface::class
             ]
-        ]
+        ],
+        UserDataProviderInterface::class => [
+            'class'=> UserDataProvider::class,
+        ],
+
     ],
     'factories' => [
         ContainerInterface::class => static function (ContainerInterface $c): ContainerInterface {
@@ -395,16 +411,16 @@ return [
         SessionInterface::class => static function (ContainerInterface $c) {
             return SessionNative::create();
         },
-        'loginUri'=>static function (ContainerInterface $c):Uri{
-            /**
-             * @var AppConfig $appConfig
-             */
+
+        'loginUri' => static function (ContainerInterface $c):Uri {
+            /** @var AppConfig $appConfig */
             $appConfig = $c->get(AppConfig::class);
             return Uri::createFromString($appConfig->getLoginUri());
         },
         AppConfig::class => static function (ContainerInterface $c): AppConfig {
             $appConfig = $c->get('appConfig');
             return AppConfig::createFromArray($appConfig);
-        }
+        },
+
     ]
 ];

@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/../vendor/autoload.php';
 
 use JoJoBizzareCoders\DigitalJournal\Config\AppConfig;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Autoloader\Autoloader;

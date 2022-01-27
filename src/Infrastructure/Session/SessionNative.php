@@ -2,7 +2,7 @@
 
 namespace JoJoBizzareCoders\DigitalJournal\Infrastructure\Session;
 
-use JoJoBizzareCoders\DigitalJournal\Exception\RuntimeException;
+use JoJoBizzareCoders\DigitalJournal\Infrastructure\Exception\RuntimeException;
 
 class SessionNative implements SessionInterface
 {

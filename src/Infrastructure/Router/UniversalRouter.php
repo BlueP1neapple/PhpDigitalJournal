@@ -10,7 +10,6 @@
      */
     class UniversalRouter implements RouterInterface
     {
-        //Константы
         /**
          * Сопоставление http метода с действием
          */
@@ -26,7 +25,6 @@
          */
         private const URL_PATTERN = '/^\/(?<___RESOURCE_NAME___>[a-zA-Z][a-zA-Z0-9\-]*)(\/(?<___RESOURCE_ID___>\d+))?(\/(?<___SUB_ACTION___>[a-zA-Z][a-zA-Z0-9\-]*))?\/?$/';
 
-        //Свойства
         /**
          * Пространство имён в котором распологаються контроллеры приложения
          *

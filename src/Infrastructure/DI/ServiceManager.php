@@ -2,15 +2,13 @@
 
     namespace JoJoBizzareCoders\DigitalJournal\Infrastructure\DI;
 
-    use http\Params;
-    use JoJoBizzareCoders\DigitalJournal\Exception\RuntimeException;
+    use JoJoBizzareCoders\DigitalJournal\Infrastructure\Exception\RuntimeException;
 
     /**
      * Менеджер сервисов
      */
     class ServiceManager implements ContainerInterface
     {
-        //Своства
         /**
          * Инстансы зарегистрированных сервисов
          * - ключ это имя сервиса(совпадает с именем класса или интерфейса)
@@ -26,8 +24,6 @@
          * @var callable[]
          */
         public array $factories;
-
-        //Методы
 
         /**
          * Конструктор менеджера сервисов

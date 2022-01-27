@@ -9,7 +9,6 @@
      */
     class HttpRequest extends AbstractMessage
     {
-        // Свойтсва
         /**
          * http метод
          *

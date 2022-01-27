@@ -7,7 +7,6 @@
      */
     class ServerRequest extends HttpRequest
     {
-        // Свойства
         /**
          * Параметры запроса
          *
@@ -22,8 +21,6 @@
          */
         private array $attributes = [];
 
-
-        // Методы
 
         /**
          * Возвращет атрибуты серверного запроса

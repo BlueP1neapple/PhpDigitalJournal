@@ -7,7 +7,6 @@ use JoJoBizzareCoders\DigitalJournal\Infrastructure\Http\ServerRequest;
 
 class DefaultRouter implements RouterInterface
 {
-    //Свойства
     /**
      * Массив с urlPath и обработчиками
      * @var array
@@ -20,7 +19,6 @@ class DefaultRouter implements RouterInterface
      */
     private ControllerFactory $controllerFactory;
 
-    //Методы
     /**
      * @param array $handlers
      * @param ControllerFactory $controllerFactory

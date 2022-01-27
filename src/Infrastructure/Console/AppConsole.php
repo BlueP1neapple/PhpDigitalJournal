@@ -2,7 +2,7 @@
 
     namespace JoJoBizzareCoders\DigitalJournal\Infrastructure\Console;
 
-    use JoJoBizzareCoders\DigitalJournal\Exception\RuntimeException;
+    use JoJoBizzareCoders\DigitalJournal\Infrastructure\Exception\RuntimeException;
     use JoJoBizzareCoders\DigitalJournal\Infrastructure\Console\Output\EchoOutput;
     use JoJoBizzareCoders\DigitalJournal\Infrastructure\Console\Output\OutputInterface;
     use JoJoBizzareCoders\DigitalJournal\Infrastructure\DI\ContainerInterface;

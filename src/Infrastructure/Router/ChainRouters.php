@@ -9,14 +9,12 @@ use JoJoBizzareCoders\DigitalJournal\Infrastructure\Http\ServerRequest;
  */
 class ChainRouters implements RouterInterface
 {
-    //Свойства
     /**
      * Цепочка роутеров
      * @var RouterInterface[]
      */
     private array $routers;
 
-    //Методы
     /**
      * @param RouterInterface ...$routers
      */

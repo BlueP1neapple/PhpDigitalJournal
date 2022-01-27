@@ -10,7 +10,6 @@
      */
     class RegExpRouter implements RouterInterface
     {
-        // Свойство
         /**
          * Ассоциативный массив в котором сопаставлены регулярные выражения и обработчики
          *
@@ -24,8 +23,6 @@
          * @var ControllerFactory
          */
         private ControllerFactory $controllerFactory;
-
-        //Методы
 
         /**
          * Конструктор роутера работающего с универсальными регулярными выражениями

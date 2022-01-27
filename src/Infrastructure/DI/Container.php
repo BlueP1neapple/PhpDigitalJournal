@@ -2,8 +2,8 @@
 
     namespace JoJoBizzareCoders\DigitalJournal\Infrastructure\DI;
 
-    use JoJoBizzareCoders\DigitalJournal\Exception\DomainException;
-    use JoJoBizzareCoders\DigitalJournal\Exception\RuntimeException;
+    use JoJoBizzareCoders\DigitalJournal\Infrastructure\Exception\DomainException;
+    use JoJoBizzareCoders\DigitalJournal\Infrastructure\Exception\RuntimeException;
     use Throwable;
 
     class Container implements ContainerInterface

@@ -7,7 +7,6 @@
      */
     class HttpResponse extends AbstractMessage
     {
-        //Свойства
         /**
          * http код
          *

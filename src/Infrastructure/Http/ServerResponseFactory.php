@@ -2,8 +2,8 @@
 
     namespace JoJoBizzareCoders\DigitalJournal\Infrastructure\Http;
 
-    use JoJoBizzareCoders\DigitalJournal\Exception\RuntimeException;
-    use JoJoBizzareCoders\DigitalJournal\Exception\UnexpectedValueException;
+    use JoJoBizzareCoders\DigitalJournal\Infrastructure\Exception\RuntimeException;
+    use JoJoBizzareCoders\DigitalJournal\Infrastructure\Exception\UnexpectedValueException;
     use JoJoBizzareCoders\DigitalJournal\Infrastructure\Uri\Uri;
     use Throwable;
 

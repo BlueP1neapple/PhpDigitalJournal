@@ -2,7 +2,7 @@
 
 namespace JoJoBizzareCoders\DigitalJournal\Infrastructure\ViewTemplate;
 
-use JoJoBizzareCoders\DigitalJournal\Exception;
+use JoJoBizzareCoders\DigitalJournal\Infrastructure\Exception;
 
 class PhtmlTemplate implements ViewTemplateInterface
 {

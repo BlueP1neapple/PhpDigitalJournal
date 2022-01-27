@@ -16,7 +16,6 @@
          */
         private array $buffer;
 
-        //Методы
 
         /**
          * @inheritDoc

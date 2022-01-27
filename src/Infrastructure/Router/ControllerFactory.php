@@ -10,14 +10,12 @@ use JoJoBizzareCoders\DigitalJournal\Infrastructure\DI\ContainerInterface;
  */
 final class ControllerFactory
 {
-    // Свойство
     /**
      * DI контейнер
      * @var ContainerInterface
      */
     private ContainerInterface $diContainer;
 
-    //Методы
     /**
      *
      * @param ContainerInterface $diContainer

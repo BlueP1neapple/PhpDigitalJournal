@@ -7,7 +7,6 @@
      */
     abstract class AbstractMessage
     {
-        // Свойства
         /**
          * Версия протокола
          *
@@ -28,8 +27,6 @@
          * @var string|null
          */
         private ?string $body;
-
-        // Методы
 
         /**
          * Конструктор

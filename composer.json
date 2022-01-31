@@ -28,7 +28,7 @@
 
   },
   "minimum-stability": "dev",
-  "prefer-stable": true,
+  "prefer-stable": false,
   "conflict": {
 
   },
@@ -36,10 +36,19 @@
     "phpunit/phpunit": "9.*",
     "squizlabs/php_codesniffer": "^3.6"
   },
-  "repositories": [{
+  "repositories": [
+    {
     "type": "git",
     "url": "git@git.effective-team.ru:rnd/educational-projects/interns/2021-flow-1/shorkin.d.a/home-framework.git"
-  }
+    },
+    {
+      "type": "git",
+      "url": "git@git.effective-team.ru:rnd/educational-projects/interns/2021-flow-1/shorkin.d.a/logger.git"
+    },
+    {
+      "type": "git",
+      "url": "git@git.effective-team.ru:rnd/educational-projects/interns/2021-flow-1/shorkin.d.a/viewtemplate.git"
+    }
   ],
   "autoload": {
     "psr-4": {

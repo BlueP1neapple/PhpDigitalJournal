@@ -20,7 +20,7 @@
         "idItem": 1,
         "cabinet": 56,
         "email": "kruglova@gmail.com",
-        "login": "t1",
+        "login": "TEA0",
         "password": ""
     },
     {
@@ -44,8 +44,8 @@
         "idItem": 2,
         "cabinet": 77,
         "email": "guseva@gmail.com",
-        "login": "t2",
-        "password": ""
+        "login": "TEA2",
+        "password": "$2y$10$bTpSRFaF9zOzDMtcLIVJ8.5fWACkaVPbAHaCG51865JTy/jgcOvFe"
     },
     {
         "id": 3,
@@ -68,7 +68,7 @@
         "idItem": 3,
         "cabinet": 64,
         "email": "dmitriev@gmail.com",
-        "login": "t3",
-        "password": ""
+        "login": "TEA3",
+        "password": "$2y$10$s6qmGVK5SEoR.KbrDew2u.uWx9RdJAATl6FVSeE7Q7ggCsrWoM/Za"
     }
 ]

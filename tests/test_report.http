@@ -1,28 +1,8 @@
-### Тестирование регистрации новой оценки
-POST http://localhost:8000/assessmentReport/register
-Content-Type: application/json
-
-{
-  "lesson_id": 1,
-  "student_id": 1,
-  "mark": 2
-}
-
-> {%
-client.test("Тестирование регистрации новой оценки", function()
-{
-  client.assert(response.status=== 201, "Проверяю код ответа. Ожидаю код 201. Фактическое значение: " + response.status);
-  client.assert(response.contentType.mimeType==="application/json", "Ожидаю application/type фактически " + response.contentType.mimeType);
-  client.assert(response.body.hasOwnProperty("id"), "Отсутвует id новой оценки");
-});
-%}
-
-
 ### Тестирование поиска оценок в дневнике по Названию предмета
 GET http://localhost:8000/assessmentReport?item_name=Математика
 
 > {%
-client.test("Тестирование возможности смотреть оценки по item_name",function (){
+client.test("Тестирование поиска оценок в дневнике по Названию предмета",function (){
     client.assert(response.status===200, "Проверяю код ответа. Ожидаю код 200. Фактический код: "+response.status);
     client.assert(response.contentType.mimeType==="application/json", "Ожидаю application/json. Фактически: "+response.contentType.mimeType);
     client.assert(response.body[0]["lesson"]!==undefined,"Нет данных об занятии");
@@ -50,7 +30,7 @@ client.test("Тестирование возможности смотреть о
     client.assert(response.body[0]["lesson"]["class"]["number"]===6,"Номер класса не корректен");
     client.assert(response.body[0]["lesson"]["class"]["letter"]==="А","Буква класса не корректена");
     client.assert(response.body[0]["student"]!==undefined,"Нет данных о студенте");
-    client.assert(response.body[0]["student"]["id"]===1,"id студента не корректен");
+    client.assert(response.body[0]["student"]["id"]===4,"id студента не корректен");
     client.assert(response.body[0]["student"]["fio"]["surname"]==="Кузнецов","Фамилия студента не корректен");
     client.assert(response.body[0]["student"]["fio"]["name"]==="Алексей","Имя студента не корректен");
     client.assert(response.body[0]["student"]["fio"]["patronymic"]==="Евгеньевич","Отчество студента не корректен");
@@ -60,7 +40,7 @@ client.test("Тестирование возможности смотреть о
     client.assert(response.body[0]["student"]["address"]["home"]==="д. 35Б","Дом студента не корректен");
     client.assert(response.body[0]["student"]["address"]["apartment"]==="кв. 23","Номер квартиры студента не корректен");
     client.assert(response.body[0]["student"]["parent"]!==undefined,"Нет данных о родителях Студента");
-    client.assert(response.body[0]["student"]["parent"]["id"]===1,"id родителей не корректен");
+    client.assert(response.body[0]["student"]["parent"]["id"]===12,"id родителей не корректен");
     client.assert(response.body[0]["student"]["parent"]["fio"]["surname"]==="Кузнецов","Фамилия родителей не корректен");
     client.assert(response.body[0]["student"]["parent"]["fio"]["name"]==="Евгений","Имя родителей не корректен");
     client.assert(response.body[0]["student"]["parent"]["fio"]["patronymic"]==="Сергеевич","Отчество родителей не корректен");
@@ -107,7 +87,7 @@ client.test("Тестирование поиска оценок в дневни�
     client.assert(response.body[0]["lesson"]["class"]["number"]===6,"Номер класса не корректен");
     client.assert(response.body[0]["lesson"]["class"]["letter"]==="А","Буква класса не корректена");
     client.assert(response.body[0]["student"]!==undefined,"Нет данных о студенте");
-    client.assert(response.body[0]["student"]["id"]===1,"id студента не корректен");
+    client.assert(response.body[0]["student"]["id"]===4,"id студента не корректен");
     client.assert(response.body[0]["student"]["fio"]["surname"]==="Кузнецов","Фамилия студента не корректен");
     client.assert(response.body[0]["student"]["fio"]["name"]==="Алексей","Имя студента не корректен");
     client.assert(response.body[0]["student"]["fio"]["patronymic"]==="Евгеньевич","Отчество студента не корректен");
@@ -117,7 +97,7 @@ client.test("Тестирование поиска оценок в дневни�
     client.assert(response.body[0]["student"]["address"]["home"]==="д. 35Б","Дом студента не корректен");
     client.assert(response.body[0]["student"]["address"]["apartment"]==="кв. 23","Номер квартиры студента не корректен");
     client.assert(response.body[0]["student"]["parent"]!==undefined,"Нет данных о родителях Студента");
-    client.assert(response.body[0]["student"]["parent"]["id"]===1,"id родителей не корректен");
+    client.assert(response.body[0]["student"]["parent"]["id"]===12,"id родителей не корректен");
     client.assert(response.body[0]["student"]["parent"]["fio"]["surname"]==="Кузнецов","Фамилия родителей не корректен");
     client.assert(response.body[0]["student"]["parent"]["fio"]["name"]==="Евгений","Имя родителей не корректен");
     client.assert(response.body[0]["student"]["parent"]["fio"]["patronymic"]==="Сергеевич","Отчество родителей не корректен");
@@ -164,7 +144,7 @@ client.test("Тестирование поиска оценок в дневни�
     client.assert(response.body[0]["lesson"]["class"]["number"]===6,"Номер класса не корректен");
     client.assert(response.body[0]["lesson"]["class"]["letter"]==="А","Буква класса не корректена");
     client.assert(response.body[0]["student"]!==undefined,"Нет данных о студенте");
-    client.assert(response.body[0]["student"]["id"]===1,"id студента не корректен");
+    client.assert(response.body[0]["student"]["id"]===4,"id студента не корректен");
     client.assert(response.body[0]["student"]["fio"]["surname"]==="Кузнецов","Фамилия студента не корректен");
     client.assert(response.body[0]["student"]["fio"]["name"]==="Алексей","Имя студента не корректен");
     client.assert(response.body[0]["student"]["fio"]["patronymic"]==="Евгеньевич","Отчество студента не корректен");
@@ -174,7 +154,7 @@ client.test("Тестирование поиска оценок в дневни�
     client.assert(response.body[0]["student"]["address"]["home"]==="д. 35Б","Дом студента не корректен");
     client.assert(response.body[0]["student"]["address"]["apartment"]==="кв. 23","Номер квартиры студента не корректен");
     client.assert(response.body[0]["student"]["parent"]!==undefined,"Нет данных о родителях Студента");
-    client.assert(response.body[0]["student"]["parent"]["id"]===1,"id родителей не корректен");
+    client.assert(response.body[0]["student"]["parent"]["id"]===12,"id родителей не корректен");
     client.assert(response.body[0]["student"]["parent"]["fio"]["surname"]==="Кузнецов","Фамилия родителей не корректен");
     client.assert(response.body[0]["student"]["parent"]["fio"]["name"]==="Евгений","Имя родителей не корректен");
     client.assert(response.body[0]["student"]["parent"]["fio"]["patronymic"]==="Сергеевич","Отчество родителей не корректен");
@@ -221,7 +201,7 @@ client.test("Тестирование поиска оценок в дневни�
     client.assert(response.body[0]["lesson"]["class"]["number"]===6,"Номер класса не корректен");
     client.assert(response.body[0]["lesson"]["class"]["letter"]==="А","Буква класса не корректена");
     client.assert(response.body[0]["student"]!==undefined,"Нет данных о студенте");
-    client.assert(response.body[0]["student"]["id"]===1,"id студента не корректен");
+    client.assert(response.body[0]["student"]["id"]===4,"id студента не корректен");
     client.assert(response.body[0]["student"]["fio"]["surname"]==="Кузнецов","Фамилия студента не корректен");
     client.assert(response.body[0]["student"]["fio"]["name"]==="Алексей","Имя студента не корректен");
     client.assert(response.body[0]["student"]["fio"]["patronymic"]==="Евгеньевич","Отчество студента не корректен");
@@ -231,7 +211,7 @@ client.test("Тестирование поиска оценок в дневни�
     client.assert(response.body[0]["student"]["address"]["home"]==="д. 35Б","Дом студента не корректен");
     client.assert(response.body[0]["student"]["address"]["apartment"]==="кв. 23","Номер квартиры студента не корректен");
     client.assert(response.body[0]["student"]["parent"]!==undefined,"Нет данных о родителях Студента");
-    client.assert(response.body[0]["student"]["parent"]["id"]===1,"id родителей не корректен");
+    client.assert(response.body[0]["student"]["parent"]["id"]===12,"id родителей не корректен");
     client.assert(response.body[0]["student"]["parent"]["fio"]["surname"]==="Кузнецов","Фамилия родителей не корректен");
     client.assert(response.body[0]["student"]["parent"]["fio"]["name"]==="Евгений","Имя родителей не корректен");
     client.assert(response.body[0]["student"]["parent"]["fio"]["patronymic"]==="Сергеевич","Отчество родителей не корректен");
@@ -278,7 +258,7 @@ client.test("Тестирование поиска оценок в дневни�
     client.assert(response.body[0]["lesson"]["class"]["number"]===6,"Номер класса не корректен");
     client.assert(response.body[0]["lesson"]["class"]["letter"]==="А","Буква класса не корректена");
     client.assert(response.body[0]["student"]!==undefined,"Нет данных о студенте");
-    client.assert(response.body[0]["student"]["id"]===1,"id студента не корректен");
+    client.assert(response.body[0]["student"]["id"]===4,"id студента не корректен");
     client.assert(response.body[0]["student"]["fio"]["surname"]==="Кузнецов","Фамилия студента не корректен");
     client.assert(response.body[0]["student"]["fio"]["name"]==="Алексей","Имя студента не корректен");
     client.assert(response.body[0]["student"]["fio"]["patronymic"]==="Евгеньевич","Отчество студента не корректен");
@@ -288,7 +268,7 @@ client.test("Тестирование поиска оценок в дневни�
     client.assert(response.body[0]["student"]["address"]["home"]==="д. 35Б","Дом студента не корректен");
     client.assert(response.body[0]["student"]["address"]["apartment"]==="кв. 23","Номер квартиры студента не корректен");
     client.assert(response.body[0]["student"]["parent"]!==undefined,"Нет данных о родителях Студента");
-    client.assert(response.body[0]["student"]["parent"]["id"]===1,"id родителей не корректен");
+    client.assert(response.body[0]["student"]["parent"]["id"]===12,"id родителей не корректен");
     client.assert(response.body[0]["student"]["parent"]["fio"]["surname"]==="Кузнецов","Фамилия родителей не корректен");
     client.assert(response.body[0]["student"]["parent"]["fio"]["name"]==="Евгений","Имя родителей не корректен");
     client.assert(response.body[0]["student"]["parent"]["fio"]["patronymic"]==="Сергеевич","Отчество родителей не корректен");
@@ -335,7 +315,7 @@ client.test("Тестирование поиска оценок в дневни�
     client.assert(response.body[0]["lesson"]["class"]["number"]===6,"Номер класса не корректен");
     client.assert(response.body[0]["lesson"]["class"]["letter"]==="А","Буква класса не корректена");
     client.assert(response.body[0]["student"]!==undefined,"Нет данных о студенте");
-    client.assert(response.body[0]["student"]["id"]===1,"id студента не корректен");
+    client.assert(response.body[0]["student"]["id"]===4,"id студента не корректен");
     client.assert(response.body[0]["student"]["fio"]["surname"]==="Кузнецов","Фамилия студента не корректен");
     client.assert(response.body[0]["student"]["fio"]["name"]==="Алексей","Имя студента не корректен");
     client.assert(response.body[0]["student"]["fio"]["patronymic"]==="Евгеньевич","Отчество студента не корректен");
@@ -345,7 +325,7 @@ client.test("Тестирование поиска оценок в дневни�
     client.assert(response.body[0]["student"]["address"]["home"]==="д. 35Б","Дом студента не корректен");
     client.assert(response.body[0]["student"]["address"]["apartment"]==="кв. 23","Номер квартиры студента не корректен");
     client.assert(response.body[0]["student"]["parent"]!==undefined,"Нет данных о родителях Студента");
-    client.assert(response.body[0]["student"]["parent"]["id"]===1,"id родителей не корректен");
+    client.assert(response.body[0]["student"]["parent"]["id"]===12,"id родителей не корректен");
     client.assert(response.body[0]["student"]["parent"]["fio"]["surname"]==="Кузнецов","Фамилия родителей не корректен");
     client.assert(response.body[0]["student"]["parent"]["fio"]["name"]==="Евгений","Имя родителей не корректен");
     client.assert(response.body[0]["student"]["parent"]["fio"]["patronymic"]==="Сергеевич","Отчество родителей не корректен");
@@ -360,13 +340,11 @@ client.test("Тестирование поиска оценок в дневни�
 });
  %}
 
-### Тесты для ученика
-
-### Тестирование поиска оценок в дневнике по Названию предмета
-GET http://localhost:8000/studentReport?item_name=Математика
+### Тестирование поиска оценок в дневнике по id cтудента
+GET http://localhost:8000/assessmentReport?student_id=4
 
 > {%
-client.test("Тестирование поиска оценок в дневнике по Названию предмета",function (){
+client.test("Тестирование поиска оценок в дневнике по id cтудента",function (){
     client.assert(response.status===200, "Проверяю код ответа. Ожидаю код 200. Фактический код: "+response.status);
     client.assert(response.contentType.mimeType==="application/json", "Ожидаю application/json. Фактически: "+response.contentType.mimeType);
     client.assert(response.body[0]["lesson"]!==undefined,"Нет данных об занятии");
@@ -394,7 +372,7 @@ client.test("Тестирование поиска оценок в дневни�
     client.assert(response.body[0]["lesson"]["class"]["number"]===6,"Номер класса не корректен");
     client.assert(response.body[0]["lesson"]["class"]["letter"]==="А","Буква класса не корректена");
     client.assert(response.body[0]["student"]!==undefined,"Нет данных о студенте");
-    client.assert(response.body[0]["student"]["id"]===1,"id студента не корректен");
+    client.assert(response.body[0]["student"]["id"]===4,"id студента не корректен");
     client.assert(response.body[0]["student"]["fio"]["surname"]==="Кузнецов","Фамилия студента не корректен");
     client.assert(response.body[0]["student"]["fio"]["name"]==="Алексей","Имя студента не корректен");
     client.assert(response.body[0]["student"]["fio"]["patronymic"]==="Евгеньевич","Отчество студента не корректен");
@@ -404,292 +382,7 @@ client.test("Тестирование поиска оценок в дневни�
     client.assert(response.body[0]["student"]["address"]["home"]==="д. 35Б","Дом студента не корректен");
     client.assert(response.body[0]["student"]["address"]["apartment"]==="кв. 23","Номер квартиры студента не корректен");
     client.assert(response.body[0]["student"]["parent"]!==undefined,"Нет данных о родителях Студента");
-    client.assert(response.body[0]["student"]["parent"]["id"]===1,"id родителей не корректен");
-    client.assert(response.body[0]["student"]["parent"]["fio"]["surname"]==="Кузнецов","Фамилия родителей не корректен");
-    client.assert(response.body[0]["student"]["parent"]["fio"]["name"]==="Евгений","Имя родителей не корректен");
-    client.assert(response.body[0]["student"]["parent"]["fio"]["patronymic"]==="Сергеевич","Отчество родителей не корректен");
-    client.assert(response.body[0]["student"]["parent"]["dateOfBirth"]==="1975.10.01","Дата рождения родителей не корректен");
-    client.assert(response.body[0]["student"]["parent"]["phone"]==="+79222444488","Номер телефона  родителей не корректен");
-    client.assert(response.body[0]["student"]["parent"]["address"]["street"]==="ул. Казанская","Улица родителей не корректен");
-    client.assert(response.body[0]["student"]["parent"]["address"]["home"]==="д. 35Б","Номер дома родителей не корректен");
-    client.assert(response.body[0]["student"]["parent"]["address"]["apartment"]==="кв. 23","Номер квартиры родителей не корректен");
-    client.assert(response.body[0]["student"]["parent"]["placeOfWork"]==="ООО Алмаз","Место работы родителей не корректено");
-    client.assert(response.body[0]["student"]["parent"]["email"]==="kuznecov@gmail.com","email родителей не корректен");
-    client.assert(response.body[0]["mark"]===5,"Оценка не корректена");
-});
- %}
-
-### Тестирование поиска оценок в дневнике по расшифровке названия предмета
-GET http://localhost:8000/studentReport?item_description=Математика
-
-> {%
-client.test("Тестирование поиска оценок в дневнике по расшифровке названия предмета",function (){
-    client.assert(response.status===200, "Проверяю код ответа. Ожидаю код 200. Фактический код: "+response.status);
-    client.assert(response.contentType.mimeType==="application/json", "Ожидаю application/json. Фактически: "+response.contentType.mimeType);
-    client.assert(response.body[0]["lesson"]!==undefined,"Нет данных об занятии");
-    client.assert(response.body[0]["lesson"]["id"]===1,"id занятия не корректен");
-    client.assert(response.body[0]["lesson"]["item"]!==undefined,"Нет данных о предмете");
-    client.assert(response.body[0]["lesson"]["item"]["id"]===1,"id предмета не корректен");
-    client.assert(response.body[0]["lesson"]["item"]["name"]==="Математика","Название предмета не корректено");
-    client.assert(response.body[0]["lesson"]["item"]["description"]==="Математика","Расшифровка предмета не корректено");
-    client.assert(response.body[0]["lesson"]["date"]==="2011.11.10 8:30","Дата занятия не корректно");
-    client.assert(response.body[0]["lesson"]["lessonDuration"]===40,"Продолжительность занятия не корректно");
-    client.assert(response.body[0]["lesson"]["teacher"]!==undefined,"Нет данных о преподавателе");
-    client.assert(response.body[0]["lesson"]["teacher"]["id"]===1,"id преподавателя не корректен");
-    client.assert(response.body[0]["lesson"]["teacher"]["fio"]["surname"]==="Круглова","Фамилия преподавателя не корректно");
-    client.assert(response.body[0]["lesson"]["teacher"]["fio"]["name"]==="Наталия","Имя преподавателя не корректно");
-    client.assert(response.body[0]["lesson"]["teacher"]["fio"]["patronymic"]==="Сергеевна","Оотчество преподавателя не корректно");
-    client.assert(response.body[0]["lesson"]["teacher"]["dateOfBirth"]==="1965.01.11","Дата рождения преподавателя не корректено");
-    client.assert(response.body[0]["lesson"]["teacher"]["phone"]==="+79222444411","Номер телефона преподавателя не корректено");
-    client.assert(response.body[0]["lesson"]["teacher"]["address"]["street"]==="ул. Ясная","Улица преподавателя не корректен");
-    client.assert(response.body[0]["lesson"]["teacher"]["address"]["home"]==="д. 54","номер Дома преподавателя не корректен");
-    client.assert(response.body[0]["lesson"]["teacher"]["address"]["apartment"]==="кв. 19","Номер кваритиры преподавателя не корректен");
-    client.assert(response.body[0]["lesson"]["teacher"]["cabinet"]===56,"Кабинет преподавателя не корректен");
-    client.assert(response.body[0]["lesson"]["teacher"]["email"]==="kruglova@gmail.com","email преподавателя не корректен");
-    client.assert(response.body[0]["lesson"]["class"]!==undefined,"Нет данных о классе");
-    client.assert(response.body[0]["lesson"]["class"]["id"]===3,"id класса не корректен");
-    client.assert(response.body[0]["lesson"]["class"]["number"]===6,"Номер класса не корректен");
-    client.assert(response.body[0]["lesson"]["class"]["letter"]==="А","Буква класса не корректена");
-    client.assert(response.body[0]["student"]!==undefined,"Нет данных о студенте");
-    client.assert(response.body[0]["student"]["id"]===1,"id студента не корректен");
-    client.assert(response.body[0]["student"]["fio"]["surname"]==="Кузнецов","Фамилия студента не корректен");
-    client.assert(response.body[0]["student"]["fio"]["name"]==="Алексей","Имя студента не корректен");
-    client.assert(response.body[0]["student"]["fio"]["patronymic"]==="Евгеньевич","Отчество студента не корректен");
-    client.assert(response.body[0]["student"]["dateOfBirth"]==="2011.01.11","Дата рождения студента не корректено");
-    client.assert(response.body[0]["student"]["phone"]==="+79222444488","Номер телефона студента не корректен");
-    client.assert(response.body[0]["student"]["address"]["street"]==="ул. Казанская","Улица студента не корректен");
-    client.assert(response.body[0]["student"]["address"]["home"]==="д. 35Б","Дом студента не корректен");
-    client.assert(response.body[0]["student"]["address"]["apartment"]==="кв. 23","Номер квартиры студента не корректен");
-    client.assert(response.body[0]["student"]["parent"]!==undefined,"Нет данных о родителях Студента");
-    client.assert(response.body[0]["student"]["parent"]["id"]===1,"id родителей не корректен");
-    client.assert(response.body[0]["student"]["parent"]["fio"]["surname"]==="Кузнецов","Фамилия родителей не корректен");
-    client.assert(response.body[0]["student"]["parent"]["fio"]["name"]==="Евгений","Имя родителей не корректен");
-    client.assert(response.body[0]["student"]["parent"]["fio"]["patronymic"]==="Сергеевич","Отчество родителей не корректен");
-    client.assert(response.body[0]["student"]["parent"]["dateOfBirth"]==="1975.10.01","Дата рождения родителей не корректен");
-    client.assert(response.body[0]["student"]["parent"]["phone"]==="+79222444488","Номер телефона  родителей не корректен");
-    client.assert(response.body[0]["student"]["parent"]["address"]["street"]==="ул. Казанская","Улица родителей не корректен");
-    client.assert(response.body[0]["student"]["parent"]["address"]["home"]==="д. 35Б","Номер дома родителей не корректен");
-    client.assert(response.body[0]["student"]["parent"]["address"]["apartment"]==="кв. 23","Номер квартиры родителей не корректен");
-    client.assert(response.body[0]["student"]["parent"]["placeOfWork"]==="ООО Алмаз","Место работы родителей не корректено");
-    client.assert(response.body[0]["student"]["parent"]["email"]==="kuznecov@gmail.com","email родителей не корректен");
-    client.assert(response.body[0]["mark"]===5,"Оценка не корректена");
-});
- %}
-
-### Тестирование поиска оценок в дневнике по дате проведения занятия
-GET http://localhost:8000/studentReport?lesson_date=2011.11.10 8:30
-
-> {%
-client.test("Тестирование поиска оценок в дневнике по дате проведения занятия",function (){
-    client.assert(response.status===200, "Проверяю код ответа. Ожидаю код 200. Фактический код: "+response.status);
-    client.assert(response.contentType.mimeType==="application/json", "Ожидаю application/json. Фактически: "+response.contentType.mimeType);
-    client.assert(response.body[0]["lesson"]!==undefined,"Нет данных об занятии");
-    client.assert(response.body[0]["lesson"]["id"]===1,"id занятия не корректен");
-    client.assert(response.body[0]["lesson"]["item"]!==undefined,"Нет данных о предмете");
-    client.assert(response.body[0]["lesson"]["item"]["id"]===1,"id предмета не корректен");
-    client.assert(response.body[0]["lesson"]["item"]["name"]==="Математика","Название предмета не корректено");
-    client.assert(response.body[0]["lesson"]["item"]["description"]==="Математика","Расшифровка предмета не корректено");
-    client.assert(response.body[0]["lesson"]["date"]==="2011.11.10 8:30","Дата занятия не корректно");
-    client.assert(response.body[0]["lesson"]["lessonDuration"]===40,"Продолжительность занятия не корректно");
-    client.assert(response.body[0]["lesson"]["teacher"]!==undefined,"Нет данных о преподавателе");
-    client.assert(response.body[0]["lesson"]["teacher"]["id"]===1,"id преподавателя не корректен");
-    client.assert(response.body[0]["lesson"]["teacher"]["fio"]["surname"]==="Круглова","Фамилия преподавателя не корректно");
-    client.assert(response.body[0]["lesson"]["teacher"]["fio"]["name"]==="Наталия","Имя преподавателя не корректно");
-    client.assert(response.body[0]["lesson"]["teacher"]["fio"]["patronymic"]==="Сергеевна","Оотчество преподавателя не корректно");
-    client.assert(response.body[0]["lesson"]["teacher"]["dateOfBirth"]==="1965.01.11","Дата рождения преподавателя не корректено");
-    client.assert(response.body[0]["lesson"]["teacher"]["phone"]==="+79222444411","Номер телефона преподавателя не корректено");
-    client.assert(response.body[0]["lesson"]["teacher"]["address"]["street"]==="ул. Ясная","Улица преподавателя не корректен");
-    client.assert(response.body[0]["lesson"]["teacher"]["address"]["home"]==="д. 54","номер Дома преподавателя не корректен");
-    client.assert(response.body[0]["lesson"]["teacher"]["address"]["apartment"]==="кв. 19","Номер кваритиры преподавателя не корректен");
-    client.assert(response.body[0]["lesson"]["teacher"]["cabinet"]===56,"Кабинет преподавателя не корректен");
-    client.assert(response.body[0]["lesson"]["teacher"]["email"]==="kruglova@gmail.com","email преподавателя не корректен");
-    client.assert(response.body[0]["lesson"]["class"]!==undefined,"Нет данных о классе");
-    client.assert(response.body[0]["lesson"]["class"]["id"]===3,"id класса не корректен");
-    client.assert(response.body[0]["lesson"]["class"]["number"]===6,"Номер класса не корректен");
-    client.assert(response.body[0]["lesson"]["class"]["letter"]==="А","Буква класса не корректена");
-    client.assert(response.body[0]["student"]!==undefined,"Нет данных о студенте");
-    client.assert(response.body[0]["student"]["id"]===1,"id студента не корректен");
-    client.assert(response.body[0]["student"]["fio"]["surname"]==="Кузнецов","Фамилия студента не корректен");
-    client.assert(response.body[0]["student"]["fio"]["name"]==="Алексей","Имя студента не корректен");
-    client.assert(response.body[0]["student"]["fio"]["patronymic"]==="Евгеньевич","Отчество студента не корректен");
-    client.assert(response.body[0]["student"]["dateOfBirth"]==="2011.01.11","Дата рождения студента не корректено");
-    client.assert(response.body[0]["student"]["phone"]==="+79222444488","Номер телефона студента не корректен");
-    client.assert(response.body[0]["student"]["address"]["street"]==="ул. Казанская","Улица студента не корректен");
-    client.assert(response.body[0]["student"]["address"]["home"]==="д. 35Б","Дом студента не корректен");
-    client.assert(response.body[0]["student"]["address"]["apartment"]==="кв. 23","Номер квартиры студента не корректен");
-    client.assert(response.body[0]["student"]["parent"]!==undefined,"Нет данных о родителях Студента");
-    client.assert(response.body[0]["student"]["parent"]["id"]===1,"id родителей не корректен");
-    client.assert(response.body[0]["student"]["parent"]["fio"]["surname"]==="Кузнецов","Фамилия родителей не корректен");
-    client.assert(response.body[0]["student"]["parent"]["fio"]["name"]==="Евгений","Имя родителей не корректен");
-    client.assert(response.body[0]["student"]["parent"]["fio"]["patronymic"]==="Сергеевич","Отчество родителей не корректен");
-    client.assert(response.body[0]["student"]["parent"]["dateOfBirth"]==="1975.10.01","Дата рождения родителей не корректен");
-    client.assert(response.body[0]["student"]["parent"]["phone"]==="+79222444488","Номер телефона  родителей не корректен");
-    client.assert(response.body[0]["student"]["parent"]["address"]["street"]==="ул. Казанская","Улица родителей не корректен");
-    client.assert(response.body[0]["student"]["parent"]["address"]["home"]==="д. 35Б","Номер дома родителей не корректен");
-    client.assert(response.body[0]["student"]["parent"]["address"]["apartment"]==="кв. 23","Номер квартиры родителей не корректен");
-    client.assert(response.body[0]["student"]["parent"]["placeOfWork"]==="ООО Алмаз","Место работы родителей не корректено");
-    client.assert(response.body[0]["student"]["parent"]["email"]==="kuznecov@gmail.com","email родителей не корректен");
-    client.assert(response.body[0]["mark"]===5,"Оценка не корректена");
-});
- %}
-
-### Тестирование поиска оценок в дневнике по Фамилия cтудента
-GET http://localhost:8000/studentReport?student_fio_surname=Кузнецов
-
-> {%
-client.test("Тестирование поиска оценок в дневнике по Фамилия cтудента",function (){
-    client.assert(response.status===200, "Проверяю код ответа. Ожидаю код 200. Фактический код: "+response.status);
-    client.assert(response.contentType.mimeType==="application/json", "Ожидаю application/json. Фактически: "+response.contentType.mimeType);
-    client.assert(response.body[0]["lesson"]!==undefined,"Нет данных об занятии");
-    client.assert(response.body[0]["lesson"]["id"]===1,"id занятия не корректен");
-    client.assert(response.body[0]["lesson"]["item"]!==undefined,"Нет данных о предмете");
-    client.assert(response.body[0]["lesson"]["item"]["id"]===1,"id предмета не корректен");
-    client.assert(response.body[0]["lesson"]["item"]["name"]==="Математика","Название предмета не корректено");
-    client.assert(response.body[0]["lesson"]["item"]["description"]==="Математика","Расшифровка предмета не корректено");
-    client.assert(response.body[0]["lesson"]["date"]==="2011.11.10 8:30","Дата занятия не корректно");
-    client.assert(response.body[0]["lesson"]["lessonDuration"]===40,"Продолжительность занятия не корректно");
-    client.assert(response.body[0]["lesson"]["teacher"]!==undefined,"Нет данных о преподавателе");
-    client.assert(response.body[0]["lesson"]["teacher"]["id"]===1,"id преподавателя не корректен");
-    client.assert(response.body[0]["lesson"]["teacher"]["fio"]["surname"]==="Круглова","Фамилия преподавателя не корректно");
-    client.assert(response.body[0]["lesson"]["teacher"]["fio"]["name"]==="Наталия","Имя преподавателя не корректно");
-    client.assert(response.body[0]["lesson"]["teacher"]["fio"]["patronymic"]==="Сергеевна","Оотчество преподавателя не корректно");
-    client.assert(response.body[0]["lesson"]["teacher"]["dateOfBirth"]==="1965.01.11","Дата рождения преподавателя не корректено");
-    client.assert(response.body[0]["lesson"]["teacher"]["phone"]==="+79222444411","Номер телефона преподавателя не корректено");
-    client.assert(response.body[0]["lesson"]["teacher"]["address"]["street"]==="ул. Ясная","Улица преподавателя не корректен");
-    client.assert(response.body[0]["lesson"]["teacher"]["address"]["home"]==="д. 54","номер Дома преподавателя не корректен");
-    client.assert(response.body[0]["lesson"]["teacher"]["address"]["apartment"]==="кв. 19","Номер кваритиры преподавателя не корректен");
-    client.assert(response.body[0]["lesson"]["teacher"]["cabinet"]===56,"Кабинет преподавателя не корректен");
-    client.assert(response.body[0]["lesson"]["teacher"]["email"]==="kruglova@gmail.com","email преподавателя не корректен");
-    client.assert(response.body[0]["lesson"]["class"]!==undefined,"Нет данных о классе");
-    client.assert(response.body[0]["lesson"]["class"]["id"]===3,"id класса не корректен");
-    client.assert(response.body[0]["lesson"]["class"]["number"]===6,"Номер класса не корректен");
-    client.assert(response.body[0]["lesson"]["class"]["letter"]==="А","Буква класса не корректена");
-    client.assert(response.body[0]["student"]!==undefined,"Нет данных о студенте");
-    client.assert(response.body[0]["student"]["id"]===1,"id студента не корректен");
-    client.assert(response.body[0]["student"]["fio"]["surname"]==="Кузнецов","Фамилия студента не корректен");
-    client.assert(response.body[0]["student"]["fio"]["name"]==="Алексей","Имя студента не корректен");
-    client.assert(response.body[0]["student"]["fio"]["patronymic"]==="Евгеньевич","Отчество студента не корректен");
-    client.assert(response.body[0]["student"]["dateOfBirth"]==="2011.01.11","Дата рождения студента не корректено");
-    client.assert(response.body[0]["student"]["phone"]==="+79222444488","Номер телефона студента не корректен");
-    client.assert(response.body[0]["student"]["address"]["street"]==="ул. Казанская","Улица студента не корректен");
-    client.assert(response.body[0]["student"]["address"]["home"]==="д. 35Б","Дом студента не корректен");
-    client.assert(response.body[0]["student"]["address"]["apartment"]==="кв. 23","Номер квартиры студента не корректен");
-    client.assert(response.body[0]["student"]["parent"]!==undefined,"Нет данных о родителях Студента");
-    client.assert(response.body[0]["student"]["parent"]["id"]===1,"id родителей не корректен");
-    client.assert(response.body[0]["student"]["parent"]["fio"]["surname"]==="Кузнецов","Фамилия родителей не корректен");
-    client.assert(response.body[0]["student"]["parent"]["fio"]["name"]==="Евгений","Имя родителей не корректен");
-    client.assert(response.body[0]["student"]["parent"]["fio"]["patronymic"]==="Сергеевич","Отчество родителей не корректен");
-    client.assert(response.body[0]["student"]["parent"]["dateOfBirth"]==="1975.10.01","Дата рождения родителей не корректен");
-    client.assert(response.body[0]["student"]["parent"]["phone"]==="+79222444488","Номер телефона  родителей не корректен");
-    client.assert(response.body[0]["student"]["parent"]["address"]["street"]==="ул. Казанская","Улица родителей не корректен");
-    client.assert(response.body[0]["student"]["parent"]["address"]["home"]==="д. 35Б","Номер дома родителей не корректен");
-    client.assert(response.body[0]["student"]["parent"]["address"]["apartment"]==="кв. 23","Номер квартиры родителей не корректен");
-    client.assert(response.body[0]["student"]["parent"]["placeOfWork"]==="ООО Алмаз","Место работы родителей не корректено");
-    client.assert(response.body[0]["student"]["parent"]["email"]==="kuznecov@gmail.com","email родителей не корректен");
-    client.assert(response.body[0]["mark"]===5,"Оценка не корректена");
-});
- %}
-
-### Тестирование поиска оценок в дневнике по Имени cтудента
-GET http://localhost:8000/studentReport?student_fio_name=Алексей
-
-> {%
-client.test("Тестирование поиска оценок в дневнике по Имени cтудента",function (){
-    client.assert(response.status===200, "Проверяю код ответа. Ожидаю код 200. Фактический код: "+response.status);
-    client.assert(response.contentType.mimeType==="application/json", "Ожидаю application/json. Фактически: "+response.contentType.mimeType);
-    client.assert(response.body[0]["lesson"]!==undefined,"Нет данных об занятии");
-    client.assert(response.body[0]["lesson"]["id"]===1,"id занятия не корректен");
-    client.assert(response.body[0]["lesson"]["item"]!==undefined,"Нет данных о предмете");
-    client.assert(response.body[0]["lesson"]["item"]["id"]===1,"id предмета не корректен");
-    client.assert(response.body[0]["lesson"]["item"]["name"]==="Математика","Название предмета не корректено");
-    client.assert(response.body[0]["lesson"]["item"]["description"]==="Математика","Расшифровка предмета не корректено");
-    client.assert(response.body[0]["lesson"]["date"]==="2011.11.10 8:30","Дата занятия не корректно");
-    client.assert(response.body[0]["lesson"]["lessonDuration"]===40,"Продолжительность занятия не корректно");
-    client.assert(response.body[0]["lesson"]["teacher"]!==undefined,"Нет данных о преподавателе");
-    client.assert(response.body[0]["lesson"]["teacher"]["id"]===1,"id преподавателя не корректен");
-    client.assert(response.body[0]["lesson"]["teacher"]["fio"]["surname"]==="Круглова","Фамилия преподавателя не корректно");
-    client.assert(response.body[0]["lesson"]["teacher"]["fio"]["name"]==="Наталия","Имя преподавателя не корректно");
-    client.assert(response.body[0]["lesson"]["teacher"]["fio"]["patronymic"]==="Сергеевна","Оотчество преподавателя не корректно");
-    client.assert(response.body[0]["lesson"]["teacher"]["dateOfBirth"]==="1965.01.11","Дата рождения преподавателя не корректено");
-    client.assert(response.body[0]["lesson"]["teacher"]["phone"]==="+79222444411","Номер телефона преподавателя не корректено");
-    client.assert(response.body[0]["lesson"]["teacher"]["address"]["street"]==="ул. Ясная","Улица преподавателя не корректен");
-    client.assert(response.body[0]["lesson"]["teacher"]["address"]["home"]==="д. 54","номер Дома преподавателя не корректен");
-    client.assert(response.body[0]["lesson"]["teacher"]["address"]["apartment"]==="кв. 19","Номер кваритиры преподавателя не корректен");
-    client.assert(response.body[0]["lesson"]["teacher"]["cabinet"]===56,"Кабинет преподавателя не корректен");
-    client.assert(response.body[0]["lesson"]["teacher"]["email"]==="kruglova@gmail.com","email преподавателя не корректен");
-    client.assert(response.body[0]["lesson"]["class"]!==undefined,"Нет данных о классе");
-    client.assert(response.body[0]["lesson"]["class"]["id"]===3,"id класса не корректен");
-    client.assert(response.body[0]["lesson"]["class"]["number"]===6,"Номер класса не корректен");
-    client.assert(response.body[0]["lesson"]["class"]["letter"]==="А","Буква класса не корректена");
-    client.assert(response.body[0]["student"]!==undefined,"Нет данных о студенте");
-    client.assert(response.body[0]["student"]["id"]===1,"id студента не корректен");
-    client.assert(response.body[0]["student"]["fio"]["surname"]==="Кузнецов","Фамилия студента не корректен");
-    client.assert(response.body[0]["student"]["fio"]["name"]==="Алексей","Имя студента не корректен");
-    client.assert(response.body[0]["student"]["fio"]["patronymic"]==="Евгеньевич","Отчество студента не корректен");
-    client.assert(response.body[0]["student"]["dateOfBirth"]==="2011.01.11","Дата рождения студента не корректено");
-    client.assert(response.body[0]["student"]["phone"]==="+79222444488","Номер телефона студента не корректен");
-    client.assert(response.body[0]["student"]["address"]["street"]==="ул. Казанская","Улица студента не корректен");
-    client.assert(response.body[0]["student"]["address"]["home"]==="д. 35Б","Дом студента не корректен");
-    client.assert(response.body[0]["student"]["address"]["apartment"]==="кв. 23","Номер квартиры студента не корректен");
-    client.assert(response.body[0]["student"]["parent"]!==undefined,"Нет данных о родителях Студента");
-    client.assert(response.body[0]["student"]["parent"]["id"]===1,"id родителей не корректен");
-    client.assert(response.body[0]["student"]["parent"]["fio"]["surname"]==="Кузнецов","Фамилия родителей не корректен");
-    client.assert(response.body[0]["student"]["parent"]["fio"]["name"]==="Евгений","Имя родителей не корректен");
-    client.assert(response.body[0]["student"]["parent"]["fio"]["patronymic"]==="Сергеевич","Отчество родителей не корректен");
-    client.assert(response.body[0]["student"]["parent"]["dateOfBirth"]==="1975.10.01","Дата рождения родителей не корректен");
-    client.assert(response.body[0]["student"]["parent"]["phone"]==="+79222444488","Номер телефона  родителей не корректен");
-    client.assert(response.body[0]["student"]["parent"]["address"]["street"]==="ул. Казанская","Улица родителей не корректен");
-    client.assert(response.body[0]["student"]["parent"]["address"]["home"]==="д. 35Б","Номер дома родителей не корректен");
-    client.assert(response.body[0]["student"]["parent"]["address"]["apartment"]==="кв. 23","Номер квартиры родителей не корректен");
-    client.assert(response.body[0]["student"]["parent"]["placeOfWork"]==="ООО Алмаз","Место работы родителей не корректено");
-    client.assert(response.body[0]["student"]["parent"]["email"]==="kuznecov@gmail.com","email родителей не корректен");
-    client.assert(response.body[0]["mark"]===5,"Оценка не корректена");
-});
- %}
-
-### Тестирование поиска оценок в дневнике по Отчеству cтудента
-GET http://localhost:8000/studentReport?student_fio_patronymic=Евгеньевич
-
-> {%
-client.test("Тестирование поиска оценок в дневнике по Отчеству cтудента",function (){
-    client.assert(response.status===200, "Проверяю код ответа. Ожидаю код 200. Фактический код: "+response.status);
-    client.assert(response.contentType.mimeType==="application/json", "Ожидаю application/json. Фактически: "+response.contentType.mimeType);
-    client.assert(response.body[0]["lesson"]!==undefined,"Нет данных об занятии");
-    client.assert(response.body[0]["lesson"]["id"]===1,"id занятия не корректен");
-    client.assert(response.body[0]["lesson"]["item"]!==undefined,"Нет данных о предмете");
-    client.assert(response.body[0]["lesson"]["item"]["id"]===1,"id предмета не корректен");
-    client.assert(response.body[0]["lesson"]["item"]["name"]==="Математика","Название предмета не корректено");
-    client.assert(response.body[0]["lesson"]["item"]["description"]==="Математика","Расшифровка предмета не корректено");
-    client.assert(response.body[0]["lesson"]["date"]==="2011.11.10 8:30","Дата занятия не корректно");
-    client.assert(response.body[0]["lesson"]["lessonDuration"]===40,"Продолжительность занятия не корректно");
-    client.assert(response.body[0]["lesson"]["teacher"]!==undefined,"Нет данных о преподавателе");
-    client.assert(response.body[0]["lesson"]["teacher"]["id"]===1,"id преподавателя не корректен");
-    client.assert(response.body[0]["lesson"]["teacher"]["fio"]["surname"]==="Круглова","Фамилия преподавателя не корректно");
-    client.assert(response.body[0]["lesson"]["teacher"]["fio"]["name"]==="Наталия","Имя преподавателя не корректно");
-    client.assert(response.body[0]["lesson"]["teacher"]["fio"]["patronymic"]==="Сергеевна","Оотчество преподавателя не корректно");
-    client.assert(response.body[0]["lesson"]["teacher"]["dateOfBirth"]==="1965.01.11","Дата рождения преподавателя не корректено");
-    client.assert(response.body[0]["lesson"]["teacher"]["phone"]==="+79222444411","Номер телефона преподавателя не корректено");
-    client.assert(response.body[0]["lesson"]["teacher"]["address"]["street"]==="ул. Ясная","Улица преподавателя не корректен");
-    client.assert(response.body[0]["lesson"]["teacher"]["address"]["home"]==="д. 54","номер Дома преподавателя не корректен");
-    client.assert(response.body[0]["lesson"]["teacher"]["address"]["apartment"]==="кв. 19","Номер кваритиры преподавателя не корректен");
-    client.assert(response.body[0]["lesson"]["teacher"]["cabinet"]===56,"Кабинет преподавателя не корректен");
-    client.assert(response.body[0]["lesson"]["teacher"]["email"]==="kruglova@gmail.com","email преподавателя не корректен");
-    client.assert(response.body[0]["lesson"]["class"]!==undefined,"Нет данных о классе");
-    client.assert(response.body[0]["lesson"]["class"]["id"]===3,"id класса не корректен");
-    client.assert(response.body[0]["lesson"]["class"]["number"]===6,"Номер класса не корректен");
-    client.assert(response.body[0]["lesson"]["class"]["letter"]==="А","Буква класса не корректена");
-    client.assert(response.body[0]["student"]!==undefined,"Нет данных о студенте");
-    client.assert(response.body[0]["student"]["id"]===1,"id студента не корректен");
-    client.assert(response.body[0]["student"]["fio"]["surname"]==="Кузнецов","Фамилия студента не корректен");
-    client.assert(response.body[0]["student"]["fio"]["name"]==="Алексей","Имя студента не корректен");
-    client.assert(response.body[0]["student"]["fio"]["patronymic"]==="Евгеньевич","Отчество студента не корректен");
-    client.assert(response.body[0]["student"]["dateOfBirth"]==="2011.01.11","Дата рождения студента не корректено");
-    client.assert(response.body[0]["student"]["phone"]==="+79222444488","Номер телефона студента не корректен");
-    client.assert(response.body[0]["student"]["address"]["street"]==="ул. Казанская","Улица студента не корректен");
-    client.assert(response.body[0]["student"]["address"]["home"]==="д. 35Б","Дом студента не корректен");
-    client.assert(response.body[0]["student"]["address"]["apartment"]==="кв. 23","Номер квартиры студента не корректен");
-    client.assert(response.body[0]["student"]["parent"]!==undefined,"Нет данных о родителях Студента");
-    client.assert(response.body[0]["student"]["parent"]["id"]===1,"id родителей не корректен");
+    client.assert(response.body[0]["student"]["parent"]["id"]===12,"id родителей не корректен");
     client.assert(response.body[0]["student"]["parent"]["fio"]["surname"]==="Кузнецов","Фамилия родителей не корректен");
     client.assert(response.body[0]["student"]["parent"]["fio"]["name"]==="Евгений","Имя родителей не корректен");
     client.assert(response.body[0]["student"]["parent"]["fio"]["patronymic"]==="Сергеевич","Отчество родителей не корректен");
@@ -718,10 +411,10 @@ client.test("Тестирование некорреткного ввода на
  %}
 
 ### Тестирование некорреткного ввода расшифровки названия предмета
-GET http://localhost:8000/studentReport?item_description[]=Математика
+GET http://localhost:8000/assessmentReport?item_description[]=Математика
 
 > {%
-client.test("Тестирование некорреткного ввода рассшифровки предмета",function ()
+client.test("Тестирование некорреткного ввода расшифровки названия предмета",function ()
 {
     client.assert(response.status=== 500, "Проверяю код ответа. Ожидаю код 404. Фактическое значение: " + response.status);
     client.assert(response.contentType.mimeType==="application/json", "Ожидаю application/type фактически " + response.contentType.mimeType);
@@ -731,10 +424,10 @@ client.test("Тестирование некорреткного ввода ра
  %}
 
 ### Тестирование некорреткного ввода дате проведения занятия
-GET http://localhost:8000/studentReport?lesson_date[]=2011.11.10 8:30
+GET http://localhost:8000/assessmentReport?lesson_date[]=2011.11.10 8:30
 
 > {%
-client.test("Тестирование некорреткного ввода даты занятия",function ()
+client.test("Тестирование некорреткного ввода дате проведения занятия",function ()
 {
     client.assert(response.status=== 500, "Проверяю код ответа. Ожидаю код 404. Фактическое значение: " + response.status);
     client.assert(response.contentType.mimeType==="application/json", "Ожидаю application/type фактически " + response.contentType.mimeType);
@@ -744,10 +437,10 @@ client.test("Тестирование некорреткного ввода да
  %}
 
 ### Тестирование некорреткного ввода ФИО cтудента
-GET http://localhost:8000/studentReport?student_fio[]=Кузнецов Алексей Евгеньевич
+GET http://localhost:8000/assessmentReport?student_fio[]=Кузнецов Алексей Евгеньевич
 
 > {%
-client.test("Тестирование некорреткного ввода fio преподавателя",function ()
+client.test("Тестирование некорреткного ввода ФИО cтудента",function ()
 {
     client.assert(response.status=== 500, "Проверяю код ответа. Ожидаю код 404. Фактическое значение: " + response.status);
     client.assert(response.contentType.mimeType==="application/json", "Ожидаю application/type фактически " + response.contentType.mimeType);
@@ -760,7 +453,7 @@ client.test("Тестирование некорреткного ввода fio 
 GET http://localhost:8000/assessmentReport/1
 
 > {%
-client.test("Тестирование поиска оценок в дневнике по Имени cтудента",function (){
+client.test("Тестирование поиска оценки по ID",function (){
     client.assert(response.status===200, "Проверяю код ответа. Ожидаю код 200. Фактический код: "+response.status);
     client.assert(response.contentType.mimeType==="application/json", "Ожидаю application/json. Фактически: "+response.contentType.mimeType);
     client.assert(response.body["lesson"]!==undefined,"Нет данных об занятии");
@@ -788,7 +481,7 @@ client.test("Тестирование поиска оценок в дневни�
     client.assert(response.body["lesson"]["class"]["number"]===6,"Номер класса не корректен");
     client.assert(response.body["lesson"]["class"]["letter"]==="А","Буква класса не корректена");
     client.assert(response.body["student"]!==undefined,"Нет данных о студенте");
-    client.assert(response.body["student"]["id"]===1,"id студента не корректен");
+    client.assert(response.body["student"]["id"]===4,"id студента не корректен");
     client.assert(response.body["student"]["fio"]["surname"]==="Кузнецов","Фамилия студента не корректен");
     client.assert(response.body["student"]["fio"]["name"]==="Алексей","Имя студента не корректен");
     client.assert(response.body["student"]["fio"]["patronymic"]==="Евгеньевич","Отчество студента не корректен");
@@ -798,7 +491,7 @@ client.test("Тестирование поиска оценок в дневни�
     client.assert(response.body["student"]["address"]["home"]==="д. 35Б","Дом студента не корректен");
     client.assert(response.body["student"]["address"]["apartment"]==="кв. 23","Номер квартиры студента не корректен");
     client.assert(response.body["student"]["parent"]!==undefined,"Нет данных о родителях Студента");
-    client.assert(response.body["student"]["parent"]["id"]===1,"id родителей не корректен");
+    client.assert(response.body["student"]["parent"]["id"]===12,"id родителей не корректен");
     client.assert(response.body["student"]["parent"]["fio"]["surname"]==="Кузнецов","Фамилия родителей не корректен");
     client.assert(response.body["student"]["parent"]["fio"]["name"]==="Евгений","Имя родителей не корректен");
     client.assert(response.body["student"]["parent"]["fio"]["patronymic"]==="Сергеевич","Отчество родителей не корректен");
@@ -817,7 +510,7 @@ client.test("Тестирование поиска оценок в дневни�
 GET http://localhost:8000/assessmentReport/0
 
 > {%
-client.test("Тестирование поиска занятия по неккоректному ID", function()
+client.test("Тестирование поиска оценки по неккоректному ID", function()
 {
     client.assert(response.status=== 404, "Проверяю код ответа. Ожидаю код 404. Фактическое значение: " + response.status);
     client.assert(response.contentType.mimeType==="application/json", "Ожидаю application/type фактически " + response.contentType.mimeType);

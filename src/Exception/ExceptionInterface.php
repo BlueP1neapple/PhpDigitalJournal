@@ -1,6 +1,7 @@
 <?php
 
 namespace JoJoBizzareCoders\DigitalJournal\Exception;
+
 use Throwable;
 
 /**
@@ -8,5 +9,4 @@ use Throwable;
  */
 interface ExceptionInterface extends Throwable
 {
-
 }

@@ -1,6 +1,6 @@
 [
     {
-        "id": 1,
+        "id": 4,
         "fio": [
             {
                 "surname": "Кузнецов",
@@ -18,12 +18,12 @@
             }
         ],
         "class_id": 1,
-        "parent_id": 1,
-        "login": "KAE",
-        "password": ""
+        "parent_id": 12,
+        "login": "STU0",
+        "password": "$2y$10$DfTegEcz7NWykVBrhEJ5Q.q79CpkhOhZz/59YmFuhWjiigFobp76y"
     },
     {
-        "id": 2,
+        "id": 5,
         "fio": [
             {
                 "surname": "Соколова",
@@ -41,12 +41,12 @@
             }
         ],
         "class_id": 1,
-        "parent_id": 8,
-        "login": "KAE1",
-        "password": ""
+        "parent_id": 19,
+        "login": "STU1",
+        "password": "$2y$10$MXO8CjYCfoC3YPBj1mnRU.uXgVD8WDMJueiVFyiTNJcZC1mtvhLNW"
     },
     {
-        "id": 3,
+        "id": 6,
         "fio": [
             {
                 "surname": "Смирнова",
@@ -64,12 +64,12 @@
             }
         ],
         "class_id": 1,
-        "parent_id": 4,
-        "login": "KAE2",
-        "password": ""
+        "parent_id": 15,
+        "login": "STU2",
+        "password": "$2y$10$BHoHFYduN1Qd8tFf9w3TguLolPW.v4UEPHTs5R3jQvHjStA6SipFy"
     },
     {
-        "id": 4,
+        "id": 7,
         "fio": [
             {
                 "surname": "Заимова",
@@ -87,12 +87,12 @@
             }
         ],
         "class_id": 2,
-        "parent_id": 5,
-        "login": "KAE3",
-        "password": ""
+        "parent_id": 16,
+        "login": "STU3",
+        "password": "$2y$10$X0Td9cvSXsZLb5cWUwvtAuji71bk4eZiuDRFXxzNf0VZ6D458tH9i"
     },
     {
-        "id": 5,
+        "id": 8,
         "fio": [
             {
                 "surname": "Кузнецова",
@@ -110,12 +110,12 @@
             }
         ],
         "class_id": 2,
-        "parent_id": 6,
-        "login": "KAE4",
-        "password": ""
+        "parent_id": 17,
+        "login": "STU4",
+        "password": "$2y$10$vuMqZGfNfzgOMG3js2mXp.SCMolYcOnlRxM6PDWZPfA1qfJhrpnl."
     },
     {
-        "id": 6,
+        "id": 9,
         "fio": [
             {
                 "surname": "Соломона",
@@ -133,12 +133,12 @@
             }
         ],
         "class_id": 3,
-        "parent_id": 7,
-        "login": "KAE5",
-        "password": ""
+        "parent_id": 18,
+        "login": "STU5",
+        "password": "$2y$10$fk9/LExHgSGSCtlhMMWwiuLXLPUsRgW7HvsKldHoJLsmFuE22eqGu"
     },
     {
-        "id": 7,
+        "id": 10,
         "fio": [
             {
                 "surname": "Крабов",
@@ -156,12 +156,12 @@
             }
         ],
         "class_id": 3,
-        "parent_id": 2,
-        "login": "KAE6",
-        "password": ""
+        "parent_id": 13,
+        "login": "STU6",
+        "password": "$2y$10$GVyuJMu6et6MHo7oa3OwyuybSos0AoNkJgpPkHAsX7exzUck101k."
     },
     {
-        "id": 8,
+        "id": 11,
         "fio": [
             {
                 "surname": "Яснова",
@@ -179,8 +179,8 @@
             }
         ],
         "class_id": 3,
-        "parent_id": 3,
-        "login": "KAE7",
-        "password": ""
+        "parent_id": 14,
+        "login": "STU7",
+        "password": "$2y$10$obk8vuhpS7gXa31FLbAAG.3IKskNv9f.HcQLzAfIvAv2pxk7mfJAy"
     }
 ]

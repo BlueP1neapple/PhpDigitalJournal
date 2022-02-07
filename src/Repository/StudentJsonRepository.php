@@ -24,7 +24,7 @@ final class StudentJsonRepository implements StudentRepositoryInterface
      *
      * @var string
      */
-    private string $pathToStudent;
+    private string $pathToStudents;
 
     /**
      * Путь до файла с данными об Классах
@@ -77,18 +77,18 @@ final class StudentJsonRepository implements StudentRepositoryInterface
 
 
     /**
-     * @param string $pathToStudent - Путь до файла с данными об студентах
+     * @param string $pathToStudents - Путь до файла с данными об студентах
      * @param string $pathToClasses - Путь до файла с данными об Классах
      * @param string $pathToParents - Путь до файла с данными об Родителях
      * @param DataLoaderInterface $dataLoader - Загрузчик данных
      */
     public function __construct(
-        string $pathToStudent,
+        string $pathToStudents,
         string $pathToClasses,
         string $pathToParents,
         DataLoaderInterface $dataLoader
     ) {
-        $this->pathToStudent = $pathToStudent;
+        $this->pathToStudents = $pathToStudents;
         $this->pathToClasses = $pathToClasses;
         $this->pathToParents = $pathToParents;
         $this->dataLoader = $dataLoader;
@@ -145,7 +145,7 @@ final class StudentJsonRepository implements StudentRepositoryInterface
     private function loadDataStudent(): array
     {
         if (null === $this->studentData) {
-            $this->studentData = $this->dataLoader->LoadDate($this->pathToStudent);
+            $this->studentData = $this->dataLoader->LoadDate($this->pathToStudents);
             $this->currentId = max(
                 array_map(
                     [$this, 'extractStudentId'],
@@ -231,7 +231,7 @@ final class StudentJsonRepository implements StudentRepositoryInterface
         $object = $this->buildJsonData($entity);
         $this->studentData[] = $object;
         $data = $this->studentData;
-        $file = $this->pathToStudent;
+        $file = $this->pathToStudents;
         $jsonStr = json_encode($data, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
         file_put_contents($file, $jsonStr);
         return $entity;

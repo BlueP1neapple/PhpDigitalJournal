@@ -40,14 +40,14 @@ class ItemJsonFileRepository implements ItemRepositoryInterface
     private int $currentId;
 
     /**
-     * @param string $patchToItem
+     * @param string $pathToItems
      * @param DataLoaderInterface $dataLoader
      */
     public function __construct(
-        string $patchToItem,
+        string $pathToItems,
         DataLoaderInterface $dataLoader)
     {
-        $this->pathToItems = $patchToItem;
+        $this->pathToItems = $pathToItems;
         $this->dataLoader = $dataLoader;
     }
 

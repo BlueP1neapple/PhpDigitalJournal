@@ -22,11 +22,11 @@
     "email": "shorkin.d.a@effective-group.ru"
   },
   "require": {
+    "psr/container": "^1.1.2",
+    "psr/container-implementation": "^1.1",
     "php": "^7.4 || ^8.0",
     "ext-json": "*",
-    "jojo-bizzare-coders/framework": "dev-home_work_31-01-2022",
-    "psr/container": "^1.1.2",
-    "psr/container-implementation": "^1.1"
+    "jojo-bizzare-coders/framework": "dev-home_work_01-02-2022"
   },
   "minimum-stability": "dev",
   "prefer-stable": false,

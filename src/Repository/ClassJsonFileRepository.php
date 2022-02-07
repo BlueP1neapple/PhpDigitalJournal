@@ -16,7 +16,7 @@ class ClassJsonFileRepository implements ClassRepositoryInterface
      *
      * @var string
      */
-    private string $patchToClass;
+    private string $pathToClasses;
 
     /**
      * Dataloader
@@ -33,14 +33,14 @@ class ClassJsonFileRepository implements ClassRepositoryInterface
     private ?array $data = null;
 
     /**
-     * @param string $patchToClass
+     * @param string $pathToClasses
      * @param DataLoaderInterface $dataLoader
      */
     public function __construct(
-        string $patchToClass,
+        string $pathToClasses,
         DataLoaderInterface $dataLoader)
     {
-        $this->patchToClass = $patchToClass;
+        $this->pathToClasses = $pathToClasses;
         $this->dataLoader = $dataLoader;
     }
 
@@ -54,7 +54,7 @@ class ClassJsonFileRepository implements ClassRepositoryInterface
     private function loadData(): array
     {
         if (null === $this->data) {
-            $this->data = $this->dataLoader->LoadDate($this->patchToClass);
+            $this->data = $this->dataLoader->LoadDate($this->pathToClasses);
         }
         return $this->data;
     }

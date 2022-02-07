@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services-1.0.xcd">
+
+    <parameters>
+        <parameter key="app.configs" type="collection">
+            <parameter key="pathToLesson">%kernel.project_dir%/data/lesson.json</parameter>
+            <parameter key="pathToAssessmentReport">%kernel.project_dir%/data/assessmentReport.json</parameter>
+            <parameter key="pathToItems">%kernel.project_dir%/data/item.json</parameter>
+            <parameter key="pathToLogFile">%kernel.project_dir%/var/log/app.log</parameter>
+            <parameter key="hideErrorMessage">false</parameter>
+            <parameter key="pathToTeachers">%kernel.project_dir%/data/teacher.json</parameter>
+            <parameter key="pathToClasses">%kernel.project_dir%/data/class.json</parameter>
+            <parameter key="pathToStudents">%kernel.project_dir%/data/student.json</parameter>
+            <parameter key="pathToParents">%kernel.project_dir%/data/parent.json</parameter>
+            <parameter key="loginUri">/login</parameter>
+        </parameter>
+    </parameters>
+
+</container>

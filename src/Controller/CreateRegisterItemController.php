@@ -3,12 +3,12 @@
 namespace JoJoBizzareCoders\DigitalJournal\Controller;
 
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Controller\ControllerInterface;
-use JoJoBizzareCoders\DigitalJournal\Infrastructure\Http\HttpResponse;
-use JoJoBizzareCoders\DigitalJournal\Infrastructure\Http\ServerRequest;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Http\ServerResponseFactory;
 use JoJoBizzareCoders\DigitalJournal\Service\NewItemService;
 use JoJoBizzareCoders\DigitalJournal\Service\NewItemService\NewItemDto;
 use JoJoBizzareCoders\DigitalJournal\Service\NewItemService\ResultRegisteringItemDto;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Throwable;
 
 class CreateRegisterItemController implements ControllerInterface
@@ -21,14 +21,26 @@ class CreateRegisterItemController implements ControllerInterface
     private NewItemService $newItemService;
 
     /**
-     * @param NewItemService $newItemService
+     * Фабрика для создания http ответов
+     *
+     * @var ServerResponseFactory
      */
-    public function __construct(NewItemService $newItemService)
+    private ServerResponseFactory $serverResponseFactory;
+
+
+    /**
+     * @param NewItemService $newItemService
+     * @param ServerResponseFactory $serverResponseFactory
+     */
+    public function __construct(NewItemService $newItemService,
+        ServerResponseFactory $serverResponseFactory
+    )
     {
         $this->newItemService = $newItemService;
+        $this->serverResponseFactory = $serverResponseFactory;
     }
 
-    public function __invoke(ServerRequest $serverRequest): HttpResponse
+    public function __invoke(ServerRequestInterface $serverRequest): ResponseInterface
     {
         try {
             $requestData = json_decode($serverRequest->getBody(), true, 10, JSON_THROW_ON_ERROR);
@@ -51,7 +63,7 @@ class CreateRegisterItemController implements ControllerInterface
                 'message' => $e->getMessage()
             ];
         }
-        return ServerResponseFactory::createJsonResponse($httpCode, $jsonData);
+        return $this->serverResponseFactory->createJsonResponse($httpCode, $jsonData);
     }
 
     /**

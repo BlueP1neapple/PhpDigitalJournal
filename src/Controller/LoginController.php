@@ -5,15 +5,29 @@ namespace JoJoBizzareCoders\DigitalJournal\Controller;
 use JoJoBizzareCoders\DigitalJournal\Exception\RuntimeException;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Auth\HttpAuthProvider;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Controller\ControllerInterface;
-use JoJoBizzareCoders\DigitalJournal\Infrastructure\Http\HttpResponse;
-use JoJoBizzareCoders\DigitalJournal\Infrastructure\Http\ServerRequest;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Http\ServerResponseFactory;
-use JoJoBizzareCoders\DigitalJournal\Infrastructure\Uri\Uri;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\ViewTemplate\ViewTemplateInterface;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\UriFactoryInterface;
 use Throwable;
 
 class LoginController implements ControllerInterface
 {
+
+    /**
+     * Фабрика для создания uri
+     *
+     * @var UriFactoryInterface
+     */
+    private UriFactoryInterface $uriFactory;
+
+    /**
+     * Фабрика для создания http ответов
+     *
+     * @var ServerResponseFactory
+     */
+    private ServerResponseFactory $serverResponseFactory;
 
     /**
      * Шаблонизатор
@@ -32,18 +46,26 @@ class LoginController implements ControllerInterface
     /**
      * @param ViewTemplateInterface $viewTemplate - Шаблонизатор
      * @param HttpAuthProvider $httpAuthProvider - Поставщик услуг аунтификации
+     * @param ServerResponseFactory $serverResponseFactory
+     * @param UriFactoryInterface $uriFactory
      */
-    public function __construct(ViewTemplateInterface $viewTemplate, HttpAuthProvider $httpAuthProvider)
-    {
+    public function __construct(
+        ViewTemplateInterface $viewTemplate,
+        HttpAuthProvider $httpAuthProvider,
+        ServerResponseFactory $serverResponseFactory,
+        UriFactoryInterface $uriFactory
+    ) {
         $this->viewTemplate = $viewTemplate;
         $this->httpAuthProvider = $httpAuthProvider;
+        $this->serverResponseFactory = $serverResponseFactory;
+        $this->uriFactory = $uriFactory;
     }
 
 
     /**
      * @inheritDoc
      */
-    public function __invoke(ServerRequest $serverRequest): HttpResponse
+    public function __invoke(ServerRequestInterface $serverRequest): ResponseInterface
     {
         try {
             $response= $this->doLogin($serverRequest);
@@ -57,9 +79,9 @@ class LoginController implements ControllerInterface
      * Создание http ответа для ошибки
      *
      * @param Throwable $e
-     * @return HttpResponse
+     * @return ResponseInterface
      */
-    private function buildErrorResponse(Throwable $e):HttpResponse
+    private function buildErrorResponse(Throwable $e):ResponseInterface
     {
         $httpCode = 500;
         $context = [
@@ -71,16 +93,16 @@ class LoginController implements ControllerInterface
             __DIR__ . '/../../templates/errors.phtml',
             $context
         );
-        return ServerResponseFactory::createHtmlResponse($httpCode, $html);
+        return $this->serverResponseFactory->createHtmlResponse($httpCode, $html);
     }
 
     /**
      * Процесс аунтификации
      *
-     * @param ServerRequest $serverRequest
-     * @return HttpResponse
+     * @param ServerRequestInterface $serverRequest
+     * @return ResponseInterface
      */
-    private function doLogin(ServerRequest $serverRequest):HttpResponse
+    private function doLogin(ServerRequestInterface $serverRequest): ResponseInterface
     {
         $response = null;
         $context = [];
@@ -91,16 +113,16 @@ class LoginController implements ControllerInterface
             if($this->isAuth($authData['login'],$authData['password'])){
                 $queryParams = $serverRequest->getQueryParams();
                 $redirect = array_key_exists('redirect',$queryParams)
-                    ? Uri::createFromString($queryParams['redirect'])
-                    :Uri::createFromString('/');
-                $response = ServerResponseFactory::redirect($redirect);
+                    ? $this->uriFactory->createUri($queryParams['redirect'])
+                    :$this->uriFactory->createUri('/');
+                $response = $this->serverResponseFactory->redirect($redirect);
             }else{
                 $context['errMsg'] = 'Логин и пароль не подходят';
             }
         }
         if (null === $response){
             $html = $this->viewTemplate->render(__DIR__ . '/../../templates/login.phtml', $context);
-            $response = ServerResponseFactory::createHtmlResponse(200, $html);
+            $response = $this->serverResponseFactory->createHtmlResponse(200, $html);
         }
         return $response;
     }

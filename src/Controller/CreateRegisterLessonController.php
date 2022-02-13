@@ -3,16 +3,23 @@
 namespace JoJoBizzareCoders\DigitalJournal\Controller;
 
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Controller\ControllerInterface;
-use JoJoBizzareCoders\DigitalJournal\Infrastructure\Http\HttpResponse;
-use JoJoBizzareCoders\DigitalJournal\Infrastructure\Http\ServerRequest;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Http\ServerResponseFactory;
 use JoJoBizzareCoders\DigitalJournal\Service\NewLessonService;
 use JoJoBizzareCoders\DigitalJournal\Service\SearchLessonService\NewLessonDto;
 use JoJoBizzareCoders\DigitalJournal\Service\SearchLessonService\ResultRegistrationLessonDto;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Throwable;
 
 class CreateRegisterLessonController implements ControllerInterface
 {
+
+    /**
+     * Фабрика для создания http ответов
+     *
+     * @var ServerResponseFactory
+     */
+    private ServerResponseFactory $serverResponseFactory;
 
     /**
      * Сервис для создания урока
@@ -23,17 +30,21 @@ class CreateRegisterLessonController implements ControllerInterface
 
     /**
      * @param NewLessonService $newLessonService
+     * @param ServerResponseFactory $serverResponseFactory
      */
-    public function __construct(NewLessonService $newLessonService)
+    public function __construct(NewLessonService $newLessonService,
+        ServerResponseFactory $serverResponseFactory
+    )
     {
         $this->newLessonService = $newLessonService;
+        $this->serverResponseFactory = $serverResponseFactory;
     }
 
 
     /**
      * @inheritDoc
      */
-    public function __invoke(ServerRequest $serverRequest): HttpResponse
+    public function __invoke(ServerRequestInterface $serverRequest): ResponseInterface
     {
         try{
             $requestData = json_decode($serverRequest->getBody(), true,20, JSON_THROW_ON_ERROR);
@@ -54,7 +65,7 @@ class CreateRegisterLessonController implements ControllerInterface
 
         }
 
-        return ServerResponseFactory::createJsonResponse($httpCode, $jsonData);
+        return $this->serverResponseFactory->createJsonResponse($httpCode, $jsonData);
     }
 
     private function validationData($requestData)

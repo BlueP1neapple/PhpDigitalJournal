@@ -116,7 +116,7 @@
             <argument key="$loginUri"
                       type="service">
                 <service>
-                    <factory class="JoJoBizzareCoders\DigitalJournal\Infrastructure\Uri\Uri"
+                    <factory class="Nyholm\Psr7\Uri"
                              method="createFromString"
                     />
                     <argument key="$uri"

@@ -3,17 +3,24 @@
 namespace JoJoBizzareCoders\DigitalJournal\Controller;
 
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Controller\ControllerInterface;
-use JoJoBizzareCoders\DigitalJournal\Infrastructure\Http\HttpResponse;
-use JoJoBizzareCoders\DigitalJournal\Infrastructure\Http\ServerRequest;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Http\ServerResponseFactory;
 use JoJoBizzareCoders\DigitalJournal\Service\NewReportService;
 use JoJoBizzareCoders\DigitalJournal\Service\SearchReportAssessmentService\NewAssessmentReportDto;
 use JoJoBizzareCoders\DigitalJournal\Service\SearchReportAssessmentService\ResultRegisteringAssessmentReportDto;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Throwable;
 
 class CreateRegisterAssessmentReportController implements
     ControllerInterface
 {
+
+    /**
+     * Фабрика для создания http ответов
+     *
+     * @var ServerResponseFactory
+     */
+    private ServerResponseFactory $serverResponseFactory;
 
     /**
      * Сервис по добавдению новой оценки
@@ -24,17 +31,21 @@ class CreateRegisterAssessmentReportController implements
 
     /**
      * @param NewReportService $reportService - Сервис по добавдению новой оценки
+     * @param ServerResponseFactory $serverResponseFactory
      */
-    public function __construct(NewReportService $reportService)
+    public function __construct(NewReportService $reportService,
+        ServerResponseFactory $serverResponseFactory
+    )
     {
         $this->reportService = $reportService;
+        $this->serverResponseFactory = $serverResponseFactory;
     }
 
 
     /**
      * @inheritDoc
      */
-    public function __invoke(ServerRequest $serverRequest): HttpResponse
+    public function __invoke(ServerRequestInterface $serverRequest): ResponseInterface
     {
         try{
             $requestData = json_decode($serverRequest->getBody(), true, 10, JSON_THROW_ON_ERROR);
@@ -57,7 +68,7 @@ class CreateRegisterAssessmentReportController implements
                 'message' => $e->getMessage()
             ];
         }
-        return ServerResponseFactory::createJsonResponse($httpCode, $jsonData);
+        return $this->serverResponseFactory->createJsonResponse($httpCode, $jsonData);
     }
 
     /**

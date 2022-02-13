@@ -2,29 +2,15 @@
 
 namespace JoJoBizzareCoders\DigitalJournal\Controller;
 
-use JoJoBizzareCoders\DigitalJournal\Entity\ClassClass;
-use JoJoBizzareCoders\DigitalJournal\Entity\ItemClass;
-use JoJoBizzareCoders\DigitalJournal\Entity\LessonClass;
-use JoJoBizzareCoders\DigitalJournal\Entity\ParentUserClass;
-use JoJoBizzareCoders\DigitalJournal\Entity\ReportClass;
-use JoJoBizzareCoders\DigitalJournal\Entity\StudentUserClass;
-use JoJoBizzareCoders\DigitalJournal\Entity\TeacherUserClass;
-use JoJoBizzareCoders\DigitalJournal\Exception\InvalidDataStructureException;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Controller\ControllerInterface;
-use JoJoBizzareCoders\DigitalJournal\Infrastructure\DataLoader\JsonDataLoader;
-use JoJoBizzareCoders\DigitalJournal\Infrastructure\Http\HttpResponse;
-use JoJoBizzareCoders\DigitalJournal\Infrastructure\Http\ServerRequest;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Http\ServerResponseFactory;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Logger\LoggerInterface;
-
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Validator\Assert;
-
 use JoJoBizzareCoders\DigitalJournal\Service\SearchAssessmentReportService;
 use JoJoBizzareCoders\DigitalJournal\Service\SearchReportAssessmentService\AssessmentReportDto;
 use JoJoBizzareCoders\DigitalJournal\Service\SearchReportAssessmentService\SearchReportAssessmentCriteria;
-use JoJoBizzareCoders\DigitalJournal\ValueObject\Address;
-use JoJoBizzareCoders\DigitalJournal\ValueObject\Fio;
-use JsonException;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 
 /**
@@ -32,6 +18,14 @@ use JsonException;
  */
 class GetAssessmentReportCollectionController implements ControllerInterface
 {
+
+    /**
+     * Фабрика для создания http ответов
+     *
+     * @var ServerResponseFactory
+     */
+    private ServerResponseFactory $serverResponseFactory;
+
     /**
      * Использвуемый логгер
      *
@@ -52,22 +46,25 @@ class GetAssessmentReportCollectionController implements ControllerInterface
      *
      * @param LoggerInterface $logger - используемый логгер
      * @param SearchAssessmentReportService $SearchAssessmentReportService - сервис поиска оценок
+     * @param ServerResponseFactory $serverResponseFactory
      */
     public function __construct(
         LoggerInterface $logger,
-        SearchAssessmentReportService $SearchAssessmentReportService
+        SearchAssessmentReportService $SearchAssessmentReportService,
+        ServerResponseFactory $serverResponseFactory
     ) {
         $this->logger = $logger;
         $this->assessmentReportService = $SearchAssessmentReportService;
+        $this->serverResponseFactory = $serverResponseFactory;
     }
 
     /**
      * Валидирует парметры запроса
      *
-     * @param ServerRequest $serverRequest - серверный http запрос
+     * @param ServerRequestInterface $serverRequest - серверный http запрос
      * @return string|null - возвращает сообщение об ошибке, или null если ошибки нет.
      */
-    private function ValidateQueryParams(ServerRequest $serverRequest): ?string
+    private function ValidateQueryParams(ServerRequestInterface $serverRequest): ?string
     {
         $paramValidations = [
             'item_name' => 'Incorrect item name',
@@ -82,11 +79,10 @@ class GetAssessmentReportCollectionController implements ControllerInterface
     /**
      * Обработка запроса поиска оценок
      *
-     * @param ServerRequest $serverRequest - http запрос
-     * @return HttpResponse - http ответ
-     * @throws InvalidDataStructureException|JsonException
+     * @param ServerRequestInterface $serverRequest - http запрос
+     * @return ResponseInterface - http ответ
      */
-    public function __invoke(ServerRequest $serverRequest): HttpResponse
+    public function __invoke(ServerRequestInterface $serverRequest): ResponseInterface
     {
         $this->logger->info('assessmentReport" url');
         $resultOfParamValidation = $this->ValidateQueryParams($serverRequest);
@@ -110,7 +106,7 @@ class GetAssessmentReportCollectionController implements ControllerInterface
                 'message' => $resultOfParamValidation
             ];
         }
-        return ServerResponseFactory::createJsonResponse($httpCode, $result);
+        return $this->serverResponseFactory->createJsonResponse($httpCode, $result);
     }
 
     /**
@@ -128,7 +124,7 @@ class GetAssessmentReportCollectionController implements ControllerInterface
      * Создаёт результат поиска оценок
      *
      * @param AssessmentReportDto[] $foundReports - коллекция найденных оценок
-     * @return array|ReportClass
+     * @return array
      */
     protected function buildResult(array $foundReports)
     {

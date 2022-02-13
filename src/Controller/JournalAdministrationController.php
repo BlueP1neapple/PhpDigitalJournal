@@ -2,14 +2,12 @@
 
 namespace JoJoBizzareCoders\DigitalJournal\Controller;
 
+use JoJoBizzareCoders\DigitalJournal\Exception;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Auth\HttpAuthProvider;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Controller\ControllerInterface;
-use JoJoBizzareCoders\DigitalJournal\Infrastructure\Http\HttpResponse;
-use JoJoBizzareCoders\DigitalJournal\Infrastructure\Http\ServerRequest;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Http\ServerResponseFactory;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Logger\LoggerInterface;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\ViewTemplate\ViewTemplateInterface;
-use JoJoBizzareCoders\DigitalJournal\Repository\LessonJsonRepository;
 use JoJoBizzareCoders\DigitalJournal\Service\NewItemService;
 use JoJoBizzareCoders\DigitalJournal\Service\NewItemService\NewItemDto;
 use JoJoBizzareCoders\DigitalJournal\Service\NewLessonService;
@@ -22,15 +20,22 @@ use JoJoBizzareCoders\DigitalJournal\Service\SearchLessonService\NewLessonDto;
 use JoJoBizzareCoders\DigitalJournal\Service\SearchLessonService\SearchLessonServiceCriteria;
 use JoJoBizzareCoders\DigitalJournal\Service\SearchReportAssessmentService\NewAssessmentReportDto;
 use JoJoBizzareCoders\DigitalJournal\Service\SearchReportAssessmentService\SearchReportAssessmentCriteria;
-
-use JoJoBizzareCoders\DigitalJournal\Exception;
 use JoJoBizzareCoders\DigitalJournal\Service\SearchStudentService;
 use JoJoBizzareCoders\DigitalJournal\Service\SearchTeacherService;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Throwable;
 
 class JournalAdministrationController implements
     ControllerInterface
 {
+
+    /**
+     * Фабрика для создания http ответов
+     *
+     * @var ServerResponseFactory
+     */
+    private ServerResponseFactory $serverResponseFactory;
 
     /**
      * Логгер
@@ -130,6 +135,7 @@ class JournalAdministrationController implements
      * @param SearchStudentService $searchStudentService
      * @param HttpAuthProvider $httpAuthProvider
      * @param NewItemService $newItemService
+     * @param ServerResponseFactory $serverResponseFactory
      */
     public function __construct(
         LoggerInterface $logger,
@@ -143,7 +149,8 @@ class JournalAdministrationController implements
         NewReportService $newReportService,
         SearchStudentService $searchStudentService,
         HttpAuthProvider $httpAuthProvider,
-        NewItemService $newItemService
+        NewItemService $newItemService,
+        ServerResponseFactory $serverResponseFactory
     ) {
         $this->logger = $logger;
         $this->reportService = $reportService;
@@ -157,13 +164,14 @@ class JournalAdministrationController implements
         $this->searchStudentService = $searchStudentService;
         $this->httpAuthProvider = $httpAuthProvider;
         $this->newItemService = $newItemService;
+        $this->serverResponseFactory = $serverResponseFactory;
     }
 
 
     /**
      * @inheritDoc
      */
-    public function __invoke(ServerRequest $serverRequest): HttpResponse
+    public function __invoke(ServerRequestInterface $serverRequest): ResponseInterface
     {
         try {
             if (false === $this->httpAuthProvider->isAuth()) {
@@ -212,10 +220,10 @@ class JournalAdministrationController implements
             $context,
         );
 
-        return ServerResponseFactory::createHtmlResponse($httpCode, $html);
+        return $this->serverResponseFactory->createHtmlResponse($httpCode, $html);
     }
 
-    private function creationOfLesson(ServerRequest $serverRequest): array
+    private function creationOfLesson(ServerRequestInterface $serverRequest): array
     {
         $dataToCreate = [];
         parse_str($serverRequest->getBody(), $dataToCreate);

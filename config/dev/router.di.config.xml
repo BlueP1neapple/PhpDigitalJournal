@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xmlns:j_rtr="https://effective-group.ru/schema/dic/jojo_infrastructure_router"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services
+           http://symfony.com/schema/dic/services/services-1.0.xsd"
+>
+    <j_rtr:config>
+        <j_rtr:universalRouter>
+            <j_rtr:controllerNamespace>JoJoBizzareCoders\DigitalJournal\Controller</j_rtr:controllerNamespace>
+        </j_rtr:universalRouter>
+
+        <j_rtr:defaultRouter>
+                        <j_rtr:route pattern="/text-document/administration">
+                            JoJoBizzareCoders\DigitalJournal\Controller\TextDocumentAdministrationController
+                        </j_rtr:route>
+                        <j_rtr:route pattern="/login">JoJoBizzareCoders\DigitalJournal\Controller\LoginController</j_rtr:route>
+        </j_rtr:defaultRouter>
+
+        <j_rtr:regExpRouter>
+        </j_rtr:regExpRouter>
+    </j_rtr:config>
+</container>

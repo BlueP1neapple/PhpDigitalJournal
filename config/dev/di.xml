@@ -78,6 +78,15 @@
             <argument key="$config">%app.configs%</argument>
         </service>
 
+        <service id="Psr\Http\Message\UriFactoryInterface" alias="Nyholm\Psr7\Factory\Psr17Factory"/>
+        <service id="Psr\Http\Message\ResponseFactoryInterface" alias="Nyholm\Psr7\Factory\Psr17Factory"/>
+        <service id="Psr\Http\Message\StreamFactoryInterface" alias="Nyholm\Psr7\Factory\Psr17Factory"/>
+        <service id="Nyholm\Psr7\Factory\Psr17Factory"/>
+
+
+
+
+
         <service id="JoJoBizzareCoders\DigitalJournal\Infrastructure\Logger\LoggerInterface"
                  class="JoJoBizzareCoders\DigitalJournal\Infrastructure\Logger\Logger"
                  public="true"
@@ -115,13 +124,9 @@
         <service id="JoJoBizzareCoders\DigitalJournal\Infrastructure\Auth\HttpAuthProvider">
             <argument key="$loginUri"
                       type="service">
-                <service>
-                    <factory class="Nyholm\Psr7\Uri"
-                             method="createFromString"
-                    />
+                <service class="Nyholm\Psr7\Uri">
                     <argument key="$uri"
-                              type="expression"
-                    >
+                              type="expression">
                         service('JoJoBizzareCoders\\DigitalJournal\\Config\\AppConfig').getLoginUri()
                     </argument>
                 </service>

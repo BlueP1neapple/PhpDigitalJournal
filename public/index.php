@@ -1,4 +1,5 @@
 <?php
+
 require_once __DIR__ . '/../vendor/autoload.php';
 
 use JoJoBizzareCoders\DigitalJournal\Config\ContainerExtensions;
@@ -36,13 +37,15 @@ $httpResponse = (new App(
             ContainerExtensions::httpAppContainerExtensions()
         ),
         new SymfonyDiContainerInit\CacheParams(
-          'DEV' !== getenv('ENV_TYPE'),
-        //    false,
+            'DEV' !== getenv('ENV_TYPE'),
+            //    false,
             __DIR__ . '/../var/cache/di-symfony/DigitalJournalCachedContainer.php',
         )
     ),
-))->dispatch((static function (): ServerRequestInterface {
-    $psr17Factory = new Psr17Factory();
-    $create = new ServerRequestCreator($psr17Factory, $psr17Factory, $psr17Factory, $psr17Factory);
-    return $create->fromGlobals();
-})());
+))->dispatch(
+    (static function (): ServerRequestInterface {
+        $psr17Factory = new Psr17Factory();
+        $create = new ServerRequestCreator($psr17Factory, $psr17Factory, $psr17Factory, $psr17Factory);
+        return $create->fromGlobals();
+    })()
+);

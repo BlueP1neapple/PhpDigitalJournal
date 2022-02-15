@@ -46,7 +46,7 @@
         />
         <prototype namespace="JoJoBizzareCoders\DigitalJournal\Infrastructure\"
                    resource="./../../vendor/jojo-bizzare-coders/framework/src"
-                   exclude="./../../vendor/jojo-bizzare-coders/framework/src/{Router, Http}"
+                   exclude="./../../vendor/jojo-bizzare-coders/framework/src/{Router,Http,Logger}"
         />
         <prototype namespace="JoJoBizzareCoders\DigitalJournal\Infrastructure\Logger\"
                    resource="./../../vendor/jojo-bizzare-coders/logger/src"

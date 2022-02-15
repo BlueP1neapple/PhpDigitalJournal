@@ -4,6 +4,7 @@ namespace JoJoBizzareCoders\DigitalJournal\Config;
 
 
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Http\SymfonyDi\DiHttpExt;
+use JoJoBizzareCoders\DigitalJournal\Infrastructure\Logger\SymfonyDi\DiLoggerExt;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Router\SymfonyDi\DiRouterExt;
 
 final class ContainerExtensions
@@ -17,7 +18,7 @@ final class ContainerExtensions
     {
         return [
             new DiRouterExt(),
-           // new DiLoggerExt(),
+            new DiLoggerExt(),
             new DiHttpExt()
         ];
     }
@@ -31,7 +32,7 @@ final class ContainerExtensions
     {
         return [
             new DiRouterExt(),
-           // new DiLoggerExt(),
+            new DiLoggerExt(),
             new DiHttpExt()
         ];
     }

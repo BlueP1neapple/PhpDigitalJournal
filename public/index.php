@@ -4,6 +4,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 use JoJoBizzareCoders\DigitalJournal\Config\ContainerExtensions;
 use JoJoBizzareCoders\DigitalJournal\Config\AppConfig;
+use JoJoBizzareCoders\DigitalJournal\Exception\ErrorRealisation\ErrorRealisationInterface;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\DI\ContainerInterface;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\DI\SymfonyDiContainerInit;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\HttpApplication\App;
@@ -27,6 +28,9 @@ $httpResponse = (new App(
     },
     static function (ContainerInterface $di): RenderInterface {
         return $di->get(RenderInterface::class);
+    },
+    static function (ContainerInterface $di): ErrorRealisationInterface{
+        return $di->get(ErrorRealisationInterface::class);
     },
     new SymfonyDiContainerInit(
         new SymfonyDiContainerInit\ContainerParams(

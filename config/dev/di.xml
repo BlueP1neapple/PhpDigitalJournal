@@ -136,6 +136,14 @@
 
         </service>
 
+        <service id="JoJoBizzareCoders\DigitalJournal\Exception\ErrorRealisation\ErrorRealisationInterface"
+            alias="JoJoBizzareCoders\DigitalJournal\Exception\ErrorRealisation\IgnitionError"
+            public="true">
+        </service>
+
+        <service id="JoJoBizzareCoders\DigitalJournal\Exception\ErrorRealisation\IgnitionError"/>
+        <service id="JoJoBizzareCoders\DigitalJournal\Exception\ErrorRealisation\DefaultError"/>
+
 
         <service id="JoJoBizzareCoders\DigitalJournal\Infrastructure\Session\SessionInterface"
         >

@@ -4,7 +4,6 @@ namespace JoJoBizzareCoders\DigitalJournal\Service;
 
 use JoJoBizzareCoders\DigitalJournal\Entity\AssessmentReportRepositoryInterface;
 use JoJoBizzareCoders\DigitalJournal\Entity\ReportClass;
-use JoJoBizzareCoders\DigitalJournal\Infrastructure\Logger\LoggerInterface;
 use JoJoBizzareCoders\DigitalJournal\Service\SearchReportAssessmentService\ClassDto;
 use JoJoBizzareCoders\DigitalJournal\Service\SearchReportAssessmentService\ItemDto;
 use JoJoBizzareCoders\DigitalJournal\Service\SearchReportAssessmentService\LessonDto;
@@ -13,6 +12,7 @@ use JoJoBizzareCoders\DigitalJournal\Service\SearchReportAssessmentService\Asses
 use JoJoBizzareCoders\DigitalJournal\Service\SearchReportAssessmentService\ParentDto;
 use JoJoBizzareCoders\DigitalJournal\Service\SearchReportAssessmentService\SearchReportAssessmentCriteria;
 use JoJoBizzareCoders\DigitalJournal\Service\SearchReportAssessmentService\StudentDto;
+use Psr\Log\LoggerInterface;
 
 /**
  * Сервис поиска оценок

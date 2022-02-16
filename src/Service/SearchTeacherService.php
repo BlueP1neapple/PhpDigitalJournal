@@ -4,7 +4,7 @@ namespace JoJoBizzareCoders\DigitalJournal\Service;
 
 use JoJoBizzareCoders\DigitalJournal\Entity\TeacherRepositoryInterface;
 use JoJoBizzareCoders\DigitalJournal\Entity\TeacherUserClass;
-use JoJoBizzareCoders\DigitalJournal\Infrastructure\Logger\LoggerInterface;
+use Psr\Log\LoggerInterface;
 use JoJoBizzareCoders\DigitalJournal\Service\SearchItemService\ItemDto;
 use JoJoBizzareCoders\DigitalJournal\Service\SearchTeacherService\TeacherDto;
 

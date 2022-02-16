@@ -4,7 +4,7 @@ namespace JoJoBizzareCoders\DigitalJournal\Controller;
 
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Controller\ControllerInterface;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Http\ServerResponseFactory;
-use JoJoBizzareCoders\DigitalJournal\Infrastructure\Logger\LoggerInterface;
+use Psr\Log\LoggerInterface;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Validator\Assert;
 use JoJoBizzareCoders\DigitalJournal\Service\SearchAssessmentReportService;
 use JoJoBizzareCoders\DigitalJournal\Service\SearchReportAssessmentService\AssessmentReportDto;

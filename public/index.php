@@ -7,7 +7,7 @@ use JoJoBizzareCoders\DigitalJournal\Config\AppConfig;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\DI\ContainerInterface;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\DI\SymfonyDiContainerInit;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\HttpApplication\App;
-use JoJoBizzareCoders\DigitalJournal\Infrastructure\Logger\LoggerInterface;
+use Psr\Log\LoggerInterface;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Router\RouterInterface;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\View\RenderInterface;
 use Nyholm\Psr7\Factory\Psr17Factory;

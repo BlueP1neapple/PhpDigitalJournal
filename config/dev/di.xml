@@ -48,9 +48,7 @@
                    resource="./../../vendor/jojo-bizzare-coders/framework/src"
                    exclude="./../../vendor/jojo-bizzare-coders/framework/src/{Router,Http,Logger}"
         />
-        <prototype namespace="JoJoBizzareCoders\DigitalJournal\Infrastructure\Logger\"
-                   resource="./../../vendor/jojo-bizzare-coders/logger/src"
-        />
+
         <prototype namespace="JoJoBizzareCoders\DigitalJournal\Infrastructure\ViewTemplate\"
                    resource="./../../vendor/jojo-bizzare-coders/view-template/src"
         />
@@ -79,13 +77,7 @@
             <argument key="$config">%app.configs%</argument>
         </service>
 
-        <service id="JoJoBizzareCoders\DigitalJournal\Infrastructure\Logger\LoggerInterface"
-                 class="JoJoBizzareCoders\DigitalJournal\Infrastructure\Logger\Logger"
-                 public="true"
-        />
-        <service id="JoJoBizzareCoders\DigitalJournal\Infrastructure\Logger\AdapterInterface"
-                 class="JoJoBizzareCoders\DigitalJournal\Infrastructure\Logger\Adapter\FileAdapter"
-        />
+
         <service id="JoJoBizzareCoders\DigitalJournal\Entity\AssessmentReportRepositoryInterface"
                  class="JoJoBizzareCoders\DigitalJournal\Repository\AssessmentReportJsonRepository"
         />

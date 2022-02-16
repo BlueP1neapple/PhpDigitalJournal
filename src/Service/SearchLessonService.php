@@ -4,7 +4,7 @@ namespace JoJoBizzareCoders\DigitalJournal\Service;
 
 use JoJoBizzareCoders\DigitalJournal\Entity\LessonClass;
 use JoJoBizzareCoders\DigitalJournal\Entity\LessonRepositoryInterface;
-use JoJoBizzareCoders\DigitalJournal\Infrastructure\Logger\LoggerInterface;
+use Psr\Log\LoggerInterface;
 use JoJoBizzareCoders\DigitalJournal\Service\SearchLessonService\AddressDto;
 use JoJoBizzareCoders\DigitalJournal\Service\SearchLessonService\ClassDto;
 use JoJoBizzareCoders\DigitalJournal\Service\SearchLessonService\FioDto;

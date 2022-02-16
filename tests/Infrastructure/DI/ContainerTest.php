@@ -14,8 +14,7 @@ use JoJoBizzareCoders\DigitalJournal\Infrastructure\DI\ContainerInterface;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\HttpApplication\AppConfigInterface;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Logger\Adapter\NullAdapter;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Logger\AdapterInterface;
-use JoJoBizzareCoders\DigitalJournal\Infrastructure\Logger\Logger;
-use JoJoBizzareCoders\DigitalJournal\Infrastructure\Logger\LoggerInterface;
+use Psr\Log\LoggerInterface;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Router\ChainRouters;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Router\ControllerFactory;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Router\DefaultRouter;
@@ -81,7 +80,7 @@ class ContainerTest extends TestCase
                     ]
                 ],
                 LoggerInterface::class => [
-                    'class' => Logger::class,
+                    'class' => LoggerInterface::class,
                     'args' => [
                         'adapter' => AdapterInterface::class
                     ]

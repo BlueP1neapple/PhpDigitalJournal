@@ -3,9 +3,8 @@ namespace JoJoBizzareCoders\DigitalJournal\Service;
 
 use JoJoBizzareCoders\DigitalJournal\Entity\ItemClass;
 use JoJoBizzareCoders\DigitalJournal\Entity\ItemRepositoryInterface;
-use JoJoBizzareCoders\DigitalJournal\Entity\TeacherUserClass;
-use JoJoBizzareCoders\DigitalJournal\Infrastructure\Logger\LoggerInterface;
 use JoJoBizzareCoders\DigitalJournal\Service\SearchItemService\ItemDto;
+use Psr\Log\LoggerInterface;
 
 class SearchItemService
 {

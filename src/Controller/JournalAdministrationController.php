@@ -6,7 +6,7 @@ use JoJoBizzareCoders\DigitalJournal\Exception;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Auth\HttpAuthProvider;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Controller\ControllerInterface;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Http\ServerResponseFactory;
-use JoJoBizzareCoders\DigitalJournal\Infrastructure\Logger\LoggerInterface;
+use Psr\Log\LoggerInterface;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\ViewTemplate\ViewTemplateInterface;
 use JoJoBizzareCoders\DigitalJournal\Service\NewItemService;
 use JoJoBizzareCoders\DigitalJournal\Service\NewItemService\NewItemDto;

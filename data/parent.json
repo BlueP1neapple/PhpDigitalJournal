@@ -19,8 +19,8 @@
         ],
         "placeOfWork": "ООО Алмаз",
         "email": "kuznecov@gmail.com",
-        "login": "p0",
-        "password": "$2y$10$r8roUvRU3isynrDpqkeOb.FazrHESXg.twAt1k1TCu2WzxKiLhQp."
+        "login": "r1",
+        "password": "$2y$10$Xd6fW4Y24KAVJ5B5hv9YUuBNJCBpSLtSbhdEtJh6t3cmfGoYxyDtG"
     },
     {
         "id": 13,
@@ -42,7 +42,7 @@
         ],
         "placeOfWork": "ООО Весна",
         "email": "krabov@gmail.com",
-        "login": "PAR1",
+        "login": "p1",
         "password": "$2y$10$r8roUvRU3isynrDpqkeOb.FazrHESXg.twAt1k1TCu2WzxKiLhQp."
     },
     {

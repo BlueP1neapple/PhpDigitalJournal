@@ -203,11 +203,11 @@ class JournalAdministrationController implements
             ];
 
             $context = array_merge($viewData, $resultCreatingTextDocuments);
-            $template = __DIR__ . '/../../templates/journal.administration.phtml';
+            $template = __DIR__ . 'journal.administration.twig';
             $httpCode = 200;
         } catch (Throwable $e) {
             $httpCode = 500;
-            $template = __DIR__ . '/../../templates/errors.phtml';
+            $template = __DIR__ . 'templates/errors.twig';
             $context = [
                 'errors' => [
                     $e->getMessage()

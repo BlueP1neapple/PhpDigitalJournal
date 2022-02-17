@@ -102,9 +102,7 @@
         <service id="JoJoBizzareCoders\DigitalJournal\Infrastructure\DataLoader\DataLoaderInterface"
                  class="JoJoBizzareCoders\DigitalJournal\Infrastructure\DataLoader\JsonDataLoader"
         />
-        <service id="JoJoBizzareCoders\DigitalJournal\Infrastructure\ViewTemplate\ViewTemplateInterface"
-                 class="JoJoBizzareCoders\DigitalJournal\Infrastructure\ViewTemplate\PhtmlTemplate"
-        />
+
 
         <service id="Psr\Http\Message\UriFactoryInterface" alias="Nyholm\Psr7\Factory\Psr17Factory"/>
         <service id="Psr\Http\Message\ResponseFactoryInterface" alias="Nyholm\Psr7\Factory\Psr17Factory"/>

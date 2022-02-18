@@ -36,4 +36,16 @@ final class ContainerExtensions
             new DiHttpExt()
         ];
     }
+
+    /**
+     * Фарика для возвращения коллекции расширений di контейнера symfony для работы http приложения
+     * @return callable
+     */
+    public static function createHttpAppContainerExtensions(): callable
+    {
+        return static function () {
+            return ContainerExtensions::httpAppContainerExtensions();
+        };
+    }
+
 }

@@ -5,12 +5,13 @@ namespace JoJoBizzareCoders\DigitalJournalTest;
 use Exception;
 use JoJoBizzareCoders\DigitalJournal\Config\AppConfig;
 use JoJoBizzareCoders\DigitalJournal\Config\ContainerExtensions;
-use JoJoBizzareCoders\DigitalJournal\Exception\ErrorRealisation\ErrorRealisationInterface;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\DI\ContainerInterface;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\DI\SymfonyDiContainerInit;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\DI\SymfonyDiContainerInit\ContainerParams;
+use JoJoBizzareCoders\DigitalJournal\Infrastructure\Exception\ExceptionHandler\DefaultExceptionHandler;
+use JoJoBizzareCoders\DigitalJournal\Infrastructure\Exception\ExceptionHandler\ExceptionHandlerInterface;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\HttpApplication\App;
-use JoJoBizzareCoders\DigitalJournal\Infrastructure\Router\RouterInterface;
+use JoJoBizzareCoders\DigitalJournal\Infrastructure\HttpApplication\AppConfiguration;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\View\NullRender;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\View\RenderInterface;
 use JsonException;
@@ -21,7 +22,6 @@ use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
-
 
 
 class AppTest extends TestCase
@@ -37,6 +37,11 @@ class AppTest extends TestCase
                 ContainerExtensions::httpAppContainerExtensions()
             )
         );
+
+        $containerBuilder->removeAlias(ExceptionHandlerInterface::class);
+        $containerBuilder->setDefinition(DefaultExceptionHandler::class, (new Definition())->setAutowired(true));
+        $containerBuilder->setAlias(ExceptionHandlerInterface::class, DefaultExceptionHandler::class)->setPublic(true);
+
         $containerBuilder->removeAlias(LoggerInterface::class);
         $containerBuilder->setDefinition(NullLogger::class, new Definition());
         $containerBuilder->setAlias(LoggerInterface::class, NullLogger::class)->setPublic(true);
@@ -65,7 +70,7 @@ class AppTest extends TestCase
      */
     public static function dataProvider(): array
     {
-        return [/*
+        return [
             'Тестирование возможности смотреть расписание по названию предмета' => [
                 'in' => [
                     'uri' => '/lesson?item_name=Математика',
@@ -2808,7 +2813,7 @@ class AppTest extends TestCase
                         'message' => 'Incorrect student fio'
                     ]
                 ]
-            ],*/
+            ],
             'Тестирование ситуации когда данные о занятии не корректны. Нет поля date' => [
                 'in' => [
                     'uri' => '/lesson?item_name=Математика',
@@ -2847,7 +2852,7 @@ class AppTest extends TestCase
                     'httpCode' => 503,
                     'result' => [
                         'status' => 'fail',
-                        'message' => 'Отсутствуют обязательные элементы: mark'
+                        'message' => 'Отсутвуют обязательные элементы: mark'
                     ]
                 ]
             ],
@@ -2868,7 +2873,7 @@ class AppTest extends TestCase
                     'httpCode' => 503,
                     'result' => [
                         'status' => 'fail',
-                        'message' => 'Отсутствуют обязательные элементы: description'
+                        'message' => 'Отсутвуют обязательные элементы: description'
                     ]
                 ]
             ],
@@ -2889,7 +2894,7 @@ class AppTest extends TestCase
                     'httpCode' => 503,
                     'result' => [
                         'status' => 'fail',
-                        'message' => 'Отсутствуют обязательные элементы: letter'
+                        'message' => 'Отсутвуют обязательные элементы: letter'
                     ]
                 ]
             ],
@@ -2910,7 +2915,7 @@ class AppTest extends TestCase
                     'httpCode' => 503,
                     'result' => [
                         'status' => 'fail',
-                        'message' => 'Отсутствуют обязательные элементы: email,login,password'
+                        'message' => 'Данные о фио имеют неверный формат'
                     ]
                 ]
             ],
@@ -2931,7 +2936,7 @@ class AppTest extends TestCase
                     'httpCode' => 503,
                     'result' => [
                         'status' => 'fail',
-                        'message' => 'Нет данных о адресе'
+                        'message' => 'Нет данных о аддрессе'
                     ]
                 ]
             ],
@@ -2952,7 +2957,7 @@ class AppTest extends TestCase
                     'httpCode' => 503,
                     'result' => [
                         'status' => 'fail',
-                        'message' => 'Отсутствуют обязательные элементы: email,login,password'
+                        'message' => 'Данные о фио имеют неверный формат'
                     ]
                 ]
             ],
@@ -2973,7 +2978,7 @@ class AppTest extends TestCase
                     'httpCode' => 500,
                     'result' => [
                         'status' => 'fail',
-                        'message' => 'Некорректный путь до файла с данными'
+                        'message' => 'Неккоректный путь до файла с данными'
                     ]
                 ]
             ],
@@ -2994,7 +2999,7 @@ class AppTest extends TestCase
                     'httpCode' => 500,
                     'result' => [
                         'status' => 'fail',
-                        'message' => 'Некорректный путь до файла с данными'
+                        'message' => 'Неккоректный путь до файла с данными'
                     ]
                 ]
             ],
@@ -3015,7 +3020,7 @@ class AppTest extends TestCase
                     'httpCode' => 500,
                     'result' => [
                         'status' => 'fail',
-                        'message' => 'Некорректный путь до файла с данными'
+                        'message' => 'Неккоректный путь до файла с данными'
                     ]
                 ]
             ],
@@ -3036,7 +3041,7 @@ class AppTest extends TestCase
                     'httpCode' => 500,
                     'result' => [
                         'status' => 'fail',
-                        'message' => 'Некорректный путь до файла с данными'
+                        'message' => 'Неккоректный путь до файла с данными'
                     ]
                 ]
             ],
@@ -3057,7 +3062,7 @@ class AppTest extends TestCase
                     'httpCode' => 500,
                     'result' => [
                         'status' => 'fail',
-                        'message' => 'Некорректный путь до файла с данными'
+                        'message' => 'Неккоректный путь до файла с данными'
                     ]
                 ]
             ],
@@ -3078,7 +3083,7 @@ class AppTest extends TestCase
                     'httpCode' => 500,
                     'result' => [
                         'status' => 'fail',
-                        'message' => 'Некорректный путь до файла с данными'
+                        'message' => 'Неккоректный путь до файла с данными'
                     ]
                 ]
             ],
@@ -3099,7 +3104,7 @@ class AppTest extends TestCase
                     'httpCode' => 500,
                     'result' => [
                         'status' => 'fail',
-                        'message' => 'Некорректный путь до файла с данными'
+                        'message' => 'Неккоректный путь до файла с данными'
                     ]
                 ]
             ],
@@ -3148,24 +3153,12 @@ class AppTest extends TestCase
         $httpRequest = $httpRequest->withQueryParams($queryParams);
         $diContainer = $in['diContainer'];
         $app = new App(
-            static function (ContainerInterface $di): RouterInterface {
-                return $di->get(RouterInterface::class);
-            },
-            static function (ContainerInterface $di): LoggerInterface {
-                return $di->get(LoggerInterface::class);
-            },
-            static function (ContainerInterface $di): AppConfig {
-                return $di->get(AppConfig::class);
-            },
-            static function (ContainerInterface $di): RenderInterface {
-                return $di->get(RenderInterface::class);
-            },
-            static function (ContainerInterface $di): ErrorRealisationInterface{
-                return $di->get(ErrorRealisationInterface::class);
-            },
-            static function () use ($diContainer): ContainerInterface {
-                return $diContainer;
-            }
+            (new AppConfiguration())->setContainerFactory(
+                static function () use ($diContainer): ContainerInterface {
+                    return $diContainer;
+                }
+            )
+
         );
         //Action
         $httpResponse = $app->dispatch($httpRequest);

@@ -68,6 +68,10 @@
                  public="true"
         />
 
+        <service id="JoJoBizzareCoders\DigitalJournal\Infrastructure\HttpApplication\AppConfigInterface"
+                 alias="JoJoBizzareCoders\DigitalJournal\Config\AppConfig"
+                 public="true"/>
+
         <service id="JoJoBizzareCoders\DigitalJournal\Config\AppConfig"
                  public="true"
         >
@@ -187,6 +191,15 @@
                       id="JoJoBizzareCoders\DigitalJournal\Infrastructure\Router\UniversalRouter"
             />
         </service>
+
+
+
+        <service id="JoJoBizzareCoders\DigitalJournal\Infrastructure\Exception\ExceptionHandler\ExceptionHandlerInterface"
+                 alias="JoJoBizzareCoders\DigitalJournal\Infrastructure\Exception\ExceptionHandler\IgnitionExceptionHandler"
+                 public="true"/>
+        <service id="JoJoBizzareCoders\DigitalJournal\Infrastructure\Exception\ExceptionHandler\IgnitionExceptionHandler"/>
+        <service id="JoJoBizzareCoders\DigitalJournal\Infrastructure\Exception\ExceptionHandler\DefaultExceptionHandler"/>
+
 
     </services>
 

@@ -1,6 +1,6 @@
 [
     {
-        "id": 1,
+        "id": 12,
         "fio": [
             {
                 "surname": "Кузнецов",
@@ -20,10 +20,10 @@
         "placeOfWork": "ООО Алмаз",
         "email": "kuznecov@gmail.com",
         "login": "r1",
-        "password": ""
+        "password": "$2y$10$Xd6fW4Y24KAVJ5B5hv9YUuBNJCBpSLtSbhdEtJh6t3cmfGoYxyDtG"
     },
     {
-        "id": 2,
+        "id": 13,
         "fio": [
             {
                 "surname": "Крабов",
@@ -42,11 +42,11 @@
         ],
         "placeOfWork": "ООО Весна",
         "email": "krabov@gmail.com",
-        "login": "r2",
-        "password": ""
+        "login": "p1",
+        "password": "$2y$10$r8roUvRU3isynrDpqkeOb.FazrHESXg.twAt1k1TCu2WzxKiLhQp."
     },
     {
-        "id": 3,
+        "id": 14,
         "fio": [
             {
                 "surname": "Яснова",
@@ -65,11 +65,11 @@
         ],
         "placeOfWork": "ОАО Открытие",
         "email": "jasnova@gmail.com",
-        "login": "r3",
-        "password": ""
+        "login": "p3",
+        "password": "$2y$10$r8roUvRU3isynrDpqkeOb.FazrHESXg.twAt1k1TCu2WzxKiLhQp."
     },
     {
-        "id": 4,
+        "id": 15,
         "fio": [
             {
                 "surname": "Смирнова",
@@ -88,11 +88,11 @@
         ],
         "placeOfWork": "ИП Круглов",
         "email": "smirnova@gmail.com",
-        "login": "r4",
-        "password": ""
+        "login": "p4",
+        "password": "$2y$10$r8roUvRU3isynrDpqkeOb.FazrHESXg.twAt1k1TCu2WzxKiLhQp."
     },
     {
-        "id": 5,
+        "id": 16,
         "fio": [
             {
                 "surname": "Заимова",
@@ -111,11 +111,11 @@
         ],
         "placeOfWork": "ООО Зеленое-Красное",
         "email": "zaumova@gmail.com",
-        "login": "r5",
-        "password": ""
+        "login": "p5",
+        "password": "$2y$10$r8roUvRU3isynrDpqkeOb.FazrHESXg.twAt1k1TCu2WzxKiLhQp."
     },
     {
-        "id": 6,
+        "id": 17,
         "fio": [
             {
                 "surname": "Кузнецова",
@@ -134,11 +134,11 @@
         ],
         "placeOfWork": "ИП Сергеев",
         "email": "kuznecova@gmail.com",
-        "login": "r6",
-        "password": ""
+        "login": "p6",
+        "password": "$2y$10$r8roUvRU3isynrDpqkeOb.FazrHESXg.twAt1k1TCu2WzxKiLhQp."
     },
     {
-        "id": 7,
+        "id": 18,
         "fio": [
             {
                 "surname": "Соломона",
@@ -157,11 +157,11 @@
         ],
         "placeOfWork": "ООО Кружка",
         "email": "solomova@gmail.com",
-        "login": "r7",
-        "password": ""
+        "login": "p7",
+        "password": "$2y$10$r8roUvRU3isynrDpqkeOb.FazrHESXg.twAt1k1TCu2WzxKiLhQp."
     },
     {
-        "id": 8,
+        "id": 19,
         "fio": [
             {
                 "surname": "Соколова",
@@ -180,7 +180,7 @@
         ],
         "placeOfWork": "ООО Тесты",
         "email": "sokolova@gmail.com",
-        "login": "r8",
-        "password": ""
+        "login": "p8",
+        "password": "$2y$10$r8roUvRU3isynrDpqkeOb.FazrHESXg.twAt1k1TCu2WzxKiLhQp."
     }
 ]

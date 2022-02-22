@@ -62,5 +62,21 @@
         "lessonDuration": 40,
         "teacher_id": 2,
         "class_id": 1
+    },
+    {
+        "id": 9,
+        "item_id": 4,
+        "date": "2022.02.25 08:00",
+        "lessonDuration": 40,
+        "teacher_id": 2,
+        "class_id": 3
+    },
+    {
+        "id": 10,
+        "item_id": 1,
+        "date": "2022.02.23 07:00",
+        "lessonDuration": 40,
+        "teacher_id": 1,
+        "class_id": 1
     }
 ]

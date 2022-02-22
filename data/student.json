@@ -182,5 +182,28 @@
         "parent_id": 14,
         "login": "STU7",
         "password": "$2y$10$obk8vuhpS7gXa31FLbAAG.3IKskNv9f.HcQLzAfIvAv2pxk7mfJAy"
+    },
+    {
+        "id": 119,
+        "fio": [
+            {
+                "surname": "Шоркин",
+                "name": "Дмитрий",
+                "patronymic": "Александрович"
+            }
+        ],
+        "dateOfBirth": "2009.11.03",
+        "phone": "+79222444656",
+        "address": [
+            {
+                "street": "ул. Щавелева",
+                "home": "д. 55Б",
+                "apartment": "кв. 23"
+            }
+        ],
+        "class_id": 3,
+        "parent_id": 14,
+        "login": "STU7",
+        "password": "$2y$10$obk8vuhpS7gXa31FLbAAG.3IKskNv9f.HcQLzAfIvAv2pxk7mfJAy"
     }
 ]

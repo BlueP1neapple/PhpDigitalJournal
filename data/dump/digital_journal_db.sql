@@ -21,20 +21,6 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
--- Name: address; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.address (
-    street character varying(255),
-    home character varying(100),
-    apartment character varying(100),
-    user_id integer
-);
-
-
-ALTER TABLE public.address OWNER TO postgres;
-
---
 -- Name: assessment_report; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -60,20 +46,6 @@ CREATE TABLE public.class (
 
 
 ALTER TABLE public.class OWNER TO postgres;
-
---
--- Name: fio; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.fio (
-    name character varying(50),
-    surname character varying(50),
-    patronymic character varying(50),
-    user_id integer
-);
-
-
-ALTER TABLE public.fio OWNER TO postgres;
 
 --
 -- Name: item; Type: TABLE; Schema: public; Owner: postgres
@@ -115,7 +87,13 @@ CREATE TABLE public.users_parents (
     place_of_work character varying(255),
     email character varying(250),
     login character varying(255),
-    password character varying(255)
+    password character varying(255),
+    surname character varying(250),
+    name character varying(250),
+    patronymic character varying(250),
+    street character varying(250),
+    home character varying(250),
+    apartment integer
 );
 
 
@@ -132,7 +110,13 @@ CREATE TABLE public.users_students (
     class_id integer,
     parent_id integer,
     login character varying(255),
-    password character varying(255)
+    password character varying(255),
+    surname character varying(250),
+    name character varying(250),
+    patronymic character varying(250),
+    street character varying(250),
+    home character varying(250),
+    apartment character varying(250)
 );
 
 
@@ -150,19 +134,17 @@ CREATE TABLE public.users_teachers (
     cabinet integer,
     email character varying(255),
     login character varying(255),
-    password character varying(255)
+    password character varying(255),
+    surname character varying(250),
+    name character varying(250),
+    patronymic character varying(250),
+    street character varying(250),
+    home character varying(250),
+    apartment character varying(250)
 );
 
 
 ALTER TABLE public.users_teachers OWNER TO postgres;
-
---
--- Data for Name: address; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.address (street, home, apartment, user_id) FROM stdin;
-\.
-
 
 --
 -- Data for Name: assessment_report; Type: TABLE DATA; Schema: public; Owner: postgres
@@ -177,14 +159,6 @@ COPY public.assessment_report (id, lesson_id, student_id, mark) FROM stdin;
 --
 
 COPY public.class (id, number, letter) FROM stdin;
-\.
-
-
---
--- Data for Name: fio; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.fio (name, surname, patronymic, user_id) FROM stdin;
 \.
 
 
@@ -208,7 +182,7 @@ COPY public.lesson (id, item_id, date, lesson_duration, teacher_id, class_id) FR
 -- Data for Name: users_parents; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.users_parents (id, date_of_birth, phone, place_of_work, email, login, password) FROM stdin;
+COPY public.users_parents (id, date_of_birth, phone, place_of_work, email, login, password, surname, name, patronymic, street, home, apartment) FROM stdin;
 \.
 
 
@@ -216,7 +190,7 @@ COPY public.users_parents (id, date_of_birth, phone, place_of_work, email, login
 -- Data for Name: users_students; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.users_students (id, date_of_birth, phone, class_id, parent_id, login, password) FROM stdin;
+COPY public.users_students (id, date_of_birth, phone, class_id, parent_id, login, password, surname, name, patronymic, street, home, apartment) FROM stdin;
 \.
 
 
@@ -224,7 +198,7 @@ COPY public.users_students (id, date_of_birth, phone, class_id, parent_id, login
 -- Data for Name: users_teachers; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.users_teachers (id, date_of_birth, phone, item_id, cabinet, email, login, password) FROM stdin;
+COPY public.users_teachers (id, date_of_birth, phone, item_id, cabinet, email, login, password, surname, name, patronymic, street, home, apartment) FROM stdin;
 \.
 
 

@@ -15,8 +15,21 @@ $parentData = json_decode(file_get_contents(__DIR__ . '/../data/parent.json'), t
 
 foreach ($parentData as $parent){
     $dob = date_create_from_format("Y.m.d", $parent['dateOfBirth']);
-    $sql = "INSERT INTO users_parents(id, date_of_birth, phone, place_of_work, email, login, password)
-   VALUES ({$parent['id']}, '{$dob->format('Y-m-d')}', '{$parent['phone']}', '{$parent['placeOfWork']}', '{$parent['email']}', '{$parent['login']}', '{$parent['password']}')";
+    $sql = "INSERT INTO users_parents(id, date_of_birth, phone, place_of_work, email, login, password, surname, name, patronymic, street, home, apartment)
+   VALUES ({$parent['id']}, 
+           '{$dob->format('Y-m-d')}', 
+           '{$parent['phone']}', 
+           '{$parent['placeOfWork']}', 
+           '{$parent['email']}', 
+           '{$parent['login']}', 
+           '{$parent['password']}',
+           '{$parent['fio'][0]['surname']}',
+           '{$parent['fio'][0]['name']}',
+           '{$parent['fio'][0]['patronymic']}',
+           '{$parent['address'][0]['street']}',
+           '{$parent['address'][0]['home']}',
+           '{$parent['address'][0]['apartment']}'
+           )";
     $dbConn->query($sql);
 }
 
@@ -34,8 +47,22 @@ $teachersData = json_decode(file_get_contents(__DIR__ . '/../data/teacher.json')
 
 foreach ($teachersData as $teacher){
     $dob = date_create_from_format("Y.m.d", $teacher['dateOfBirth']);
-    $sql = "INSERT INTO users_teachers(id, date_of_birth, phone, item_id, cabinet, email, login, password)
-   VALUES ({$teacher['id']}, '{$dob->format('Y-m-d')}', '{$teacher['phone']}', '{$teacher['idItem']}', {$teacher['cabinet']}, '{$teacher['email']}', '{$teacher['login']}', '{$teacher['password']}')";
+    $sql = "INSERT INTO users_teachers(id, date_of_birth, phone, item_id, cabinet, email, login, password, surname, name, patronymic, street, home, apartment)
+   VALUES ({$teacher['id']},
+           '{$dob->format('Y-m-d')}', 
+           '{$teacher['phone']}', 
+           '{$teacher['idItem']}', 
+           {$teacher['cabinet']}, 
+           '{$teacher['email']}', 
+           '{$teacher['login']}', 
+           '{$teacher['password']}',
+           '{$teacher['fio'][0]['surname']}',
+           '{$teacher['fio'][0]['name']}',
+           '{$teacher['fio'][0]['patronymic']}',
+           '{$teacher['address'][0]['street']}',
+           '{$teacher['address'][0]['home']}',
+           '{$teacher['address'][0]['apartment']}'
+           )";
     $dbConn->query($sql);
 }
 
@@ -52,8 +79,21 @@ $studentData = json_decode(file_get_contents(__DIR__ . '/../data/student.json'),
 
 foreach ($studentData as $student){
     $dob = date_create_from_format("Y.m.d", $student['dateOfBirth']);
-    $sql = "INSERT INTO users_students(id, date_of_birth, phone, class_id, parent_id, login, password)
-   VALUES ({$student['id']}, '{$dob->format('Y-m-d')}', '{$student['phone']}', {$student['class_id']}, {$student['parent_id']}, '{$student['login']}', '{$student['password']}')";
+    $sql = "INSERT INTO users_students(id, date_of_birth, phone, class_id, parent_id, login, password, surname, name, patronymic, street, home, apartment)
+   VALUES ({$student['id']}, 
+           '{$dob->format('Y-m-d')}', 
+           '{$student['phone']}', 
+           {$student['class_id']}, 
+           {$student['parent_id']}, 
+           '{$student['login']}', 
+           '{$student['password']}',
+           '{$student['fio'][0]['surname']}',
+           '{$student['fio'][0]['name']}',
+           '{$student['fio'][0]['patronymic']}',
+           '{$student['address'][0]['street']}',
+           '{$student['address'][0]['home']}',
+           '{$student['address'][0]['apartment']}'
+           )";
     $dbConn->query($sql);
 }
 
@@ -131,36 +171,4 @@ $userFromDb = $dbConn->query('SELECT * FROM assessment_report')->fetchAll(PDO::F
 //var_dump($userFromDb);
 
 
-/**
- * Импорт фио
- *
- */
-$dbConn->query('DELETE FROM fio');
-$users = array_merge( $parentData, $studentData, $teachersData);
-foreach ($users as $user){
-    $id = $user['id'];
-    foreach ($user['fio'] as $value){
-        $sql = "INSERT INTO fio(user_id, name, surname, patronymic)
-        VALUES ({$id}, '{$value['name']}','{$value['surname']}', '{$value['patronymic']}')";
-        $dbConn->query($sql);
-    }
-}
-$userFromDb = $dbConn->query('SELECT * FROM fio')->fetchAll(PDO::FETCH_ASSOC);
-//var_dump($userFromDb);
-
-/**
- * Импорт фио
- *
- */
-$dbConn->query('DELETE FROM address');
-foreach ($users as $user){
-    $id = $user['id'];
-    foreach ($user['address'] as $value){
-        $sql = "INSERT INTO address(user_id, street, home, apartment)
-        VALUES ({$id}, '{$value['street']}','{$value['home']}', '{$value['apartment']}')";
-        $dbConn->query($sql);
-    }
-}
-$userFromDb = $dbConn->query('SELECT * FROM address')->fetchAll(PDO::FETCH_ASSOC);
-//var_dump($userFromDb);
 

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xmlns:j_db="https://effective-group.ru/schema/dic/jojo_infrastructure_db"
+           xsi:schemaLocation="
+           http://symfony.com/schema/dic/services
+           http://symfony.com/schema/dic/services/services-1.0.xsd
+           https://effective-group.ru/schema/dic/db.di.config.xsd"
+>
+    <j_db:config>
+        <j_db:connect>
+            <j_db:dbType>pgsql</j_db:dbType>
+            <j_db:user>postgres</j_db:user>
+            <j_db:password>*</j_db:password>
+            <j_db:dbName>book_library_db</j_db:dbName>
+            <j_db:host>localhost</j_db:host>
+            <j_db:port>5432</j_db:port>
+        </j_db:connect>
+    </j_db:config>
+
+
+</container>

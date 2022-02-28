@@ -31,7 +31,8 @@
     "nyholm/psr7": "^1.5",
     "nyholm/psr7-server": "^1.0",
     "monolog/monolog": "^2.3",
-    "spatie/ignition": "^1.0.0"
+    "spatie/ignition": "^1.0.0",
+    "ext-pdo": "*"
   },
   "minimum-stability": "dev",
   "prefer-stable": false,

@@ -46,7 +46,7 @@
         />
         <prototype namespace="JoJoBizzareCoders\DigitalJournal\Infrastructure\"
                    resource="./../../vendor/jojo-bizzare-coders/framework/src"
-                   exclude="./../../vendor/jojo-bizzare-coders/framework/src/{Router,Http,Logger}"
+                   exclude="./../../vendor/jojo-bizzare-coders/framework/src/{Router,Http,Logger,Db}"
         />
 
         <prototype namespace="JoJoBizzareCoders\DigitalJournal\Infrastructure\ViewTemplate\"
@@ -95,7 +95,7 @@
                  class="JoJoBizzareCoders\DigitalJournal\Repository\LessonJsonRepository"
         />
         <service id="JoJoBizzareCoders\DigitalJournal\Entity\ParentRepositoryInterface"
-                 class="JoJoBizzareCoders\DigitalJournal\Repository\ParentJsonRepository"
+                 class="JoJoBizzareCoders\DigitalJournal\Repository\ParentDbRepository"
         />
         <service id="JoJoBizzareCoders\DigitalJournal\Entity\StudentRepositoryInterface"
                  class="JoJoBizzareCoders\DigitalJournal\Repository\StudentJsonRepository"

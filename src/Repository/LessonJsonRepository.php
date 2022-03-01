@@ -364,11 +364,10 @@ class LessonJsonRepository implements LessonRepositoryInterface
         $classesIdToInfo = $this->loadEntityClasses();
         $foundLessons = [];
         $LessonMeetSearchCriteria = true;
-        foreach ($lessons as $lesson) // Цикл по все занятиям. [начало]
+        foreach ($lessons as $lesson)
         {
             if (array_key_exists('item_name', $criteria)) {
-                $LessonMeetSearchCriteria = ($criteria['item_name'] === $itemsIdToInfo[$lesson['item_id']]
-                        ->getName());
+                $LessonMeetSearchCriteria = ($criteria['item_name'] === $itemsIdToInfo[$lesson['item_id']]->getName());
             }
             if (array_key_exists('item_description', $criteria)) {
                 $LessonMeetSearchCriteria = ($criteria['item_description'] ===

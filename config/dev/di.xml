@@ -89,7 +89,7 @@
                  class="JoJoBizzareCoders\DigitalJournal\Repository\ClassJsonFileRepository"
         />
         <service id="JoJoBizzareCoders\DigitalJournal\Entity\ItemRepositoryInterface"
-                 class="JoJoBizzareCoders\DigitalJournal\Repository\ItemJsonFileRepository"
+                 class="JoJoBizzareCoders\DigitalJournal\Repository\ItemDbRepository"
         />
         <service id="JoJoBizzareCoders\DigitalJournal\Entity\LessonRepositoryInterface"
                  class="JoJoBizzareCoders\DigitalJournal\Repository\LessonJsonRepository"
@@ -101,7 +101,7 @@
                  class="JoJoBizzareCoders\DigitalJournal\Repository\StudentJsonRepository"
         />
         <service id="JoJoBizzareCoders\DigitalJournal\Entity\TeacherRepositoryInterface"
-                 class="JoJoBizzareCoders\DigitalJournal\Repository\TeacherJsonFileRepository"
+                 class="JoJoBizzareCoders\DigitalJournal\Repository\TeacherDbRepository"
         />
         <service id="JoJoBizzareCoders\DigitalJournal\Infrastructure\DataLoader\DataLoaderInterface"
                  class="JoJoBizzareCoders\DigitalJournal\Infrastructure\DataLoader\JsonDataLoader"

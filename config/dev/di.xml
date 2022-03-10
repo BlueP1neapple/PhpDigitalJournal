@@ -83,7 +83,7 @@
 
 
         <service id="JoJoBizzareCoders\DigitalJournal\Entity\AssessmentReportRepositoryInterface"
-                 class="JoJoBizzareCoders\DigitalJournal\Repository\AssessmentReportJsonRepository"
+                 class="JoJoBizzareCoders\DigitalJournal\Repository\AssessmentReportDbRepository"
         />
         <service id="JoJoBizzareCoders\DigitalJournal\Entity\ClassRepositoryInterface"
                  class="JoJoBizzareCoders\DigitalJournal\Repository\ClassJsonFileRepository"

@@ -1,5 +1,6 @@
 <?php
 namespace JoJoBizzareCoders\DigitalJournal\Entity;
+    use DateTimeImmutable;
     use JoJoBizzareCoders\DigitalJournal\Exception\InvalidDataStructureException;
 
 
@@ -33,7 +34,7 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
         public function __construct(
             int $id,
             array $fio,
-            string $dateOfBirth,
+            DateTimeImmutable $dateOfBirth,
             string $phone,
             array $address,
             ItemClass $item,

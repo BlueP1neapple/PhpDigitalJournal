@@ -1,5 +1,6 @@
 <?php
 namespace JoJoBizzareCoders\DigitalJournal\Entity;
+    use DateTimeImmutable;
     use JoJoBizzareCoders\DigitalJournal\Exception\InvalidDataStructureException;
 
     /**
@@ -15,29 +16,29 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
         /**
          * Родитель ученика
          */
-        private ParentUserClass $parent;
+        private array $parents;
 
 
         /**
          * Конструктор класса студента
          * @inheritdoc
          * @param ClassClass $class - объект класса класса
-         * @param ParentUserClass $parent - объект класса родетелец
+         * @param ParentUserClass[] $parents - объект класса родетелец
          */
         public function __construct(
             int $id,
             array $fio,
-            string $dateOfBirth,
+            DateTimeImmutable $dateOfBirth,
             string $phone,
             array $address,
             ClassClass $class,
-            ParentUserClass $parent,
+            array $parents,
             string $login,
             string $password
         ) {
             parent::__construct($id, $fio, $dateOfBirth, $phone, $address, $login, $password);
             $this->class = $class;
-            $this->parent = $parent;
+            $this->parents = $parents;
         }
 
         /**
@@ -55,7 +56,7 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
                 'phone',
                 'address',
                 'class_id',
-                'parent_id',
+                'parents',
                 'login',
                 'password'
             ];
@@ -71,7 +72,7 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
                 $data['phone'],
                 $data['address'],
                 $data['class_id'],
-                $data['parent_id'],
+                $data['parents'],
                 $data['login'],
                 $data['password']
             );
@@ -88,11 +89,11 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
 
         /**
          * Получить Родителя
-         * @return ParentUserClass
+         * @return ParentUserClass[]
          */
-        public function getParent(): ParentUserClass
+        public function getParent(): array
         {
-            return $this->parent;
+            return $this->parents;
         }
 
 

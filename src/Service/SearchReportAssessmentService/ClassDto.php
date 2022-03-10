@@ -7,7 +7,7 @@
      */
     final class ClassDto
     {
-        //Свойства
+
         /**
          * id Класса
          *
@@ -29,9 +29,7 @@
          */
         private string $letter;
 
-        //Методы
-
-        /**
+       /**
          * Конструктор dto объекта класса
          *
          * @param int $id - id класса

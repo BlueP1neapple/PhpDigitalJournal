@@ -107,16 +107,20 @@ class SearchAssessmentReportService
             $classForLessonDto
         );
         $student = $report->getStudent();
-        $parent = $student->getParent();
-        $parentDto = new ParentDto(
-            $parent->getId(),
-            $parent->getFio(),
-            $parent->getDateOfBirth(),
-            $parent->getPhone(),
-            $parent->getAddress(),
-            $parent->getPlaceOfWork(),
-            $parent->getEmail()
-        );
+        $parents = $student->getParent();
+        foreach ($parents as $parent)
+        {
+            $parentDto = new ParentDto(
+                $parent->getId(),
+                $parent->getFio(),
+                $parent->getDateOfBirth(),
+                $parent->getPhone(),
+                $parent->getAddress(),
+                $parent->getPlaceOfWork(),
+                $parent->getEmail()
+            );
+        }
+
         $classForStudent = $student->getClass();
         $classForStudentDto = new ClassDto(
             $classForStudent->getId(),

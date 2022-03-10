@@ -2,6 +2,7 @@
 
     namespace JoJoBizzareCoders\DigitalJournal\Service\SearchReportAssessmentService;
 
+    use DateTimeImmutable;
     use JoJoBizzareCoders\DigitalJournal\ValueObject\Address;
     use JoJoBizzareCoders\DigitalJournal\ValueObject\Fio;
 
@@ -10,7 +11,7 @@
      */
     final class ParentDto
     {
-        //Свойства
+
         /**
          * id Родителя
          *
@@ -28,9 +29,9 @@
         /**
          * Дата рождения родителя
          *
-         * @var string
+         * @var DateTimeImmutable
          */
-        private string $dateOfBirth;
+        private DateTimeImmutable $dateOfBirth;
 
         /**
          * Номер телефона родителя
@@ -60,14 +61,13 @@
          */
         private string $email;
 
-        //Методы
 
         /**
          * Конструктор Dto объект с информацией об родителях
          *
          * @param int $id - id родителя
          * @param Fio[] $fio - Фио - родителя
-         * @param string $dateOfBirth - Дата рождения родителя
+         * @param DateTimeImmutable $dateOfBirth - Дата рождения родителя
          * @param string $phone - Номер телефона родителя
          * @param Address[] $address - Аддресс проживания родителя
          * @param string $placeOfWork - Место работы родителя
@@ -76,7 +76,7 @@
         public function __construct(
             int $id,
             array $fio,
-            string $dateOfBirth,
+            DateTimeImmutable $dateOfBirth,
             string $phone,
             array $address,
             string $placeOfWork,
@@ -114,9 +114,9 @@
         /**
          * Возвращает Дата рождения родителя
          *
-         * @return string
+         * @return DateTimeImmutable
          */
-        public function getDateOfBirth(): string
+        public function getDateOfBirth(): DateTimeImmutable
         {
             return $this->dateOfBirth;
         }

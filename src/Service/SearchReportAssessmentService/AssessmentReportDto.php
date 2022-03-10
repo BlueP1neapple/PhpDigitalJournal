@@ -7,7 +7,7 @@
      */
     final class AssessmentReportDto
     {
-        //Свойства
+
         /**
          * id оценки
          *
@@ -36,7 +36,7 @@
          */
         private int $mark;
 
-        //Методы
+
 
         /**
          * Конструктор dto объекта с информацией о оценках

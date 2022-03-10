@@ -2,12 +2,14 @@
 
     namespace JoJoBizzareCoders\DigitalJournal\Service\SearchReportAssessmentService;
 
+    use DateTimeImmutable;
+
     /**
      * Dto объект описывающий структуру информации о занятиях
      */
     final class LessonDto
     {
-        //Свойства
+
         /**
          * id занятий
          *
@@ -27,7 +29,7 @@
          *
          * @var string
          */
-        private string $date;
+        private DateTimeImmutable $date;
 
         /**
          * Время проведения занятий
@@ -50,14 +52,13 @@
          */
         private ClassDto $class;
 
-        //Методы
 
         /**
          * Конструктор Dto объект описывающий структуру информации о занятиях
          *
          * @param int $id - id занятий
          * @param ItemDto $item - Dto объект хранящий информации об предмете
-         * @param string $date - Дата проведения занятия
+         * @param DateTimeImmutable $date - Дата проведения занятия
          * @param int $lessonDuration - Время проведения занятий
          * @param TeacherDto $teacher - Dto объект хранящий информации об преподователях
          * @param ClassDto $class - Dto объект хранящий информации об классах
@@ -65,7 +66,7 @@
         public function __construct(
             int $id,
             ItemDto $item,
-            string $date,
+            DateTimeImmutable $date,
             int $lessonDuration,
             TeacherDto $teacher,
             ClassDto $class
@@ -101,9 +102,9 @@
         /**
          * Возвращает дату проведения занятия
          *
-         * @return string
+         * @return DateTimeImmutable
          */
-        public function getDate(): string
+        public function getDate(): DateTimeImmutable
         {
             return $this->date;
         }

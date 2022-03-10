@@ -1,6 +1,7 @@
 <?php
 namespace JoJoBizzareCoders\DigitalJournal\Entity;
 
+use DateTimeImmutable;
 use JoJoBizzareCoders\DigitalJournal\ValueObject\Address;
 use JoJoBizzareCoders\DigitalJournal\ValueObject\Fio;
 
@@ -29,7 +30,7 @@ abstract class AbstractUserClass
      *
      * @var string
      */
-    private string $dateOfBirth;
+    private DateTimeImmutable $dateOfBirth;
 
     /**
      * Номер телефона пользователя
@@ -58,16 +59,19 @@ abstract class AbstractUserClass
      * @var string
      */
     private string $password;
+
     /**
      * Конструктор Пользователя
      *
      * @param int $id - Id пользователя
      * @param array $fio - ФИО пользователя
-     * @param string $dateOfBirth - Дата рождения Пользователя
+     * @param DateTimeImmutable $dateOfBirth - Дата рождения Пользователя
      * @param string $phone - Номер телефона Пользователя
      * @param array $address - Домашний адресс пользователя
+     * @param string $login
+     * @param string $password
      */
-    public function __construct(int $id, array $fio, string $dateOfBirth, string $phone, array $address,string $login, string $password)
+    public function __construct(int $id, array $fio, DateTimeImmutable $dateOfBirth, string $phone, array $address,string $login, string $password)
     {
         $this->id = $id;
         $this->fio = $fio;
@@ -103,9 +107,9 @@ abstract class AbstractUserClass
     /**
      * Получение даты рождения
      *
-     * @return string
+     * @return DateTimeImmutable
      */
-    public function getDateOfBirth(): string
+    public function getDateOfBirth(): DateTimeImmutable
     {
         return $this->dateOfBirth;
     }

@@ -1,5 +1,6 @@
 <?php
 namespace JoJoBizzareCoders\DigitalJournal\Entity;
+    use DateTimeImmutable;
     use JoJoBizzareCoders\DigitalJournal\Exception\InvalidDataStructureException;
 
 
@@ -21,9 +22,9 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
         private ItemClass $item;
 
         /**
-         * @var string Дата проведения урока
+         * @var DateTimeImmutable Дата проведения урока
          */
-        private string $date;
+        private DateTimeImmutable $date;
 
         /**
          * @var int Длительность урока
@@ -53,7 +54,7 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
         public function __construct(
             int $id,
             ItemClass $item,
-            string $date,
+            DateTimeImmutable $date,
             int $lessonDuration,
             TeacherUserClass $teacher,
             ClassClass $class
@@ -86,9 +87,9 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
 
 
         /**
-         * @return string получить дату проведения урока
+         * @return DateTimeImmutable получить дату проведения урока
          */
-        public function getDate(): string
+        public function getDate(): DateTimeImmutable
         {
             return $this->date;
         }

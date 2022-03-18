@@ -86,19 +86,19 @@
                  class="JoJoBizzareCoders\DigitalJournal\Repository\AssessmentReportDbRepository"
         />
         <service id="JoJoBizzareCoders\DigitalJournal\Entity\ClassRepositoryInterface"
-                 class="JoJoBizzareCoders\DigitalJournal\Repository\ClassJsonFileRepository"
+                 class="JoJoBizzareCoders\DigitalJournal\Repository\ClassDbRepository"
         />
         <service id="JoJoBizzareCoders\DigitalJournal\Entity\ItemRepositoryInterface"
                  class="JoJoBizzareCoders\DigitalJournal\Repository\ItemDbRepository"
         />
         <service id="JoJoBizzareCoders\DigitalJournal\Entity\LessonRepositoryInterface"
-                 class="JoJoBizzareCoders\DigitalJournal\Repository\LessonJsonRepository"
+                 class="JoJoBizzareCoders\DigitalJournal\Repository\LessonDbRepository"
         />
         <service id="JoJoBizzareCoders\DigitalJournal\Entity\ParentRepositoryInterface"
                  class="JoJoBizzareCoders\DigitalJournal\Repository\ParentDbRepository"
         />
         <service id="JoJoBizzareCoders\DigitalJournal\Entity\StudentRepositoryInterface"
-                 class="JoJoBizzareCoders\DigitalJournal\Repository\StudentJsonRepository"
+                 class="JoJoBizzareCoders\DigitalJournal\Repository\StudentDbRepository"
         />
         <service id="JoJoBizzareCoders\DigitalJournal\Entity\TeacherRepositoryInterface"
                  class="JoJoBizzareCoders\DigitalJournal\Repository\TeacherDbRepository"
@@ -130,11 +130,11 @@
                  class="JoJoBizzareCoders\DigitalJournal\AppService\UserDataStorage\UserDataStorage"
         >
             <argument type="service"
-                      id="JoJoBizzareCoders\DigitalJournal\Repository\ParentJsonRepository"/>
+                      id="JoJoBizzareCoders\DigitalJournal\Entity\ParentRepositoryInterface"/>
             <argument type="service"
-                      id="JoJoBizzareCoders\DigitalJournal\Repository\TeacherJsonFileRepository"/>
+                      id="JoJoBizzareCoders\DigitalJournal\Entity\TeacherRepositoryInterface"/>
             <argument type="service"
-                      id="JoJoBizzareCoders\DigitalJournal\Repository\StudentJsonRepository"/>
+                      id="JoJoBizzareCoders\DigitalJournal\Entity\StudentRepositoryInterface"/>
 
         </service>
 

@@ -2,16 +2,21 @@
 
 namespace JoJoBizzareCoders\DigitalJournal\Service;
 
+use JoJoBizzareCoders\DigitalJournal\Entity\ClassRepositoryInterface;
+use JoJoBizzareCoders\DigitalJournal\Entity\ItemRepositoryInterface;
 use JoJoBizzareCoders\DigitalJournal\Entity\LessonClass;
 use JoJoBizzareCoders\DigitalJournal\Entity\LessonRepositoryInterface;
+use JoJoBizzareCoders\DigitalJournal\Entity\TeacherRepositoryInterface;
 use JoJoBizzareCoders\DigitalJournal\Exception\RuntimeException;
 use JoJoBizzareCoders\DigitalJournal\Repository\AssessmentReportJsonRepository;
 use JoJoBizzareCoders\DigitalJournal\Repository\ClassJsonFileRepository;
 use JoJoBizzareCoders\DigitalJournal\Repository\ItemJsonFileRepository;
 use JoJoBizzareCoders\DigitalJournal\Repository\LessonJsonRepository;
+use JoJoBizzareCoders\DigitalJournal\Repository\TeacherDbRepository;
 use JoJoBizzareCoders\DigitalJournal\Repository\TeacherJsonFileRepository;
 use JoJoBizzareCoders\DigitalJournal\Service\SearchLessonService\NewLessonDto;
 use JoJoBizzareCoders\DigitalJournal\Service\SearchLessonService\ResultRegistrationLessonDto;
+use Symfony\Contracts\Cache\ItemInterface;
 
 /**
  * Сервис регистрации нового урока
@@ -21,42 +26,42 @@ class NewLessonService
     /**
      * Репозиторий уроков
      *
-     * @var LessonJsonRepository
+     * @var LessonRepositoryInterface
      */
-    private LessonJsonRepository $lessonRepository;
+    private LessonRepositoryInterface $lessonRepository;
 
     /**
      * Репозиторий учетелей
      *
-     * @var TeacherJsonFileRepository
+     * @var TeacherRepositoryInterface
      */
-    private TeacherJsonFileRepository $teacherRepository;
+    private TeacherRepositoryInterface $teacherRepository;
 
     /**
      * Репозиторий предметов
      *
-     * @var ItemJsonFileRepository
+     * @var ItemRepositoryInterface
      */
-    private ItemJsonFileRepository $itemRepository;
+    private ItemRepositoryInterface $itemRepository;
 
     /**
      * Репозиторий классов
      *
-     * @var ClassJsonFileRepository
+     * @var ClassRepositoryInterface
      */
-    private ClassJsonFileRepository $classRepository;
+    private ClassRepositoryInterface $classRepository;
 
     /**
      * @param LessonRepositoryInterface $lessonRepository
-     * @param TeacherJsonFileRepository $teacherRepository
-     * @param ItemJsonFileRepository $itemRepository
-     * @param ClassJsonFileRepository $classRepository
+     * @param TeacherRepositoryInterface $teacherRepository
+     * @param ItemRepositoryInterface $itemRepository
+     * @param ClassRepositoryInterface $classRepository
      */
     public function __construct(
         LessonRepositoryInterface $lessonRepository,
-        TeacherJsonFileRepository $teacherRepository,
-        ItemJsonFileRepository $itemRepository,
-        ClassJsonFileRepository $classRepository
+        TeacherRepositoryInterface $teacherRepository,
+        ItemRepositoryInterface $itemRepository,
+        ClassRepositoryInterface $classRepository
     )
     {
         $this->lessonRepository = $lessonRepository;

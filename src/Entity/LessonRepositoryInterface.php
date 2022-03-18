@@ -17,14 +17,6 @@ interface LessonRepositoryInterface
     public function findBy(array $criteria):array;
 
     /**
-     * Сохранить сущность занятия
-     *
-     * @param LessonClass $entity - сущность занятия
-     * @return LessonClass
-     */
-    public function save(LessonClass $entity):LessonClass;
-
-    /**
      * Получить id
      *
      * @return int

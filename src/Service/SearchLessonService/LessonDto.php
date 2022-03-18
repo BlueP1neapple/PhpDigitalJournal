@@ -1,6 +1,8 @@
 <?php
     namespace JoJoBizzareCoders\DigitalJournal\Service\SearchLessonService;
 
+    use DateTimeImmutable;
+
     /**
      * Dto объект описывающий структуру информации о занятиях
      */
@@ -23,9 +25,9 @@
         /**
          * Дата проведения занятия
          *
-         * @var string
+         * @var DateTimeImmutable
          */
-        private string $date;
+        private DateTimeImmutable $date;
 
         /**
          * Время проведения занятий
@@ -62,7 +64,7 @@
         public function __construct(
             int $id,
             ItemDto $item,
-            string $date,
+            DateTimeImmutable $date,
             int $lessonDuration,
             TeacherDto $teacher,
             ClassDto $class
@@ -98,9 +100,9 @@
         /**
          * Возвращает дату проведения занятия
          *
-         * @return string
+         * @return DateTimeImmutable
          */
-        public function getDate(): string
+        public function getDate(): DateTimeImmutable
         {
             return $this->date;
         }

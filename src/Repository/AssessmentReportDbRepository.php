@@ -13,8 +13,6 @@ use JoJoBizzareCoders\DigitalJournal\Entity\StudentUserClass;
 use JoJoBizzareCoders\DigitalJournal\Entity\TeacherUserClass;
 use JoJoBizzareCoders\DigitalJournal\Exception\InvalidDataStructureException;
 use JoJoBizzareCoders\DigitalJournal\Exception\RuntimeException;
-use JoJoBizzareCoders\DigitalJournal\Infrastructure\DataLoader\DataLoaderInterface;
-use JoJoBizzareCoders\DigitalJournal\Infrastructure\DataLoader\JsonDataLoader;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Db\ConnectionInterface;
 use JoJoBizzareCoders\DigitalJournal\ValueObject\Address;
 use JoJoBizzareCoders\DigitalJournal\ValueObject\Fio;
@@ -261,7 +259,23 @@ EOF;
      */
     public function save(ReportClass $entity): ReportClass
     {
+        $sql = <<<EOF
+UPDATE assessment_report
+set
+    lesson_id = :lesson_id,
+    student_id = :student_id,
+    mark = :mark
+EOF;
 
+        $values = [
+            'id' => $entity->getId(),
+            'lesson_id' => $entity->getLesson()->getId(),
+            'student_id' => $entity->getStudent()->getId(),
+            'mark' => $entity->getMark()
+        ];
+        $this->connection->prepare($sql)->execute($values);
+
+        return $entity;
     }
 
 
@@ -274,8 +288,25 @@ EOF;
      */
     public function add(ReportClass $entity): ReportClass
     {
+        $sql = <<<EOF
+INSERT INTO assessment_report(id, lesson_id, student_id, mark) 
+values (
+           :id,
+           :lesson_id,
+           :student_id,
+           :mark
+)
+EOF;
+        $values = [
+            'id' => $entity->getId(),
+            'lesson_id' => $entity->getLesson()->getId(),
+            'student_id' => $entity->getStudent()->getId(),
+            'mark' => $entity->getMark()
+        ];
 
+        $this->connection->prepare($sql)->execute($values);
 
+        return $entity;
     }
 
 
@@ -286,7 +317,6 @@ SELECT nextval('assessment_report_id_seq') AS next_id
 EOF;
 
         return (int)current($this->connection->query($sql)->fetchAll())['next_id'];
-
     }
 
     private function loadData(array $criteria): array
@@ -328,13 +358,11 @@ EOF;
         $reportData = [];
         $parents = [];
 
-        foreach ($data as $row)
-        {
+        foreach ($data as $row) {
             $reportId = $row['id'];
             $parentId = $row['parent_id'];
 
-            if(false === array_key_exists($reportId, $reportData))
-            {
+            if (false === array_key_exists($reportId, $reportData)) {
                 $reportData[$reportId] = [
                     'id' => $reportId,
                     'lesson' => [],
@@ -354,11 +382,13 @@ EOF;
                     $row['student_letter'],
                 );
 
+
                 $lessonItem = new ItemClass(
                     $row['item_id'],
                     $row['item_name'],
                     $row['item_description'],
                 );
+
 
                 $teacherFio['fio'] = [
                     'name' => $row['teacher_name'],
@@ -408,7 +438,7 @@ EOF;
                 );
                 $reportData[$reportId]['lesson'] = $lesson;
 
-                if(false === array_key_exists($parentId, $parents)){
+                if (false === array_key_exists($parentId, $parents)) {
                     $parentsFio['fio'] = [
                         'name' => $row['parent_name'],
                         'surname' => $row['parent_surname'],
@@ -438,9 +468,6 @@ EOF;
                 }
 
 
-
-
-
                 $studentFio['fio'] = [
                     'name' => $row['student_name'],
                     'surname' => $row['student_surname'],
@@ -449,9 +476,9 @@ EOF;
 
                 $studentAddress['address'] =
                     [
-                        'street' => $row['teacher_street'],
-                        'home' => $row['teacher_home'],
-                        'apartment' => $row['teacher_apartment']
+                        'street' => $row['student_street'],
+                        'home' => $row['student_home'],
+                        'apartment' => $row['student_apartment']
                     ];
 
                 $studentDoB = DateTimeImmutable::createFromFormat('Y-m-d', $row['student_date_of_birth']);
@@ -469,14 +496,11 @@ EOF;
                 );
                 $reportData[$reportId]['student'] = $student;
             }
-
-
         }
 
         $reportEntities = [];
 
-        foreach ($reportData as $item){
-            $r = 6;
+        foreach ($reportData as $item) {
             $reportEntities[] = new ReportClass(
                 $item['id'],
                 $item['lesson'],

@@ -46,7 +46,7 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
          * Конструктор класса занятий
          * @param int $id - id занятия
          * @param ItemClass $item - Предмет занятия
-         * @param string $date - дата проведения занятия
+         * @param DateTimeImmutable $date - дата проведения занятия
          * @param int $lessonDuration - Продолжительность проведения занятия
          * @param TeacherUserClass $teacher - Преподователь проводящий занятие
          * @param ClassClass $class -Класс в котором проводиться занятие
@@ -115,10 +115,12 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
                 $errMsg=sprintf('Отсутвуют обязательные элементы: %s',implode(',',$missingFields));
                 throw new InvalidDataStructureException($errMsg);
             }
+            $stringDate = $data['date'];
+            $lessonDate = DateTimeImmutable::createFromFormat('Y.d.m H:i', $stringDate);
             return new LessonClass(
                 $data['id'],
                 $data['item_id'],
-                $data['date'],
+                $lessonDate,
                 $data['lessonDuration'],
                 $data['teacher_id'],
                 $data['class_id'],

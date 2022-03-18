@@ -152,7 +152,7 @@ class GetAssessmentReportCollectionController implements ControllerInterface
                     'name' => $reportDto->getLesson()->getItem()->getName(),
                     'description' => $reportDto->getLesson()->getItem()->getDescription()
                 ],
-                'date' => $reportDto->getLesson()->getDate(),
+                'date' => $reportDto->getLesson()->getDate()->format('Y.m.d H:i'),
                 'lessonDuration' => $reportDto->getLesson()->getLessonDuration(),
                 'teacher' => [
                     'id' => $reportDto->getLesson()->getTeacher()->getId(),
@@ -161,7 +161,7 @@ class GetAssessmentReportCollectionController implements ControllerInterface
                         'name'=>$reportDto->getLesson()->getTeacher()->getFio()[0]->getName(),
                         'patronymic'=>$reportDto->getLesson()->getTeacher()->getFio()[0]->getPatronymic(),
                     ],
-                    'dateOfBirth' => $reportDto->getLesson()->getTeacher()->getDateOfBirth(),
+                    'dateOfBirth' => $reportDto->getLesson()->getTeacher()->getDateOfBirth()->format('Y.m.d'),
                     'phone' => $reportDto->getLesson()->getTeacher()->getPhone(),
                     'address' => [
                         'street'=>$reportDto->getLesson()->getTeacher()->getAddress()[0]->getStreet(),
@@ -189,7 +189,7 @@ class GetAssessmentReportCollectionController implements ControllerInterface
                     'name'=>$reportDto->getStudent()->getFio()[0]->getName(),
                     'patronymic'=>$reportDto->getStudent()->getFio()[0]->getPatronymic()
                 ],
-                'dateOfBirth' => $reportDto->getStudent()->getDateOfBirth(),
+                'dateOfBirth' => $reportDto->getStudent()->getDateOfBirth()->format('Y.m.d'),
                 'phone' => $reportDto->getStudent()->getPhone(),
                 'address' => [
                     'street'=>$reportDto->getStudent()->getAddress()[0]->getStreet(),
@@ -208,7 +208,7 @@ class GetAssessmentReportCollectionController implements ControllerInterface
                       'name'=>$reportDto->getStudent()->getParent()->getFio()[0]->getName(),
                       'patronymic'=>$reportDto->getStudent()->getParent()->getFio()[0]->getPatronymic()
                     ],
-                    'dateOfBirth' => $reportDto->getStudent()->getParent()->getDateOfBirth(),
+                    'dateOfBirth' => $reportDto->getStudent()->getParent()->getDateOfBirth()->format('Y.m.d'),
                     'phone' => $reportDto->getStudent()->getParent()->getPhone(),
                     'address' => [
                         'street'=>$reportDto->getStudent()->getParent()->getAddress()[0]->getStreet(),

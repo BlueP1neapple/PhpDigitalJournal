@@ -20,8 +20,8 @@ final class TeacherDbRepository implements TeacherRepositoryInterface
      *  Критерии поиска
      */
     private const ALLOWED_CRITERIA = [
-        'id',
-        'login'
+        'id' => 't.id',
+        'login' => 't.login'
     ];
 
     /**
@@ -39,154 +39,91 @@ final class TeacherDbRepository implements TeacherRepositoryInterface
         $this->connection = $connection;
     }
 
+    private const BASE_SEARCH_SQL = <<<EOF
+SELECT t.id            AS teacher_id,
+       t.surname       AS teacher_surname,
+       t.name          AS teacher_name,
+       t.patronymic    AS teacher_patronymic,
+       t.date_of_birth AS teacher_date_of_birth,
+       t.phone         AS teacher_phone,
+       t.street        AS teacher_street,
+       t.home          AS teacher_home,
+       t.apartment     AS teacher_apartment,
+       i.id            AS item_id,
+       i.name          AS item_name,
+       i.description   AS item_description,
+       t.cabinet       AS teacher_cabinet,
+       t.email         AS teacher_email,
+       t.login         AS teacher_login,
+       t.password      AS teacher_password
+FROM users_teachers AS t
+         LEFT JOIN item AS i ON t.item_id = i.id
+EOF;
+
+
     /**
      * @inheritDoc
      */
     public function findBy(array $criteria): array
     {
-        $this->validate($criteria);
-        $teacherData = $this->loadTeacherData($criteria);
-        $itemEntity = $this->loadItemEntity($teacherData);
-        return $this->buildTeacherEntities($teacherData, $itemEntity);
-    }
+        $teacherData = $this->loadData($criteria);
+        return $this->buildTeacherEntities($teacherData);
 
-    /**
-     * Валидация критериев поиска
-     *
-     * @param array $criteria - массив критериев поиска
-     * @return void
-     */
-    private function validate(array $criteria): void
-    {
-        $invalidCriteria = array_diff(array_keys($criteria), self::ALLOWED_CRITERIA);
-        if (count($invalidCriteria) > 0) {
-            $errMsg = 'Неподдерживаемые критерии поиска учителей: ' . implode(',', $invalidCriteria);
-            throw new RuntimeException($errMsg);
-        }
-    }
-
-    /**
-     * Реализация логики загрузки коллекции данных о пользователях учителях
-     *
-     * @param array $criteria - коллекция критериев поиска
-     * @return array - коллекция данных о пользователях учителях
-     */
-    private function loadTeacherData(array $criteria): array
-    {
-        $whereParts = [];
-        $whereParams = [];
-        $sql = <<<EOF
-SELECT
-       id,
-       surname,
-       name,
-       patronymic,
-       date_of_birth,
-       phone,
-       street,
-       home,
-       apartment,
-       item_id,
-       cabinet,
-       email,
-       login,
-       password
-FROM users_teachers
-EOF;
-
-        foreach ($criteria as $criteriaName => $criteriaValue) {
-            $whereParts[] = "$criteriaName = :$criteriaName";
-            $whereParams[$criteriaName] = $criteriaValue;
-        }
-        if (count($whereParts) > 0) {
-            $sql .= ' WHERE ' . implode(' AND ', $whereParts);
-        }
-        $stmt = $this->connection->prepare($sql);
-        $stmt->execute($whereParams);
-        return $stmt->fetchAll();
-    }
-
-    /**
-     * Реализация логики загрузки сущностей предметов
-     *
-     * @param array $teacherData - коллекция данных о пользователях учителях
-     * @return ItemClass[] - коллекция сущностей предметов
-     */
-    private function loadItemEntity(array $teacherData): array
-    {
-        $whereParts = [];
-        $whereParams = [];
-        $itemIdList = array_unique(
-            array_map(
-                static function (array $a) {
-                    return $a['item_id'];
-                },
-                array_filter(
-                    $teacherData,
-                    static function (array $a) {
-                        return isset($a['item_id']);
-                    }
-                )
-            )
-        );
-        if (count($itemIdList) > 0) {
-            $whereParams = array_combine(
-                array_map(
-                    static function (int $idx) {
-                        return ':id_' . $idx;
-                    },
-                    range(
-                        1,
-                        count($itemIdList)
-                    )
-                ),
-                $itemIdList
-            );
-            $whereParts[] = ' id IN (' . implode(', ', array_keys($whereParams)) . ')';
-        }
-        if (0 === count($whereParts)) {
-            return [];
-        }
-        $sql = <<<EOF
-SELECT
-       id,
-       name,
-       description
-FROM item
-EOF;
-        $sql .= ' WHERE ' . implode(' AND ', $whereParts);
-        $smtp = $this->connection->prepare($sql);
-        $smtp->execute($whereParams);
-        $itemData = $smtp->fetchAll();
-        $foundItems = [];
-        foreach ($itemData as $itemItems) {
-            $itemObj = ItemClass::createFromArray($itemItems);
-            $foundItems[$itemObj->getId()] = $itemObj;
-        }
-        return $foundItems;
     }
 
     /**
      * Формитование массива сущьностей учителей
      *
-     * @param array $teacherData - массив данных о пользователе учителя
-     * @param array $itemEntity - массив сущностей предметов
+     * @param array $data
      * @return TeacherUserClass[] - массив сущностей учителей
      */
-    private function buildTeacherEntities(array $teacherData, array $itemEntity): array
+    private function buildTeacherEntities(array $data): array
     {
+        $teacherData = [];
+        foreach ($data as $row) {
+            $teacherId = $row['teacher_id'];
+            $itemId = $row['item_id'];
+            if (false === array_key_exists($teacherId, $teacherData)) {
+                $dateOfbirth = DateTimeImmutable::createFromFormat('Y-m-d', $row['teacher_date_of_birth']);
+                $teacherData[$teacherId] = [
+                    'id' => $teacherId,
+                    'fio' => [],
+                    'dateOfBirth' => $dateOfbirth,
+                    'phone' => $row['teacher_phone'],
+                    'address' => [],
+                    'idItem' => [],
+                    'cabinet' => $row['teacher_cabinet'],
+                    'email' => $row['teacher_email'],
+                    'login' => $row['teacher_login'],
+                    'password' => $row['teacher_password']
+                ];
+            }
+            $fioArray = [
+                'surname' => $row['teacher_surname'],
+                'name' => $row['teacher_name'],
+                'patronymic' => $row['teacher_patronymic']
+            ];
+            $addressArray = [
+                'street' => $row['teacher_street'],
+                'home' => $row['teacher_home'],
+                'apartment' => $row['teacher_apartment']
+            ];
+            $teacherData[$teacherId]['fio'] = $this->createFioArray($fioArray);
+            $teacherData[$teacherId]['address'] = $this->createAddress($addressArray);
+            $itemData = [
+                'id' => $row['item_id'],
+                'name' => $row['item_name'],
+                'description' => $row['item_description']
+            ];
+            $item = ItemClass::createFromArray($itemData);
+            $teacherData[$teacherId]['idItem'] = $item;
+        }
         $teacherEntities = [];
-        foreach ($teacherData as $teacherItem) {
-            $teacherItem['idItem'] = null === $teacherItem['item_id']
-                ? null :
-                $itemEntity[$teacherItem['item_id']];
-            $teacherItem['fio'] = $this->createFioArray($teacherItem);
-            $teacherItem['address'] = $this->createAddress($teacherItem);
-            $dateOfBirthOfStudent = DateTimeImmutable::createFromFormat('Y-m-d', $teacherItem['date_of_birth']);
-            $teacherItem['dateOfBirth'] = $dateOfBirthOfStudent->format('Y:m:d');
-            $teacherEntities[] = TeacherUserClass::createFromArray($teacherItem);
+        foreach ($teacherData as $item) {
+            $teacherEntities[] = TeacherUserClass::createFromArray($item);
         }
         return $teacherEntities;
+
     }
 
     /**
@@ -221,5 +158,34 @@ EOF;
             $userItem['apartment'],
         );
         return $address;
+    }
+
+    private function loadData(array $criteria)
+    {
+        $sql = self::BASE_SEARCH_SQL;
+        $whereParts = [];
+        $params = [];
+        $notSupportedSearchCriteria = [];
+        foreach ($criteria as $criteriaName => $criteriaValue) {
+            if (array_key_exists($criteriaName, self::ALLOWED_CRITERIA)) {
+                $sqlParts = self::ALLOWED_CRITERIA[$criteriaName];
+                $whereParts[] = "$sqlParts=:$criteriaName";
+                $params[$criteriaName] = $criteriaValue;
+            } else {
+                $notSupportedSearchCriteria[] = $criteriaName;
+            }
+        }
+        if (count($notSupportedSearchCriteria) > 0) {
+            $errMsg = 'Неподдерживаемые критерии поиска учителей'
+                . implode(', ', $notSupportedSearchCriteria);
+            throw new RuntimeException($errMsg);
+        }
+        if (count($whereParts) > 0) {
+            $sql .= ' WHERE ' . implode(' AND ', $whereParts);
+        }
+        $statement = $this->connection->prepare($sql);
+        $statement->execute($params);
+        return $statement->fetchAll();
+
     }
 }

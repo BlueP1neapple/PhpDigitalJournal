@@ -2,6 +2,8 @@
 
     namespace JoJoBizzareCoders\DigitalJournal\Service\SearchLessonService;
 
+    use DateTimeImmutable;
+
     /**
      * DTO объект специфицирующий результаты работы сервиса Учителей
      */
@@ -24,9 +26,9 @@
         /**
          * Дата рождения преподавателя
          *
-         * @var string
+         * @var DateTimeImmutable
          */
-        private string $dateOfBirth;
+        private DateTimeImmutable $dateOfBirth;
 
         /**
          * Номер телефона преподавателя
@@ -68,7 +70,7 @@
          *
          * @param int $id - ид преподователя
          * @param array $fio - Фио - преподавателя
-         * @param string $dateOfBirth - Дата рождения преподавателя
+         * @param DateTimeImmutable $dateOfBirth - Дата рождения преподавателя
          * @param string $phone - Номер телефона преподавателя
          * @param AddressDto $address - Адресс проживания преподователя
          * @param ItemDto $item - id предмета Преподавателя
@@ -78,7 +80,7 @@
         public function __construct(
             int $id,
             array $fio,
-            string $dateOfBirth,
+            DateTimeImmutable $dateOfBirth,
             string $phone,
             AddressDto $address,
             ItemDto $item,
@@ -118,9 +120,9 @@
         /**
          * Возвращает Дата рождения преподавателя
          *
-         * @return string
+         * @return DateTimeImmutable
          */
-        public function getDateOfBirth(): string
+        public function getDateOfBirth(): DateTimeImmutable
         {
             return $this->dateOfBirth;
         }

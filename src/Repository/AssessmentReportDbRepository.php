@@ -27,9 +27,9 @@ class AssessmentReportDbRepository implements AssessmentReportRepositoryInterfac
         'item_name' => 'item.name',
         'item_description' => 'item.description',
         'lesson_date' => 'lesson.date',
-        'student_fio_surname' => 'student.surname',
-        'student_fio_name' => 'student.name',
-        'student_fio_patronymic' => 'student.patronymic',
+        'student_fio_surname' => 'us.surname',
+        'student_fio_name' => 'us.name',
+        'student_fio_patronymic' => 'us.patronymic',
         'id' => 'report.id'
     ];
 
@@ -51,60 +51,65 @@ select
        lessonclass.number as class_number,
 
        student.id as student_id,
-       student.date_of_birth as student_date_of_birth,
-       student.phone as student_phone,
+       us.date_of_birth as student_date_of_birth,
+       us.phone as student_phone,
        studentclass.id as student_class_id,
        studentclass.number as student_class_number,
        studentclass.letter as student_letter,
        
        stp.parent_id as parent_id,
-       parents.name as parent_name,
-       parents.surname as parent_surname,
-       parents.patronymic as parent_patronymic,
-       parents.date_of_birth as parent_date_of_birth,
+       up.name as parent_name,
+       up.surname as parent_surname,
+       up.patronymic as parent_patronymic,
+       up.date_of_birth as parent_date_of_birth,
        parents.place_of_work as parent_place_of_work,
-       parents.phone as parent_phone,
+       up.phone as parent_phone,
        parents.email as parent_email,
-       parents.street as parent_street,
-       parents.home as parent_home,
-       parents.apartment as parent_apartment,
-       parents.login as parent_login,
-       parents.password as parent_password,
+       up.street as parent_street,
+       up.home as parent_home,
+       up.apartment as parent_apartment,
+       up.login as parent_login,
+       up.password as parent_password,
        
-       student.login as student_login,
-       student.password as student_password,
-       student.surname as student_surname,
-       student.name as student_name,
-       student.patronymic as student_patronymic,
-       student.street  as student_street,
-       student.home as student_home,
-       student.apartment  as student_apartment,
+       us.login as student_login,
+       us.password as student_password,
+       us.surname as student_surname,
+       us.name as student_name,
+       us.patronymic as student_patronymic,
+       us.street  as student_street,
+       us.home as student_home,
+       us.apartment  as student_apartment,
 
-       teachers.id as teacher_id,
-       teachers.date_of_birth as teacher_date_of_birth,
-       teachers.phone as teacher_phone,
+       ut.id as teacher_id,
+       ut.date_of_birth as teacher_date_of_birth,
+       ut.phone as teacher_phone,
        teacher_item.id as teacher_item_id,
        teacher_item.name as teacher_item_name,
        teacher_item.description as teacher_item_description,
        teachers.cabinet as teacher_cabinet,
        teachers.email as teacher_email,
-       teachers.login as teacher_login,
-       teachers.password as teacher_password,
-       teachers.surname as teacher_surname,
-       teachers.name as teacher_name,
-       teachers.patronymic as teacher_patronymic,
-       teachers.street as teacher_street,
-       teachers.home as teacher_home,
-       teachers.apartment as teacher_apartment
+       ut.login as teacher_login,
+       ut.password as teacher_password,
+       ut.surname as teacher_surname,
+       ut.name as teacher_name,
+       ut.patronymic as teacher_patronymic,
+       ut.street as teacher_street,
+       ut.home as teacher_home,
+       ut.apartment as teacher_apartment
 
 
 from assessment_report as report
           
          left join lesson on lesson.id = report.lesson_id
-         left join users_students as student on report.student_id = report.student_id
-         left join students_to_parents as stp on student.parent_id = stp.parent_id
-         left join users_teachers as teachers on lesson.teacher_id = teachers.id
-         left join users_parents as parents on stp.parent_id = parents.id
+    
+         join users as us on  report.student_id = us.id
+         left join students as student on us.id = student.id
+    
+         join users as ut on lesson.teacher_id = ut.id
+         left join teachers on ut.id = teachers.id
+             left join students_to_parents as stp on student.id = stp.student_id
+            join users as up on stp.parent_id = up.id
+            left join parents on stp.parent_id = parents.id
          left join class as studentclass on studentclass.id = student.class_id
          left join class as lessonclass on lessonclass.id = lesson.class_id
          left join item as item on lesson.item_id = item.id
@@ -346,6 +351,9 @@ EOF;
             $sql .= ' WHERE ' . implode(' AND ', $whereParts);
         }
 
+
+
+        $sql .= ' order by report.id';
         $statment = $this->connection->prepare($sql);
         $statment->execute($params);
 

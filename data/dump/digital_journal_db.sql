@@ -165,6 +165,31 @@ ALTER SEQUENCE public.lesson_id_seq OWNED BY public.lesson.id;
 
 
 --
+-- Name: parents; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.parents (
+    id integer NOT NULL,
+    place_of_work character varying(255),
+    email character varying(255)
+);
+
+
+ALTER TABLE public.parents OWNER TO postgres;
+
+--
+-- Name: students; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.students (
+    id integer NOT NULL,
+    class_id integer
+);
+
+
+ALTER TABLE public.students OWNER TO postgres;
+
+--
 -- Name: students_to_parents; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -177,28 +202,39 @@ CREATE TABLE public.students_to_parents (
 ALTER TABLE public.students_to_parents OWNER TO postgres;
 
 --
--- Name: users_teachers; Type: TABLE; Schema: public; Owner: postgres
+-- Name: teachers; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE public.users_teachers (
+CREATE TABLE public.teachers (
     id integer NOT NULL,
-    date_of_birth date,
-    phone character varying(15),
     item_id integer,
     cabinet integer,
-    email character varying(255),
-    login character varying(255),
-    password character varying(255),
-    surname character varying(250),
-    name character varying(250),
-    patronymic character varying(250),
-    street character varying(250),
-    home character varying(250),
-    apartment character varying(250)
+    email character varying(255)
 );
 
 
-ALTER TABLE public.users_teachers OWNER TO postgres;
+ALTER TABLE public.teachers OWNER TO postgres;
+
+--
+-- Name: users; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.users (
+    id integer NOT NULL,
+    login character varying(255),
+    password character varying(255),
+    name character varying(255),
+    surname character varying(255),
+    patronymic character varying(255),
+    street character varying(250),
+    home character varying(250),
+    apartment character varying(250),
+    phone character varying(15),
+    date_of_birth date
+);
+
+
+ALTER TABLE public.users OWNER TO postgres;
 
 --
 -- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -219,54 +255,8 @@ ALTER TABLE public.users_id_seq OWNER TO postgres;
 -- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE public.users_id_seq OWNED BY public.users_teachers.id;
+ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
 
-
---
--- Name: users_parents; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.users_parents (
-    id integer DEFAULT nextval('public.users_id_seq'::regclass) NOT NULL,
-    date_of_birth date,
-    phone character varying(15),
-    place_of_work character varying(255),
-    email character varying(250),
-    login character varying(255),
-    password character varying(255),
-    surname character varying(250),
-    name character varying(250),
-    patronymic character varying(250),
-    street character varying(250),
-    home character varying(250),
-    apartment character varying(250)
-);
-
-
-ALTER TABLE public.users_parents OWNER TO postgres;
-
---
--- Name: users_students; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.users_students (
-    id integer DEFAULT nextval('public.users_id_seq'::regclass) NOT NULL,
-    date_of_birth date,
-    phone character varying(15),
-    class_id integer,
-    parent_id integer,
-    login character varying(255),
-    password character varying(255),
-    surname character varying(250),
-    name character varying(250),
-    patronymic character varying(250),
-    street character varying(250),
-    home character varying(250),
-    apartment character varying(250)
-);
-
-
-ALTER TABLE public.users_students OWNER TO postgres;
 
 --
 -- Name: assessment_report id; Type: DEFAULT; Schema: public; Owner: postgres
@@ -297,10 +287,10 @@ ALTER TABLE ONLY public.lesson ALTER COLUMN id SET DEFAULT nextval('public.lesso
 
 
 --
--- Name: users_teachers id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: users id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.users_teachers ALTER COLUMN id SET DEFAULT nextval('public.users_id_seq'::regclass);
+ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_id_seq'::regclass);
 
 
 --
@@ -359,6 +349,38 @@ COPY public.lesson (id, item_id, date, lesson_duration, teacher_id, class_id) FR
 
 
 --
+-- Data for Name: parents; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.parents (id, place_of_work, email) FROM stdin;
+12	ООО Алмаз	kuznecov@gmail.com
+13	ООО Весна	krabov@gmail.com
+14	ОАО Открытие	jasnova@gmail.com
+15	ИП Круглов	smirnova@gmail.com
+16	ООО Зеленое-Красное	zaumova@gmail.com
+17	ИП Сергеев	kuznecova@gmail.com
+18	ООО Кружка	solomova@gmail.com
+19	ООО Тесты	sokolova@gmail.com
+\.
+
+
+--
+-- Data for Name: students; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.students (id, class_id) FROM stdin;
+4	1
+5	1
+6	1
+7	2
+8	2
+9	3
+10	3
+11	3
+\.
+
+
+--
 -- Data for Name: students_to_parents; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -375,45 +397,40 @@ COPY public.students_to_parents (student_id, parent_id) FROM stdin;
 
 
 --
--- Data for Name: users_parents; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: teachers; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.users_parents (id, date_of_birth, phone, place_of_work, email, login, password, surname, name, patronymic, street, home, apartment) FROM stdin;
-12	1975-10-01	+79222444488	ООО Алмаз	kuznecov@gmail.com	r1	$2y$10$Xd6fW4Y24KAVJ5B5hv9YUuBNJCBpSLtSbhdEtJh6t3cmfGoYxyDtG	Кузнецов	Евгений	Сергеевич	ул. Казанская	д. 35Б	кв. 23
-13	1985-11-10	+79888444488	ООО Весна	krabov@gmail.com	p1	$2y$10$r8roUvRU3isynrDpqkeOb.FazrHESXg.twAt1k1TCu2WzxKiLhQp.	Крабов	Юрий	Владимирович	ул. Новая	д. 54	кв. 22
-14	1980-09-01	+79222444656	ОАО Открытие	jasnova@gmail.com	p3	$2y$10$r8roUvRU3isynrDpqkeOb.FazrHESXg.twAt1k1TCu2WzxKiLhQp.	Яснова	Ксения	Евгеньевна	ул. Щавелева	д. 55Б	кв. 23
-15	1978-02-10	+79322444423	ИП Круглов	smirnova@gmail.com	p4	$2y$10$r8roUvRU3isynrDpqkeOb.FazrHESXg.twAt1k1TCu2WzxKiLhQp.	Смирнова	Алина	Викторовна	ул. Круглова	д. 32	кв. 45
-16	1987-10-23	+79234444488	ООО Зеленое-Красное	zaumova@gmail.com	p5	$2y$10$r8roUvRU3isynrDpqkeOb.FazrHESXg.twAt1k1TCu2WzxKiLhQp.	Заимова	Ксения	Евгеньевна	ул. Лужская	д. 34	кв. 34
-17	1978-02-05	+79223333388	ИП Сергеев	kuznecova@gmail.com	p6	$2y$10$r8roUvRU3isynrDpqkeOb.FazrHESXg.twAt1k1TCu2WzxKiLhQp.	Кузнецова	Наталия	Михайловна	ул. Грузовая	д. 45	кв. 45
-18	1978-11-22	+79222222222	ООО Кружка	solomova@gmail.com	p7	$2y$10$r8roUvRU3isynrDpqkeOb.FazrHESXg.twAt1k1TCu2WzxKiLhQp.	Соломона	Елена	Николаевна	ул. Красносельская	д. 65	кв. 56
-19	1985-01-11	+79222433488	ООО Тесты	sokolova@gmail.com	p8	$2y$10$r8roUvRU3isynrDpqkeOb.FazrHESXg.twAt1k1TCu2WzxKiLhQp.	Соколова	Лидия	Михайловна	ул. Зеленская	д. 47	кв. 34
+COPY public.teachers (id, item_id, cabinet, email) FROM stdin;
+1	1	56	kruglova@gmail.com
+2	2	77	guseva@gmail.com
+3	3	64	dmitriev@gmail.com
 \.
 
 
 --
--- Data for Name: users_students; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.users_students (id, date_of_birth, phone, class_id, parent_id, login, password, surname, name, patronymic, street, home, apartment) FROM stdin;
-4	2011-01-11	+79222444488	1	12	s0	$2y$10$DfTegEcz7NWykVBrhEJ5Q.q79CpkhOhZz/59YmFuhWjiigFobp76y	Кузнецов	Алексей	Евгеньевич	ул. Казанская	д. 35Б	кв. 23
-5	2011-01-12	+79222433488	1	19	STU1	$2y$10$MXO8CjYCfoC3YPBj1mnRU.uXgVD8WDMJueiVFyiTNJcZC1mtvhLNW	Соколова	Алла	Юрьевна	ул. Зеленская	д. 47	кв. 34
-6	2011-02-01	+79322444423	1	15	STU2	$2y$10$BHoHFYduN1Qd8tFf9w3TguLolPW.v4UEPHTs5R3jQvHjStA6SipFy	Смирнова	Елена	Владимировна	ул. Круглова	д. 32	кв. 45
-7	2012-02-23	+79234444488	2	16	STU3	$2y$10$X0Td9cvSXsZLb5cWUwvtAuji71bk4eZiuDRFXxzNf0VZ6D458tH9i	Заимова	Ксения	Владимировна	ул. Лужская	д. 34	кв. 34
-8	2012-11-12	+79223333388	2	17	STU4	$2y$10$vuMqZGfNfzgOMG3js2mXp.SCMolYcOnlRxM6PDWZPfA1qfJhrpnl.	Кузнецова	Анастасия	Сергеевна	ул. Грузовая	д. 45	кв. 45
-9	2009-07-14	+79222222222	3	18	STU5	$2y$10$fk9/LExHgSGSCtlhMMWwiuLXLPUsRgW7HvsKldHoJLsmFuE22eqGu	Соломона	Елена	Дмитриевна	ул. Красносельская	д. 65	кв. 56
-10	2009-04-23	+79888444488	3	13	STU6	$2y$10$GVyuJMu6et6MHo7oa3OwyuybSos0AoNkJgpPkHAsX7exzUck101k.	Крабов	Владимир	Юрьевич	ул. Новая	д. 54	кв. 22
-11	2009-11-03	+79222444656	3	14	STU7	$2y$10$obk8vuhpS7gXa31FLbAAG.3IKskNv9f.HcQLzAfIvAv2pxk7mfJAy	Яснова	Мария	Сергеевна	ул. Щавелева	д. 55Б	кв. 23
-\.
-
-
---
--- Data for Name: users_teachers; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.users_teachers (id, date_of_birth, phone, item_id, cabinet, email, login, password, surname, name, patronymic, street, home, apartment) FROM stdin;
-1	1965-01-11	+79222444411	1	56	kruglova@gmail.com	TEA0		Круглова	Наталия	Сергеевна	ул. Ясная	д. 54	кв. 19
-2	1975-11-01	+79133243412	2	77	guseva@gmail.com	TEA2	$2y$10$bTpSRFaF9zOzDMtcLIVJ8.5fWACkaVPbAHaCG51865JTy/jgcOvFe	Гусева	Анна	Владимировна	ул. Зеленская	д. 22	кв. 11
-3	1970-02-01	+79655346343	3	64	dmitriev@gmail.com	TEA3	$2y$10$s6qmGVK5SEoR.KbrDew2u.uWx9RdJAATl6FVSeE7Q7ggCsrWoM/Za	Дмитриев	Дмитрий	Алексеевна	ул. Круглова	д. 11	кв. 11
+COPY public.users (id, login, password, name, surname, patronymic, street, home, apartment, phone, date_of_birth) FROM stdin;
+2	TEA2	$2y$10$bTpSRFaF9zOzDMtcLIVJ8.5fWACkaVPbAHaCG51865JTy/jgcOvFe	Анна	Гусева	Владимировна	ул. Зеленская	д. 22	кв. 11	+79133243412	1975-11-01
+3	TEA3	$2y$10$s6qmGVK5SEoR.KbrDew2u.uWx9RdJAATl6FVSeE7Q7ggCsrWoM/Za	Дмитрий	Дмитриев	Алексеевна	ул. Круглова	д. 11	кв. 11	+79655346343	1970-02-01
+4	s0	$2y$10$DfTegEcz7NWykVBrhEJ5Q.q79CpkhOhZz/59YmFuhWjiigFobp76y	Алексей	Кузнецов	Евгеньевич	ул. Казанская	д. 35Б	кв. 23	+79222444488	2011-01-11
+5	STU1	$2y$10$MXO8CjYCfoC3YPBj1mnRU.uXgVD8WDMJueiVFyiTNJcZC1mtvhLNW	Алла	Соколова	Юрьевна	ул. Зеленская	д. 47	кв. 34	+79222433488	2011-01-12
+6	STU2	$2y$10$BHoHFYduN1Qd8tFf9w3TguLolPW.v4UEPHTs5R3jQvHjStA6SipFy	Елена	Смирнова	Владимировна	ул. Круглова	д. 32	кв. 45	+79322444423	2011-02-01
+7	STU3	$2y$10$X0Td9cvSXsZLb5cWUwvtAuji71bk4eZiuDRFXxzNf0VZ6D458tH9i	Ксения	Заимова	Владимировна	ул. Лужская	д. 34	кв. 34	+79234444488	2012-02-23
+8	STU4	$2y$10$vuMqZGfNfzgOMG3js2mXp.SCMolYcOnlRxM6PDWZPfA1qfJhrpnl.	Анастасия	Кузнецова	Сергеевна	ул. Грузовая	д. 45	кв. 45	+79223333388	2012-11-12
+9	STU5	$2y$10$fk9/LExHgSGSCtlhMMWwiuLXLPUsRgW7HvsKldHoJLsmFuE22eqGu	Елена	Соломона	Дмитриевна	ул. Красносельская	д. 65	кв. 56	+79222222222	2009-07-14
+10	STU6	$2y$10$GVyuJMu6et6MHo7oa3OwyuybSos0AoNkJgpPkHAsX7exzUck101k.	Владимир	Крабов	Юрьевич	ул. Новая	д. 54	кв. 22	+79888444488	2009-04-23
+11	STU7	$2y$10$obk8vuhpS7gXa31FLbAAG.3IKskNv9f.HcQLzAfIvAv2pxk7mfJAy	Мария	Яснова	Сергеевна	ул. Щавелева	д. 55Б	кв. 23	+79222444656	2009-11-03
+12	r1	$2y$10$Xd6fW4Y24KAVJ5B5hv9YUuBNJCBpSLtSbhdEtJh6t3cmfGoYxyDtG	Евгений	Кузнецов	Сергеевич	ул. Казанская	д. 35Б	кв. 23	+79222444488	1975-10-01
+13	p1	$2y$10$r8roUvRU3isynrDpqkeOb.FazrHESXg.twAt1k1TCu2WzxKiLhQp.	Юрий	Крабов	Владимирович	ул. Новая	д. 54	кв. 22	+79888444488	1985-11-10
+14	p3	$2y$10$r8roUvRU3isynrDpqkeOb.FazrHESXg.twAt1k1TCu2WzxKiLhQp.	Ксения	Яснова	Евгеньевна	ул. Щавелева	д. 55Б	кв. 23	+79222444656	1980-09-01
+15	p4	$2y$10$r8roUvRU3isynrDpqkeOb.FazrHESXg.twAt1k1TCu2WzxKiLhQp.	Алина	Смирнова	Викторовна	ул. Круглова	д. 32	кв. 45	+79322444423	1978-02-10
+16	p5	$2y$10$r8roUvRU3isynrDpqkeOb.FazrHESXg.twAt1k1TCu2WzxKiLhQp.	Ксения	Заимова	Евгеньевна	ул. Лужская	д. 34	кв. 34	+79234444488	1987-10-23
+17	p6	$2y$10$r8roUvRU3isynrDpqkeOb.FazrHESXg.twAt1k1TCu2WzxKiLhQp.	Наталия	Кузнецова	Михайловна	ул. Грузовая	д. 45	кв. 45	+79223333388	1978-02-05
+18	p7	$2y$10$r8roUvRU3isynrDpqkeOb.FazrHESXg.twAt1k1TCu2WzxKiLhQp.	Елена	Соломона	Николаевна	ул. Красносельская	д. 65	кв. 56	+79222222222	1978-11-22
+19	p8	$2y$10$r8roUvRU3isynrDpqkeOb.FazrHESXg.twAt1k1TCu2WzxKiLhQp.	Лидия	Соколова	Михайловна	ул. Зеленская	д. 47	кв. 34	+79222433488	1985-01-11
+1	TEA0	$2y$10$r8roUvRU3isynrDpqkeOb.FazrHESXg.twAt1k1TCu2WzxKiLhQp.	Наталия	Круглова	Сергеевна	ул. Ясная	д. 54	кв. 19	+79222444411	1965-01-11
 \.
 
 
@@ -485,27 +502,35 @@ ALTER TABLE ONLY public.lesson
 
 
 --
--- Name: users_parents users_parents_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: parents parents_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.users_parents
-    ADD CONSTRAINT users_parents_pk PRIMARY KEY (id);
-
-
---
--- Name: users_students users_students_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.users_students
-    ADD CONSTRAINT users_students_pk PRIMARY KEY (id);
+ALTER TABLE ONLY public.parents
+    ADD CONSTRAINT parents_pk PRIMARY KEY (id);
 
 
 --
--- Name: users_teachers users_teachers_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: students students_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.users_teachers
-    ADD CONSTRAINT users_teachers_pk PRIMARY KEY (id);
+ALTER TABLE ONLY public.students
+    ADD CONSTRAINT students_pk PRIMARY KEY (id);
+
+
+--
+-- Name: teachers teachers_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.teachers
+    ADD CONSTRAINT teachers_pk PRIMARY KEY (id);
+
+
+--
+-- Name: users users_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_pk PRIMARY KEY (id);
 
 
 --
@@ -521,7 +546,7 @@ ALTER TABLE ONLY public.assessment_report
 --
 
 ALTER TABLE ONLY public.assessment_report
-    ADD CONSTRAINT assessment_report_student_id_fk FOREIGN KEY (student_id) REFERENCES public.users_students(id) ON UPDATE RESTRICT ON DELETE CASCADE;
+    ADD CONSTRAINT assessment_report_student_id_fk FOREIGN KEY (student_id) REFERENCES public.users(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 
 
 --
@@ -529,7 +554,7 @@ ALTER TABLE ONLY public.assessment_report
 --
 
 ALTER TABLE ONLY public.lesson
-    ADD CONSTRAINT lesson_class_id_fk FOREIGN KEY (class_id) REFERENCES public.class(id) ON UPDATE CASCADE ON DELETE CASCADE;
+    ADD CONSTRAINT lesson_class_id_fk FOREIGN KEY (class_id) REFERENCES public.class(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 
 
 --
@@ -537,7 +562,7 @@ ALTER TABLE ONLY public.lesson
 --
 
 ALTER TABLE ONLY public.lesson
-    ADD CONSTRAINT lesson_item_id_fk FOREIGN KEY (item_id) REFERENCES public.item(id) ON UPDATE CASCADE ON DELETE CASCADE;
+    ADD CONSTRAINT lesson_item_id_fk FOREIGN KEY (item_id) REFERENCES public.item(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 
 
 --
@@ -545,23 +570,55 @@ ALTER TABLE ONLY public.lesson
 --
 
 ALTER TABLE ONLY public.lesson
-    ADD CONSTRAINT lesson_teacher_id_fk FOREIGN KEY (teacher_id) REFERENCES public.users_teachers(id) ON UPDATE CASCADE ON DELETE CASCADE;
+    ADD CONSTRAINT lesson_teacher_id_fk FOREIGN KEY (teacher_id) REFERENCES public.users(id);
 
 
 --
--- Name: students_to_parents students_to_parents_parents_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: parents parents_to_users_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.parents
+    ADD CONSTRAINT parents_to_users_fk FOREIGN KEY (id) REFERENCES public.users(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: students students_to_class_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.students
+    ADD CONSTRAINT students_to_class_fk FOREIGN KEY (class_id) REFERENCES public.class(id);
+
+
+--
+-- Name: students_to_parents students_to_parents_to_parent_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.students_to_parents
-    ADD CONSTRAINT students_to_parents_parents_id_fk FOREIGN KEY (parent_id) REFERENCES public.users_parents(id) ON UPDATE RESTRICT ON DELETE CASCADE;
+    ADD CONSTRAINT students_to_parents_to_parent_fk FOREIGN KEY (parent_id) REFERENCES public.parents(id);
 
 
 --
--- Name: students_to_parents students_to_parents_student_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: students_to_parents students_to_parents_to_student_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.students_to_parents
-    ADD CONSTRAINT students_to_parents_student_id_fk FOREIGN KEY (student_id) REFERENCES public.users_students(id) ON UPDATE RESTRICT ON DELETE CASCADE;
+    ADD CONSTRAINT students_to_parents_to_student_fk FOREIGN KEY (student_id) REFERENCES public.students(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+
+--
+-- Name: students students_to_users_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.students
+    ADD CONSTRAINT students_to_users_fk FOREIGN KEY (id) REFERENCES public.users(id);
+
+
+--
+-- Name: teachers teachers_to_item_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.teachers
+    ADD CONSTRAINT teachers_to_item_fk FOREIGN KEY (item_id) REFERENCES public.item(id);
 
 
 --

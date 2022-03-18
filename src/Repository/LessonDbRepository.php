@@ -26,9 +26,9 @@ class LessonDbRepository implements LessonRepositoryInterface
         'item_name' => 'i.name',
         'item_description' => 'i.description',
         'date' => 'l.date',
-        'teacher_fio_surname' => 't.surname',
-        'teacher_fio_name' => 't.name',
-        'teacher_fio_patronymic' => 't.patronymic',
+        'teacher_fio_surname' => 'u.surname',
+        'teacher_fio_name' => 'u.name',
+        'teacher_fio_patronymic' => 'u.patronymic',
         'teacher_cabinet' => 't.cabinet',
         'class_number' => 'c.number',
         'class_letter' => 'c.letter',
@@ -45,28 +45,30 @@ SELECT l.id              AS lesson_id,
        i.description     AS item_description,
        l.date            AS lesson_date,
        l.lesson_duration AS lesson_duration,
-       t.id              AS teacher_id,
-       t.surname         AS teacher_surname,
-       t.name            AS teacher_name,
-       t.patronymic      AS teacher_patronymic,
-       t.date_of_birth   AS teacher_date_of_birth,
-       t.phone           AS teacher_phone,
-       t.street          AS teacher_street,
-       t.home            AS teacher_home,
-       t.apartment       AS teacher_apartment,
+       u.id              AS teacher_id,
+       u.surname         AS teacher_surname,
+       u.name            AS teacher_name,
+       u.patronymic      AS teacher_patronymic,
+       u.date_of_birth   AS teacher_date_of_birth,
+       u.phone           AS teacher_phone,
+       u.street          AS teacher_street,
+       u.home            AS teacher_home,
+       u.apartment       AS teacher_apartment,
        i2.id             AS teacher_item_id,
        i2.name           AS teacher_item_name,
        i2.description    AS teacher_item_description,
        t.cabinet         AS teacher_cabinet,
        t.email           AS teacher_email,
-       t.login           AS teacher_login,
-       t.password        AS teacher_password,
+       u.login           AS teacher_login,
+       u.password        AS teacher_password,
        c.id              AS class_id,
        c.number          AS class_number,
        c.letter          AS class_letter
 FROM lesson AS l
+         
          LEFT JOIN item AS i ON l.item_id = i.id
-         LEFT JOIN users_teachers AS t ON l.teacher_id = t.id
+         LEFT JOIN users AS u ON l.teacher_id = u.id
+         join teachers as t on u.id = t.id
          LEFT JOIN item AS i2 ON t.item_id = i2.id
          LEFT JOIN class AS c ON l.class_id = c.id
 EOF;

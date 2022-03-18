@@ -38,7 +38,22 @@ final class ParentDbRepository implements ParentRepositoryInterface, UserDataSto
     public function findBy(array $criteria): array
     {
         $sql = <<<EOF
-SELECT id, surname, name, patronymic, date_of_birth, phone, street, home, apartment, place_of_work, email, login, password FROM users_parents 
+SELECT 
+       u.id, 
+       u.surname, 
+       u.name, 
+       u.patronymic, 
+       u.date_of_birth,
+       u.phone, 
+       u.street,
+       u.home, 
+       u.apartment, 
+       p.place_of_work,
+       p.email, 
+       u.login, 
+       u.password 
+FROM users as u
+join parents p on u.id = p.id
 EOF;
         $whereParts = [];
         foreach ($criteria as $fieldName => $fieldValue) {

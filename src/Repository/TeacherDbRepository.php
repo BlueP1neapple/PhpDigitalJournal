@@ -40,23 +40,24 @@ final class TeacherDbRepository implements TeacherRepositoryInterface
     }
 
     private const BASE_SEARCH_SQL = <<<EOF
-SELECT t.id            AS teacher_id,
-       t.surname       AS teacher_surname,
-       t.name          AS teacher_name,
-       t.patronymic    AS teacher_patronymic,
-       t.date_of_birth AS teacher_date_of_birth,
-       t.phone         AS teacher_phone,
-       t.street        AS teacher_street,
-       t.home          AS teacher_home,
-       t.apartment     AS teacher_apartment,
+SELECT u.id            AS teacher_id,
+       u.surname       AS teacher_surname,
+       u.name          AS teacher_name,
+       u.patronymic    AS teacher_patronymic,
+       u.date_of_birth AS teacher_date_of_birth,
+       u.phone         AS teacher_phone,
+       u.street        AS teacher_street,
+       u.home          AS teacher_home,
+       u.apartment     AS teacher_apartment,
        i.id            AS item_id,
        i.name          AS item_name,
        i.description   AS item_description,
        t.cabinet       AS teacher_cabinet,
        t.email         AS teacher_email,
-       t.login         AS teacher_login,
-       t.password      AS teacher_password
-FROM users_teachers AS t
+       u.login         AS teacher_login,
+       u.password      AS teacher_password
+FROM users AS u
+        join teachers as t on u.id = t.id
          LEFT JOIN item AS i ON t.item_id = i.id
 EOF;
 

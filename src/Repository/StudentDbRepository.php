@@ -2,10 +2,12 @@
 
 namespace JoJoBizzareCoders\DigitalJournal\Repository;
 
+use DateTimeImmutable;
 use JoJoBizzareCoders\DigitalJournal\Entity\ClassClass;
 use JoJoBizzareCoders\DigitalJournal\Entity\ParentUserClass;
 use JoJoBizzareCoders\DigitalJournal\Entity\StudentRepositoryInterface;
 use JoJoBizzareCoders\DigitalJournal\Entity\StudentUserClass;
+use JoJoBizzareCoders\DigitalJournal\Exception\RuntimeException;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Db\ConnectionInterface;
 use JoJoBizzareCoders\DigitalJournal\ValueObject\Address;
 use JoJoBizzareCoders\DigitalJournal\ValueObject\Fio;
@@ -30,37 +32,39 @@ final class StudentDbRepository implements StudentRepositoryInterface
 
     private const BASE_SEARCH_SQL = <<<EOF
 select
-       student.id,
-       student.date_of_birth, 
-       student.phone, 
-       student.class_id, 
-       student.login, 
-       student.password, 
-       student.surname, 
-       student.name, 
-       student.patronymic, 
-       student.street, 
-       student.home, 
-       student.apartment,
+       u.id as student_id,
+       u.date_of_birth as student_date_of_birth, 
+       u.phone as student_phone, 
+       u.login as student_login, 
+       u.password as student_password, 
+       u.surname as student_surname, 
+       u.name as student_name, 
+       u.patronymic as student_patronymic, 
+       u.street as student_street, 
+       u.home as student_home, 
+       u.apartment as student_apartment,
+       s.class_id as class_id,
        
-       p.id,
-       p.name,
-       p.login,
-       p.password,
-       p.apartment,
-       p.home,
-       p.street,
-       p.place_of_work,
-       p.id, 
-       p.date_of_birth,
-       p.phone, 
-       p.place_of_work,
-       p.email 
+       up.id as parent_id,
+       up.login as parent_login,
+       up.password as parent_password, 
+       up.name as parent_name, 
+       up.surname as parent_surname, 
+       up.patronymic as parent_patronymic, 
+       up.street as parent_street, 
+       up.home as parent_home, 
+       up.apartment as parent_apartment, 
+       up.phone as parent_phone, 
+       up.date_of_birth as parent_date_of_birth,
+       p.email as parent_email,
+       p.place_of_work as parent_place_of_work
 
-from users_students as student
-    left join class as c on student.class_id = c.id
-    left join students_to_parents as stp on student.id = stp.student_id
-    left join users_parents as p on p.id = stp.parent_id
+from users as u
+        join students as s on u.id = s.id
+        left join class as c on s.class_id = c.id
+        left join students_to_parents as stp on s.id = stp.student_id
+        left join parents as p on stp.parent_id = p.id
+        left join users as up on p.id = up.id
 EOF;
 
 

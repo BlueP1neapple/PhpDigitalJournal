@@ -57,6 +57,10 @@ class SearchAssessmentReportService
     public function search(SearchReportAssessmentCriteria $searchCriteria): array
     {
         $criteria = $this->searchCriteriaForArray($searchCriteria);
+        if (array_key_exists('id', $criteria)) {
+            $criteria['report_id'] = $criteria['id'];
+            unset($criteria['id']);
+        }
         $entitiesCollection = $this->assessmentReportRepository->findBy($criteria);
         $dtoCollection = [];
         foreach ($entitiesCollection as $entity) {
@@ -84,10 +88,18 @@ class SearchAssessmentReportService
         $teacher = $lesson->getTeacher();
         $teacherDto = new TeacherDto(
             $teacher->getId(),
-            $teacher->getFio(),
+            [
+                $teacher->getFio()->getSurname(),
+                $teacher->getFio()->getName(),
+                $teacher->getFio()->getPatronymic()
+            ],
             $teacher->getDateOfBirth(),
             $teacher->getPhone(),
-            $teacher->getAddress(),
+            [
+                $teacher->getAddress()->getStreet(),
+                $teacher->getAddress()->getHome(),
+                $teacher->getAddress()->getApartment()
+            ],
             $itemDto,
             $teacher->getCabinet(),
             $teacher->getEmail()
@@ -107,15 +119,22 @@ class SearchAssessmentReportService
             $classForLessonDto
         );
         $student = $report->getStudent();
-        $parents = $student->getParent();
-        foreach ($parents as $parent)
-        {
-            $parentDto = new ParentDto(
+        $parents = $student->getParents();
+        foreach ($parents as $parent) {
+            $parentDto[] = new ParentDto(
                 $parent->getId(),
-                $parent->getFio(),
+                [
+                    $parent->getFio()->getSurname(),
+                    $parent->getFio()->getName(),
+                    $parent->getFio()->getPatronymic()
+                ],
                 $parent->getDateOfBirth(),
                 $parent->getPhone(),
-                $parent->getAddress(),
+                [
+                    $parent->getAddress()->getStreet(),
+                    $parent->getAddress()->getHome(),
+                    $parent->getAddress()->getApartment()
+                ],
                 $parent->getPlaceOfWork(),
                 $parent->getEmail()
             );
@@ -129,10 +148,18 @@ class SearchAssessmentReportService
         );
         $studentDto = new StudentDto(
             $student->getId(),
-            $student->getFio(),
+            [
+                $student->getFio()->getSurname(),
+                $student->getFio()->getName(),
+                $student->getFio()->getPatronymic()
+            ],
             $student->getDateOfBirth(),
             $student->getPhone(),
-            $student->getAddress(),
+            [
+                $student->getAddress()->getStreet(),
+                $student->getAddress()->getHome(),
+                $student->getAddress()->getApartment()
+            ],
             $classForStudentDto,
             $parentDto
         );
@@ -150,18 +177,18 @@ class SearchAssessmentReportService
      * @param SearchReportAssessmentCriteria $searchCriteria - - критерии поиска
      * @return array
      */
-    private function searchCriteriaForArray(SearchReportAssessmentCriteria $searchCriteria):array
+    private function searchCriteriaForArray(SearchReportAssessmentCriteria $searchCriteria): array
     {
         $criteriaForRepository = [
-            'item_name'=>$searchCriteria->getItemName(),
-            'item_description'=>$searchCriteria->getItemDescription(),
-            'lesson_date'=>$searchCriteria->getLessonDate(),
-            'student_fio_surname'=>$searchCriteria->getStudentSurname(),
-            'student_fio_name'=>$searchCriteria->getStudentName(),
-            'student_fio_patronymic'=>$searchCriteria->getStudentPatronymic(),
-            'id'=>$searchCriteria->getId()
+            'item_name' => $searchCriteria->getItemName(),
+            'item_description' => $searchCriteria->getItemDescription(),
+            'lesson_date' => $searchCriteria->getLessonDate(),
+            'student_fio_surname' => $searchCriteria->getStudentSurname(),
+            'student_fio_name' => $searchCriteria->getStudentName(),
+            'student_fio_patronymic' => $searchCriteria->getStudentPatronymic(),
+            'id' => $searchCriteria->getId()
         ];
-        return array_filter($criteriaForRepository, static function ($v):bool{
+        return array_filter($criteriaForRepository, static function ($v): bool {
             return null !== $v;
         });
     }

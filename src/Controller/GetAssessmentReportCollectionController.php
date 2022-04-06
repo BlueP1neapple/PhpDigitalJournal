@@ -4,6 +4,7 @@ namespace JoJoBizzareCoders\DigitalJournal\Controller;
 
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Controller\ControllerInterface;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Http\ServerResponseFactory;
+use JoJoBizzareCoders\DigitalJournal\Service\SearchReportAssessmentService\ParentDto;
 use Psr\Log\LoggerInterface;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Validator\Assert;
 use JoJoBizzareCoders\DigitalJournal\Service\SearchAssessmentReportService;
@@ -72,7 +73,7 @@ class GetAssessmentReportCollectionController implements ControllerInterface
             'lesson_date' => 'Incorrect lesson date',
             'student_fio' => 'Incorrect student fio',
         ];
-        $Params=array_merge($serverRequest->getQueryParams(),$serverRequest->getAttributes());
+        $Params = array_merge($serverRequest->getQueryParams(), $serverRequest->getAttributes());
         return Assert::arrayElementsIsString($paramValidations, $Params);
     }
 
@@ -115,7 +116,7 @@ class GetAssessmentReportCollectionController implements ControllerInterface
      * @param array $foundReport - коллекция найденных оценок
      * @return int
      */
-    protected function buildHttpCode(array $foundReport):int
+    protected function buildHttpCode(array $foundReport): int
     {
         return 200;
     }
@@ -130,7 +131,7 @@ class GetAssessmentReportCollectionController implements ControllerInterface
     {
         $result = [];
         foreach ($foundReports as $foundReport) {
-            $result[] = $this->serializeAuthor($foundReport);
+            $result[] = $this->serializeReport($foundReport);
         }
         return $result;
     }
@@ -141,7 +142,7 @@ class GetAssessmentReportCollectionController implements ControllerInterface
      * @param AssessmentReportDto $reportDto - объект dto c информацией об оценках
      * @return array
      */
-    protected function serializeAuthor(AssessmentReportDto $reportDto): array
+    protected function serializeReport(AssessmentReportDto $reportDto): array
     {
         return [
             'id' => $reportDto->getId(),
@@ -156,17 +157,17 @@ class GetAssessmentReportCollectionController implements ControllerInterface
                 'lessonDuration' => $reportDto->getLesson()->getLessonDuration(),
                 'teacher' => [
                     'id' => $reportDto->getLesson()->getTeacher()->getId(),
-                    'fio' =>[
-                        'surname'=>$reportDto->getLesson()->getTeacher()->getFio()[0]->getSurname(),
-                        'name'=>$reportDto->getLesson()->getTeacher()->getFio()[0]->getName(),
-                        'patronymic'=>$reportDto->getLesson()->getTeacher()->getFio()[0]->getPatronymic(),
+                    'fio' => [
+                        'surname' => $reportDto->getLesson()->getTeacher()->getFio()[0],
+                        'name' => $reportDto->getLesson()->getTeacher()->getFio()[1],
+                        'patronymic' => $reportDto->getLesson()->getTeacher()->getFio()[2],
                     ],
                     'dateOfBirth' => $reportDto->getLesson()->getTeacher()->getDateOfBirth()->format('Y.m.d'),
                     'phone' => $reportDto->getLesson()->getTeacher()->getPhone(),
                     'address' => [
-                        'street'=>$reportDto->getLesson()->getTeacher()->getAddress()[0]->getStreet(),
-                        'home'=>$reportDto->getLesson()->getTeacher()->getAddress()[0]->getHome(),
-                        'apartment'=>$reportDto->getLesson()->getTeacher()->getAddress()[0]->getApartment(),
+                        'street' => $reportDto->getLesson()->getTeacher()->getAddress()[0],
+                        'home' => $reportDto->getLesson()->getTeacher()->getAddress()[1],
+                        'apartment' => $reportDto->getLesson()->getTeacher()->getAddress()[2],
                     ],
                     'item' => [
                         'id' => $reportDto->getLesson()->getItem()->getId(),
@@ -185,41 +186,53 @@ class GetAssessmentReportCollectionController implements ControllerInterface
             'student' => [
                 'id' => $reportDto->getStudent()->getId(),
                 'fio' => [
-                    'surname'=>$reportDto->getStudent()->getFio()[0]->getSurname(),
-                    'name'=>$reportDto->getStudent()->getFio()[0]->getName(),
-                    'patronymic'=>$reportDto->getStudent()->getFio()[0]->getPatronymic()
+                    'surname' => $reportDto->getStudent()->getFio()[0],
+                    'name' => $reportDto->getStudent()->getFio()[1],
+                    'patronymic' => $reportDto->getStudent()->getFio()[2]
                 ],
                 'dateOfBirth' => $reportDto->getStudent()->getDateOfBirth()->format('Y.m.d'),
                 'phone' => $reportDto->getStudent()->getPhone(),
                 'address' => [
-                    'street'=>$reportDto->getStudent()->getAddress()[0]->getStreet(),
-                    'home'=>$reportDto->getStudent()->getAddress()[0]->getHome(),
-                    'apartment'=>$reportDto->getStudent()->getAddress()[0]->getApartment()
+                    'street' => $reportDto->getStudent()->getAddress()[0],
+                    'home' => $reportDto->getStudent()->getAddress()[1],
+                    'apartment' => $reportDto->getStudent()->getAddress()[2]
                 ],
                 'class' => [
                     'id' => $reportDto->getStudent()->getClass()->getId(),
                     'number' => $reportDto->getStudent()->getClass()->getNumber(),
                     'letter' => $reportDto->getStudent()->getClass()->getLetter()
                 ],
-                'parent' => [
-                    'id' => $reportDto->getStudent()->getParent()->getId(),
-                    'fio' => [
-                      'surname'=>$reportDto->getStudent()->getParent()->getFio()[0]->getSurname(),
-                      'name'=>$reportDto->getStudent()->getParent()->getFio()[0]->getName(),
-                      'patronymic'=>$reportDto->getStudent()->getParent()->getFio()[0]->getPatronymic()
-                    ],
-                    'dateOfBirth' => $reportDto->getStudent()->getParent()->getDateOfBirth()->format('Y.m.d'),
-                    'phone' => $reportDto->getStudent()->getParent()->getPhone(),
-                    'address' => [
-                        'street'=>$reportDto->getStudent()->getParent()->getAddress()[0]->getStreet(),
-                        'home'=>$reportDto->getStudent()->getParent()->getAddress()[0]->getHome(),
-                        'apartment'=>$reportDto->getStudent()->getParent()->getAddress()[0]->getApartment(),
-                    ],
-                    'placeOfWork' => $reportDto->getStudent()->getParent()->getPlaceOfWork(),
-                    'email' => $reportDto->getStudent()->getParent()->getEmail()
-                ]
+                'parents' => $this->loadParents($reportDto->getStudent()->getParents()),
             ],
             'mark' => $reportDto->getMark()
         ];
+    }
+
+    private function loadParents(array $parentsList): array
+    {
+        if (0 === count($parentsList)) {
+            return [];
+        }
+
+        $jsonData = array_values(array_map(static function (ParentDto $dto) {
+            return[
+                'id' => $dto->getId(),
+                'email' => $dto->getEmail(),
+                'placeOfWork' => $dto->getPlaceOfWork(),
+                'phone' => $dto->getPhone(),
+                'dateOfBirth' => $dto->getDateOfBirth()->format('Y.m.d'),
+                'fio' => [
+                    'surname' => $dto->getFio()[0],
+                    'name' => $dto->getFio()[1],
+                    'patronymic' => $dto->getFio()[2]
+                ],
+                'address' => [
+                    'street' => $dto->getAddress()[0],
+                    'home' => $dto->getAddress()[1],
+                    'apartment' => $dto->getAddress()[2]
+                ]
+            ];
+        }, $parentsList));
+        return $jsonData;
     }
 }

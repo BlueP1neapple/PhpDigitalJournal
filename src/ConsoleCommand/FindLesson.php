@@ -61,8 +61,8 @@ final class FindLesson implements CommandInterface
         $lessonsDto = $this->searchLessonService->search($searchLessonServiceCriteria);
         $jsonData = $this->buildJsonData($lessonsDto);
         $this->output->print(json_encode(
-        $jsonData,
-                JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE
+            $jsonData,
+            JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE
         ));
     }
 
@@ -72,11 +72,11 @@ final class FindLesson implements CommandInterface
      * @param array $foundLessons - найденные занятия
      * @return array
      */
-    private function buildJsonData(array $foundLessons):array
+    private function buildJsonData(array $foundLessons): array
     {
-        $result=[];
-        foreach ($foundLessons as $foundLesson){
-            $result[]=$this->serializeLesson($foundLesson);
+        $result = [];
+        foreach ($foundLessons as $foundLesson) {
+            $result[] = $this->serializeLesson($foundLesson);
         }
         return $result;
     }
@@ -87,43 +87,43 @@ final class FindLesson implements CommandInterface
      * @param LessonDto $foundLesson - найденное занятие
      * @return array
      */
-    private function serializeLesson(LessonDto $foundLesson):array
+    private function serializeLesson(LessonDto $foundLesson): array
     {
         return [
-            'id' =>$foundLesson->getId(),
-            'item'=>[
-                'id'=>$foundLesson->getItem()->getId(),
-                'name'=>$foundLesson->getItem()->getName(),
-                'description'=>$foundLesson->getItem()->getDescription()
+            'id' => $foundLesson->getId(),
+            'item' => [
+                'id' => $foundLesson->getItem()->getId(),
+                'name' => $foundLesson->getItem()->getName(),
+                'description' => $foundLesson->getItem()->getDescription()
             ],
-            'date'=>$foundLesson->getDate(),
-            'lessonDuration'=>$foundLesson->getDate(),
-            'teacher'=>[
-                'id'=>$foundLesson->getTeacher()->getId(),
-                'fio'=>[
-                    'surname'=>$foundLesson->getTeacher()->getFio()->getSurname(),
-                    'name'=>$foundLesson->getTeacher()->getFio()->getName(),
-                    'patronymic'=>$foundLesson->getTeacher()->getFio()->getPatronymic()
+            'date' => $foundLesson->getDate(),
+            'lessonDuration' => $foundLesson->getDate(),
+            'teacher' => [
+                'id' => $foundLesson->getTeacher()->getId(),
+                'fio' => [
+                    'surname' => $foundLesson->getTeacher()->getFio()[0],
+                    'name' => $foundLesson->getTeacher()->getFio()[1],
+                    'patronymic' => $foundLesson->getTeacher()->getFio()[2]
                 ],
-                'dateOfBirth'=>$foundLesson->getTeacher()->getDateOfBirth(),
-                'phone'=>$foundLesson->getTeacher()->getPhone(),
-                'address'=>[
-                    'street'=>$foundLesson->getTeacher()->getAddress()->getStreet(),
-                    'home'=>$foundLesson->getTeacher()->getAddress()->getHome(),
-                    'apartment'=>$foundLesson->getTeacher()->getAddress()->getApartment()
+                'dateOfBirth' => $foundLesson->getTeacher()->getDateOfBirth(),
+                'phone' => $foundLesson->getTeacher()->getPhone(),
+                'address' => [
+                    'street' => $foundLesson->getTeacher()->getAddress()->getStreet(),
+                    'home' => $foundLesson->getTeacher()->getAddress()->getHome(),
+                    'apartment' => $foundLesson->getTeacher()->getAddress()->getApartment()
                 ],
-                'item'=>[
-                    'id'=>$foundLesson->getTeacher()->getItem()->getId(),
-                    'name'=>$foundLesson->getTeacher()->getItem()->getName(),
-                    'description'=>$foundLesson->getTeacher()->getItem()->getDescription()
+                'item' => [
+                    'id' => $foundLesson->getTeacher()->getItem()->getId(),
+                    'name' => $foundLesson->getTeacher()->getItem()->getName(),
+                    'description' => $foundLesson->getTeacher()->getItem()->getDescription()
                 ],
-                'cabinet'=>$foundLesson->getTeacher()->getCabinet(),
-                'email'=>$foundLesson->getTeacher()->getEmail()
+                'cabinet' => $foundLesson->getTeacher()->getCabinet(),
+                'email' => $foundLesson->getTeacher()->getEmail()
             ],
-            'class'=>[
-                'id'=>$foundLesson->getClass()->getId(),
-                'number'=>$foundLesson->getClass()->getNumber(),
-                'letter'=>$foundLesson->getClass()->getLetter()
+            'class' => [
+                'id' => $foundLesson->getClass()->getId(),
+                'number' => $foundLesson->getClass()->getNumber(),
+                'letter' => $foundLesson->getClass()->getLetter()
             ]
         ];
     }

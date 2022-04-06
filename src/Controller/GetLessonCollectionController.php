@@ -12,7 +12,6 @@ use JoJoBizzareCoders\DigitalJournal\Service\SearchLessonService\SearchLessonSer
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-
 /**
  * Контроллер отвечающий за поиск занятий
  */
@@ -135,7 +134,7 @@ class GetLessonCollectionController implements ControllerInterface
     {
         $result = [];
         foreach ($foundLessons as $foundLesson) {
-            $result[]=$this->serializeLesson($foundLesson);
+            $result[] = $this->serializeLesson($foundLesson);
         }
         return $result;
     }
@@ -150,7 +149,7 @@ class GetLessonCollectionController implements ControllerInterface
     {
         $jsonData = [
             'id' => $foundLesson->getId(),
-            'date' => $foundLesson->getDate()->format('Y.d.m H:i'),
+            'date' => $foundLesson->getDate()->format('Y.m.d H:i'),
             'lessonDuration' => $foundLesson->getLessonDuration(),
         ];
         $itemDto = $foundLesson->getItem();
@@ -160,21 +159,21 @@ class GetLessonCollectionController implements ControllerInterface
             'description' => $itemDto->getDescription()
         ];
         $teacherDto = $foundLesson->getTeacher();
-        $teacherFioDto=$teacherDto->getFio();
+        $teacherFioDto = $teacherDto->getFio();
         $teacherAddressDto = $teacherDto->getAddress();
         $jsonData['teacher'] = [
             'id' => $teacherDto->getId(),
             'fio' => [
-                'surname'=>$teacherFioDto[0]->getSurname(),
-                'name'=>$teacherFioDto[0]->getName(),
-                'patronymic'=>$teacherFioDto[0]->getPatronymic()
+                'surname' => $teacherFioDto[0],
+                'name' => $teacherFioDto[1],
+                'patronymic' => $teacherFioDto[2]
             ],
             'dateOfBirth' => $teacherDto->getDateOfBirth()->format('Y.m.d'),
             'phone' => $teacherDto->getPhone(),
             'address' => [
-                'street'=>$teacherAddressDto->getStreet(),
-                'home'=>$teacherAddressDto->getHome(),
-                'apartment'=>$teacherAddressDto->getApartment()
+                'street' => $teacherAddressDto->getStreet(),
+                'home' => $teacherAddressDto->getHome(),
+                'apartment' => $teacherAddressDto->getApartment()
             ],
             'item' => $jsonData['item'],
             'cabinet' => $teacherDto->getCabinet(),

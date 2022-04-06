@@ -6,17 +6,10 @@ use JoJoBizzareCoders\DigitalJournal\Entity\ClassRepositoryInterface;
 use JoJoBizzareCoders\DigitalJournal\Entity\ItemRepositoryInterface;
 use JoJoBizzareCoders\DigitalJournal\Entity\LessonClass;
 use JoJoBizzareCoders\DigitalJournal\Entity\LessonRepositoryInterface;
-use JoJoBizzareCoders\DigitalJournal\Entity\TeacherRepositoryInterface;
+use JoJoBizzareCoders\DigitalJournal\Entity\UserRepositoryInterface;
 use JoJoBizzareCoders\DigitalJournal\Exception\RuntimeException;
-use JoJoBizzareCoders\DigitalJournal\Repository\AssessmentReportJsonRepository;
-use JoJoBizzareCoders\DigitalJournal\Repository\ClassJsonFileRepository;
-use JoJoBizzareCoders\DigitalJournal\Repository\ItemJsonFileRepository;
-use JoJoBizzareCoders\DigitalJournal\Repository\LessonJsonRepository;
-use JoJoBizzareCoders\DigitalJournal\Repository\TeacherDbRepository;
-use JoJoBizzareCoders\DigitalJournal\Repository\TeacherJsonFileRepository;
 use JoJoBizzareCoders\DigitalJournal\Service\SearchLessonService\NewLessonDto;
 use JoJoBizzareCoders\DigitalJournal\Service\SearchLessonService\ResultRegistrationLessonDto;
-use Symfony\Contracts\Cache\ItemInterface;
 
 /**
  * Сервис регистрации нового урока
@@ -33,9 +26,9 @@ class NewLessonService
     /**
      * Репозиторий учетелей
      *
-     * @var TeacherRepositoryInterface
+     * @var UserRepositoryInterface
      */
-    private TeacherRepositoryInterface $teacherRepository;
+    private UserRepositoryInterface $teacherRepository;
 
     /**
      * Репозиторий предметов
@@ -53,24 +46,23 @@ class NewLessonService
 
     /**
      * @param LessonRepositoryInterface $lessonRepository
-     * @param TeacherRepositoryInterface $teacherRepository
+     * @param UserRepositoryInterface $teacherRepository
      * @param ItemRepositoryInterface $itemRepository
      * @param ClassRepositoryInterface $classRepository
      */
     public function __construct(
         LessonRepositoryInterface $lessonRepository,
-        TeacherRepositoryInterface $teacherRepository,
+        UserRepositoryInterface $teacherRepository,
         ItemRepositoryInterface $itemRepository,
         ClassRepositoryInterface $classRepository
-    )
-    {
+    ) {
         $this->lessonRepository = $lessonRepository;
         $this->teacherRepository = $teacherRepository;
         $this->itemRepository = $itemRepository;
         $this->classRepository = $classRepository;
     }
 
-    public function registerLesson(NewLessonDto $lessonDto):ResultRegistrationLessonDto
+    public function registerLesson(NewLessonDto $lessonDto): ResultRegistrationLessonDto
     {
         $teacherId = $lessonDto->getTeacherId();
         $itemId = $lessonDto->getItemId();
@@ -80,17 +72,17 @@ class NewLessonService
         $itemCollection = $this->itemRepository->findBy(['id' => $itemId]);
         $classCollection = $this->classRepository->findBy(['id' => $classId]);
 
-        if(1 !== count($teacherCollection)){
+        if (1 !== count($teacherCollection)) {
             throw new RuntimeException("Нельзя зарегестрировать урок с преподом = '$teacherId'");
         }
         $teacher = current($teacherCollection);
 
-        if(1 !== count($itemCollection)){
+        if (1 !== count($itemCollection)) {
             throw new RuntimeException("Нельзя зарегестрировать предмет = '$itemId'");
         }
         $item = current($itemCollection);
 
-        if(1 !== count($classCollection)){
+        if (1 !== count($classCollection)) {
             throw new RuntimeException("Нельзя зарегестрировать класс = '$classId'");
         }
         $class = current($classCollection);
@@ -99,7 +91,7 @@ class NewLessonService
         $entity = new LessonClass(
             $this->lessonRepository->nextId(),
             $item,
-            $lessonDto->getDate(),
+            \DateTimeImmutable::createFromFormat('Y-m-d', $lessonDto->getDate()),
             $lessonDto->getLessonDuration(),
             $teacher,
             $class
@@ -110,5 +102,4 @@ class NewLessonService
             $entity->getId()
         );
     }
-
 }

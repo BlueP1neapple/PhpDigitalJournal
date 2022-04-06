@@ -6,6 +6,7 @@ use JoJoBizzareCoders\DigitalJournal\Infrastructure\Console\CommandInterface;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Console\Output\OutputInterface;
 use JoJoBizzareCoders\DigitalJournal\Service\SearchAssessmentReportService;
 use JoJoBizzareCoders\DigitalJournal\Service\SearchReportAssessmentService\AssessmentReportDto;
+use JoJoBizzareCoders\DigitalJournal\Service\SearchReportAssessmentService\ParentDto;
 use JoJoBizzareCoders\DigitalJournal\Service\SearchReportAssessmentService\SearchReportAssessmentCriteria;
 use JsonException;
 
@@ -74,12 +75,11 @@ class FindAssessmentReport implements CommandInterface
      * @param array $assessmentReportCollection - коллекция найденныз оценок
      * @return array
      */
-    private function buildJsonData(array $assessmentReportCollection):array
+    private function buildJsonData(array $assessmentReportCollection): array
     {
-        $result=[];
-        foreach ($assessmentReportCollection as $assessmentReport)
-        {
-            $result[]=$this->serializeAssessmentReport($assessmentReport);
+        $result = [];
+        foreach ($assessmentReportCollection as $assessmentReport) {
+            $result[] = $this->serializeAssessmentReport($assessmentReport);
         }
         return $result;
     }
@@ -90,7 +90,7 @@ class FindAssessmentReport implements CommandInterface
      * @param AssessmentReportDto $reportDto - экземпляр наденной оценки
      * @return array
      */
-    private function serializeAssessmentReport(AssessmentReportDto $reportDto):array
+    private function serializeAssessmentReport(AssessmentReportDto $reportDto): array
     {
         return [
             'id' => $reportDto->getId(),
@@ -105,17 +105,17 @@ class FindAssessmentReport implements CommandInterface
                 'lessonDuration' => $reportDto->getLesson()->getLessonDuration(),
                 'teacher' => [
                     'id' => $reportDto->getLesson()->getTeacher()->getId(),
-                    'fio' =>[
-                        'surname'=>$reportDto->getLesson()->getTeacher()->getFio()[0]->getSurname(),
-                        'name'=>$reportDto->getLesson()->getTeacher()->getFio()[0]->getName(),
-                        'patronymic'=>$reportDto->getLesson()->getTeacher()->getFio()[0]->getPatronymic(),
+                    'fio' => [
+                        'surname' => $reportDto->getLesson()->getTeacher()->getFio()[0]->getSurname(),
+                        'name' => $reportDto->getLesson()->getTeacher()->getFio()[0]->getName(),
+                        'patronymic' => $reportDto->getLesson()->getTeacher()->getFio()[0]->getPatronymic(),
                     ],
                     'dateOfBirth' => $reportDto->getLesson()->getTeacher()->getDateOfBirth(),
                     'phone' => $reportDto->getLesson()->getTeacher()->getPhone(),
                     'address' => [
-                        'street'=>$reportDto->getLesson()->getTeacher()->getAddress()[0]->getStreet(),
-                        'home'=>$reportDto->getLesson()->getTeacher()->getAddress()[0]->getHome(),
-                        'apartment'=>$reportDto->getLesson()->getTeacher()->getAddress()[0]->getApartment(),
+                        'street' => $reportDto->getLesson()->getTeacher()->getAddress()[0]->getStreet(),
+                        'home' => $reportDto->getLesson()->getTeacher()->getAddress()[0]->getHome(),
+                        'apartment' => $reportDto->getLesson()->getTeacher()->getAddress()[0]->getApartment(),
                     ],
                     'item' => [
                         'id' => $reportDto->getLesson()->getItem()->getId(),
@@ -134,44 +134,55 @@ class FindAssessmentReport implements CommandInterface
             'student' => [
                 'id' => $reportDto->getStudent()->getId(),
                 'fio' => [
-                    'surname'=>$reportDto->getStudent()->getFio()[0]->getSurname(),
-                    'name'=>$reportDto->getStudent()->getFio()[0]->getName(),
-                    'patronymic'=>$reportDto->getStudent()->getFio()[0]->getPatronymic()
+                    'surname' => $reportDto->getStudent()->getFio()[0]->getSurname(),
+                    'name' => $reportDto->getStudent()->getFio()[0]->getName(),
+                    'patronymic' => $reportDto->getStudent()->getFio()[0]->getPatronymic()
                 ],
                 'dateOfBirth' => $reportDto->getStudent()->getDateOfBirth(),
                 'phone' => $reportDto->getStudent()->getPhone(),
                 'address' => [
-                    'street'=>$reportDto->getStudent()->getAddress()[0]->getStreet(),
-                    'home'=>$reportDto->getStudent()->getAddress()[0]->getHome(),
-                    'apartment'=>$reportDto->getStudent()->getAddress()[0]->getApartment()
+                    'street' => $reportDto->getStudent()->getAddress()[0]->getStreet(),
+                    'home' => $reportDto->getStudent()->getAddress()[0]->getHome(),
+                    'apartment' => $reportDto->getStudent()->getAddress()[0]->getApartment()
                 ],
                 'class' => [
                     'id' => $reportDto->getStudent()->getClass()->getId(),
                     'number' => $reportDto->getStudent()->getClass()->getNumber(),
                     'letter' => $reportDto->getStudent()->getClass()->getLetter()
                 ],
-                'parent' => [
-                    'id' => $reportDto->getStudent()->getParent()->getId(),
-                    'fio' => [
-                        'surname'=>$reportDto->getStudent()->getParent()->getFio()[0]->getSurname(),
-                        'name'=>$reportDto->getStudent()->getParent()->getFio()[0]->getName(),
-                        'patronymic'=>$reportDto->getStudent()->getParent()->getFio()[0]->getPatronymic()
-                    ],
-                    'dateOfBirth' => $reportDto->getStudent()->getParent()->getDateOfBirth(),
-                    'phone' => $reportDto->getStudent()->getParent()->getPhone(),
-                    'address' => [
-                        'street'=>$reportDto->getStudent()->getParent()->getAddress()[0]->getStreet(),
-                        'home'=>$reportDto->getStudent()->getParent()->getAddress()[0]->getHome(),
-                        'apartment'=>$reportDto->getStudent()->getParent()->getAddress()[0]->getApartment(),
-                    ],
-                    'placeOfWork' => $reportDto->getStudent()->getParent()->getPlaceOfWork(),
-                    'email' => $reportDto->getStudent()->getParent()->getEmail()
-                ]
+                'parents' => $this->loadParents($reportDto->getStudent()->getParents()),
             ],
             'mark' => $reportDto->getMark()
         ];
     }
 
+    private function loadParents(array $parentsList): array
+    {
+        if (0 === count($parentsList)) {
+            return [];
+        }
+
+        $jsonData[] = array_values(array_map(static function (ParentDto $dto) {
+            return[
+              'id' => $dto->getId(),
+              'email' => $dto->getEmail(),
+              'placeOfWork' => $dto->getPlaceOfWork(),
+              'phone' => $dto->getPhone(),
+              'dateOfBirth' => $dto->getDateOfBirth(),
+              'fio' => [
+                  'street' => $dto->getFio()[0]->getSurname(),
+                  'home' => $dto->getFio()[0]->getName(),
+                  'apartment' => $dto->getFio()[0]->getPatronymic()
+              ],
+              'address' => [
+                  'street' => $dto->getAddress()[0]->getStreet(),
+                  'home' => $dto->getAddress()[0]->getHome(),
+                  'apartment' => $dto->getAddress()[0]->getApartment()
+              ]
+            ];
+        }, $parentsList));
+        return $jsonData;
+    }
 
     public static function getShortOptions(): string
     {

@@ -55,6 +55,10 @@ class SearchLessonService
     public function search(SearchLessonServiceCriteria $searchCriteria): array
     {
         $criteria = $this->searchCriteriaForArray($searchCriteria);
+        if (array_key_exists('id', $criteria)) {
+            $criteria['lesson_id'] = $criteria['id'];
+            unset($criteria['id']);
+        }
         $entitiesCollection = $this->lessonRepository->findBy($criteria);
         $dtoCollection = [];
         foreach ($entitiesCollection as $entity) {
@@ -81,19 +85,19 @@ class SearchLessonService
         $teacher = $lesson->getTeacher();
         $teacherFio = $teacher->getFio();
         $teacherFioDto = new FioDto(
-            $teacherFio[0]->getSurname(),
-            $teacherFio[0]->getName(),
-            $teacherFio[0]->getPatronymic()
+            $teacher->getFio()->getSurname(),
+            $teacher->getFio()->getName(),
+            $teacher->getFio()->getPatronymic()
         );
         $teacherAddress = $teacher->getAddress();
         $teacherAddressDto = new AddressDto(
-            $teacherAddress[0]->getStreet(),
-            $teacherAddress[0]->getHome(),
-            $teacherAddress[0]->getApartment()
+            $teacherAddress->getStreet(),
+            $teacherAddress->getHome(),
+            $teacherAddress->getApartment()
         );
         $teacherDto = new TeacherDto(
             $teacher->getId(),
-            $teacher->getFio(),
+            [$teacher->getFio()->getSurname(), $teacher->getFio()->getName(),  $teacher->getFio()->getPatronymic()],
             $teacher->getDateOfBirth(),
             $teacher->getPhone(),
             $teacherAddressDto,
@@ -123,21 +127,21 @@ class SearchLessonService
      * @param SearchLessonServiceCriteria $searchCriteria - критерии поиска
      * @return array
      */
-    private function searchCriteriaForArray(SearchLessonServiceCriteria $searchCriteria):array
+    private function searchCriteriaForArray(SearchLessonServiceCriteria $searchCriteria): array
     {
         $criteriaForRepository = [
-            'id'=>$searchCriteria->getId(),
-            'item_name'=>$searchCriteria->getItemName(),
-            'item_description'=>$searchCriteria->getItemDescription(),
-            'date'=>$searchCriteria->getDate(),
-            'teacher_fio_surname'=>$searchCriteria->getTeacherSurname(),
-            'teacher_fio_name'=>$searchCriteria->getTeacherName(),
-            'teacher_fio_patronymic'=>$searchCriteria->getTeacherPatronymic(),
-            'teacher_cabinet'=>$searchCriteria->getTeacherCabinet(),
-            'class_number'=>$searchCriteria->getClassNumber(),
-            'class_letter'=>$searchCriteria->getClassLetter()
+            'id' => $searchCriteria->getId(),
+            'item_name' => $searchCriteria->getItemName(),
+            'item_description' => $searchCriteria->getItemDescription(),
+            'lesson_date' => $searchCriteria->getDate(),
+            'teacher_fio_surname' => $searchCriteria->getTeacherSurname(),
+            'teacher_fio_name' => $searchCriteria->getTeacherName(),
+            'teacher_fio_patronymic' => $searchCriteria->getTeacherPatronymic(),
+            'teacher_cabinet' => $searchCriteria->getTeacherCabinet(),
+            'class_number' => $searchCriteria->getClassNumber(),
+            'class_letter' => $searchCriteria->getClassLetter()
         ];
-        return array_filter($criteriaForRepository, static function ($v):bool{
+        return array_filter($criteriaForRepository, static function ($v): bool {
             return null !== $v;
         });
     }

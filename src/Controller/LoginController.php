@@ -14,7 +14,6 @@ use Throwable;
 
 class LoginController implements ControllerInterface
 {
-
     /**
      * Фабрика для создания uri
      *
@@ -68,8 +67,8 @@ class LoginController implements ControllerInterface
     public function __invoke(ServerRequestInterface $serverRequest): ResponseInterface
     {
         try {
-            $response= $this->doLogin($serverRequest);
-        } catch (Throwable $e){
+            $response = $this->doLogin($serverRequest);
+        } catch (Throwable $e) {
             $response = $this->buildErrorResponse($e);
         }
         return $response;
@@ -81,7 +80,7 @@ class LoginController implements ControllerInterface
      * @param Throwable $e
      * @return ResponseInterface
      */
-    private function buildErrorResponse(Throwable $e):ResponseInterface
+    private function buildErrorResponse(Throwable $e): ResponseInterface
     {
         $httpCode = 500;
         $context = [
@@ -106,21 +105,21 @@ class LoginController implements ControllerInterface
     {
         $response = null;
         $context = [];
-        if('POST' === $serverRequest->getMethod()){
+        if ('POST' === $serverRequest->getMethod()) {
             $authData = [];
-            parse_str($serverRequest->getBody(),$authData);
+            parse_str($serverRequest->getBody(), $authData);
             $this->validateAuthData($authData);
-            if($this->isAuth($authData['login'],$authData['password'])){
+            if ($this->isAuth($authData['login'], $authData['password'])) {
                 $queryParams = $serverRequest->getQueryParams();
-                $redirect = array_key_exists('redirect',$queryParams)
+                $redirect = array_key_exists('redirect', $queryParams)
                     ? $this->uriFactory->createUri($queryParams['redirect'])
-                    :$this->uriFactory->createUri('/');
+                    : $this->uriFactory->createUri('/');
                 $response = $this->serverResponseFactory->redirect($redirect);
-            }else{
+            } else {
                 $context['errMsg'] = 'Логин и пароль не подходят';
             }
         }
-        if (null === $response){
+        if (null === $response) {
             $html = $this->viewTemplate->render('login.twig', $context);
             $response = $this->serverResponseFactory->createHtmlResponse(200, $html);
         }
@@ -133,18 +132,18 @@ class LoginController implements ControllerInterface
      * @param array $authData - данные форм аунтификации
      * @return void
      */
-    private function validateAuthData(array $authData):void
+    private function validateAuthData(array $authData): void
     {
-        if(false === array_key_exists('login',$authData)){
+        if (false === array_key_exists('login', $authData)) {
             throw new RuntimeException('Отсутсвует логин');
         }
-        if(false === is_string($authData['login'])){
+        if (false === is_string($authData['login'])) {
             throw new RuntimeException('Логин имеет не верный формат');
         }
-        if(false === array_key_exists('password',$authData)){
+        if (false === array_key_exists('password', $authData)) {
             throw new RuntimeException('Отсутсвует пароль');
         }
-        if(false === is_string($authData['password'])){
+        if (false === is_string($authData['password'])) {
             throw new RuntimeException('Пароль имеет не верный формат');
         }
     }
@@ -156,10 +155,8 @@ class LoginController implements ControllerInterface
      * @param string $password - пароль пользователя
      * @return bool
      */
-    private function isAuth(string $login, string $password):bool
+    private function isAuth(string $login, string $password): bool
     {
-        return $this->httpAuthProvider->auth($login,$password);
+        return $this->httpAuthProvider->auth($login, $password);
     }
-
-
 }

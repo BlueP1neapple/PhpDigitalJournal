@@ -2,6 +2,7 @@
 
 namespace JoJoBizzareCoders\DigitalJournal\Entity;
 
+
 interface UserRepositoryInterface
 {
     /**
@@ -10,7 +11,7 @@ interface UserRepositoryInterface
      * @param array $criteria
      * @return AbstractUserClass[]
      */
-    public function findBy(array $criteria):array;
+    public function findBy(array $criteria): array;
 
     /**
      * Поиск пользователя по логину
@@ -20,5 +21,4 @@ interface UserRepositoryInterface
      * @return AbstractUserClass|null
      */
     public function findUserByLogin(string $login): ?AbstractUserClass;
-
 }

@@ -1,100 +1,86 @@
 <?php
 
 namespace JoJoBizzareCoders\DigitalJournal\Entity;
-    use DateTimeImmutable;
-    use JoJoBizzareCoders\DigitalJournal\Exception\InvalidDataStructureException;
 
+    use DateTimeImmutable;
+    use Doctrine\Common\Collections\Collection;
+    use Doctrine\ORM\Mapping as ORM;
 
     /**
      * Класс Родителей
+     *
+     *
+     *
+     * @ORM\Entity
+     * @ORM\Table(name="parents")
      */
-    final class ParentUserClass extends AbstractUserClass
-    {
+final class ParentUserClass extends AbstractUserClass
+{
+    /**
+     * Место работы родителя
+     * @var string
+     * @ORM\Column(name="place_of_work", type="string", length=255, nullable=false)
+     */
+    private string $placeOfWork;
 
-        /**
-         * @string Место работы родителя
-         */
-        private string $placeOfWork;
+    /**
+     * email родителя
+     *
+     * @var string
+     * @ORM\Column(name="email", type="string", length=255, nullable=false)
+     */
+    private string $email;
 
-        /**
-         * @var string email родителя
-         */
-        private string $email;
+    /**
+     * Коллекция детей родителя
+     *
+     * @var Collection
+     * @ORM\ManyToMany (targetEntity=\JoJoBizzareCoders\DigitalJournal\Entity\StudentUserClass::class,
+     *     inversedBy="parents")
+     * @ORM\JoinTable(
+     *     name="students_to_parents",
+     *     joinColumns={@ORM\JoinColumn(name="parent_id", referencedColumnName="id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="student_id", referencedColumnName="id")}
+     * )
+     */
+    private Collection $children;
 
-        /**
-         * Конструктор класса Родетелей
-         * @inheritdoc
-         * @param string $placeOfWork - место работы родителей
-         * @param string $email - email родителей
-         */
-        public function __construct(
-            int $id,
-            array $fio,
-            DateTimeImmutable $dateOfBirth,
-            string $phone,
-            array $address,
-            string $placeOfWork,
-            string $email,
-            string $login,
-            string $password
-        ) {
-            parent::__construct($id, $fio, $dateOfBirth, $phone, $address, $login, $password);
-            $this->placeOfWork = $placeOfWork;
-            $this->email = $email;
-        }
-
-        /**
-         * Метод создания объекта класса Родителей из массива данных об Родетелях
-         * @inheritdoc
-         * @param array $data - Массив данных данных об родителях
-         * @return ParentUserClass - Объект класса Родителей
-         * @throws InvalidDataStructureException
-         */
-        public static function createFromArray(array $data): ParentUserClass
-        {
-            $requiredFields=[
-                'id',
-                'fio',
-                'dateOfBirth',
-                'phone',
-                'address',
-                'placeOfWork',
-                'email'
-            ];
-            $missingFields=array_diff($requiredFields,array_keys($data));
-            if(count($missingFields)>0){
-                $errMsg=sprintf('Отсутвуют обязательные элементы: %s',implode(',',$missingFields));
-                throw new InvalidDataStructureException($errMsg);
-            }
-            return new ParentUserClass(
-                $data['id'],
-                $data['fio'],
-                $data['dateOfBirth'],
-                $data['phone'],
-                $data['address'],
-                $data['placeOfWork'],
-                $data['email'],
-                $data['login'],
-                $data['password']
-            );
-        }
-
-        /**
-         * @return string
-         */
-        public function getPlaceOfWork(): string
-        {
-            return $this->placeOfWork;
-        }
-
-        /**
-         * @return string
-         */
-        public function getEmail(): string
-        {
-            return $this->email;
-        }
-
-
-
+    /**
+     * Конструктор класса Родетелей
+     * @inheritdoc
+     * @param string $placeOfWork - место работы родителей
+     * @param string $email - email родителей
+     */
+    public function __construct(
+        int $id,
+        array $fio,
+        DateTimeImmutable $dateOfBirth,
+        string $phone,
+        array $address,
+        string $placeOfWork,
+        string $email,
+        string $login,
+        string $password
+    ) {
+        parent::__construct($id, $fio, $dateOfBirth, $phone, $address, $login, $password);
+        $this->placeOfWork = $placeOfWork;
+        $this->email = $email;
     }
+
+
+    /**
+     * @return string
+     */
+    public function getPlaceOfWork(): string
+    {
+        return $this->placeOfWork;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEmail(): string
+    {
+        return $this->email;
+    }
+}

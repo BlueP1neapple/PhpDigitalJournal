@@ -5,7 +5,7 @@ namespace JoJoBizzareCoders\DigitalJournal\Service;
 use JoJoBizzareCoders\DigitalJournal\Entity\AssessmentReportRepositoryInterface;
 use JoJoBizzareCoders\DigitalJournal\Entity\LessonRepositoryInterface;
 use JoJoBizzareCoders\DigitalJournal\Entity\ReportClass;
-use JoJoBizzareCoders\DigitalJournal\Entity\StudentRepositoryInterface;
+use JoJoBizzareCoders\DigitalJournal\Entity\UserRepositoryInterface;
 use JoJoBizzareCoders\DigitalJournal\Exception\RuntimeException;
 use JoJoBizzareCoders\DigitalJournal\Service\SearchReportAssessmentService\NewAssessmentReportDto;
 use JoJoBizzareCoders\DigitalJournal\Service\SearchReportAssessmentService\ResultRegisteringAssessmentReportDto;
@@ -30,20 +30,20 @@ class NewReportService
     /**
      * Репризиторий для работы с студентами
      *
-     * @var StudentRepositoryInterface
+     * @var UserRepositoryInterface
      */
-    private StudentRepositoryInterface $studentRepository;
+    private UserRepositoryInterface $studentRepository;
 
 
     /**
      * @param AssessmentReportRepositoryInterface $assessmentReportRepository - Репризиторий для работы с оценками
      * @param LessonRepositoryInterface $lessonRepository - Репризиторий для работы с занятиями
-     * @param StudentRepositoryInterface $studentRepository - Репризиторий для работы с студентами
+     * @param UserRepositoryInterface $studentRepository - Репризиторий для работы с студентами
      */
     public function __construct(
         AssessmentReportRepositoryInterface $assessmentReportRepository,
         LessonRepositoryInterface $lessonRepository,
-        StudentRepositoryInterface $studentRepository
+        UserRepositoryInterface $studentRepository
     ) {
         $this->assessmentReportRepository = $assessmentReportRepository;
         $this->lessonRepository = $lessonRepository;
@@ -57,24 +57,24 @@ class NewReportService
      * @return ResultRegisteringAssessmentReportDto
      * @throws JsonException
      */
-    public function registerAssessmentReport(NewAssessmentReportDto $assessmentReportDto):ResultRegisteringAssessmentReportDto
+    public function registerAssessmentReport(NewAssessmentReportDto $assessmentReportDto): ResultRegisteringAssessmentReportDto
     {
         $lessonId = $assessmentReportDto->getLessonId();
         $studentId = $assessmentReportDto->getStudentId();
-        $lessonsCollection = $this->lessonRepository->findBy(['id'=>$lessonId]);
-        $studentsCollection = $this->studentRepository->findBy(['id'=>$studentId]);
-        if(1!==count($lessonsCollection)){
+        $lessonsCollection = $this->lessonRepository->findBy(['id' => $lessonId]);
+        $studentsCollection = $this->studentRepository->findBy(['id' => $studentId]);
+        if (1 !== count($lessonsCollection)) {
             throw new RuntimeException(
                 "Нельзя зарегестрировать оценку с lesson_id='$lessonId'. Занятие с данным id не найден"
             );
         }
-        if(1!==count($studentsCollection)){
+        if (1 !== count($studentsCollection)) {
             throw new RuntimeException(
                 "Нельзя зарегестрировать оценку с student_id='$studentId'. Студент с данным id не найден"
             );
         }
-        $lesson=current($lessonsCollection);
-        $student=current($studentsCollection);
+        $lesson = current($lessonsCollection);
+        $student = current($studentsCollection);
         $entity = new ReportClass(
             $this->assessmentReportRepository->nextId(),
             $lesson,
@@ -86,5 +86,4 @@ class NewReportService
             $entity->getId()
         );
     }
-
 }

@@ -82,30 +82,26 @@
         </service>
 
 
-        <service id="JoJoBizzareCoders\DigitalJournal\Entity\AssessmentReportRepositoryInterface"
-                 class="JoJoBizzareCoders\DigitalJournal\Repository\AssessmentReportDbRepository"
-        />
+        <service id="JoJoBizzareCoders\DigitalJournal\Entity\AssessmentReportRepositoryInterface">
+            <factory service="Doctrine\ORM\EntityManagerInterface" method="getRepository"/>
+        <argument key="$className">JoJoBizzareCoders\DigitalJournal\Entity\ReportClass</argument>
+    </service>
+        
         <service id="JoJoBizzareCoders\DigitalJournal\Entity\ClassRepositoryInterface"
                  class="JoJoBizzareCoders\DigitalJournal\Repository\ClassDbRepository"
         />
         <service id="JoJoBizzareCoders\DigitalJournal\Entity\ItemRepositoryInterface"
                  class="JoJoBizzareCoders\DigitalJournal\Repository\ItemDbRepository"
         />
-        <service id="JoJoBizzareCoders\DigitalJournal\Entity\LessonRepositoryInterface"
-                 class="JoJoBizzareCoders\DigitalJournal\Repository\LessonDbRepository"
-        />
-        <service id="JoJoBizzareCoders\DigitalJournal\Entity\ParentRepositoryInterface"
-                 class="JoJoBizzareCoders\DigitalJournal\Repository\ParentDbRepository"
-        />
-        <service id="JoJoBizzareCoders\DigitalJournal\Entity\StudentRepositoryInterface"
-                 class="JoJoBizzareCoders\DigitalJournal\Repository\StudentDbRepository"
-        />
-        <service id="JoJoBizzareCoders\DigitalJournal\Entity\TeacherRepositoryInterface"
-                 class="JoJoBizzareCoders\DigitalJournal\Repository\TeacherDbRepository"
-        />
-        <service id="JoJoBizzareCoders\DigitalJournal\Infrastructure\DataLoader\DataLoaderInterface"
-                 class="JoJoBizzareCoders\DigitalJournal\Infrastructure\DataLoader\JsonDataLoader"
-        />
+        <service id="JoJoBizzareCoders\DigitalJournal\Entity\LessonRepositoryInterface">
+            <factory service="Doctrine\ORM\EntityManagerInterface" method="getRepository"/>
+            <argument key="$className">JoJoBizzareCoders\DigitalJournal\Entity\LessonClass</argument>
+        </service>
+        <service id="JoJoBizzareCoders\DigitalJournal\Entity\UserRepositoryInterface">
+            <factory service="Doctrine\ORM\EntityManagerInterface" method="getRepository"/>
+            <argument key="$className">JoJoBizzareCoders\DigitalJournal\Entity\AbstractUserClass</argument>
+        </service>
+
 
 
         <service id="Psr\Http\Message\UriFactoryInterface" alias="Nyholm\Psr7\Factory\Psr17Factory"/>
@@ -126,17 +122,12 @@
             </argument>
         </service>
 
-        <service id="JoJoBizzareCoders\DigitalJournal\Infrastructure\Auth\UserDataStorageInterface"
-                 class="JoJoBizzareCoders\DigitalJournal\AppService\UserDataStorage\UserDataStorage"
-        >
-            <argument type="service"
-                      id="JoJoBizzareCoders\DigitalJournal\Entity\ParentRepositoryInterface"/>
-            <argument type="service"
-                      id="JoJoBizzareCoders\DigitalJournal\Entity\TeacherRepositoryInterface"/>
-            <argument type="service"
-                      id="JoJoBizzareCoders\DigitalJournal\Entity\StudentRepositoryInterface"/>
 
+        <service id="JoJoBizzareCoders\DigitalJournal\Infrastructure\Auth\UserDataStorageInterface">
+            <factory service="Doctrine\ORM\EntityManagerInterface" method="getRepository"/>
+            <argument key="$className">JoJoBizzareCoders\DigitalJournal\Repository\UserDataProviderRepository\UserDataProvider</argument>
         </service>
+
 
         <service id="JoJoBizzareCoders\DigitalJournal\Exception\ErrorRealisation\ErrorRealisationInterface"
             alias="JoJoBizzareCoders\DigitalJournal\Exception\ErrorRealisation\IgnitionError"

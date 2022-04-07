@@ -7,7 +7,7 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
 
     /**
      * Класс классов
-     * @ORM\Entity
+     * @ORM\Entity(repositoryClass=\JoJoBizzareCoders\DigitalJournal\Repository\ClassDoctrineRepository::class)
      * @ORM\Table(name="class")
      */
 class ClassClass

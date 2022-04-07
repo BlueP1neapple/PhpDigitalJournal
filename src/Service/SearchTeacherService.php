@@ -4,7 +4,6 @@ namespace JoJoBizzareCoders\DigitalJournal\Service;
 
 use JoJoBizzareCoders\DigitalJournal\Entity\TeacherRepositoryInterface;
 use JoJoBizzareCoders\DigitalJournal\Entity\TeacherUserClass;
-use JoJoBizzareCoders\DigitalJournal\Entity\UserRepositoryInterface;
 use Psr\Log\LoggerInterface;
 use JoJoBizzareCoders\DigitalJournal\Service\SearchItemService\ItemDto;
 use JoJoBizzareCoders\DigitalJournal\Service\SearchTeacherService\TeacherDto;
@@ -21,17 +20,17 @@ class SearchTeacherService
     /**
      * Репозиторий учетелй
      *
-     * @var UserRepositoryInterface
+     * @var TeacherRepositoryInterface
      */
-    private UserRepositoryInterface $teacherRepository;
+    private TeacherRepositoryInterface $teacherRepository;
 
     /**
      * @param LoggerInterface $logger
-     * @param UserRepositoryInterface $teacherRepository
+     * @param TeacherRepositoryInterface $teacherRepository
      */
     public function __construct(
         LoggerInterface $logger,
-        UserRepositoryInterface $teacherRepository
+        TeacherRepositoryInterface $teacherRepository
     ) {
         $this->logger = $logger;
         $this->teacherRepository = $teacherRepository;
@@ -42,7 +41,9 @@ class SearchTeacherService
         $entitiesCollection = $this->teacherRepository->findBy([]);
         $dtoCollection = [];
         foreach ($entitiesCollection as $entity) {
-            $dtoCollection[] = $this->createDto($entity);
+            if ($entity instanceof TeacherUserClass) {
+                $dtoCollection[] = $this->createDto($entity);
+            }
         }
         $this->logger->info('found item: ' . count($entitiesCollection));
         return $dtoCollection;
@@ -57,7 +58,7 @@ class SearchTeacherService
             $entity->getFio()->getSurname(),
             $entity->getFio()->getPatronymic()
             ],
-            $entity->getDateOfBirth(),
+            $entity->getDateOfBirth()->format('Y-m-d'),
             $entity->getPhone(),
             [
                 $entity->getAddress()->getStreet(),

@@ -54,6 +54,11 @@ class LessonDoctrineRepository extends EntityRepository implements
             return;
         }
 
+        if(key_exists('id', $criteria)){
+            $criteria['lesson_id'] = $criteria['id'];
+            unset($criteria['id']);
+        }
+
         $whereExprAnd = $queryBuilder->expr()->andX();
 
         foreach ($criteria as $criteriaName => $criteriaValue) {

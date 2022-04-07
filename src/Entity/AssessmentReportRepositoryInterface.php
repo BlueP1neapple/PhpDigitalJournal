@@ -13,14 +13,14 @@ interface AssessmentReportRepositoryInterface
      * @param array $criteria - заданные критерии поиска занятий
      * @return array
      */
-    public function findBy(array $criteria):array;
+    public function findBy(array $criteria): array;
 
     /**
      * Получить id
      *
      * @return int
      */
-    public function nextId():int;
+    public function nextId(): int;
 
     /**
      * Сохранить сущность занятия
@@ -28,5 +28,5 @@ interface AssessmentReportRepositoryInterface
      * @param ReportClass $entity - сущность занятия
      * @return ReportClass
      */
-    public function save(ReportClass $entity):ReportClass;
+    public function save(ReportClass $entity): ReportClass;
 }

@@ -5,11 +5,15 @@ namespace JoJoBizzareCoders\DigitalJournal\Repository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use JoJoBizzareCoders\DigitalJournal\Entity\AbstractUserClass;
+use JoJoBizzareCoders\DigitalJournal\Entity\ParentRepositoryInterface;
+use JoJoBizzareCoders\DigitalJournal\Entity\StudentRepositoryInterface;
+use JoJoBizzareCoders\DigitalJournal\Entity\TeacherRepositoryInterface;
 use JoJoBizzareCoders\DigitalJournal\Exception\RuntimeException;
-use JoJoBizzareCoders\DigitalJournal\Entity\UserRepositoryInterface;
 
 class UserDoctrineRepository extends EntityRepository implements
-    UserRepositoryInterface
+    TeacherRepositoryInterface,
+    StudentRepositoryInterface,
+    ParentRepositoryInterface
 {
     public function findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null): array
     {

@@ -2,7 +2,6 @@
 
     namespace JoJoBizzareCoders\DigitalJournal\Service\SearchReportAssessmentService;
 
-    use DateTimeImmutable;
     use JoJoBizzareCoders\DigitalJournal\ValueObject\Address;
     use JoJoBizzareCoders\DigitalJournal\ValueObject\Fio;
 
@@ -28,9 +27,9 @@ final class StudentDto
     /**
      * Дата рождения студента
      *
-     * @var DateTimeImmutable
+     * @var string
      */
-    private DateTimeImmutable $dateOfBirth;
+    private string $dateOfBirth;
 
     /**
      * Номер телефона студента
@@ -66,7 +65,7 @@ final class StudentDto
      *
      * @param int $id - id студента
      * @param Fio[] $fio - ФИО студента
-     * @param DateTimeImmutable $dateOfBirth - дата рождения студента
+     * @param string $dateOfBirth - дата рождения студента
      * @param string $phone - номер телефона студента
      * @param array $address - адресс продивания студента
      * @param ClassDto $class - класс студента
@@ -75,7 +74,7 @@ final class StudentDto
     public function __construct(
         int $id,
         array $fio,
-        DateTimeImmutable $dateOfBirth,
+        string $dateOfBirth,
         string $phone,
         array $address,
         ClassDto $class,
@@ -113,9 +112,9 @@ final class StudentDto
     /**
      * Возвращает дату рождения студента
      *
-     * @return DateTimeImmutable
+     * @return string
      */
-    public function getDateOfBirth(): DateTimeImmutable
+    public function getDateOfBirth(): string
     {
         return $this->dateOfBirth;
     }

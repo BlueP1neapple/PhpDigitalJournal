@@ -149,7 +149,7 @@ class GetLessonCollectionController implements ControllerInterface
     {
         $jsonData = [
             'id' => $foundLesson->getId(),
-            'date' => $foundLesson->getDate()->format('Y.m.d H:i'),
+            'date' => $foundLesson->getDate(),
             'lessonDuration' => $foundLesson->getLessonDuration(),
         ];
         $itemDto = $foundLesson->getItem();
@@ -168,7 +168,7 @@ class GetLessonCollectionController implements ControllerInterface
                 'name' => $teacherFioDto[1],
                 'patronymic' => $teacherFioDto[2]
             ],
-            'dateOfBirth' => $teacherDto->getDateOfBirth()->format('Y.m.d'),
+            'dateOfBirth' => $teacherDto->getDateOfBirth(),
             'phone' => $teacherDto->getPhone(),
             'address' => [
                 'street' => $teacherAddressDto->getStreet(),

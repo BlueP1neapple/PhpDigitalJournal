@@ -2,6 +2,7 @@
 
 namespace JoJoBizzareCoders\DigitalJournal\Controller;
 
+use Doctrine\ORM\EntityManagerInterface;
 use JoJoBizzareCoders\DigitalJournal\Exception;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Auth\HttpAuthProvider;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Controller\ControllerInterface;
@@ -29,7 +30,6 @@ use Throwable;
 class JournalAdministrationController implements
     ControllerInterface
 {
-
     /**
      * Фабрика для создания http ответов
      *
@@ -122,6 +122,8 @@ class JournalAdministrationController implements
      */
     private NewItemService $newItemService;
 
+    private EntityManagerInterface $entityManager;
+
     /**
      * @param LoggerInterface $logger
      * @param SearchAssessmentReportService $reportService
@@ -136,6 +138,7 @@ class JournalAdministrationController implements
      * @param HttpAuthProvider $httpAuthProvider
      * @param NewItemService $newItemService
      * @param ServerResponseFactory $serverResponseFactory
+     * @param EntityManagerInterface $entityManager
      */
     public function __construct(
         LoggerInterface $logger,
@@ -150,7 +153,8 @@ class JournalAdministrationController implements
         SearchStudentService $searchStudentService,
         HttpAuthProvider $httpAuthProvider,
         NewItemService $newItemService,
-        ServerResponseFactory $serverResponseFactory
+        ServerResponseFactory $serverResponseFactory,
+        EntityManagerInterface $entityManager
     ) {
         $this->logger = $logger;
         $this->reportService = $reportService;
@@ -165,6 +169,7 @@ class JournalAdministrationController implements
         $this->httpAuthProvider = $httpAuthProvider;
         $this->newItemService = $newItemService;
         $this->serverResponseFactory = $serverResponseFactory;
+        $this->entityManager = $entityManager;
     }
 
 
@@ -174,6 +179,7 @@ class JournalAdministrationController implements
     public function __invoke(ServerRequestInterface $serverRequest): ResponseInterface
     {
         try {
+            $this->entityManager->beginTransaction();
             if (false === $this->httpAuthProvider->isAuth()) {
                 return $this->httpAuthProvider->doAuth($serverRequest->getUri());
             }
@@ -205,7 +211,10 @@ class JournalAdministrationController implements
             $context = array_merge($viewData, $resultCreatingTextDocuments);
             $template = 'journal.administration.twig';
             $httpCode = 200;
+            $this->entityManager->commit();
+            $this->entityManager->flush();
         } catch (Throwable $e) {
+            $this->entityManager->rollback();
             $httpCode = 500;
             $template = 'errors.twig';
             $context = [
@@ -259,10 +268,10 @@ class JournalAdministrationController implements
             if (0 === count($result['formValidationResult']['item'])) {
                 $this->createItem($dataToCreate);
             }
-        }else {
-            throw new Exception\RuntimeException('Неизвестный тип тексового документа');
+        } else {
+            throw new Exception\RuntimeException('Неизвестный тип');
         }
-        return [];
+        return $result;
     }
 
     /**
@@ -304,7 +313,7 @@ class JournalAdministrationController implements
      *
      * @param array $dataToCreate
      */
-    private function createItem(array $dataToCreate):void
+    private function createItem(array $dataToCreate): void
     {
         $this->newItemService->registerItem(
             new NewItemDto(
@@ -438,10 +447,11 @@ class JournalAdministrationController implements
 
     private function validateReport(array $dataToCreate): array
     {
+         //Юзер не может ввести не коректные данные
         return [];
     }
 
-    private function validateItem(array $dataToCreate):array
+    private function validateItem(array $dataToCreate): array
     {
         $errs = [];
 
@@ -490,5 +500,4 @@ class JournalAdministrationController implements
 
         return $errs;
     }
-
 }

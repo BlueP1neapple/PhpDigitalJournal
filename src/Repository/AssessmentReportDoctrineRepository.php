@@ -39,7 +39,7 @@ class AssessmentReportDoctrineRepository extends EntityRepository implements
     public function findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null): array
     {
         $queryBuilder = $this->getEntityManager()->createQueryBuilder();
-        $queryBuilder->select(['r'])
+        $queryBuilder->select(['r', 'l', 's', 't', 'p', 'sc'])
             ->from(ReportClass::class, 'r')
             ->leftJoin('r.lesson', 'l')
             ->leftJoin('r.student', 's')

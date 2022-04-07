@@ -13,7 +13,6 @@ use Throwable;
 
 class CreateRegisterLessonController implements ControllerInterface
 {
-
     /**
      * Фабрика для создания http ответов
      *
@@ -32,10 +31,10 @@ class CreateRegisterLessonController implements ControllerInterface
      * @param NewLessonService $newLessonService
      * @param ServerResponseFactory $serverResponseFactory
      */
-    public function __construct(NewLessonService $newLessonService,
+    public function __construct(
+        NewLessonService $newLessonService,
         ServerResponseFactory $serverResponseFactory
-    )
-    {
+    ) {
         $this->newLessonService = $newLessonService;
         $this->serverResponseFactory = $serverResponseFactory;
     }
@@ -46,23 +45,21 @@ class CreateRegisterLessonController implements ControllerInterface
      */
     public function __invoke(ServerRequestInterface $serverRequest): ResponseInterface
     {
-        try{
-            $requestData = json_decode($serverRequest->getBody(), true,20, JSON_THROW_ON_ERROR);
+        try {
+            $requestData = json_decode($serverRequest->getBody(), true, 20, JSON_THROW_ON_ERROR);
             $validationResult = $this->validationData($requestData);
 
-            if(0 === count($validationResult)) {
+            if (0 === count($validationResult)) {
                 $responseDto = $this->runService($requestData);
                 $httpCode = 201;
                 $jsonData = $this->buildJsondata($responseDto);
-            }else{
+            } else {
                 $httpCode = 400;
                 $jsonData = ['status' => 'fail', 'massage' => implode('. ', $validationResult)];
             }
-
-        }catch (Throwable $e){
+        } catch (Throwable $e) {
             $httpCode = 500;
             $jsonData = ['status' => 'fail', 'massage' => $e->getMessage()];
-
         }
 
         return $this->serverResponseFactory->createJsonResponse($httpCode, $jsonData);
@@ -72,30 +69,30 @@ class CreateRegisterLessonController implements ControllerInterface
     {
         $err = [];
 
-        if(false === is_array($requestData)){
+        if (false === is_array($requestData)) {
             $err[] = 'Данные о новом уроке не являются массивом';
-        }else{
-            if(false === array_key_exists('item_id', $requestData)){
+        } else {
+            if (false === array_key_exists('item_id', $requestData)) {
                 $err[] = 'отсутствует айди предмета';
-            } elseif (false === is_int($requestData['item_id'])){
+            } elseif (false === is_int($requestData['item_id'])) {
                 $err[] = 'айди предмета должен быть числом';
             }
         }
-        if(false === array_key_exists('date', $requestData)){
+        if (false === array_key_exists('date', $requestData)) {
             $err[] = 'отсутствует дата урока';
-        } elseif (false === is_string($requestData['date'])){
+        } elseif (false === is_string($requestData['date'])) {
             $err[] = 'дата урока должна быть строкой';
         }
 
-        if(false === array_key_exists('teacher_id', $requestData)){
+        if (false === array_key_exists('teacher_id', $requestData)) {
             $err[] = 'отсутствует преподаватель';
-        } elseif (false === is_int($requestData['teacher_id'])){
+        } elseif (false === is_int($requestData['teacher_id'])) {
             $err[] = 'id преподавателя должно быть предстваленна целым числом';
         }
 
-        if(false === array_key_exists('class_id', $requestData)){
+        if (false === array_key_exists('class_id', $requestData)) {
             $err[] = 'отсутствует класс';
-        } elseif (false === is_int($requestData['class_id'])){
+        } elseif (false === is_int($requestData['class_id'])) {
             $err[] = 'id класса должно быть предстваленна целым числом';
         }
 

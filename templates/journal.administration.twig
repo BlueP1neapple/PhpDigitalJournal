@@ -31,10 +31,9 @@
                 <select name="teacher_id" id="lesson_teacher_id">
                     {% for teacher in teachers  %}
                         <option value="{{ teacher.getId }}">
-                            {{ teacher.getFio.0.getName }} {{ teacher.getFio.0.getSurname }}
+                            {{ teacher.fio.0 }} {{ teacher.fio.1 }}
                         </option>
                     {% endfor %}
-
 
                 </select>
             </div>
@@ -55,11 +54,25 @@
             <div>
                 <label for="lesson_date_id">Дата занятия</label>
                 <input type="date" id="lesson_date_id" name="date">
+                {% if formValidationResult.lesson.date is defined %}
+                    <ul>
+                        {% for err in formValidationResult.lesson.date %}
+                            <li>{{ err }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
 
             </div>
             <div>
                 <label for="lesson_time_id">Время проведения</label>
                 <input type="time" id="lesson_time_id" name="time">
+                {% if formValidationResult.lesson.date is defined %}
+                    <ul>
+                        {% for err in formValidationResult.lesson.date %}
+                            <li>{{ err }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
             </div>
             <div>
                 <input type="submit" value="Добавить"/>
@@ -86,7 +99,7 @@
     <tr>
         {% for lesson in lessons %}
             <td> {{ lesson.getItem.getName }} </td>
-            <td> {{ lesson.getTeacher.getFio.0.getSurname }}</td>
+            <td> {{ lesson.getTeacher.fio.0 }}</td>
             <td> {{ lesson.getClass.getLetter }} {{ lesson.getClass.getNumber }}</td>
             <td> {{ lesson.getDate }}</td>
 
@@ -105,7 +118,7 @@
 
                     {% for lesson in lessons  %}
                         <option value="{{ lesson.getId }}">
-                            {{ lesson.getItem.getName}} {{ lesson.getTeacher.getFio.0.getSurname }} {{ lesson.getDate }}
+                            {{ lesson.getItem.getName}} {{ lesson.getTeacher.fio.0 }} {{ lesson.getDate }}
                         </option>
                     {% endfor %}
                 </select>
@@ -116,7 +129,7 @@
 
                     {% for student in students  %}
                         <option value="{{ student.getId }}">
-                            {{ student.getFio.0.surname}} {{ student.getFio.0.name }} {{ student.getClass.getLetter }} {{ student.getClass.getNumber }}
+                            {{ student.fio.0}} {{ student.fio.1 }} {{ student.getClass.getLetter }} {{ student.getClass.getNumber }}
                         </option>
                     {% endfor %}
                 </select>
@@ -155,7 +168,7 @@
         {% for report in reports %}
         <td> {{ report.getLesson.getItem.getName }} </td>
         <td> {{ report.getLesson.getDate }}</td>
-        <td> {{ report.getStudent.getFio.0.getSurname }} </td>
+        <td> {{ report.getStudent.fio.0 }} </td>
         <td> {{ report.getMark }}</td>
 
     </tr>
@@ -178,7 +191,7 @@
                     {% endif %}
             </div>
             <div>
-                <label for="item_description_id">Название предмета</label>
+                <label for="item_description_id">Расшифровка предмета</label>
                 <input type="text" name="description" id="item_description_id" value="">
                 {% if formValidationResult.item.description is defined %}
                     <ul>

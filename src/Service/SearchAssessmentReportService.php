@@ -93,7 +93,7 @@ class SearchAssessmentReportService
                 $teacher->getFio()->getName(),
                 $teacher->getFio()->getPatronymic()
             ],
-            $teacher->getDateOfBirth(),
+            $teacher->getDateOfBirth()->format('Y.m.d'),
             $teacher->getPhone(),
             [
                 $teacher->getAddress()->getStreet(),
@@ -113,7 +113,7 @@ class SearchAssessmentReportService
         $lessonDto = new LessonDto(
             $lesson->getId(),
             $itemDto,
-            $lesson->getDate(),
+            $lesson->getDate()->format('Y.m.d G:i'),
             $lesson->getLessonDuration(),
             $teacherDto,
             $classForLessonDto
@@ -128,7 +128,7 @@ class SearchAssessmentReportService
                     $parent->getFio()->getName(),
                     $parent->getFio()->getPatronymic()
                 ],
-                $parent->getDateOfBirth(),
+                $parent->getDateOfBirth()->format('Y.m.d'),
                 $parent->getPhone(),
                 [
                     $parent->getAddress()->getStreet(),
@@ -153,7 +153,7 @@ class SearchAssessmentReportService
                 $student->getFio()->getName(),
                 $student->getFio()->getPatronymic()
             ],
-            $student->getDateOfBirth(),
+            $student->getDateOfBirth()->format('Y.m.d'),
             $student->getPhone(),
             [
                 $student->getAddress()->getStreet(),

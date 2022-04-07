@@ -7,7 +7,7 @@ use JoJoBizzareCoders\DigitalJournal\Exception\InvalidDataStructureException;
 
     /**
      * Класс Предметов
-     * @ORM\Entity
+     * @ORM\Entity(repositoryClass=\JoJoBizzareCoders\DigitalJournal\Repository\ItemDoctrineRepository::class)
      * @ORM\Table(name="item",
      *     uniqueConstraints={
      *          @ORM\UniqueConstraint(name="item_name_idx", columns={"name"})

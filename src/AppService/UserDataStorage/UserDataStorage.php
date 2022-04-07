@@ -10,17 +10,17 @@ use JoJoBizzareCoders\DigitalJournal\Infrastructure\Auth\UserDataStorageInterfac
 class UserDataStorage implements UserDataStorageInterface
 {
     /**
-     * @var AbstractUserRepositoryInterface[]
+     * @var AbstractUserRepositoryInterface
      */
-    private array $repositories;
+    private AbstractUserRepositoryInterface $repository;
 
 
     /**
-     * @param AbstractUserRepositoryInterface ...$userRepository
+     * @param AbstractUserRepositoryInterface $userRepository
      */
-    public function __construct(AbstractUserRepositoryInterface ...$userRepository)
+    public function __construct(AbstractUserRepositoryInterface $userRepository)
     {
-        $this->repositories = $userRepository;
+        $this->repository = $userRepository;
     }
 
 
@@ -29,14 +29,12 @@ class UserDataStorage implements UserDataStorageInterface
      */
     public function findUserByLogin(string $login): ?UserDataProviderInterface
     {
-        $resultOfRepository = [[]];
-        foreach ($this->repositories as $repository){
-            $resultOfRepository[] = $repository->findBy(['login' => $login]);
+
+        $users = $this->repository->findBy(['login' => $login]);
+
+        if (count($users) > 1) {
+            throw new UnexpectedValueException('Найдено больше 1 пользователя с логином');
         }
-        $users = array_merge(...$resultOfRepository);
-        if(count($users)>1){
-            throw new UnexpectedValueException('');
-        }
-        return 0 === count($users)? null : new UserDataProvider(current($users));
+        return 0 === count($users) ? null : new UserDataProvider(current($users));
     }
 }

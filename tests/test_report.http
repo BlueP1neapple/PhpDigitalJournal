@@ -11,7 +11,7 @@ client.test("Тестирование поиска оценок в дневни�
     client.assert(response.body[0]["lesson"]["item"]["id"]===1,"id предмета не корректен");
     client.assert(response.body[0]["lesson"]["item"]["name"]==="Математика","Название предмета не корректено");
     client.assert(response.body[0]["lesson"]["item"]["description"]==="Математика","Расшифровка предмета не корректено");
-    client.assert(response.body[0]["lesson"]["date"]==="2011.11.10 08:30","Дата занятия не корректно");
+    client.assert(response.body[0]["lesson"]["date"]==="2011.11.10 8:30","Дата занятия не корректно");
     client.assert(response.body[0]["lesson"]["lessonDuration"]===40,"Продолжительность занятия не корректно");
     client.assert(response.body[0]["lesson"]["teacher"]!==undefined,"Нет данных о преподавателе");
     client.assert(response.body[0]["lesson"]["teacher"]["id"]===1,"id преподавателя не корректен");
@@ -68,7 +68,7 @@ client.test("Тестирование поиска оценок в дневни�
     client.assert(response.body[0]["lesson"]["item"]["id"]===1,"id предмета не корректен");
     client.assert(response.body[0]["lesson"]["item"]["name"]==="Математика","Название предмета не корректено");
     client.assert(response.body[0]["lesson"]["item"]["description"]==="Математика","Расшифровка предмета не корректено");
-    client.assert(response.body[0]["lesson"]["date"]==="2011.11.10 08:30","Дата занятия не корректно");
+    client.assert(response.body[0]["lesson"]["date"]==="2011.11.10 8:30","Дата занятия не корректно");
     client.assert(response.body[0]["lesson"]["lessonDuration"]===40,"Продолжительность занятия не корректно");
     client.assert(response.body[0]["lesson"]["teacher"]!==undefined,"Нет данных о преподавателе");
     client.assert(response.body[0]["lesson"]["teacher"]["id"]===1,"id преподавателя не корректен");
@@ -125,7 +125,7 @@ client.test("Тестирование поиска оценок в дневни�
     client.assert(response.body[0]["lesson"]["item"]["id"]===1,"id предмета не корректен");
     client.assert(response.body[0]["lesson"]["item"]["name"]==="Математика","Название предмета не корректено");
     client.assert(response.body[0]["lesson"]["item"]["description"]==="Математика","Расшифровка предмета не корректено");
-    client.assert(response.body[0]["lesson"]["date"]==="2011.11.10 08:30","Дата занятия не корректно");
+    client.assert(response.body[0]["lesson"]["date"]==="2011.11.10 8:30","Дата занятия не корректно");
     client.assert(response.body[0]["lesson"]["lessonDuration"]===40,"Продолжительность занятия не корректно");
     client.assert(response.body[0]["lesson"]["teacher"]!==undefined,"Нет данных о преподавателе");
     client.assert(response.body[0]["lesson"]["teacher"]["id"]===1,"id преподавателя не корректен");
@@ -182,7 +182,7 @@ client.test("Тестирование поиска оценок в дневни�
     client.assert(response.body[0]["lesson"]["item"]["id"]===1,"id предмета не корректен");
     client.assert(response.body[0]["lesson"]["item"]["name"]==="Математика","Название предмета не корректено");
     client.assert(response.body[0]["lesson"]["item"]["description"]==="Математика","Расшифровка предмета не корректено");
-    client.assert(response.body[0]["lesson"]["date"]==="2011.11.10 08:30","Дата занятия не корректно");
+    client.assert(response.body[0]["lesson"]["date"]==="2011.11.10 8:30","Дата занятия не корректно");
     client.assert(response.body[0]["lesson"]["lessonDuration"]===40,"Продолжительность занятия не корректно");
     client.assert(response.body[0]["lesson"]["teacher"]!==undefined,"Нет данных о преподавателе");
     client.assert(response.body[0]["lesson"]["teacher"]["id"]===1,"id преподавателя не корректен");
@@ -239,7 +239,7 @@ client.test("Тестирование поиска оценок в дневни�
     client.assert(response.body[0]["lesson"]["item"]["id"]===1,"id предмета не корректен");
     client.assert(response.body[0]["lesson"]["item"]["name"]==="Математика","Название предмета не корректено");
     client.assert(response.body[0]["lesson"]["item"]["description"]==="Математика","Расшифровка предмета не корректено");
-    client.assert(response.body[0]["lesson"]["date"]==="2011.11.10 08:30","Дата занятия не корректно");
+    client.assert(response.body[0]["lesson"]["date"]==="2011.11.10 8:30","Дата занятия не корректно");
     client.assert(response.body[0]["lesson"]["lessonDuration"]===40,"Продолжительность занятия не корректно");
     client.assert(response.body[0]["lesson"]["teacher"]!==undefined,"Нет данных о преподавателе");
     client.assert(response.body[0]["lesson"]["teacher"]["id"]===1,"id преподавателя не корректен");
@@ -296,7 +296,7 @@ client.test("Тестирование поиска оценок в дневни�
     client.assert(response.body[0]["lesson"]["item"]["id"]===1,"id предмета не корректен");
     client.assert(response.body[0]["lesson"]["item"]["name"]==="Математика","Название предмета не корректено");
     client.assert(response.body[0]["lesson"]["item"]["description"]==="Математика","Расшифровка предмета не корректено");
-    client.assert(response.body[0]["lesson"]["date"]==="2011.11.10 08:30","Дата занятия не корректно");
+    client.assert(response.body[0]["lesson"]["date"]==="2011.11.10 8:30","Дата занятия не корректно");
     client.assert(response.body[0]["lesson"]["lessonDuration"]===40,"Продолжительность занятия не корректно");
     client.assert(response.body[0]["lesson"]["teacher"]!==undefined,"Нет данных о преподавателе");
     client.assert(response.body[0]["lesson"]["teacher"]["id"]===1,"id преподавателя не корректен");
@@ -353,7 +353,7 @@ client.test("Тестирование поиска оценок в дневни�
     client.assert(response.body[0]["lesson"]["item"]["id"]===1,"id предмета не корректен");
     client.assert(response.body[0]["lesson"]["item"]["name"]==="Математика","Название предмета не корректено");
     client.assert(response.body[0]["lesson"]["item"]["description"]==="Математика","Расшифровка предмета не корректено");
-    client.assert(response.body[0]["lesson"]["date"]==="2011.11.10 08:30","Дата занятия не корректно");
+    client.assert(response.body[0]["lesson"]["date"]==="2011.11.10 8:30","Дата занятия не корректно");
     client.assert(response.body[0]["lesson"]["lessonDuration"]===40,"Продолжительность занятия не корректно");
     client.assert(response.body[0]["lesson"]["teacher"]!==undefined,"Нет данных о преподавателе");
     client.assert(response.body[0]["lesson"]["teacher"]["id"]===1,"id преподавателя не корректен");
@@ -462,7 +462,7 @@ client.test("Тестирование поиска оценки по ID",functio
     client.assert(response.body["lesson"]["item"]["id"]===1,"id предмета не корректен");
     client.assert(response.body["lesson"]["item"]["name"]==="Математика","Название предмета не корректено");
     client.assert(response.body["lesson"]["item"]["description"]==="Математика","Расшифровка предмета не корректено");
-    client.assert(response.body["lesson"]["date"]==="2011.11.10 08:30","Дата занятия не корректно");
+    client.assert(response.body["lesson"]["date"]==="2011.11.10 8:30","Дата занятия не корректно");
     client.assert(response.body["lesson"]["lessonDuration"]===40,"Продолжительность занятия не корректно");
     client.assert(response.body["lesson"]["teacher"]!==undefined,"Нет данных о преподавателе");
     client.assert(response.body["lesson"]["teacher"]["id"]===1,"id преподавателя не корректен");

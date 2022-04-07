@@ -2,8 +2,8 @@
 
 namespace JoJoBizzareCoders\DigitalJournal\Service;
 
+use JoJoBizzareCoders\DigitalJournal\Entity\StudentRepositoryInterface;
 use JoJoBizzareCoders\DigitalJournal\Entity\StudentUserClass;
-use JoJoBizzareCoders\DigitalJournal\Entity\UserRepositoryInterface;
 use JoJoBizzareCoders\DigitalJournal\Service\SearchReportAssessmentService\ClassDto;
 use JoJoBizzareCoders\DigitalJournal\Service\SearchReportAssessmentService\ParentDto;
 use JoJoBizzareCoders\DigitalJournal\Service\SearchReportAssessmentService\StudentDto;
@@ -13,14 +13,14 @@ class SearchStudentService
     /**
      * Репозиторий студентов
      *
-     * @var UserRepositoryInterface
+     * @var StudentRepositoryInterface
      */
-    private UserRepositoryInterface $studentRepository;
+    private StudentRepositoryInterface $studentRepository;
 
     /**
-     * @param UserRepositoryInterface $studentRepository
+     * @param StudentRepositoryInterface $studentRepository
      */
-    public function __construct(UserRepositoryInterface $studentRepository)
+    public function __construct(StudentRepositoryInterface $studentRepository)
     {
         $this->studentRepository = $studentRepository;
     }
@@ -30,7 +30,9 @@ class SearchStudentService
         $entitiesCollection = $this->studentRepository->findBy([]);
         $dtoCollection = [];
         foreach ($entitiesCollection as $entity) {
-            $dtoCollection[] = $this->createDto($entity);
+            if ($entity instanceof StudentUserClass) {
+                $dtoCollection[] = $this->createDto($entity);
+            }
         }
         return $dtoCollection;
     }
@@ -44,7 +46,7 @@ class SearchStudentService
                 $entity->getFio()->getSurname(),
                 $entity->getFio()->getPatronymic()
             ],
-            $entity->getDateOfBirth(),
+            $entity->getDateOfBirth()->format('Y-m-d'),
             $entity->getPhone(),
             [
                 $entity->getAddress()->getStreet(),
@@ -72,7 +74,7 @@ class SearchStudentService
                         $parent->getFio()->getSurname(),
                         $parent->getFio()->getPatronymic(),
                     ],
-                    $parent->getDateOfBirth(),
+                    $parent->getDateOfBirth()->format('Y-m-d'),
                     $parent->getPhone(),
                     [
                         $parent->getAddress()->getHome(),

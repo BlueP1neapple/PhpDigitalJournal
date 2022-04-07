@@ -98,7 +98,7 @@ class SearchLessonService
         $teacherDto = new TeacherDto(
             $teacher->getId(),
             [$teacher->getFio()->getSurname(), $teacher->getFio()->getName(),  $teacher->getFio()->getPatronymic()],
-            $teacher->getDateOfBirth(),
+            $teacher->getDateOfBirth()->format('Y.m.d'),
             $teacher->getPhone(),
             $teacherAddressDto,
             $itemDto,
@@ -114,7 +114,7 @@ class SearchLessonService
         return new LessonDto(
             $lesson->getId(),
             $itemDto,
-            $lesson->getDate(),
+            $lesson->getDate()->format('Y.m.d G:i'),
             $lesson->getLessonDuration(),
             $teacherDto,
             $classDto

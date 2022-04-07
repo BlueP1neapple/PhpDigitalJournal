@@ -5,7 +5,7 @@ namespace JoJoBizzareCoders\DigitalJournal\Service;
 use JoJoBizzareCoders\DigitalJournal\Entity\AssessmentReportRepositoryInterface;
 use JoJoBizzareCoders\DigitalJournal\Entity\LessonRepositoryInterface;
 use JoJoBizzareCoders\DigitalJournal\Entity\ReportClass;
-use JoJoBizzareCoders\DigitalJournal\Entity\UserRepositoryInterface;
+use JoJoBizzareCoders\DigitalJournal\Entity\StudentRepositoryInterface;
 use JoJoBizzareCoders\DigitalJournal\Exception\RuntimeException;
 use JoJoBizzareCoders\DigitalJournal\Service\SearchReportAssessmentService\NewAssessmentReportDto;
 use JoJoBizzareCoders\DigitalJournal\Service\SearchReportAssessmentService\ResultRegisteringAssessmentReportDto;
@@ -30,20 +30,20 @@ class NewReportService
     /**
      * Репризиторий для работы с студентами
      *
-     * @var UserRepositoryInterface
+     * @var StudentRepositoryInterface
      */
-    private UserRepositoryInterface $studentRepository;
+    private StudentRepositoryInterface $studentRepository;
 
 
     /**
      * @param AssessmentReportRepositoryInterface $assessmentReportRepository - Репризиторий для работы с оценками
      * @param LessonRepositoryInterface $lessonRepository - Репризиторий для работы с занятиями
-     * @param UserRepositoryInterface $studentRepository - Репризиторий для работы с студентами
+     * @param StudentRepositoryInterface $studentRepository - Репризиторий для работы с студентами
      */
     public function __construct(
         AssessmentReportRepositoryInterface $assessmentReportRepository,
         LessonRepositoryInterface $lessonRepository,
-        UserRepositoryInterface $studentRepository
+        StudentRepositoryInterface $studentRepository
     ) {
         $this->assessmentReportRepository = $assessmentReportRepository;
         $this->lessonRepository = $lessonRepository;
@@ -57,7 +57,8 @@ class NewReportService
      * @return ResultRegisteringAssessmentReportDto
      * @throws JsonException
      */
-    public function registerAssessmentReport(NewAssessmentReportDto $assessmentReportDto): ResultRegisteringAssessmentReportDto
+    public function registerAssessmentReport(NewAssessmentReportDto $assessmentReportDto):
+    ResultRegisteringAssessmentReportDto
     {
         $lessonId = $assessmentReportDto->getLessonId();
         $studentId = $assessmentReportDto->getStudentId();
@@ -81,7 +82,7 @@ class NewReportService
             $student,
             $assessmentReportDto->getMark()
         );
-        $this->assessmentReportRepository->add($entity);
+        $this->assessmentReportRepository->save($entity);
         return new ResultRegisteringAssessmentReportDto(
             $entity->getId()
         );

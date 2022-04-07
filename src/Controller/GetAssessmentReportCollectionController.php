@@ -153,7 +153,7 @@ class GetAssessmentReportCollectionController implements ControllerInterface
                     'name' => $reportDto->getLesson()->getItem()->getName(),
                     'description' => $reportDto->getLesson()->getItem()->getDescription()
                 ],
-                'date' => $reportDto->getLesson()->getDate()->format('Y.m.d H:i'),
+                'date' => $reportDto->getLesson()->getDate(),
                 'lessonDuration' => $reportDto->getLesson()->getLessonDuration(),
                 'teacher' => [
                     'id' => $reportDto->getLesson()->getTeacher()->getId(),
@@ -162,7 +162,7 @@ class GetAssessmentReportCollectionController implements ControllerInterface
                         'name' => $reportDto->getLesson()->getTeacher()->getFio()[1],
                         'patronymic' => $reportDto->getLesson()->getTeacher()->getFio()[2],
                     ],
-                    'dateOfBirth' => $reportDto->getLesson()->getTeacher()->getDateOfBirth()->format('Y.m.d'),
+                    'dateOfBirth' => $reportDto->getLesson()->getTeacher()->getDateOfBirth(),
                     'phone' => $reportDto->getLesson()->getTeacher()->getPhone(),
                     'address' => [
                         'street' => $reportDto->getLesson()->getTeacher()->getAddress()[0],
@@ -190,7 +190,7 @@ class GetAssessmentReportCollectionController implements ControllerInterface
                     'name' => $reportDto->getStudent()->getFio()[1],
                     'patronymic' => $reportDto->getStudent()->getFio()[2]
                 ],
-                'dateOfBirth' => $reportDto->getStudent()->getDateOfBirth()->format('Y.m.d'),
+                'dateOfBirth' => $reportDto->getStudent()->getDateOfBirth(),
                 'phone' => $reportDto->getStudent()->getPhone(),
                 'address' => [
                     'street' => $reportDto->getStudent()->getAddress()[0],
@@ -220,7 +220,7 @@ class GetAssessmentReportCollectionController implements ControllerInterface
                 'email' => $dto->getEmail(),
                 'placeOfWork' => $dto->getPlaceOfWork(),
                 'phone' => $dto->getPhone(),
-                'dateOfBirth' => $dto->getDateOfBirth()->format('Y.m.d'),
+                'dateOfBirth' => $dto->getDateOfBirth(),
                 'fio' => [
                     'surname' => $dto->getFio()[0],
                     'name' => $dto->getFio()[1],

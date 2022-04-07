@@ -2,11 +2,12 @@
 
 namespace JoJoBizzareCoders\DigitalJournal\Service;
 
+use JoJoBizzareCoders\DigitalJournal\Entity\AbstractUserRepositoryInterface;
 use JoJoBizzareCoders\DigitalJournal\Entity\ClassRepositoryInterface;
 use JoJoBizzareCoders\DigitalJournal\Entity\ItemRepositoryInterface;
 use JoJoBizzareCoders\DigitalJournal\Entity\LessonClass;
 use JoJoBizzareCoders\DigitalJournal\Entity\LessonRepositoryInterface;
-use JoJoBizzareCoders\DigitalJournal\Entity\UserRepositoryInterface;
+use JoJoBizzareCoders\DigitalJournal\Entity\TeacherRepositoryInterface;
 use JoJoBizzareCoders\DigitalJournal\Exception\RuntimeException;
 use JoJoBizzareCoders\DigitalJournal\Service\SearchLessonService\NewLessonDto;
 use JoJoBizzareCoders\DigitalJournal\Service\SearchLessonService\ResultRegistrationLessonDto;
@@ -26,9 +27,9 @@ class NewLessonService
     /**
      * Репозиторий учетелей
      *
-     * @var UserRepositoryInterface
+     * @var TeacherRepositoryInterface
      */
-    private UserRepositoryInterface $teacherRepository;
+    private TeacherRepositoryInterface $teacherRepository;
 
     /**
      * Репозиторий предметов
@@ -46,13 +47,13 @@ class NewLessonService
 
     /**
      * @param LessonRepositoryInterface $lessonRepository
-     * @param UserRepositoryInterface $teacherRepository
+     * @param TeacherRepositoryInterface $teacherRepository
      * @param ItemRepositoryInterface $itemRepository
      * @param ClassRepositoryInterface $classRepository
      */
     public function __construct(
         LessonRepositoryInterface $lessonRepository,
-        UserRepositoryInterface $teacherRepository,
+        TeacherRepositoryInterface $teacherRepository,
         ItemRepositoryInterface $itemRepository,
         ClassRepositoryInterface $classRepository
     ) {
@@ -88,10 +89,12 @@ class NewLessonService
         $class = current($classCollection);
 
 
+        $date = \DateTimeImmutable::createFromFormat('Y.m.d G:i', $lessonDto->getDate());
+
         $entity = new LessonClass(
             $this->lessonRepository->nextId(),
             $item,
-            \DateTimeImmutable::createFromFormat('Y-m-d', $lessonDto->getDate()),
+            $date,
             $lessonDto->getLessonDuration(),
             $teacher,
             $class

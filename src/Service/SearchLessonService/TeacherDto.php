@@ -26,9 +26,9 @@ final class TeacherDto
     /**
      * Дата рождения преподавателя
      *
-     * @var DateTimeImmutable
+     * @var string
      */
-    private DateTimeImmutable $dateOfBirth;
+    private string $dateOfBirth;
 
     /**
      * Номер телефона преподавателя
@@ -70,7 +70,7 @@ final class TeacherDto
      *
      * @param int $id - ид преподователя
      * @param array $fio - Фио - преподавателя
-     * @param DateTimeImmutable $dateOfBirth - Дата рождения преподавателя
+     * @param string $dateOfBirth - Дата рождения преподавателя
      * @param string $phone - Номер телефона преподавателя
      * @param AddressDto $address - Адресс проживания преподователя
      * @param ItemDto $item - id предмета Преподавателя
@@ -80,7 +80,7 @@ final class TeacherDto
     public function __construct(
         int $id,
         array $fio,
-        DateTimeImmutable $dateOfBirth,
+        string $dateOfBirth,
         string $phone,
         AddressDto $address,
         ItemDto $item,
@@ -120,9 +120,9 @@ final class TeacherDto
     /**
      * Возвращает Дата рождения преподавателя
      *
-     * @return DateTimeImmutable
+     * @return string
      */
-    public function getDateOfBirth(): DateTimeImmutable
+    public function getDateOfBirth(): string
     {
         return $this->dateOfBirth;
     }

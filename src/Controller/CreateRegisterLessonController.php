@@ -2,6 +2,7 @@
 
 namespace JoJoBizzareCoders\DigitalJournal\Controller;
 
+use Doctrine\ORM\EntityManagerInterface;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Controller\ControllerInterface;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Http\ServerResponseFactory;
 use JoJoBizzareCoders\DigitalJournal\Service\NewLessonService;
@@ -13,6 +14,14 @@ use Throwable;
 
 class CreateRegisterLessonController implements ControllerInterface
 {
+
+    /**
+     * Менеджер сущностей
+     *
+     * @var EntityManagerInterface
+     */
+    private EntityManagerInterface $em;
+
     /**
      * Фабрика для создания http ответов
      *
@@ -30,13 +39,16 @@ class CreateRegisterLessonController implements ControllerInterface
     /**
      * @param NewLessonService $newLessonService
      * @param ServerResponseFactory $serverResponseFactory
+     * @param EntityManagerInterface $em
      */
     public function __construct(
         NewLessonService $newLessonService,
-        ServerResponseFactory $serverResponseFactory
+        ServerResponseFactory $serverResponseFactory,
+        EntityManagerInterface $em
     ) {
         $this->newLessonService = $newLessonService;
         $this->serverResponseFactory = $serverResponseFactory;
+        $this->em = $em;
     }
 
 
@@ -46,6 +58,7 @@ class CreateRegisterLessonController implements ControllerInterface
     public function __invoke(ServerRequestInterface $serverRequest): ResponseInterface
     {
         try {
+            $this->em->beginTransaction();
             $requestData = json_decode($serverRequest->getBody(), true, 20, JSON_THROW_ON_ERROR);
             $validationResult = $this->validationData($requestData);
 
@@ -57,7 +70,10 @@ class CreateRegisterLessonController implements ControllerInterface
                 $httpCode = 400;
                 $jsonData = ['status' => 'fail', 'massage' => implode('. ', $validationResult)];
             }
+            $this->em->commit();
+            $this->em->flush();
         } catch (Throwable $e) {
+            $this->em->rollBack();
             $httpCode = 500;
             $jsonData = ['status' => 'fail', 'massage' => $e->getMessage()];
         }

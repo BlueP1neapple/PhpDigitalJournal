@@ -20,8 +20,8 @@ class StudentUserClass extends AbstractUserClass
 {
     /**
      *  класс ученика
-     * @ORM\OneToOne(targetEntity=\JoJoBizzareCoders\DigitalJournal\Entity\ClassClass::class)
-     * @ORM\JoinColumn(name="class_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity=\JoJoBizzareCoders\DigitalJournal\Entity\ClassClass::class)
+     * @ORM\JoinColumn(name="class_id", referencedColumnName="id", nullable=false)
      */
     private ClassClass $class;
 

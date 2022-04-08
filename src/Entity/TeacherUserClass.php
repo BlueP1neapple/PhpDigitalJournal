@@ -9,7 +9,14 @@ namespace JoJoBizzareCoders\DigitalJournal\Entity;
     /**
      * Класс Учителя
      * @ORM\Entity
-     * @ORM\Table(name="teachers")
+     * @ORM\Table(
+     *     name="teachers",
+     *     uniqueConstraints={
+     *          @ORM\uniqueConstraint(name="teacher_cabinet_unq", columns={"cabinet"}),
+     *          @ORM\uniqueConstraint(name="teacher_email_unq", columns={"email"}),
+     *          @ORM\uniqueConstraint(name="teacher_id_item_unq", columns={"item_id"})
+     *     }
+    )
      */
 class TeacherUserClass extends AbstractUserClass
 {

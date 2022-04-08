@@ -53,7 +53,7 @@ abstract class AbstractUserClass
      * День Рождения пользователя
      *
      * @var DateTimeImmutable
-     * @ORM\Column(name="date_of_birth", type="datetime_immutable")
+     * @ORM\Column(name="date_of_birth", type="date_immutable")
      */
     private DateTimeImmutable $dateOfBirth;
 

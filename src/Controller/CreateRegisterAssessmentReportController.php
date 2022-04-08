@@ -2,6 +2,7 @@
 
 namespace JoJoBizzareCoders\DigitalJournal\Controller;
 
+use Doctrine\ORM\EntityManagerInterface;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Controller\ControllerInterface;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Http\ServerResponseFactory;
 use JoJoBizzareCoders\DigitalJournal\Service\NewReportService;
@@ -14,6 +15,13 @@ use Throwable;
 class CreateRegisterAssessmentReportController implements
     ControllerInterface
 {
+    /**
+     * Менеджер сущностей
+     *
+     * @var EntityManagerInterface
+     */
+    private EntityManagerInterface $em;
+
     /**
      * Фабрика для создания http ответов
      *
@@ -31,13 +39,16 @@ class CreateRegisterAssessmentReportController implements
     /**
      * @param NewReportService $reportService - Сервис по добавдению новой оценки
      * @param ServerResponseFactory $serverResponseFactory
+     * @param EntityManagerInterface $em
      */
     public function __construct(
         NewReportService $reportService,
-        ServerResponseFactory $serverResponseFactory
+        ServerResponseFactory $serverResponseFactory,
+        EntityManagerInterface $em
     ) {
         $this->reportService = $reportService;
         $this->serverResponseFactory = $serverResponseFactory;
+        $this->em = $em;
     }
 
 
@@ -47,6 +58,7 @@ class CreateRegisterAssessmentReportController implements
     public function __invoke(ServerRequestInterface $serverRequest): ResponseInterface
     {
         try {
+            $this->em->beginTransaction();
             $requestData = json_decode($serverRequest->getBody(), true, 10, JSON_THROW_ON_ERROR);
             $validationResult = $this->validateData($requestData);
             if (0 === count($validationResult)) {
@@ -60,7 +72,10 @@ class CreateRegisterAssessmentReportController implements
                     'message' => implode('. ', $validationResult)
                 ];
             }
+            $this->em->flush();
+            $this->em->commit();
         } catch (Throwable $e) {
+            $this->em->rollBack();
             $httpCode = 500;
             $jsonData = [
                 'status' => 'fail',

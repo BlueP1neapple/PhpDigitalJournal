@@ -24,14 +24,14 @@ final class ReportClass
 
     /**
      * @var LessonClass Урок на котором получена оценка
-     * @ORM\OneToOne(targetEntity=\JoJoBizzareCoders\DigitalJournal\Entity\LessonClass::class)
+     * @ORM\ManyToOne(targetEntity=\JoJoBizzareCoders\DigitalJournal\Entity\LessonClass::class)
      * @ORM\JoinColumn(name="lesson_id", referencedColumnName="id")
      */
     private LessonClass $lesson;
 
     /**
      * @var StudentUserClass Ученик
-     * @ORM\OneToOne(targetEntity=\JoJoBizzareCoders\DigitalJournal\Entity\StudentUserClass::class)
+     * @ORM\ManyToOne(targetEntity=\JoJoBizzareCoders\DigitalJournal\Entity\StudentUserClass::class)
      * @ORM\JoinColumn(name="student_id", referencedColumnName="id")
      */
     private StudentUserClass $student;

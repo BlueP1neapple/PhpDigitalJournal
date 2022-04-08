@@ -2,6 +2,7 @@
 
 namespace JoJoBizzareCoders\DigitalJournal\Controller;
 
+use Doctrine\ORM\EntityManagerInterface;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Controller\ControllerInterface;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Http\ServerResponseFactory;
 use JoJoBizzareCoders\DigitalJournal\Service\NewItemService;
@@ -13,6 +14,12 @@ use Throwable;
 
 class CreateRegisterItemController implements ControllerInterface
 {
+    /**
+     * Менеджер сущностей
+     *
+     * @var EntityManagerInterface
+     */
+    private EntityManagerInterface $em;
     /**
      * Сервис создания Предметов
      *
@@ -31,18 +38,22 @@ class CreateRegisterItemController implements ControllerInterface
     /**
      * @param NewItemService $newItemService
      * @param ServerResponseFactory $serverResponseFactory
+     * @param EntityManagerInterface $em
      */
-    public function __construct(NewItemService $newItemService,
-        ServerResponseFactory $serverResponseFactory
-    )
-    {
+    public function __construct(
+        NewItemService $newItemService,
+        ServerResponseFactory $serverResponseFactory,
+        EntityManagerInterface $em
+    ) {
         $this->newItemService = $newItemService;
         $this->serverResponseFactory = $serverResponseFactory;
+        $this->em = $em;
     }
 
     public function __invoke(ServerRequestInterface $serverRequest): ResponseInterface
     {
         try {
+            $this->em->beginTransaction();
             $requestData = json_decode($serverRequest->getBody(), true, 10, JSON_THROW_ON_ERROR);
             $validationResult = $this->validateData($requestData);
             if (0 === count($validationResult)) {
@@ -56,7 +67,10 @@ class CreateRegisterItemController implements ControllerInterface
                     'message' => implode('. ', $validationResult)
                 ];
             }
+            $this->em->commit();
+            $this->em->flush();
         } catch (Throwable $e) {
+            $this->em->rollBack();
             $httpCode = 500;
             $jsonData = [
                 'status' => 'fail',
@@ -124,5 +138,4 @@ class CreateRegisterItemController implements ControllerInterface
         }
         return $err;
     }
-
 }

@@ -26,7 +26,7 @@ class LessonClass
     /**
      * Предмет
      * @var ItemClass
-     * @ORM\OneToOne(targetEntity=\JoJoBizzareCoders\DigitalJournal\Entity\ItemClass::class)
+     * @ORM\ManyToOne(targetEntity=\JoJoBizzareCoders\DigitalJournal\Entity\ItemClass::class)
      * @ORM\JoinColumn(name="item_id", referencedColumnName="id")
      */
     private ItemClass $item;
@@ -45,14 +45,14 @@ class LessonClass
 
     /**
      * @var TeacherUserClass Преподаватель
-     * @ORM\OneToOne(targetEntity=\JoJoBizzareCoders\DigitalJournal\Entity\TeacherUserClass::class)
+     * @ORM\ManyToOne(targetEntity=\JoJoBizzareCoders\DigitalJournal\Entity\TeacherUserClass::class)
      * @ORM\JoinColumn(name="teacher_id", referencedColumnName="id")
      */
     private TeacherUserClass $teacher;
 
     /**
      * @var ClassClass Класс
-     * @ORM\OneToOne(targetEntity=\JoJoBizzareCoders\DigitalJournal\Entity\ClassClass::class)
+     * @ORM\ManyToOne(targetEntity=\JoJoBizzareCoders\DigitalJournal\Entity\ClassClass::class)
      * @ORM\JoinColumn(name="class_id", referencedColumnName="id")
      */
     private ClassClass $class;

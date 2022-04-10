@@ -1,21 +1,3 @@
-### Тестирование добавления урока
-POST http://localhost:8000/lesson/register
-Content-Type: application/json
-
-{
-  "item_id": 1,
-  "date": "2222.11.10 4:20",
-  "lessonDuration": 40,
-  "teacher_id": 1,
-  "class_id": 1
-}
-
-> {%
-client.test("Тестирование возможности смотреть расписание по названию предмета",function (){
-   client.assert(response.status===201, "Проверяю код ответа. Ожидаю код 201. Фактический код: "+response.status);
-
-});
-%}
 ### Тестирование возможности смотреть расписание по названию предмета
 GET http://localhost:8000/lesson?item_name=Математика
 
@@ -170,7 +152,7 @@ client.test("Тестирование возможности смотреть р
 GET http://localhost:8000/lesson?teacher_fio_patronymic=Сергеевна
 
 > {%
-client.test("Тестирование возможности смотреть расписание по teacher_fio",function (){
+client.test("Тестирование возможности смотреть расписание по отчеству преподавателя",function (){
     client.assert(response.status===200, "Проверяю код ответа. Ожидаю код 200. Фактический код: "+response.status);
     client.assert(response.contentType.mimeType==="application/json", "Ожидаю application/json. Фактически: "+response.contentType.mimeType);
     client.assert(response.body[0]["id"]===1,"id урока не корректен");
@@ -200,7 +182,7 @@ client.test("Тестирование возможности смотреть р
 GET http://localhost:8000/lesson?teacher_cabinet=56
 
 > {%
-client.test("Тестирование возможности смотреть расписание по teacher_cabinet",function (){
+client.test("Тестирование возможности смотреть расписание по кабинету преподавателя",function (){
     client.assert(response.status===200, "Проверяю код ответа. Ожидаю код 200. Фактический код: "+response.status);
     client.assert(response.contentType.mimeType==="application/json", "Ожидаю application/json. Фактически: "+response.contentType.mimeType);
     client.assert(response.body[0]["id"]===1,"id урока не корректен");
@@ -230,7 +212,7 @@ client.test("Тестирование возможности смотреть р
 GET http://localhost:8000/lesson?class_number=6
 
 > {%
-client.test("Тестирование возможности смотреть расписание по class_number",function (){
+client.test("Тестирование возможности смотреть расписание по номеру класса",function (){
     client.assert(response.status===200, "Проверяю код ответа. Ожидаю код 200. Фактический код: "+response.status);
     client.assert(response.contentType.mimeType==="application/json", "Ожидаю application/json. Фактически: "+response.contentType.mimeType);
     client.assert(response.body[0]["id"]===1,"id урока не корректен");
@@ -260,7 +242,7 @@ client.test("Тестирование возможности смотреть р
 GET http://localhost:8000/lesson?class_letter=А
 
 > {%
-client.test("Тестирование возможности смотреть расписание по class_letter",function (){
+client.test("Тестирование возможности смотреть расписание по букве класса",function (){
     client.assert(response.status===200, "Проверяю код ответа. Ожидаю код 200. Фактический код: "+response.status);
     client.assert(response.contentType.mimeType==="application/json", "Ожидаю application/json. Фактически: "+response.contentType.mimeType);
     client.assert(response.body[0]["id"]===1,"id урока не корректен");
@@ -290,7 +272,7 @@ client.test("Тестирование возможности смотреть р
 GET http://localhost:8000/hhh?param=ru
 
 > {%
-client.test("Тестирование неподдерживаемого запроса",function ()
+client.test("Тестирование неподдерживаемого приложением URL",function ()
 {
     client.assert(response.status=== 404, "Проверяю код ответа. Ожидаю код 404. Фактическое значение: " + response.status);
     client.assert(response.contentType.mimeType==="application/json", "Ожидаю application/type фактически " + response.contentType.mimeType);
@@ -394,7 +376,7 @@ client.test("Тестирование некорреткного ввода бу
 GET http://localhost:8000/?param=ru
 
 > {%
-client.test("Тестирование неподдерживаемого запроса",function ()
+client.test("Тестирование запроса без path",function ()
 {
     client.assert(response.status=== 404, "Проверяю код ответа. Ожидаю код 404. Фактическое значение: " + response.status);
     client.assert(response.contentType.mimeType==="application/json", "Ожидаю application/type фактически " + response.contentType.mimeType);

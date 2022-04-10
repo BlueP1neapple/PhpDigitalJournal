@@ -2,18 +2,32 @@
 
 namespace JoJoBizzareCoders\DigitalJournal\Controller;
 
+use Doctrine\ORM\EntityManagerInterface;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Controller\ControllerInterface;
-use JoJoBizzareCoders\DigitalJournal\Infrastructure\Http\HttpResponse;
-use JoJoBizzareCoders\DigitalJournal\Infrastructure\Http\ServerRequest;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Http\ServerResponseFactory;
 use JoJoBizzareCoders\DigitalJournal\Service\NewReportService;
 use JoJoBizzareCoders\DigitalJournal\Service\SearchReportAssessmentService\NewAssessmentReportDto;
 use JoJoBizzareCoders\DigitalJournal\Service\SearchReportAssessmentService\ResultRegisteringAssessmentReportDto;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Throwable;
 
 class CreateRegisterAssessmentReportController implements
     ControllerInterface
 {
+    /**
+     * Менеджер сущностей
+     *
+     * @var EntityManagerInterface
+     */
+    private EntityManagerInterface $em;
+
+    /**
+     * Фабрика для создания http ответов
+     *
+     * @var ServerResponseFactory
+     */
+    private ServerResponseFactory $serverResponseFactory;
 
     /**
      * Сервис по добавдению новой оценки
@@ -24,40 +38,51 @@ class CreateRegisterAssessmentReportController implements
 
     /**
      * @param NewReportService $reportService - Сервис по добавдению новой оценки
+     * @param ServerResponseFactory $serverResponseFactory
+     * @param EntityManagerInterface $em
      */
-    public function __construct(NewReportService $reportService)
-    {
+    public function __construct(
+        NewReportService $reportService,
+        ServerResponseFactory $serverResponseFactory,
+        EntityManagerInterface $em
+    ) {
         $this->reportService = $reportService;
+        $this->serverResponseFactory = $serverResponseFactory;
+        $this->em = $em;
     }
 
 
     /**
      * @inheritDoc
      */
-    public function __invoke(ServerRequest $serverRequest): HttpResponse
+    public function __invoke(ServerRequestInterface $serverRequest): ResponseInterface
     {
-        try{
+        try {
+            $this->em->beginTransaction();
             $requestData = json_decode($serverRequest->getBody(), true, 10, JSON_THROW_ON_ERROR);
             $validationResult = $this->validateData($requestData);
-            if(0 === count($validationResult)){
+            if (0 === count($validationResult)) {
                 $responseDto = $this->runService($requestData);
                 $httpCode = 201;
                 $jsonData = $this->buildJsonData($responseDto);
-            }else{
+            } else {
                 $httpCode = 400;
                 $jsonData = [
                     'status' => 'fail',
                     'message' => implode('. ', $validationResult)
                 ];
             }
-        }catch (Throwable $e){
+            $this->em->flush();
+            $this->em->commit();
+        } catch (Throwable $e) {
+            $this->em->rollBack();
             $httpCode = 500;
             $jsonData = [
                 'status' => 'fail',
                 'message' => $e->getMessage()
             ];
         }
-        return ServerResponseFactory::createJsonResponse($httpCode, $jsonData);
+        return $this->serverResponseFactory->createJsonResponse($httpCode, $jsonData);
     }
 
     /**
@@ -66,7 +91,7 @@ class CreateRegisterAssessmentReportController implements
      * @param array $requestData
      * @return ResultRegisteringAssessmentReportDto
      */
-    private function runService(array $requestData):ResultRegisteringAssessmentReportDto
+    private function runService(array $requestData): ResultRegisteringAssessmentReportDto
     {
         $requestDto = new NewAssessmentReportDto(
             $requestData['lesson_id'],
@@ -82,10 +107,10 @@ class CreateRegisterAssessmentReportController implements
      * @param ResultRegisteringAssessmentReportDto $responseDto
      * @return void
      */
-    private function buildJsonData(ResultRegisteringAssessmentReportDto $responseDto):array
+    private function buildJsonData(ResultRegisteringAssessmentReportDto $responseDto): array
     {
         return [
-            'id'=>$responseDto->getId()
+            'id' => $responseDto->getId()
         ];
     }
 
@@ -95,12 +120,12 @@ class CreateRegisterAssessmentReportController implements
      * @param $requestData
      * @return array
      */
-    private function validateData($requestData):array
+    private function validateData($requestData): array
     {
         $err = [];
-        if(false === is_array($requestData)){
+        if (false === is_array($requestData)) {
             $err[] = 'Данные о новой оценке не являються массивом';
-        }else{
+        } else {
             if (false === array_key_exists('lesson_id', $requestData)) {
                 $err[] = 'Отсутсвует информация о занятии';
             } elseif (false === is_int($requestData['lesson_id'])) {
@@ -117,11 +142,10 @@ class CreateRegisterAssessmentReportController implements
                 $err[] = 'Отсутсвует информация о оценке';
             } elseif (false === is_int($requestData['mark'])) {
                 $err[] = 'Значение оценки должно быть целым числом';
-            }elseif (0 >= $requestData['mark'] || $requestData['mark'] > 5){
+            } elseif (0 >= $requestData['mark'] || $requestData['mark'] > 5) {
                 $err[] = 'Значение оценки не должно быть меньше 0, быть равным 0 или быть больше 5';
             }
         }
         return $err;
     }
-
 }

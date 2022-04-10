@@ -4,7 +4,6 @@ namespace JoJoBizzareCoders\DigitalJournal\Service;
 
 use JoJoBizzareCoders\DigitalJournal\Entity\AssessmentReportRepositoryInterface;
 use JoJoBizzareCoders\DigitalJournal\Entity\ReportClass;
-use JoJoBizzareCoders\DigitalJournal\Infrastructure\Logger\LoggerInterface;
 use JoJoBizzareCoders\DigitalJournal\Service\SearchReportAssessmentService\ClassDto;
 use JoJoBizzareCoders\DigitalJournal\Service\SearchReportAssessmentService\ItemDto;
 use JoJoBizzareCoders\DigitalJournal\Service\SearchReportAssessmentService\LessonDto;
@@ -13,6 +12,7 @@ use JoJoBizzareCoders\DigitalJournal\Service\SearchReportAssessmentService\Asses
 use JoJoBizzareCoders\DigitalJournal\Service\SearchReportAssessmentService\ParentDto;
 use JoJoBizzareCoders\DigitalJournal\Service\SearchReportAssessmentService\SearchReportAssessmentCriteria;
 use JoJoBizzareCoders\DigitalJournal\Service\SearchReportAssessmentService\StudentDto;
+use Psr\Log\LoggerInterface;
 
 /**
  * Сервис поиска оценок
@@ -57,6 +57,10 @@ class SearchAssessmentReportService
     public function search(SearchReportAssessmentCriteria $searchCriteria): array
     {
         $criteria = $this->searchCriteriaForArray($searchCriteria);
+        if (array_key_exists('id', $criteria)) {
+            $criteria['report_id'] = $criteria['id'];
+            unset($criteria['id']);
+        }
         $entitiesCollection = $this->assessmentReportRepository->findBy($criteria);
         $dtoCollection = [];
         foreach ($entitiesCollection as $entity) {
@@ -84,10 +88,18 @@ class SearchAssessmentReportService
         $teacher = $lesson->getTeacher();
         $teacherDto = new TeacherDto(
             $teacher->getId(),
-            $teacher->getFio(),
-            $teacher->getDateOfBirth(),
+            [
+                $teacher->getFio()->getSurname(),
+                $teacher->getFio()->getName(),
+                $teacher->getFio()->getPatronymic()
+            ],
+            $teacher->getDateOfBirth()->format('Y.m.d'),
             $teacher->getPhone(),
-            $teacher->getAddress(),
+            [
+                $teacher->getAddress()->getStreet(),
+                $teacher->getAddress()->getHome(),
+                $teacher->getAddress()->getApartment()
+            ],
             $itemDto,
             $teacher->getCabinet(),
             $teacher->getEmail()
@@ -101,22 +113,33 @@ class SearchAssessmentReportService
         $lessonDto = new LessonDto(
             $lesson->getId(),
             $itemDto,
-            $lesson->getDate(),
+            $lesson->getDate()->format('Y.m.d G:i'),
             $lesson->getLessonDuration(),
             $teacherDto,
             $classForLessonDto
         );
         $student = $report->getStudent();
-        $parent = $student->getParent();
-        $parentDto = new ParentDto(
-            $parent->getId(),
-            $parent->getFio(),
-            $parent->getDateOfBirth(),
-            $parent->getPhone(),
-            $parent->getAddress(),
-            $parent->getPlaceOfWork(),
-            $parent->getEmail()
-        );
+        $parents = $student->getParents();
+        foreach ($parents as $parent) {
+            $parentDto[] = new ParentDto(
+                $parent->getId(),
+                [
+                    $parent->getFio()->getSurname(),
+                    $parent->getFio()->getName(),
+                    $parent->getFio()->getPatronymic()
+                ],
+                $parent->getDateOfBirth()->format('Y.m.d'),
+                $parent->getPhone(),
+                [
+                    $parent->getAddress()->getStreet(),
+                    $parent->getAddress()->getHome(),
+                    $parent->getAddress()->getApartment()
+                ],
+                $parent->getPlaceOfWork(),
+                $parent->getEmail()
+            );
+        }
+
         $classForStudent = $student->getClass();
         $classForStudentDto = new ClassDto(
             $classForStudent->getId(),
@@ -125,10 +148,18 @@ class SearchAssessmentReportService
         );
         $studentDto = new StudentDto(
             $student->getId(),
-            $student->getFio(),
-            $student->getDateOfBirth(),
+            [
+                $student->getFio()->getSurname(),
+                $student->getFio()->getName(),
+                $student->getFio()->getPatronymic()
+            ],
+            $student->getDateOfBirth()->format('Y.m.d'),
             $student->getPhone(),
-            $student->getAddress(),
+            [
+                $student->getAddress()->getStreet(),
+                $student->getAddress()->getHome(),
+                $student->getAddress()->getApartment()
+            ],
             $classForStudentDto,
             $parentDto
         );
@@ -146,18 +177,18 @@ class SearchAssessmentReportService
      * @param SearchReportAssessmentCriteria $searchCriteria - - критерии поиска
      * @return array
      */
-    private function searchCriteriaForArray(SearchReportAssessmentCriteria $searchCriteria):array
+    private function searchCriteriaForArray(SearchReportAssessmentCriteria $searchCriteria): array
     {
         $criteriaForRepository = [
-            'item_name'=>$searchCriteria->getItemName(),
-            'item_description'=>$searchCriteria->getItemDescription(),
-            'lesson_date'=>$searchCriteria->getLessonDate(),
-            'student_fio_surname'=>$searchCriteria->getStudentSurname(),
-            'student_fio_name'=>$searchCriteria->getStudentName(),
-            'student_fio_patronymic'=>$searchCriteria->getStudentPatronymic(),
-            'id'=>$searchCriteria->getId()
+            'item_name' => $searchCriteria->getItemName(),
+            'item_description' => $searchCriteria->getItemDescription(),
+            'lesson_date' => $searchCriteria->getLessonDate(),
+            'student_fio_surname' => $searchCriteria->getStudentSurname(),
+            'student_fio_name' => $searchCriteria->getStudentName(),
+            'student_fio_patronymic' => $searchCriteria->getStudentPatronymic(),
+            'id' => $searchCriteria->getId()
         ];
-        return array_filter($criteriaForRepository, static function ($v):bool{
+        return array_filter($criteriaForRepository, static function ($v): bool {
             return null !== $v;
         });
     }

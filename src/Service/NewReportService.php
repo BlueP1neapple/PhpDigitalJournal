@@ -57,34 +57,34 @@ class NewReportService
      * @return ResultRegisteringAssessmentReportDto
      * @throws JsonException
      */
-    public function registerAssessmentReport(NewAssessmentReportDto $assessmentReportDto):ResultRegisteringAssessmentReportDto
+    public function registerAssessmentReport(NewAssessmentReportDto $assessmentReportDto):
+    ResultRegisteringAssessmentReportDto
     {
         $lessonId = $assessmentReportDto->getLessonId();
         $studentId = $assessmentReportDto->getStudentId();
-        $lessonsCollection = $this->lessonRepository->findBy(['id'=>$lessonId]);
-        $studentsCollection = $this->studentRepository->findBy(['id'=>$studentId]);
-        if(1!==count($lessonsCollection)){
+        $lessonsCollection = $this->lessonRepository->findBy(['id' => $lessonId]);
+        $studentsCollection = $this->studentRepository->findBy(['id' => $studentId]);
+        if (1 !== count($lessonsCollection)) {
             throw new RuntimeException(
                 "Нельзя зарегестрировать оценку с lesson_id='$lessonId'. Занятие с данным id не найден"
             );
         }
-        if(1!==count($studentsCollection)){
+        if (1 !== count($studentsCollection)) {
             throw new RuntimeException(
                 "Нельзя зарегестрировать оценку с student_id='$studentId'. Студент с данным id не найден"
             );
         }
-        $lesson=current($lessonsCollection);
-        $student=current($studentsCollection);
+        $lesson = current($lessonsCollection);
+        $student = current($studentsCollection);
         $entity = new ReportClass(
             $this->assessmentReportRepository->nextId(),
             $lesson,
             $student,
             $assessmentReportDto->getMark()
         );
-        $this->assessmentReportRepository->add($entity);
+        $this->assessmentReportRepository->save($entity);
         return new ResultRegisteringAssessmentReportDto(
             $entity->getId()
         );
     }
-
 }

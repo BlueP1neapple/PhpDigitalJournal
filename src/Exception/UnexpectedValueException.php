@@ -1,11 +1,12 @@
 <?php
 
-    namespace JoJoBizzareCoders\DigitalJournal\Exception;
+namespace JoJoBizzareCoders\DigitalJournal\Exception;
 
-    /**
-     * Выбрасывает исключение, если значение не совпадает с набором значений
-     */
-    class UnexpectedValueException extends \UnexpectedValueException implements ExceptionInterface
-    {
+use JoJoBizzareCoders\DigitalJournal\Infrastructure\Exception as BaseException;
 
-    }
+/**
+ * Выбрасывает исключение, если значение не совпадает с набором значений
+ */
+class UnexpectedValueException extends BaseException\UnexpectedValueException implements ExceptionInterface
+{
+}

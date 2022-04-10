@@ -10,7 +10,6 @@ use JoJoBizzareCoders\DigitalJournal\Service\SearchReportAssessmentService\Stude
 
 class SearchStudentService
 {
-
     /**
      * Репозиторий студентов
      *
@@ -26,38 +25,66 @@ class SearchStudentService
         $this->studentRepository = $studentRepository;
     }
 
-    public function search():array
+    public function search(): array
     {
         $entitiesCollection = $this->studentRepository->findBy([]);
         $dtoCollection = [];
-        foreach ($entitiesCollection as $entity){
-            $dtoCollection[] = $this->createDto($entity);
+        foreach ($entitiesCollection as $entity) {
+            if ($entity instanceof StudentUserClass) {
+                $dtoCollection[] = $this->createDto($entity);
+            }
         }
         return $dtoCollection;
     }
 
-    private function createDto(StudentUserClass $entity):StudentDto
+    private function createDto(StudentUserClass $entity): StudentDto
     {
         return new StudentDto(
             $entity->getId(),
-            $entity->getFio(),
-            $entity->getDateOfBirth(),
+            [
+                $entity->getFio()->getName(),
+                $entity->getFio()->getSurname(),
+                $entity->getFio()->getPatronymic()
+            ],
+            $entity->getDateOfBirth()->format('Y-m-d'),
             $entity->getPhone(),
-            $entity->getAddress(),
+            [
+                $entity->getAddress()->getStreet(),
+                $entity->getAddress()->getHome(),
+                $entity->getAddress()->getApartment()
+            ],
             new ClassDto(
                 $entity->getClass()->getId(),
                 $entity->getClass()->getNumber(),
                 $entity->getClass()->getLetter()
             ),
-            new ParentDto(
-                $entity->getParent()->getId(),
-                $entity->getParent()->getFio(),
-                $entity->getParent()->getDateOfBirth(),
-                $entity->getParent()->getPhone(),
-                $entity->getParent()->getAddress(),
-                $entity->getParent()->getPlaceOfWork(),
-                $entity->getParent()->getEmail()
-            )
+            $this->createArrayParentDto($entity)
         );
+    }
+
+    private function createArrayParentDto(StudentUserClass $entity): array
+    {
+        $parents = [];
+        foreach ($entity->getParents() as $parent) {
+            $parents[] =
+                new ParentDto(
+                    $parent->getId(),
+                    [
+                        $parent->getFio()->getName(),
+                        $parent->getFio()->getSurname(),
+                        $parent->getFio()->getPatronymic(),
+                    ],
+                    $parent->getDateOfBirth()->format('Y-m-d'),
+                    $parent->getPhone(),
+                    [
+                        $parent->getAddress()->getHome(),
+                        $parent->getAddress()->getStreet(),
+                        $parent->getAddress()->getApartment()
+                    ],
+                    $parent->getPlaceOfWork(),
+                    $parent->getEmail(),
+                );
+        }
+        return $parents;
     }
 }

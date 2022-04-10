@@ -2,7 +2,15 @@
 
 namespace JoJoBizzareCoders\DigitalJournal\Entity;
 
-interface ParentRepositoryInterface extends UserRepositoryInterface
+interface ParentRepositoryInterface extends AbstractUserRepositoryInterface
 {
+
+    /**
+     * Поиск сущностей по заданным критериям
+     *
+     * @param array $criteria - заданные критерия
+     * @return array
+     */
+    public function findBy(array $criteria):array;
 
 }

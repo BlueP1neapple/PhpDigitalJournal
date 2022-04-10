@@ -1,18 +1,42 @@
 <?php
+
 namespace JoJoBizzareCoders\DigitalJournal\Entity;
 
+use DateTimeImmutable;
+use Doctrine\ORM\Mapping as ORM;
 use JoJoBizzareCoders\DigitalJournal\ValueObject\Address;
 use JoJoBizzareCoders\DigitalJournal\ValueObject\Fio;
 
-
 /**
  * Класс пользователя
+ *
+ * @ORM\Entity(repositoryClass=\JoJoBizzareCoders\DigitalJournal\Repository\UserDoctrineRepository::class)
+ * @ORM\Table(name="users",
+ *     indexes={
+ *          @ORM\Index(name="users_login_unq", columns={"login"}),
+ *          @ORM\Index(name="users_surname_idx", columns={"surname"}),
+ *          @ORM\Index(name="users_type_idx", columns={"type"})
+ *     }
+ *  )
+ * @ORM\InheritanceType("JOINED")
+ * @ORM\DiscriminatorColumn(name="type", type="string", length=100)
+ * @ORM\DiscriminatorMap(
+ *     {
+ *     "Teacher" = \JoJoBizzareCoders\DigitalJournal\Entity\TeacherUserClass::class,
+ *     "Parent" = \JoJoBizzareCoders\DigitalJournal\Entity\ParentUserClass::class,
+ *     "Student" = \JoJoBizzareCoders\DigitalJournal\Entity\StudentUserClass::class
+ *     }
+ * )
  */
 abstract class AbstractUserClass
 {
     /**
      * Id пользователя
      *
+     * @ORM\Id
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\SequenceGenerator(sequenceName="users_id_seq")
      * @var int
      */
     private int $id;
@@ -20,35 +44,40 @@ abstract class AbstractUserClass
     /**
      * ФИО пользователя
      *
-     * @var Fio[]
+     * @var Fio
+     * @ORM\Embedded(class=\JoJoBizzareCoders\DigitalJournal\ValueObject\Fio::class, columnPrefix=false)
      */
-    private array $fio;
+    private Fio $fio;
 
     /**
      * День Рождения пользователя
      *
-     * @var string
+     * @var DateTimeImmutable
+     * @ORM\Column(name="date_of_birth", type="date_immutable")
      */
-    private string $dateOfBirth;
+    private DateTimeImmutable $dateOfBirth;
 
     /**
      * Номер телефона пользователя
      *
      * @var string
+     * @ORM\Column(name="phone", type="string", length=15, nullable=false)
      */
     private string $phone;
 
     /**
      * Адресс пользователя
      *
-     * @var Address[]
+     * @var Address
+     * @ORM\Embedded(class=\JoJoBizzareCoders\DigitalJournal\ValueObject\Address::class, columnPrefix=false)
      */
-    private array $address;
+    private Address $address;
 
     /**
      * Логин пользователя
      *
      * @var string
+     * @ORM\Column(name="login", type="string", length=255, nullable=false)
      */
     private string $login;
 
@@ -56,19 +85,31 @@ abstract class AbstractUserClass
      * Пароль пользователя
      *
      * @var string
+     * @ORM\Column(name="password", type="string", length=255, nullable=false)
      */
     private string $password;
+
+
     /**
      * Конструктор Пользователя
      *
      * @param int $id - Id пользователя
-     * @param array $fio - ФИО пользователя
-     * @param string $dateOfBirth - Дата рождения Пользователя
+     * @param Fio $fio - ФИО пользователя
+     * @param DateTimeImmutable $dateOfBirth - Дата рождения Пользователя
      * @param string $phone - Номер телефона Пользователя
-     * @param array $address - Домашний адресс пользователя
+     * @param Address $address - Домашний адресс пользователя
+     * @param string $login - логин пользователя
+     * @param string $password - пароль пользователя
      */
-    public function __construct(int $id, array $fio, string $dateOfBirth, string $phone, array $address,string $login, string $password)
-    {
+    public function __construct(
+        int $id,
+        Fio $fio,
+        DateTimeImmutable $dateOfBirth,
+        string $phone,
+        Address $address,
+        string $login,
+        string $password
+    ) {
         $this->id = $id;
         $this->fio = $fio;
         $this->dateOfBirth = $dateOfBirth;
@@ -89,13 +130,12 @@ abstract class AbstractUserClass
         return $this->id;
     }
 
-
     /**
      * Получение ФИО
      *
-     * @return Fio[]
+     * @return Fio
      */
-    final public function getFio(): array
+    public function getFio(): Fio
     {
         return $this->fio;
     }
@@ -103,9 +143,9 @@ abstract class AbstractUserClass
     /**
      * Получение даты рождения
      *
-     * @return string
+     * @return DateTimeImmutable
      */
-    public function getDateOfBirth(): string
+    public function getDateOfBirth(): DateTimeImmutable
     {
         return $this->dateOfBirth;
     }
@@ -123,11 +163,19 @@ abstract class AbstractUserClass
     /**
      * Получение домашнего адресса
      *
-     * @return Address[]
+     * @return Address
      */
-    public function getAddress(): array
+    public function getAddress(): Address
     {
         return $this->address;
+    }
+
+    /**
+     * @return string
+     */
+    public function getType(): string
+    {
+        return $this->type;
     }
 
     /**
@@ -145,13 +193,4 @@ abstract class AbstractUserClass
     {
         return $this->password;
     }
-
-
-    /**
-     * Создание объекта класса пользователя из массива данных об Пользователе
-     *
-     * @param array $data - массив данных об Пользователе
-     * @return AbstractUserClass - объект класса пользователь
-     */
-    abstract public static function createFromArray(array $data): AbstractUserClass;
 }

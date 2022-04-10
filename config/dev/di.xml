@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services-1.0.xcd">
+
+    <imports>
+        <import resource="request.handlers.xml"/>
+        <import resource="reg.exp.handlers.xml"/>
+        <import resource="app.config.xml"/>
+    </imports>
+    <parameters>
+        <parameter key="controllerNS">JoJoBizzareCoders\DigitalJournal\Controller</parameter>
+    </parameters>
+
+    <services>
+        <defaults autowire="true" public="false">
+            <bind key="string $controllerNs">%controllerNS%</bind>
+        </defaults>
+
+        <prototype namespace="JoJoBizzareCoders\DigitalJournal\"
+                   resource="./../../src"
+        />
+        <prototype namespace="JoJoBizzareCoders\DigitalJournal\Infrastructure\"
+                   resource="./../../vendor/jojo-bizzare-coders/framework/src"
+                   exclude="./../../vendor/jojo-bizzare-coders/framework/src/{Router,Http,Logger,Db}"
+        />
+
+        <prototype namespace="JoJoBizzareCoders\DigitalJournal\Infrastructure\ViewTemplate\"
+                   resource="./../../vendor/jojo-bizzare-coders/view-template/src"
+        />
+
+        <instanceof id="JoJoBizzareCoders\DigitalJournal\Infrastructure\Controller\ControllerInterface"
+                    public="true"
+        />
+        <instanceof id="JoJoBizzareCoders\DigitalJournal\Infrastructure\Router\RouterInterface"
+                    public="true"
+        />
+        <instanceof id="JoJoBizzareCoders\DigitalJournal\Infrastructure\Console\CommandInterface"
+                    public="true"
+        />
+
+        <service id="JoJoBizzareCoders\DigitalJournal\Infrastructure\Console\Output\OutputInterface"
+                 class="JoJoBizzareCoders\DigitalJournal\Infrastructure\Console\Output\EchoOutput"
+                 public="true"
+        />
+
+        <service id="JoJoBizzareCoders\DigitalJournal\Infrastructure\HttpApplication\AppConfigInterface"
+                 alias="JoJoBizzareCoders\DigitalJournal\Config\AppConfig"
+                 public="true"/>
+
+        <service id="JoJoBizzareCoders\DigitalJournal\Config\AppConfig"
+                 public="true"
+        >
+            <factory class="JoJoBizzareCoders\DigitalJournal\Config\AppConfig"
+                     method="createFromArray"
+            />
+            <argument key="$config">%app.configs%</argument>
+        </service>
+
+
+        <service id="JoJoBizzareCoders\DigitalJournal\Entity\AssessmentReportRepositoryInterface">
+            <factory service="Doctrine\ORM\EntityManagerInterface" method="getRepository"/>
+        <argument key="$className">JoJoBizzareCoders\DigitalJournal\Entity\ReportClass</argument>
+    </service>
+
+        <service id="JoJoBizzareCoders\DigitalJournal\Entity\LessonRepositoryInterface">
+            <factory service="Doctrine\ORM\EntityManagerInterface" method="getRepository"/>
+            <argument key="$className">JoJoBizzareCoders\DigitalJournal\Entity\LessonClass</argument>
+        </service>
+        <service id="JoJoBizzareCoders\DigitalJournal\Entity\ClassRepositoryInterface">
+            <factory service="Doctrine\ORM\EntityManagerInterface" method="getRepository"/>
+            <argument key="$className">JoJoBizzareCoders\DigitalJournal\Entity\ClassClass</argument>
+        </service>
+        <service id="JoJoBizzareCoders\DigitalJournal\Entity\ItemRepositoryInterface">
+            <factory service="Doctrine\ORM\EntityManagerInterface" method="getRepository"/>
+            <argument key="$className">JoJoBizzareCoders\DigitalJournal\Entity\ItemClass</argument>
+        </service>
+        <service id="JoJoBizzareCoders\DigitalJournal\Entity\TeacherRepositoryInterface">
+            <factory service="Doctrine\ORM\EntityManagerInterface" method="getRepository"/>
+            <argument key="$className">JoJoBizzareCoders\DigitalJournal\Entity\AbstractUserClass</argument>
+        </service>
+        <service id="JoJoBizzareCoders\DigitalJournal\Entity\StudentRepositoryInterface">
+            <factory service="Doctrine\ORM\EntityManagerInterface" method="getRepository"/>
+            <argument key="$className">JoJoBizzareCoders\DigitalJournal\Entity\AbstractUserClass</argument>
+        </service>
+        <service id="JoJoBizzareCoders\DigitalJournal\Entity\ParentRepositoryInterface">
+            <factory service="Doctrine\ORM\EntityManagerInterface" method="getRepository"/>
+            <argument key="$className">JoJoBizzareCoders\DigitalJournal\Entity\AbstractUserClass</argument>
+        </service>
+
+
+
+        <service id="Psr\Http\Message\UriFactoryInterface" alias="Nyholm\Psr7\Factory\Psr17Factory"/>
+        <service id="Psr\Http\Message\ResponseFactoryInterface" alias="Nyholm\Psr7\Factory\Psr17Factory"/>
+        <service id="Psr\Http\Message\StreamFactoryInterface" alias="Nyholm\Psr7\Factory\Psr17Factory"/>
+
+        <service id="Nyholm\Psr7\Factory\Psr17Factory"/>
+
+        <service id="JoJoBizzareCoders\DigitalJournal\Infrastructure\Auth\HttpAuthProvider">
+            <argument key="$loginUri"
+                      type="service">
+                <service class="Nyholm\Psr7\Uri">
+                    <argument key="$uri"
+                              type="expression">
+                        service('JoJoBizzareCoders\\DigitalJournal\\Config\\AppConfig').getLoginUri()
+                    </argument>
+                </service>
+            </argument>
+        </service>
+
+
+        <service id="JoJoBizzareCoders\DigitalJournal\Infrastructure\Auth\UserDataStorageInterface"
+                 class="JoJoBizzareCoders\DigitalJournal\AppService\UserDataStorage\UserDataStorage"
+                 public="false">
+            <argument type="service"
+                      id="JoJoBizzareCoders\DigitalJournal\Entity\ParentRepositoryInterface"/>
+            <argument type="service"
+                      id="JoJoBizzareCoders\DigitalJournal\Entity\TeacherRepositoryInterface"/>
+            <argument type="service"
+                      id="JoJoBizzareCoders\DigitalJournal\Entity\StudentRepositoryInterface"/>
+        </service>
+
+
+        <service id="JoJoBizzareCoders\DigitalJournal\Exception\ErrorRealisation\ErrorRealisationInterface"
+            alias="JoJoBizzareCoders\DigitalJournal\Exception\ErrorRealisation\IgnitionError"
+            public="true">
+        </service>
+
+        <service id="JoJoBizzareCoders\DigitalJournal\Exception\ErrorRealisation\IgnitionError"/>
+        <service id="JoJoBizzareCoders\DigitalJournal\Exception\ErrorRealisation\DefaultError"/>
+
+
+        <service id="JoJoBizzareCoders\DigitalJournal\Infrastructure\Session\SessionInterface"
+        >
+            <factory class="JoJoBizzareCoders\DigitalJournal\Infrastructure\Session\SessionNative"
+                     method="create"
+            />
+        </service>
+
+        <service id="JoJoBizzareCoders\DigitalJournal\Infrastructure\Session\SessionInterface"
+        >
+            <factory class="JoJoBizzareCoders\DigitalJournal\Infrastructure\Session\SessionNative"
+                     method="create"
+            />
+        </service>
+
+        <service id="JoJoBizzareCoders\DigitalJournal\Infrastructure\View\RenderInterface"
+                 class="JoJoBizzareCoders\DigitalJournal\Infrastructure\View\DefaultRender"
+                 public="true"
+        />
+
+        <service id="JoJoBizzareCoders\DigitalJournal\Infrastructure\Router\ControllerFactory">
+            <argument key="$diContainer"
+                      type="service"
+                      id="service_container"
+            />
+        </service>
+        <service id="JoJoBizzareCoders\DigitalJournal\Infrastructure\Router\DefaultRouter">
+            <argument key="$handlers">%request.handlers%</argument>
+        </service>
+        <service id="JoJoBizzareCoders\DigitalJournal\Infrastructure\Router\RegExpRouter">
+            <argument key="$handlers">%reg.exp.handlers%</argument>
+        </service>
+        <service id="JoJoBizzareCoders\DigitalJournal\Infrastructure\Router\RouterInterface"
+                 class="JoJoBizzareCoders\DigitalJournal\Infrastructure\Router\ChainRouters"
+        >
+            <argument type="service"
+                      id="JoJoBizzareCoders\DigitalJournal\Infrastructure\Router\RegExpRouter"
+            />
+            <argument type="service"
+                      id="JoJoBizzareCoders\DigitalJournal\Infrastructure\Router\DefaultRouter"
+            />
+            <argument type="service"
+                      id="JoJoBizzareCoders\DigitalJournal\Infrastructure\Router\UniversalRouter"
+            />
+        </service>
+
+
+
+        <service id="JoJoBizzareCoders\DigitalJournal\Infrastructure\Exception\ExceptionHandler\ExceptionHandlerInterface"
+                 alias="JoJoBizzareCoders\DigitalJournal\Infrastructure\Exception\ExceptionHandler\IgnitionExceptionHandler"
+                 public="true"/>
+        <service id="JoJoBizzareCoders\DigitalJournal\Infrastructure\Exception\ExceptionHandler\IgnitionExceptionHandler"/>
+        <service id="JoJoBizzareCoders\DigitalJournal\Infrastructure\Exception\ExceptionHandler\DefaultExceptionHandler"/>
+
+
+    </services>
+
+
+
+
+
+
+
+
+
+
+</container>

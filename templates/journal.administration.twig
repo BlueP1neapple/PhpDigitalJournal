@@ -1,0 +1,267 @@
+<head>
+    <title>Journal Page</title>
+    <style>
+        body {
+            background: #ffce9e;
+        }
+    </style>
+</head>
+
+
+<div>
+    <div class="inner">
+        <h1>Journal Page</h1>
+        <h3>Добавить урок</h3>
+        <form method="POST">
+            <input type="hidden" value="lesson" name="type"/>
+            <input type="hidden" value="40" name="lesson_duration">
+            <div>
+                <label for="lesson_item_id">Предмет</label>
+                <select name="item_id" id="lesson_item_id">
+                    {% for item in items  %}
+                        <option value="{{ item.getId }}">
+                            {{ item.getName }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div>
+                <label for="lesson_teacher_id">Учитель</label>
+                <select name="teacher_id" id="lesson_teacher_id">
+                    {% for teacher in teachers  %}
+                        <option value="{{ teacher.getId }}">
+                            {{ teacher.fio.0 }} {{ teacher.fio.1 }}
+                        </option>
+                    {% endfor %}
+
+                </select>
+            </div>
+
+            <div>
+                <label for="lesson_class_id">Учитель</label>
+                <select name="class_id" id="lesson_class_id">
+
+                    {% for class in classes  %}
+                        <option value="{{ class.getId }}">
+                    {{ class.getNumber }} {{ class.getLetter }}
+                        </option>
+                    {% endfor %}
+
+                </select>
+            </div>
+
+            <div>
+                <label for="lesson_date_id">Дата занятия</label>
+                <input type="date" id="lesson_date_id" name="date">
+                {% if formValidationResult.lesson.date is defined %}
+                    <ul>
+                        {% for err in formValidationResult.lesson.date %}
+                            <li>{{ err }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+
+            </div>
+            <div>
+                <label for="lesson_time_id">Время проведения</label>
+                <input type="time" id="lesson_time_id" name="time">
+                {% if formValidationResult.lesson.date is defined %}
+                    <ul>
+                        {% for err in formValidationResult.lesson.date %}
+                            <li>{{ err }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+            <div>
+                <input type="submit" value="Добавить"/>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<div class="inner">
+    <h1>Уроки</h1>
+</div>
+<table>
+    <thead>
+    <tr>
+        <th>Предмет</th>
+        <th>Преподаватель</th>
+        <th>Класс</th>
+        <th>Дата занятия</th>
+
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        {% for lesson in lessons %}
+            <td> {{ lesson.getItem.getName }} </td>
+            <td> {{ lesson.getTeacher.fio.0 }}</td>
+            <td> {{ lesson.getClass.getLetter }} {{ lesson.getClass.getNumber }}</td>
+            <td> {{ lesson.getDate }}</td>
+
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<div>
+    <div class="inner">
+        <form method="POST">
+            <input type="hidden" value="report" name="type"/>
+            <div>
+                <div>
+                    <label for="report_lesson_id">Урок</label>
+                <select name="lesson_id" id="report_lesson_id">
+
+                    {% for lesson in lessons  %}
+                        <option value="{{ lesson.getId }}">
+                            {{ lesson.getItem.getName}} {{ lesson.getTeacher.fio.0 }} {{ lesson.getDate }}
+                        </option>
+                    {% endfor %}
+                </select>
+                </div>
+                <div>
+                <label for="report_student_id">Ученик</label>
+                <select name="student_id" id="report_student_id">
+
+                    {% for student in students  %}
+                        <option value="{{ student.getId }}">
+                            {{ student.fio.0}} {{ student.fio.1 }} {{ student.getClass.getLetter }} {{ student.getClass.getNumber }}
+                        </option>
+                    {% endfor %}
+                </select>
+                </div>
+                <div>
+                    <label for="report_mark_id">Оценка</label>
+                    <select name="mark" id="report_mark_id">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                </div>
+            <div>
+                <input type="submit" value="Добавить"/>
+            </div>
+            </div>
+        </form>
+</div>
+</div>
+<div class="inner">
+    <h1>Оценки</h1>
+</div>
+<table>
+    <thead>
+    <tr>
+        <th>Название предмета</th>
+        <th>Дата проведения урока</th>
+        <th>Фамилия ученика</th>
+        <th>Оценка</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        {% for report in reports %}
+        <td> {{ report.getLesson.getItem.getName }} </td>
+        <td> {{ report.getLesson.getDate }}</td>
+        <td> {{ report.getStudent.fio.0 }} </td>
+        <td> {{ report.getMark }}</td>
+
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<div>
+    <div class="inner">
+        <form method="POST">
+            <input type="hidden" value="item" name="type"/>
+            <div>
+                <label for="item_name_id">Название предмета</label>
+                <input type="text" name="name" id="item_name_id" value="">
+                    {% if formValidationResult.item.name is defined %}
+                    <ul>
+                        {% for err in formValidationResult.item.name %}
+                            <li>{{ err }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+            </div>
+            <div>
+                <label for="item_description_id">Расшифровка предмета</label>
+                <input type="text" name="description" id="item_description_id" value="">
+                {% if formValidationResult.item.description is defined %}
+                    <ul>
+                        {% for err in formValidationResult.item.description %}
+                            <li>{{ err }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+            <div>
+                <input type="submit" value="Добавить"/>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+<style>
+
+    .inner {
+        margin-top: 30px;
+        margin-left: auto;
+        margin-right: auto;
+        width: 800px;
+        background: #fff9c0;
+        text-align: center;
+    }
+
+    table {
+        font-size: 14px;
+        text-align: left;
+        border-collapse: collapse;
+        border-radius: 20px;
+        box-shadow: 0 0 0 10px #F2906B;
+        color: #452F21;
+        margin-top: 10px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    th {
+        padding: 10px 8px;
+        background: white;
+    }
+
+    table th:first-child {
+        border-top-left-radius: 20px;
+    }
+
+    table th:last-child {
+        border-top-right-radius: 20px;
+    }
+
+    td {
+        border-top: 10px solid #F2906B;
+        padding: 8px;
+        background: white;
+    }
+
+    table td:first-child {
+        border-bottom-left-radius: 20px;
+    }
+
+    table td:last-child {
+        border-bottom-right-radius: 20px;
+    }
+</style>
+
+
+
+
+

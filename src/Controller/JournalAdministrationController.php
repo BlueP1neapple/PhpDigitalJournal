@@ -2,14 +2,15 @@
 
 namespace JoJoBizzareCoders\DigitalJournal\Controller;
 
+use Doctrine\ORM\EntityManagerInterface;
+use JoJoBizzareCoders\DigitalJournal\Exception;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Auth\HttpAuthProvider;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Controller\ControllerInterface;
-use JoJoBizzareCoders\DigitalJournal\Infrastructure\Http\HttpResponse;
-use JoJoBizzareCoders\DigitalJournal\Infrastructure\Http\ServerRequest;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Http\ServerResponseFactory;
-use JoJoBizzareCoders\DigitalJournal\Infrastructure\Logger\LoggerInterface;
+use Psr\Log\LoggerInterface;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\ViewTemplate\ViewTemplateInterface;
-use JoJoBizzareCoders\DigitalJournal\Repository\LessonJsonRepository;
+use JoJoBizzareCoders\DigitalJournal\Service\NewItemService;
+use JoJoBizzareCoders\DigitalJournal\Service\NewItemService\NewItemDto;
 use JoJoBizzareCoders\DigitalJournal\Service\NewLessonService;
 use JoJoBizzareCoders\DigitalJournal\Service\NewReportService;
 use JoJoBizzareCoders\DigitalJournal\Service\SearchAssessmentReportService;
@@ -20,15 +21,21 @@ use JoJoBizzareCoders\DigitalJournal\Service\SearchLessonService\NewLessonDto;
 use JoJoBizzareCoders\DigitalJournal\Service\SearchLessonService\SearchLessonServiceCriteria;
 use JoJoBizzareCoders\DigitalJournal\Service\SearchReportAssessmentService\NewAssessmentReportDto;
 use JoJoBizzareCoders\DigitalJournal\Service\SearchReportAssessmentService\SearchReportAssessmentCriteria;
-
-use JoJoBizzareCoders\DigitalJournal\Exception;
 use JoJoBizzareCoders\DigitalJournal\Service\SearchStudentService;
 use JoJoBizzareCoders\DigitalJournal\Service\SearchTeacherService;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Throwable;
 
 class JournalAdministrationController implements
     ControllerInterface
 {
+    /**
+     * Фабрика для создания http ответов
+     *
+     * @var ServerResponseFactory
+     */
+    private ServerResponseFactory $serverResponseFactory;
 
     /**
      * Логгер
@@ -109,6 +116,15 @@ class JournalAdministrationController implements
     private SearchStudentService $searchStudentService;
 
     /**
+     * Сервис создания предмета
+     *
+     * @var NewItemService
+     */
+    private NewItemService $newItemService;
+
+    private EntityManagerInterface $entityManager;
+
+    /**
      * @param LoggerInterface $logger
      * @param SearchAssessmentReportService $reportService
      * @param ViewTemplateInterface $viewTemplate
@@ -120,6 +136,9 @@ class JournalAdministrationController implements
      * @param NewReportService $newReportService
      * @param SearchStudentService $searchStudentService
      * @param HttpAuthProvider $httpAuthProvider
+     * @param NewItemService $newItemService
+     * @param ServerResponseFactory $serverResponseFactory
+     * @param EntityManagerInterface $entityManager
      */
     public function __construct(
         LoggerInterface $logger,
@@ -132,7 +151,10 @@ class JournalAdministrationController implements
         SearchClassService $classService,
         NewReportService $newReportService,
         SearchStudentService $searchStudentService,
-        HttpAuthProvider $httpAuthProvider
+        HttpAuthProvider $httpAuthProvider,
+        NewItemService $newItemService,
+        ServerResponseFactory $serverResponseFactory,
+        EntityManagerInterface $entityManager
     ) {
         $this->logger = $logger;
         $this->reportService = $reportService;
@@ -145,15 +167,19 @@ class JournalAdministrationController implements
         $this->newReportService = $newReportService;
         $this->searchStudentService = $searchStudentService;
         $this->httpAuthProvider = $httpAuthProvider;
+        $this->newItemService = $newItemService;
+        $this->serverResponseFactory = $serverResponseFactory;
+        $this->entityManager = $entityManager;
     }
 
 
     /**
      * @inheritDoc
      */
-    public function __invoke(ServerRequest $serverRequest): HttpResponse
+    public function __invoke(ServerRequestInterface $serverRequest): ResponseInterface
     {
         try {
+            $this->entityManager->beginTransaction();
             if (false === $this->httpAuthProvider->isAuth()) {
                 return $this->httpAuthProvider->doAuth($serverRequest->getUri());
             }
@@ -183,11 +209,14 @@ class JournalAdministrationController implements
             ];
 
             $context = array_merge($viewData, $resultCreatingTextDocuments);
-            $template = __DIR__ . '/../../templates/journal.administration.phtml';
+            $template = 'journal.administration.twig';
             $httpCode = 200;
+            $this->entityManager->commit();
+            $this->entityManager->flush();
         } catch (Throwable $e) {
+            $this->entityManager->rollback();
             $httpCode = 500;
-            $template = __DIR__ . '/../../templates/errors.phtml';
+            $template = 'errors.twig';
             $context = [
                 'errors' => [
                     $e->getMessage()
@@ -200,10 +229,10 @@ class JournalAdministrationController implements
             $context,
         );
 
-        return ServerResponseFactory::createHtmlResponse($httpCode, $html);
+        return $this->serverResponseFactory->createHtmlResponse($httpCode, $html);
     }
 
-    private function creationOfLesson(ServerRequest $serverRequest): array
+    private function creationOfLesson(ServerRequestInterface $serverRequest): array
     {
         $dataToCreate = [];
         parse_str($serverRequest->getBody(), $dataToCreate);
@@ -215,6 +244,8 @@ class JournalAdministrationController implements
         $result = [
             'formValidationResult' => [
                 'lesson' => [],
+                'report' => [],
+                'item' => [],
 
             ]
         ];
@@ -225,17 +256,22 @@ class JournalAdministrationController implements
             if (0 === count($result['formValidationResult']['lesson'])) {
                 $this->createLesson($dataToCreate);
             }
-        } elseif ('report') {
+        } elseif ('report' === $dataToCreate['type']) {
             $result['formValidationResult']['report'] = $this->validateReport($dataToCreate);
 
             if (0 === count($result['formValidationResult']['report'])) {
                 $this->createReport($dataToCreate);
             }
-        } else {
-            throw new Exception\RuntimeException('Неизвестный тип тексового документа');
-        }
+        } elseif ('item' === $dataToCreate['type']) {
+            $result['formValidationResult']['item'] = $this->validateItem($dataToCreate);
 
-        return [];
+            if (0 === count($result['formValidationResult']['item'])) {
+                $this->createItem($dataToCreate);
+            }
+        } else {
+            throw new Exception\RuntimeException('Неизвестный тип');
+        }
+        return $result;
     }
 
     /**
@@ -268,6 +304,21 @@ class JournalAdministrationController implements
                 (int)$dataToCreate['lesson_duration'],
                 (int)$dataToCreate['teacher_id'],
                 (int)$dataToCreate['class_id'],
+            )
+        );
+    }
+
+    /**
+     * Функция для создания предмета
+     *
+     * @param array $dataToCreate
+     */
+    private function createItem(array $dataToCreate): void
+    {
+        $this->newItemService->registerItem(
+            new NewItemDto(
+                $dataToCreate['name'],
+                $dataToCreate['description']
             )
         );
     }
@@ -396,8 +447,57 @@ class JournalAdministrationController implements
 
     private function validateReport(array $dataToCreate): array
     {
+         //Юзер не может ввести не коректные данные
         return [];
     }
 
+    private function validateItem(array $dataToCreate): array
+    {
+        $errs = [];
 
+        if (false === array_key_exists('name', $dataToCreate)) {
+            throw new Exception\RuntimeException('Нет данных о имени предмета');
+        }
+
+        if (false === is_string($dataToCreate['name'])) {
+            throw new Exception\RuntimeException('Данные о передмете должны быть строкой');
+        }
+
+        $titleLength = strlen(trim($dataToCreate['name']));
+        $errTitle = [];
+
+        if ($titleLength > 250) {
+            $errTitle[] = 'Название не может быть длиннее 250 символов';
+        } elseif (0 === $titleLength) {
+            $errTitle[] = 'Название не может быть пустым';
+        }
+
+        if (0 !== count($errTitle)) {
+            $errs['name'] = $errTitle;
+        }
+
+        if (false === array_key_exists('description', $dataToCreate)) {
+            throw new Exception\RuntimeException('Нет данных о расшифровке предмета');
+        }
+
+        if (false === is_string($dataToCreate['description'])) {
+            throw new Exception\RuntimeException('Данные о расшифровке должны быть строкой');
+        }
+
+        $titleLength = strlen(trim($dataToCreate['description']));
+        $errTitle = [];
+
+        if ($titleLength > 250) {
+            $errTitle[] = 'Расшифровка не может быть длиннее 250 символов';
+        } elseif (0 === $titleLength) {
+            $errTitle[] = 'Расшифровка не может быть пустым';
+        }
+
+        if (0 !== count($errTitle)) {
+            $errs['description'] = $errTitle;
+        }
+
+
+        return $errs;
+    }
 }

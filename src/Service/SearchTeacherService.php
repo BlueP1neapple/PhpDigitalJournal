@@ -1,10 +1,10 @@
 <?php
-namespace JoJoBizzareCoders\DigitalJournal\Service;
 
+namespace JoJoBizzareCoders\DigitalJournal\Service;
 
 use JoJoBizzareCoders\DigitalJournal\Entity\TeacherRepositoryInterface;
 use JoJoBizzareCoders\DigitalJournal\Entity\TeacherUserClass;
-use JoJoBizzareCoders\DigitalJournal\Infrastructure\Logger\LoggerInterface;
+use Psr\Log\LoggerInterface;
 use JoJoBizzareCoders\DigitalJournal\Service\SearchItemService\ItemDto;
 use JoJoBizzareCoders\DigitalJournal\Service\SearchTeacherService\TeacherDto;
 
@@ -30,18 +30,20 @@ class SearchTeacherService
      */
     public function __construct(
         LoggerInterface $logger,
-        TeacherRepositoryInterface $teacherRepository)
-    {
+        TeacherRepositoryInterface $teacherRepository
+    ) {
         $this->logger = $logger;
         $this->teacherRepository = $teacherRepository;
     }
 
-    public function search():array
+    public function search(): array
     {
         $entitiesCollection = $this->teacherRepository->findBy([]);
         $dtoCollection = [];
-        foreach ($entitiesCollection as $entity){
-            $dtoCollection[] = $this->createDto($entity);
+        foreach ($entitiesCollection as $entity) {
+            if ($entity instanceof TeacherUserClass) {
+                $dtoCollection[] = $this->createDto($entity);
+            }
         }
         $this->logger->info('found item: ' . count($entitiesCollection));
         return $dtoCollection;
@@ -51,10 +53,18 @@ class SearchTeacherService
     {
         return new TeacherDto(
             $entity->getId(),
-            $entity->getFio(),
-            $entity->getDateOfBirth(),
+            [
+                $entity->getFio()->getName(),
+            $entity->getFio()->getSurname(),
+            $entity->getFio()->getPatronymic()
+            ],
+            $entity->getDateOfBirth()->format('Y-m-d'),
             $entity->getPhone(),
-            $entity->getAddress(),
+            [
+                $entity->getAddress()->getStreet(),
+                $entity->getAddress()->getHome(),
+                $entity->getAddress()->getApartment()
+            ],
             new ItemDto(
                 $entity->getItem()->getId(),
                 $entity->getItem()->getName(),

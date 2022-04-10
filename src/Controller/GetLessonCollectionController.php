@@ -2,24 +2,28 @@
 
 namespace JoJoBizzareCoders\DigitalJournal\Controller;
 
-use JoJoBizzareCoders\DigitalJournal\Entity\LessonClass;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Controller\ControllerInterface;
-use JoJoBizzareCoders\DigitalJournal\Infrastructure\Http\HttpResponse;
-use JoJoBizzareCoders\DigitalJournal\Infrastructure\Http\ServerRequest;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Http\ServerResponseFactory;
-use JoJoBizzareCoders\DigitalJournal\Infrastructure\Logger\LoggerInterface;
+use Psr\Log\LoggerInterface;
 use JoJoBizzareCoders\DigitalJournal\Infrastructure\Validator\Assert;
 use JoJoBizzareCoders\DigitalJournal\Service\SearchLessonService;
 use JoJoBizzareCoders\DigitalJournal\Service\SearchLessonService\LessonDto;
 use JoJoBizzareCoders\DigitalJournal\Service\SearchLessonService\SearchLessonServiceCriteria;
-use JsonException;
-
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Контроллер отвечающий за поиск занятий
  */
 class GetLessonCollectionController implements ControllerInterface
 {
+    /**
+     * Фабрика для создания http ответов
+     *
+     * @var ServerResponseFactory
+     */
+    private ServerResponseFactory $serverResponseFactory;
+
     /**
      * Используемый логгер
      *
@@ -39,22 +43,25 @@ class GetLessonCollectionController implements ControllerInterface
      *
      * @param LoggerInterface $logger - Используемый логгер
      * @param SearchLessonService $searchLessonService
+     * @param ServerResponseFactory $serverResponseFactory
      */
     public function __construct(
         LoggerInterface $logger,
-        SearchLessonService $searchLessonService
+        SearchLessonService $searchLessonService,
+        ServerResponseFactory $serverResponseFactory
     ) {
         $this->logger = $logger;
         $this->searchLessonService = $searchLessonService;
+        $this->serverResponseFactory = $serverResponseFactory;
     }
 
     /**
      * Валидирует параметры запроса
      *
-     * @param ServerRequest $serverRequest - объект сервернного запроса http
+     * @param ServerRequestInterface $serverRequest - объект сервернного запроса http
      * @return string|null - строка с ошибкой или null если ошибки нет
      */
-    private function validateQueryParams(ServerRequest $serverRequest): ?string
+    private function validateQueryParams(ServerRequestInterface $serverRequest): ?string
     {
         $paramValidations = [
             'item_name' => 'Incorrect item name',
@@ -72,11 +79,10 @@ class GetLessonCollectionController implements ControllerInterface
     /**
      * Обработка запроса поиска занятия
      *
-     * @param ServerRequest $serverRequest - объект серверного http запроса
-     * @return HttpResponse - объект http ответа
-     * @throws JsonException
+     * @param ServerRequestInterface $serverRequest - объект серверного http запроса
+     * @return ResponseInterface - объект http ответа
      */
-    public function __invoke(ServerRequest $serverRequest): HttpResponse
+    public function __invoke(ServerRequestInterface $serverRequest): ResponseInterface
     {
         $this->logger->info('dispatch "lesson" url');
         $resultOfParamsValidation = $this->validateQueryParams($serverRequest);
@@ -103,7 +109,7 @@ class GetLessonCollectionController implements ControllerInterface
                 'message' => $resultOfParamsValidation
             ];
         }
-        return ServerResponseFactory::createJsonResponse($httpCode, $result);
+        return $this->serverResponseFactory->createJsonResponse($httpCode, $result);
     }
 
 
@@ -122,13 +128,13 @@ class GetLessonCollectionController implements ControllerInterface
      * Создаёт результат поиска занятий
      *
      * @param LessonDto[] $foundLessons - коллекция найденных занятий
-     * @return array|LessonClass
+     * @return array
      */
     protected function buildResult(array $foundLessons)
     {
         $result = [];
         foreach ($foundLessons as $foundLesson) {
-            $result[]=$this->serializeLesson($foundLesson);
+            $result[] = $this->serializeLesson($foundLesson);
         }
         return $result;
     }
@@ -153,21 +159,21 @@ class GetLessonCollectionController implements ControllerInterface
             'description' => $itemDto->getDescription()
         ];
         $teacherDto = $foundLesson->getTeacher();
-        $teacherFioDto=$teacherDto->getFio();
+        $teacherFioDto = $teacherDto->getFio();
         $teacherAddressDto = $teacherDto->getAddress();
         $jsonData['teacher'] = [
             'id' => $teacherDto->getId(),
             'fio' => [
-                'surname'=>$teacherFioDto[0]->getSurname(),
-                'name'=>$teacherFioDto[0]->getName(),
-                'patronymic'=>$teacherFioDto[0]->getPatronymic()
+                'surname' => $teacherFioDto[0],
+                'name' => $teacherFioDto[1],
+                'patronymic' => $teacherFioDto[2]
             ],
             'dateOfBirth' => $teacherDto->getDateOfBirth(),
             'phone' => $teacherDto->getPhone(),
             'address' => [
-                'street'=>$teacherAddressDto->getStreet(),
-                'home'=>$teacherAddressDto->getHome(),
-                'apartment'=>$teacherAddressDto->getApartment()
+                'street' => $teacherAddressDto->getStreet(),
+                'home' => $teacherAddressDto->getHome(),
+                'apartment' => $teacherAddressDto->getApartment()
             ],
             'item' => $jsonData['item'],
             'cabinet' => $teacherDto->getCabinet(),

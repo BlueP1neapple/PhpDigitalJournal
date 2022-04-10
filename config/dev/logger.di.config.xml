@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xmlns:j_lgr="https://effective-group.ru/schema/dic/jojo_infrastructure_logger"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services
+           http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <j_lgr:config>
+        <j_lgr:fileLogger>
+            <j_lgr:pathToLogFile>%kernel.project_dir%/path/to/log/file</j_lgr:pathToLogFile>
+        </j_lgr:fileLogger>
+    </j_lgr:config>
+    <services>
+        <service id="JoJoBizzareCoders\DigitalJournal\Infrastructure\Logger\AdapterInterface"
+                 alias="JoJoBizzareCoders\DigitalJournal\Infrastructure\Logger\Adapter\FileAdapter"/>
+    </services>
+</container>
